@@ -1,0 +1,311 @@
+#include "ETriangle.h"
+
+#ifdef LIBEULER_DEBUG
+	#include <iostream>
+	
+	#include "EDefines.h"
+#endif
+
+#ifdef LIBEULER_DEBUG
+/*!
+ * This function implements our test suite for this class. It uses non-abort()'ing
+ * assertions, and merely prints the result to stdout.
+ */
+void ETriangle::doTestSuite()
+{
+	bool success;
+	
+	std::cout << "\tTesting 'ETriangle'...\t\t\t";
+	try
+	{
+		success = true;
+		
+		// Constructors + operator== (+ hash)
+		
+		ETriangle t(1, 2, 3);
+		
+		EASSERT(t.getA() == 1)
+		EASSERT(t.getB() == 2)
+		EASSERT(t.getC() == 3)
+		
+		ETriangle u(t);
+		
+		EASSERT(t == u)
+		
+		// Don't test < and > operators since they are arbitrary.
+		
+		// setX + getX
+		
+		t.setA(3);
+		t.setB(2);
+		t.setC(1);
+		
+		EASSERT(t.getA() == 3)
+		EASSERT(t.getB() == 2)
+		EASSERT(t.getC() == 1)
+		
+		// isValidTriangle
+		
+		t.setA(1);
+		t.setB(1);
+		t.setC(2);
+		
+		EASSERT(!t.isValidTriangle())
+		
+		t.setA(3);
+		t.setB(4);
+		t.setC(5);
+		
+		EASSERT(t.isValidTriangle())
+	}
+	catch(EAssertionException &e)
+	{
+		ELUNUSED(e)
+		success = false;
+	}
+	
+	// Print out our results.
+	if(success)
+		std::cout << "[ OK ]\n";
+	else
+		std::cout << "[FAIL]\n";
+}
+#endif
+
+/*!
+ * This is a convenience constructor, which allows a new object to be created with initial side
+ * lengths given.
+ *
+ * \param a The length of side A.
+ * \param b The length of side B.
+ * \param c The length of side C.
+ */
+ETriangle::ETriangle(uint32_t a, uint32_t b, uint32_t c)
+{
+	set(a, b, c);
+}
+
+/*!
+ * This is our copy constructor, which initializes our object to be equal to the given other ETriangle
+ * object.
+ *
+ * \param o The other object to make ourself equal to.
+ */
+ETriangle::ETriangle(const ETriangle &o)
+{
+	(*this) = o;
+}
+
+/*!
+ * This is our default destructor, which cleans up & destroys our object.
+ */
+ETriangle::~ETriangle()
+{
+}
+
+/*!
+ * This is our assignment operator, which makes our value equal to that of the given other value, and
+ * returns a reference to this so the operator can be chained.
+ *
+ * \param o The other object to make ourself equal to.
+ * \return A reference to this, so the operator can be chained.
+ */
+ETriangle &ETriangle::operator=(const ETriangle &o)
+{
+	set(o.getA(), o.getB(), o.getC());
+	return (*this);
+}
+
+/*!
+ * This is our equivalence operator, which tests if our triangle is equal to the given other triangle.
+ *
+ * \param o The other triangle to compare ourself to.
+ * \return True if our triangles are exactly equal, or false otherwise.
+ */
+bool ETriangle::operator==(const ETriangle &o) const
+{
+	return (hash() == o.hash());
+}
+
+/*!
+ * This is one of our comparison operators -- it tests if our triangle is less than the given other
+ * triangle. Note that this operator exists purely so our objects could be inserted into, for instance,
+ * a binary search tree, which requires the elements to be sorted -- the value compared is that of our
+ * protected hash() function, which could be overriden arbitrarily.
+ *
+ * \param o The other triangle to compare ourself to.
+ * \return True if we are less than the given other object, or false otherwise.
+ */
+bool ETriangle::operator<(const ETriangle &o) const
+{
+	return (hash() < o.hash());
+}
+
+/*!
+ * This is one of our comparison operators -- it tests if our triangle is greater than the given other
+ * triangle. Note that this operator exists purely so our objects could be inserted into, for instance,
+ * a binary search tree, which requires the elements to be sorted -- the value compared is that of our
+ * protected hash() function, which could be overriden arbitrarily.
+ *
+ * \param o The other triangle to compare ourself to.
+ * \return True if we are greater than the given other object, or false otherwise.
+ */
+bool ETriangle::operator>(const ETriangle &o) const
+{
+	return (hash() > o.hash());
+}
+
+/*!
+ * This is one of our comparison operators -- it tests if our triangle is less than or equal to the given other
+ * triangle. Note that this operator exists purely so our objects could be inserted into, for instance,
+ * a binary search tree, which requires the elements to be sorted -- the value compared is that of our
+ * protected hash() function, which could be overriden arbitrarily.
+ *
+ * \param o The other triangle to compare ourself to.
+ * \return True if we are less than or equal to the given other object, or false otherwise.
+ */
+bool ETriangle::operator<=(const ETriangle &o) const
+{
+	return (hash() <= o.hash());
+}
+
+/*!
+ * This is one of our comparison operators -- it tests if our triangle is greater than or equal to the given other
+ * triangle. Note that this operator exists purely so our objects could be inserted into, for instance,
+ * a binary search tree, which requires the elements to be sorted -- the value compared is that of our
+ * protected hash() function, which could be overriden arbitrarily.
+ *
+ * \param o The other triangle to compare ourself to.
+ * \return True if we are greater than or equal to the given other object, or false otherwise.
+ */
+bool ETriangle::operator>=(const ETriangle &o) const
+{
+	return (hash() >= o.hash());
+}
+
+/*!
+ * This function retrieves our stored value of side A.
+ *
+ * \return The length of side A.
+ */
+uint32_t ETriangle::getA() const
+{
+	return sideA;
+}
+
+/*!
+ * This function sets the value of our "A" side.
+ *
+ * \param a The new legnth of side A.
+ */
+void ETriangle::setA(uint32_t a)
+{
+	sideA = a;
+}
+
+/*!
+ * This function retrieves our stored value of side B.
+ *
+ * \return The length of side B.
+ */
+uint32_t ETriangle::getB() const
+{
+	return sideB;
+}
+
+/*!
+ * This function sets the value of our "B" side.
+ *
+ * \param a The new legnth of side B.
+ */
+void ETriangle::setB(uint32_t b)
+{
+	sideB = b;
+}
+
+/*!
+ * This function retrieves our stored value of side C.
+ *
+ * \return The length of side C.
+ */
+uint32_t ETriangle::getC() const
+{
+	return sideC;
+}
+
+/*!
+ * This function sets the value of our "C" side.
+ *
+ * \param a The new legnth of side C.
+ */
+void ETriangle::setC(uint32_t c)
+{
+	sideC = c;
+}
+
+/*!
+ * This function sets the side lengths of our triangle. Note that if the lengths provided do not
+ * constitute a valid triangle, then our triangle is cleared (i.e., all side lengths are set to 0).
+ *
+ * \param a The new length of side A.
+ * \param a The new length of side B.
+ * \param a The new length of side C.
+ */
+void ETriangle::set(uint32_t a, uint32_t b, uint32_t c)
+{
+	setA(a);
+	setB(b);
+	setC(c);
+}
+
+/*!
+ * This function tests whether or not our triangle is valid (i.e., if the lengths of any two sides
+ * added together is greater than the length of the third side).
+ *
+ * \return True if our triangle is valid, or false otherwise.
+ */
+bool ETriangle::isValidTriangle() const
+{
+	return ( ((sideA+sideB)>sideC) && ((sideA+sideC)>sideB) &&
+		((sideB+sideC)>sideA) );
+}
+
+/*!
+ * This is our internal hash function, which is used to implement our comparison operators.
+ *
+ * Note that our default implementation of this function DEPENDS ON OUR VALUE; so if we are
+ * already inside a sorted container, and our sides are modified, then the results are undefined.
+ *
+ * \return A hash code unique to this particular triangle.
+ */
+uint64_t ETriangle::hash() const
+{
+	uint64_t r = getA();
+	uint32_t b = getB(), c = getC();
+	
+	while(b > 0)
+	{
+		r *= 10;
+		b /= 10;
+	}
+	
+	r += getB();
+	
+	while(c > 0)
+	{
+		r *= 10;
+		c /= 10;
+	}
+	
+	r += getC();
+	
+	return r;
+}
+
+/*!
+ * This utility function clears our triangle, or in other words, sets all of our side lengths to 0.
+ */
+void ETriangle::clear()
+{
+	sideA = sideB = sideC = 0;
+}

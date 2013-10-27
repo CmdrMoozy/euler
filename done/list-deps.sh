@@ -1,0 +1,1 @@
+../bin/list-deps.sh
