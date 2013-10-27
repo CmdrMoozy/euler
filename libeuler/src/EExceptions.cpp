@@ -9,8 +9,8 @@
  *
  * \param what The exception text to use.
  */
-EException::EException(const std::string &what)
-	: w(what)
+EException::EException(const std::string &wh)
+	: w(wh)
 {
 }
 
@@ -38,8 +38,8 @@ const char *EException::what() const
  * EAssertionException
  ****************************************************************************************************/
 
-EAssertionException::EAssertionException(const std::string &what)
-	: EException(what)
+EAssertionException::EAssertionException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -57,8 +57,8 @@ EAssertionException::~EAssertionException()
  *
  * \param what The exception text to use.
  */
-EStringFormatException::EStringFormatException(const std::string &what)
-	: EException(what)
+EStringFormatException::EStringFormatException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -79,8 +79,8 @@ EStringFormatException::~EStringFormatException()
  *
  * \param what The exception text to use.
  */
-EOutOfBoundsException::EOutOfBoundsException(const std::string &what)
-	: EException(what)
+EOutOfBoundsException::EOutOfBoundsException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -101,8 +101,8 @@ EOutOfBoundsException::~EOutOfBoundsException()
  *
  * \param what The exception text to use.
  */
-EValueRangeException::EValueRangeException(const std::string &what)
-	: EException(what)
+EValueRangeException::EValueRangeException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -123,8 +123,8 @@ EValueRangeException::~EValueRangeException()
  *
  * \param what The exception text to use.
  */
-EOverflowException::EOverflowException(const std::string &what)
-	: EException(what)
+EOverflowException::EOverflowException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -145,8 +145,8 @@ EOverflowException::~EOverflowException()
  *
  * \param what The exception text to use.
  */
-EUnderflowException::EUnderflowException(const std::string &what)
-	: EException(what)
+EUnderflowException::EUnderflowException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -167,8 +167,8 @@ EUnderflowException::~EUnderflowException()
  *
  * \param what The exception text to use.
  */
-EDivideByZeroException::EDivideByZeroException(const std::string &what)
-	: EException(what)
+EDivideByZeroException::EDivideByZeroException(const std::string &wh)
+	: EException(wh)
 {
 }
 
@@ -189,8 +189,8 @@ EDivideByZeroException::~EDivideByZeroException()
  *
  * \param what The exception text to use.
  */
-EIOException::EIOException(const std::string &what)
-	: EException(what)
+EIOException::EIOException(const std::string &wh)
+	: EException(wh)
 {
 }
 

@@ -217,7 +217,7 @@ int main(void)
 		
 		// Spin up our thread.
 		
-		pthread_t threads[CONSUMER_THREAD_COUNT];
+		pthread_t *threads = new pthread_t[CONSUMER_THREAD_COUNT];
 		
 		for(int i = 0; i < CONSUMER_THREAD_COUNT; ++i)
 		{
@@ -233,6 +233,8 @@ int main(void)
 		
 		for(int i = 0; i < CONSUMER_THREAD_COUNT; ++i)
 			pthread_join(threads[i], NULL);
+		
+		delete[] threads;
 		
 		// Print the answer!
 		

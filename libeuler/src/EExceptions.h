@@ -14,7 +14,7 @@
 class EException : public std::exception
 {
 	public:
-		explicit EException(const std::string &what);
+		explicit EException(const std::string &wh);
 		virtual ~EException() throw();
 	
 		virtual const char *what() const throw();
@@ -31,7 +31,7 @@ class EException : public std::exception
 class EAssertionException : public EException
 {
 	public:
-		explicit EAssertionException(const std::string &what);
+		explicit EAssertionException(const std::string &wh);
 		virtual ~EAssertionException() throw();
 };
 
@@ -45,7 +45,7 @@ class EAssertionException : public EException
 class EStringFormatException : public EException
 {
 	public:
-		explicit EStringFormatException(const std::string &what);
+		explicit EStringFormatException(const std::string &wh);
 		virtual ~EStringFormatException() throw();
 };
 
@@ -59,7 +59,7 @@ class EStringFormatException : public EException
 class EOutOfBoundsException : public EException
 {
 	public:
-		explicit EOutOfBoundsException(const std::string &what);
+		explicit EOutOfBoundsException(const std::string &wh);
 		virtual ~EOutOfBoundsException() throw();
 };
 
@@ -74,7 +74,7 @@ class EOutOfBoundsException : public EException
 class EValueRangeException : public EException
 {
 	public:
-		explicit EValueRangeException(const std::string &what);
+		explicit EValueRangeException(const std::string &wh);
 		virtual ~EValueRangeException() throw();
 };
 
@@ -88,7 +88,7 @@ class EValueRangeException : public EException
 class EOverflowException : public EException
 {
 	public:
-		explicit EOverflowException(const std::string &what);
+		explicit EOverflowException(const std::string &wh);
 		virtual ~EOverflowException() throw();
 };
 
@@ -102,7 +102,7 @@ class EOverflowException : public EException
 class EUnderflowException : public EException
 {
 	public:
-		explicit EUnderflowException(const std::string &what);
+		explicit EUnderflowException(const std::string &wh);
 		virtual ~EUnderflowException() throw();
 };
 
@@ -116,7 +116,7 @@ class EUnderflowException : public EException
 class EDivideByZeroException : public EException
 {
 	public:
-		explicit EDivideByZeroException(const std::string &what);
+		explicit EDivideByZeroException(const std::string &wh);
 		virtual ~EDivideByZeroException() throw();
 };
 
@@ -130,7 +130,7 @@ class EDivideByZeroException : public EException
 class EIOException : public EException
 {
 	public:
-		explicit EIOException(const std::string &what);
+		explicit EIOException(const std::string &wh);
 		virtual ~EIOException() throw();
 };
 

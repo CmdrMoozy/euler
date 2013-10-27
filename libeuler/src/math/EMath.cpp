@@ -1124,9 +1124,6 @@ uint32_t EMath::repetendLength(uint32_t n, EFactorization &f)
  * \param v The second integer.
  * \return The greatest common divisor of u and v.
  */
-#ifdef __GNUC__
-	#warning TODO - Grok and comment.
-#endif
 uint64_t EMath::greatestCommonDivisor(uint64_t u, uint64_t v)
 {
 	int k;
@@ -1385,14 +1382,11 @@ uint64_t EMath::isqrt(uint64_t n)
  */
 bool EMath::isSquare(uint64_t n)
 {
-	#ifdef __GNUC__
-		#warning TODO - This function fails for n = 206468161
-	#endif
-	
 	uint64_t i = EMath::isqrt(n);
 	
 	return( (i*i) == n );
 	
+	// TODO - This code fails for n = 206468161
 	/*
 	// Pre-computed table of values for use in Hensel's lemma lifting.
 	static const int start[1024] =

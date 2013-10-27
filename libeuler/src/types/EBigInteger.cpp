@@ -67,12 +67,12 @@ EBigInteger::EBigInteger(const mpz_class &v)
 
 EBigInteger::EBigInteger(int64_t v)
 {
-	int64_t sgn = ( (-(v >> 63)) | ((-v) >> 63) );
-	uint64_t abs = static_cast<uint64_t>(v * sgn);
+	int64_t s = ( (-(v >> 63)) | ((-v) >> 63) );
+	uint64_t a = static_cast<uint64_t>(v * s);
 	
-	(*this) = EBigInteger(abs);
+	(*this) = EBigInteger(a);
 	
-	if(sgn == -1)
+	if(s == -1)
 		(*this) = -(*this);
 }
 

@@ -450,7 +450,7 @@ EPoker::CardSuit EPoker::suitOfIndex(int i) const
  */
 uint64_t EPoker::getComparableValuesList(uint64_t c) const
 {
-	uint64_t values = 0, card;
+	uint64_t vals = 0, card;
 	int idx;
 	
 	while(c != 0)
@@ -459,10 +459,10 @@ uint64_t EPoker::getComparableValuesList(uint64_t c) const
 		c &= ~card;
 		idx = EBitwise::lg64(card);
 		
-		values |= (1ULL << static_cast<int>(valueOfIndex(idx)));
+		vals |= (1ULL << static_cast<int>(valueOfIndex(idx)));
 	}
 	
-	return values;
+	return vals;
 }
 
 /*!

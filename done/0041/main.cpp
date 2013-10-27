@@ -13,7 +13,7 @@
  * What is the largest n-digit pandigital prime that exists?
  */
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	uint32_t digits[] = {
 		987654321,

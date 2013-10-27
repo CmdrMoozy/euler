@@ -568,32 +568,32 @@ class EHashMap
 		 */
 		void swapValues(EHashMap<Key, Value, Hasher> &o)
 		{
-			float h;
+			float holdf;
 			BucketList **hold = o.array;
 			o.array = array;
 			array = hold;
 			
 			{
-				int hold = bits;
+				int holdi = bits;
 				bits = o.bits;
-				o.bits = hold;
+				o.bits = holdi;
 			}
 			
 			{
-				int hold = capacity;
+				int holdi = capacity;
 				capacity = o.capacity;
-				o.capacity = hold;
+				o.capacity = holdi;
 			}
 			
 			{
-				int hold = keys;
+				int holdi = keys;
 				keys = o.keys;
-				o.keys = hold;
+				o.keys = holdi;
 			}
 			
-			h = load;
+			holdf = load;
 			load = o.load;
-			o.load = h;
+			o.load = holdf;
 		}
 	
 	private:
@@ -636,10 +636,10 @@ class EHashMap
 						EASSERT(n.getValue() == 1000)
 						
 						// Test copy constructor.
-						Node c(n);
+						Node copy(n);
 						
-						EASSERT(n.getKey() == c.getKey())
-						EASSERT(n.getValue() == c.getValue())
+						EASSERT(n.getKey() == copy.getKey())
+						EASSERT(n.getValue() == copy.getValue())
 					}
 					catch(EAssertionException &e)
 					{
@@ -824,8 +824,8 @@ class EHashMap
 						EASSERT(b.search(2000) == NULL)
 						
 						// Test our copy constructor.
-						BucketList c(b);
-						EASSERT(c.getLength() == b.getLength())
+						BucketList copy(b);
+						EASSERT(copy.getLength() == b.getLength())
 						
 						// Test our assignment operator.
 						BucketList d;
