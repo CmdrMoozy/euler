@@ -1,7 +1,5 @@
 CFLAGS = -pipe -fomit-frame-pointer -Wall -W -O2 -std=c++0x
-LDFLAGS = -lquadra 
-INCPATH = ../libquadra/release/include
-LIBPATH = ../libquadra/release/lib
+LDFLAGS = -lgmp -lgmpxx
 CC = g++
 
 PROG = Problem

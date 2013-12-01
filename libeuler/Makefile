@@ -21,19 +21,22 @@ OBJECTS = $(OBJECT_PREFIX)EExceptions.o \
 	$(OBJECT_PREFIX)euler_ETriangleStructure.o \
 	$(OBJECT_PREFIX)geodesy_EGeoCoord.o \
 	$(OBJECT_PREFIX)geodesy_ELatLonValue.o \
+	$(OBJECT_PREFIX)graph_EGridGraph.o \
+	$(OBJECT_PREFIX)graph_EGridVertex.o \
 	$(OBJECT_PREFIX)math_EExactCover.o \
 	$(OBJECT_PREFIX)math_EFactorization.o \
 	$(OBJECT_PREFIX)math_EMath.o \
 	$(OBJECT_PREFIX)math_EPrimeSieve.o \
-	$(OBJECT_PREFIX)util_EBitwise.o \
-	$(OBJECT_PREFIX)util_EByteArray.o \
-	$(OBJECT_PREFIX)util_EDate.o \
-	$(OBJECT_PREFIX)util_EProfiler.o \
 	$(OBJECT_PREFIX)types_EBigInteger.o \
 	$(OBJECT_PREFIX)types_EDigitInteger.o \
 	$(OBJECT_PREFIX)types_EFraction.o \
 	$(OBJECT_PREFIX)types_ERightTriangle.o \
-	$(OBJECT_PREFIX)types_ETriangle.o
+	$(OBJECT_PREFIX)types_ETriangle.o \
+	$(OBJECT_PREFIX)util_EBitwise.o \
+	$(OBJECT_PREFIX)util_EByteArray.o \
+	$(OBJECT_PREFIX)util_EDate.o \
+	$(OBJECT_PREFIX)util_EProfiler.o \
+	$(OBJECT_PREFIX)util_EString.o
 
 STATIC_LIB = libeuler.a
 DYNAMIC_LIB = libeuler.so
@@ -95,6 +98,12 @@ $(OBJECT_PREFIX)geodesy_EGeoCoord.o: src/geodesy/EGeoCoord.h src/geodesy/EGeoCoo
 $(OBJECT_PREFIX)geodesy_ELatLonValue.o: src/geodesy/ELatLonValue.h src/geodesy/ELatLonValue.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/geodesy/ELatLonValue.cpp -o $(OBJECT_PREFIX)geodesy_ELatLonValue.o
 
+$(OBJECT_PREFIX)graph_EGridGraph.o: src/graph/EGridGraph.h src/graph/EGridGraph.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/graph/EGridGraph.cpp -o $(OBJECT_PREFIX)graph_EGridGraph.o
+
+$(OBJECT_PREFIX)graph_EGridVertex.o: src/graph/EGridVertex.h src/graph/EGridVertex.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/graph/EGridVertex.cpp -o $(OBJECT_PREFIX)graph_EGridVertex.o
+
 $(OBJECT_PREFIX)math_EExactCover.o: src/math/EExactCover.h src/math/EExactCover.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/math/EExactCover.cpp -o $(OBJECT_PREFIX)math_EExactCover.o
 
@@ -106,18 +115,6 @@ $(OBJECT_PREFIX)math_EMath.o: src/math/EMath.h src/math/EMath.cpp
 
 $(OBJECT_PREFIX)math_EPrimeSieve.o: src/math/EPrimeSieve.h src/math/EPrimeSieve.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/math/EPrimeSieve.cpp -o $(OBJECT_PREFIX)math_EPrimeSieve.o
-
-$(OBJECT_PREFIX)util_EBitwise.o: src/util/EBitwise.h src/util/EBitwise.cpp
-	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EBitwise.cpp -o $(OBJECT_PREFIX)util_EBitwise.o
-
-$(OBJECT_PREFIX)util_EByteArray.o: src/util/EByteArray.h src/util/EByteArray.cpp
-	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EByteArray.cpp -o $(OBJECT_PREFIX)util_EByteArray.o
-
-$(OBJECT_PREFIX)util_EDate.o: src/util/EDate.h src/util/EDate.cpp
-	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EDate.cpp -o $(OBJECT_PREFIX)util_EDate.o
-
-$(OBJECT_PREFIX)util_EProfiler.o: src/util/EProfiler.h src/util/EProfiler.cpp
-	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EProfiler.cpp -o $(OBJECT_PREFIX)util_EProfiler.o
 
 $(OBJECT_PREFIX)types_EBigInteger.o: src/types/EBigInteger.h src/types/EBigInteger.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/types/EBigInteger.cpp -o $(OBJECT_PREFIX)types_EBigInteger.o
@@ -133,6 +130,21 @@ $(OBJECT_PREFIX)types_ERightTriangle.o: src/types/ERightTriangle.h src/types/ERi
 
 $(OBJECT_PREFIX)types_ETriangle.o: src/types/ETriangle.h src/types/ETriangle.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/types/ETriangle.cpp -o $(OBJECT_PREFIX)types_ETriangle.o
+
+$(OBJECT_PREFIX)util_EBitwise.o: src/util/EBitwise.h src/util/EBitwise.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EBitwise.cpp -o $(OBJECT_PREFIX)util_EBitwise.o
+
+$(OBJECT_PREFIX)util_EByteArray.o: src/util/EByteArray.h src/util/EByteArray.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EByteArray.cpp -o $(OBJECT_PREFIX)util_EByteArray.o
+
+$(OBJECT_PREFIX)util_EDate.o: src/util/EDate.h src/util/EDate.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EDate.cpp -o $(OBJECT_PREFIX)util_EDate.o
+
+$(OBJECT_PREFIX)util_EProfiler.o: src/util/EProfiler.h src/util/EProfiler.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EProfiler.cpp -o $(OBJECT_PREFIX)util_EProfiler.o
+
+$(OBJECT_PREFIX)util_EString.o: src/util/EString.h src/util/EString.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) $(IFLAGS) src/util/EString.cpp -o $(OBJECT_PREFIX)util_EString.o
 
 # Library rules
 
