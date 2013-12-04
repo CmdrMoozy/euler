@@ -90,7 +90,7 @@ if [[ $EULER -eq 1 ]] ; then
 	echo -en "#\n" >> run.sh
 	echo -en "# This is a script to execute our program.\n" >> run.sh
 	echo -en "\n" >> run.sh
-	echo -en "LD_LIBRARY_PATH=../../libeuler/release/lib ./Problem \$@\n" >> run.sh
+	echo -en "LD_LIBRARY_PATH=../../libeuler/build/release/lib ./Problem \$@\n" >> run.sh
 	
 	chmod +x run.sh
 fi
@@ -114,11 +114,9 @@ echo -en "CFLAGS = -pipe -fomit-frame-pointer -Wall -W -O2 -std=c++0x\n" > Makef
 if [[ $EULER -eq 1 || $GMP -eq 1 ]] ; then
 	echo -en "LDFLAGS = " >> Makefile
 	
-	if [[ $QUADRA -eq 1 ]] ; then
-		echo -en "-leuler " >> Makefile
-	fi
-	
-	if [[ $GMP -eq 1 ]] ; then
+	if [[ $EULER -eq 1 ]] ; then
+		echo -en "-leuler -lgmp -lgmpxx -lmpfr -lrt -lm" >> Makefile
+	elif [[ $GMP -eq 1 ]] ; then
 		echo -en "-lgmp -lgmpxx" >> Makefile
 	fi
 	
@@ -126,8 +124,8 @@ if [[ $EULER -eq 1 || $GMP -eq 1 ]] ; then
 fi
 
 if [[ $QUADRA -eq 1 ]] ; then
-	echo -en "INCPATH = ../../libeuler/release/include\n" >> Makefile
-	echo -en "LIBPATH = ../../libeuler/release/lib\n" >> Makefile
+	echo -en "INCPATH = ../../libeuler/build/release/include\n" >> Makefile
+	echo -en "LIBPATH = ../../libeuler/build/release/lib\n" >> Makefile
 fi
 
 echo -en "CC = g++\n" >> Makefile

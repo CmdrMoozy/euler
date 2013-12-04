@@ -2,4 +2,4 @@
 #
 # This is a script to execute our program.
 
-LD_LIBRARY_PATH=../../libeuler/release/lib ./Problem
+LD_LIBRARY_PATH=../../libeuler/build/release/lib ./Problem

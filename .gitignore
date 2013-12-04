@@ -1,5 +1,3 @@
 Problem
 sandbox/
-libeuler/obj/
-libeuler/release
-libeuler/docs
+libeuler/build/

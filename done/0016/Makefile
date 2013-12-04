@@ -1,7 +1,7 @@
 CFLAGS = -Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith -Wcast-qual -pipe -fomit-frame-pointer -Wall -W -O2 -std=c++0x
-LDFLAGS = -leuler -lgmp -lgmpxx
-INCPATH = ../../libeuler/release/include
-LIBPATH = ../../libeuler/release/lib
+LDFLAGS = -leuler -lgmp -lgmpxx -lmpfr -lrt -lm
+INCPATH = ../../libeuler/build/release/include
+LIBPATH = ../../libeuler/build/release/lib
 CC = g++
 
 PROG = Problem
