@@ -1,1 +1,0 @@
-../bin/clean-all.sh
