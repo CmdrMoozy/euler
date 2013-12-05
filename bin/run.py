@@ -26,8 +26,28 @@ try:
 	if args.n is not None:
 		euler.run_problem(args.n, LD_LIBRARY_PATH)
 	else:
+		runtimes = []
+		
 		for number in euler.get_done_list():
-			euler.run_problem(number, LD_LIBRARY_PATH)
+			runtimes.append(euler.run_problem(number, LD_LIBRARY_PATH))
+		
+		if runtimes:
+			sum = 0
+			mint = runtimes[0]
+			maxt = runtimes[0]
+			
+			for time in runtimes:
+				sum += time
+				mint = min(mint, time)
+				maxt = max(maxt, time)
+			
+			avg = sum / len(runtimes)
+			sum = sum / 1000
+			
+			print('Total run time:   %.2f s' % sum)
+			print('Average run time: %.2f ms' % avg)
+			print('Min run time:     %d ms' % mint)
+			print('Max run time:     %d ms' % maxt)
 	
 except SystemExit as e:
 	if e.code != 0:

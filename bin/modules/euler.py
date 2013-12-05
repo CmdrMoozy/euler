@@ -234,7 +234,11 @@ def clean_problem(number):
 #
 # \param number The number of the problem to run.
 # \param ldpath The LD_LIBRARY_PATH to use when executing the problem.
+# \return The time this problem took to execute, in seconds, or -1 on error.
 def run_problem(number, ldpath):
+	
+	elapsed = -1
+	
 	try:
 		# Find the problem we're going to run.
 		
@@ -277,8 +281,9 @@ def run_problem(number, ldpath):
 			sys.stdout.flush()
 		
 		etime = int(round(time.time() * 1000))
+		elapsed = etime - stime
 		
-		sys.stdout.write('{0} ms\n'.format(etime - stime))
+		sys.stdout.write('{0} ms\n'.format(elapsed))
 	
 	except KeyboardInterrupt:
 		raise
@@ -288,3 +293,5 @@ def run_problem(number, ldpath):
 		sys.stderr.write('{0}\n'.format(traceback.format_exc()))
 		
 	sys.stdout.write('\n')
+	
+	return elapsed
