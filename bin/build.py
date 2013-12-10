@@ -90,7 +90,7 @@ args = parser.parse_args()
 
 try:
 	if args.n is not None:
-		build_problem(args.n, args.g is True, args.v is True, CC)
+		build_problem(args.n, args.g is True, args.v is True)
 	else:
 		for number in euler.get_done_list():
 			build_problem(number, args.g is True, args.v is True)

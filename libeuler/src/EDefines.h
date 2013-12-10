@@ -12,7 +12,7 @@
 	
 	// We define a macro to get the absolute value of a number.
 	#define EABS(a) ( (a) < 0 ? (-(a)) : (a) )
-
+	
 	/*
 	 * Define our ELUNUSED macro, which is used on win32 to suppress the "unreferenced local
 	 * variable" warning (4101) in cases where we are very intentionally NOT referencing said

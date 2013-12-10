@@ -21,6 +21,7 @@ SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 
 FIND_PACKAGE(GMP REQUIRED)
 FIND_PACKAGE(MPFR REQUIRED)
+FIND_PACKAGE(PCRE REQUIRED)
 
 # Set INCLUDE and C(XX)FLAGS
 
@@ -29,8 +30,8 @@ IF(NOT CMAKE_BUILD_TYPE)
 	SET(CMAKE_BUILD_TYPE "Release")
 ENDIF()
 
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith -Wcast-qual -std=c++0x -O0")
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith -Wcast-qual -std=c++0x -fomit-frame-pointer")
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith -Wcast-qual -std=c++11 -O0")
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith -Wcast-qual -std=c++11 -fomit-frame-pointer")
 
 STRING(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
 IF(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
@@ -72,6 +73,7 @@ SET(euler_HEADERS
 	src/types/EDigitInteger.h
 	src/types/EFraction.h
 	src/types/ERightTriangle.h
+	src/types/ERomanNumeral.h
 	src/types/ETriangle.h
 	
 	src/util/EArray.h
@@ -111,6 +113,7 @@ SET(euler_SOURCES
 	src/types/EDigitInteger.cpp
 	src/types/EFraction.cpp
 	src/types/ERightTriangle.cpp
+	src/types/ERomanNumeral.cpp
 	src/types/ETriangle.cpp
 	
 	src/util/EBitwise.cpp
@@ -130,7 +133,7 @@ SET(eulertest_SOURCES
 # Build our library.
 
 ADD_LIBRARY(euler SHARED ${euler_SOURCES})
-TARGET_LINK_LIBRARIES(euler m rt gmp gmpxx mpfr)
+TARGET_LINK_LIBRARIES(euler m rt gmp gmpxx mpfr ${PCRE_LIBRARIES})
 
 # If building in debug mode, build our test suite.
 
