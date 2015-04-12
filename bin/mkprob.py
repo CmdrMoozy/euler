@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 #
 # euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
@@ -40,16 +40,16 @@ args = parser.parse_args()
 
 try:
 	euler.create_problem(args.n)
-	
+
 except SystemExit as e:
 	if e.code != 0:
 		sys.stderr.write('Creating problem failed!\n')
 	pass
-	
+
 except KeyboardInterrupt:
 	sys.stderr.write('Aborting by user request!\n')
 	pass
-	
+
 except:
 	sys.stderr.write('Unexpected error: %s\n' % traceback.format_exc())
 	sys.exit(1)
