@@ -22,9 +22,17 @@ function(eulerAddProblem)
 	get_filename_component(problem ${problem_main} DIRECTORY)
 	get_filename_component(problem ${problem} NAME)
 
-	if(NOT EXISTS ${problem_main})
-		message(STATUS "Problem doesn't exist: ${problem_main}")
-	endif()
-	add_executable(${PROBLEM} ${problem_SOURCES})
+	# Add a target to build the executable.
+	add_executable(${problem} ${problem_SOURCES})
 	target_link_libraries(${PROBLEM} ${euler_LIBRARIES} euler)
+
+	# Copy any supporting files to the build output directory.
+	file(GLOB problem_DATA ${CMAKE_CURRENT_SOURCE_DIR}/*.txt)
+	list(REMOVE_ITEM problem_DATA "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt")
+	foreach(file ${problem_DATA})
+		message(STATUS ${file})
+		add_custom_command(TARGET ${problem} PRE_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy
+			${file} $<TARGET_FILE_DIR:${problem}>)
+	endforeach()
 endfunction()
