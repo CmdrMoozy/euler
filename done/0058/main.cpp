@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -56,7 +57,7 @@ int main(void)
 {
 	uint32_t primes, o, result;
 	ESpiral sp;
-	
+
 	primes = 0;
 	o = 0;
 	sp.begin();
@@ -64,16 +65,16 @@ int main(void)
 	do
 	{
 		++o;
-		
+
 		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
 		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
 		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
 		sp.next();
 	} while((primes*10) > ((o*4)+1));
-	
+
 	result = sp.getSizeFor(o);
 	std::cout << "The size of spiral whose diagonal prime ratio first falls below 10% is: " << result << "\n";
-	
+
 	assert(result == 26241);
 	return 0;
 }

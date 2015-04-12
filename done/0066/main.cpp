@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
+#include <cstddef>
 #include <cassert>
 #include <cstdint>
+#include <iostream>
 #include <vector>
 
 #include <gmp.h>
@@ -74,36 +75,36 @@ std::vector<uint64_t> getContinuedFraction(int64_t D)
 {
 	std::vector<uint64_t> v;
 	int64_t iroot = EMath::isqrt(D);
-	
+
 	if(iroot * iroot == D)
 	{
 		v.push_back(static_cast<uint64_t>(iroot));
 		return v;
 	}
-	
+
 	int64_t num = 0, den = 1;
-	
+
 	while(true)
 	{
 		int64_t hold;
 		int64_t nextn = static_cast<int64_t>((iroot + num) / den);
 		v.push_back(static_cast<uint64_t>(nextn));
-		
+
 		hold = den;
 		den = num - (den * nextn);
 		num = hold;
-		
+
 		hold = -den;
 		den = (D - (den * den)) / num;
 		num = hold;
-		
+
 		if(den == 1)
 		{
 			v.push_back(static_cast<uint64_t>(iroot << 1));
 			break;
 		}
 	}
-	
+
 	return v;
 }
 
@@ -138,47 +139,47 @@ int main(void)
 	 *
 	 * This allows us to very easily generate the list of convergents for a given value of D.
 	 */
-	
+
 	mpz_t Am1, Am2;
 	mpz_t Bm1, Bm2;
 	mpz_t resultx;
 	mpz_t tmpA, tmpB;
-	
+
 	mpz_inits(Am1, Am2, Bm1, Bm2, resultx, tmpA, tmpB, NULL);
-	
+
 	uint64_t D, resultD, cfn;
-	
+
 	// Loop through each D <= 1000, starting at 8 since we're given the solution for D <= 7;
-	
+
 	resultD = 5;
 	mpz_set_ui(resultx, 9);
-	
+
 	for(D = 19; D <= 1000; ++D)
 	{
 		// We need to skip any D which is a perfect square, since Pell's equation has no solution for these values.
-		
+
 		if(EMath::isSquare(D))
 			continue;
-		
+
 		// Compute the continued fraction representation of this D.
-		
+
 		std::vector<uint64_t> cf = getContinuedFraction(D);
-		
+
 		// Add the first two convergents to our lists.
-		
+
 		mpz_set_si(Am2, cf[0]);
 		mpz_set_ui(Bm2, 1);
-		
+
 		mpz_set_si(Am1, (cf[0] * cf[1]) + 1);
 		mpz_set_si(Bm1, cf[1]);
-		
+
 		// Test if this first convergent is our solution.
-		
+
 		mpz_mul(tmpA, Am2, Am2);
 		mpz_mul(tmpB, Bm2, Bm2);
 		mpz_mul_ui(tmpB, tmpB, D);
 		mpz_sub(tmpA, tmpA, tmpB);
-		
+
 		if(mpz_cmp_ui(tmpA, 1) == 0)
 		{
 			if(mpz_cmp(Am2, resultx) > 0)
@@ -186,23 +187,23 @@ int main(void)
 				resultD = D;
 				mpz_set(resultx, Am2);
 			}
-			
+
 			continue;
 		}
-		
+
 		// Keep testing & incrementing the convergent until we find the solution.
-		
+
 		cfn = 2;
-		
+
 		while(true)
 		{
 			// Test the most recent convergent.
-			
+
 			mpz_mul(tmpA, Am1, Am1);
 			mpz_mul(tmpB, Bm1, Bm1);
 			mpz_mul_ui(tmpB, tmpB, D);
 			mpz_sub(tmpA, tmpA, tmpB);
-			
+
 			if(mpz_cmp_ui(tmpA, 1) == 0)
 			{
 				if(mpz_cmp(Am1, resultx) > 0)
@@ -210,40 +211,40 @@ int main(void)
 					resultD = D;
 					mpz_set(resultx, Am1);
 				}
-				
+
 				break;
 			}
-			
+
 			// Since this isn't the solution, compute the next one.
-			
+
 			int64_t cfidx = ((cfn - 1) % (cf.size() - 1)) + 1;
-			
+
 			mpz_mul_ui(tmpA, Am1, cf[cfidx]);
 			mpz_add(tmpA, tmpA, Am2);
-			
+
 			mpz_mul_ui(tmpB, Bm1, cf[cfidx]);
 			mpz_add(tmpB, tmpB, Bm2);
-			
+
 			mpz_set(Am2, Am1);
 			mpz_set(Am1, tmpA);
-			
+
 			mpz_set(Bm2, Bm1);
 			mpz_set(Bm1, tmpB);
-			
+
 			++cfn;
 		}
 	}
-	
+
 	// We've gone through all possible D values - print out our final solution!
-	
+
 	char *resultxstr = mpz_get_str(NULL, 10, resultx);
-	
+
 	std::cout << "The D value in x^2 - D * y^2 = 1 whose minimal x solution is the " <<
 		"largest is D = " << resultD << ", with x = " << resultxstr << "\n";
 	assert(resultD == 661);
-	
+
 	// Clear our GMP numbers.
-	
+
 	free(resultxstr);
 	mpz_clears(Am1, Am2, Bm1, Bm2, resultx, tmpA, tmpB, NULL);
 }

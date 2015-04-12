@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
+#include <iostream>
 #include <sstream>
 
 #include <gmp.h>
@@ -46,31 +47,31 @@ int main(void)
 {
 	mpz_class n = 1, d = 1, nn, nd, gcd;
 	int total = 0;
-	
+
 	// Compute the first one thousand expansions.
-	
+
 	for(int i = 0; i < 1000; ++i)
 	{
 		// If this expansion's numerator has more digits than the denominator, add it to the total.
-		
+
 		std::stringstream num(std::stringstream::out), den(std::stringstream::out);
 		num << n;
 		den << d;
-		
+
 		if(num.str().length() > den.str().length())
 			++total;
-		
+
 		// Calculate the next expansion.
-		
+
 		n = n + d + d;
 		d = n - d;
 		mpz_gcd(gcd.get_mpz_t(), n.get_mpz_t(), d.get_mpz_t());
 		mpz_divexact(n.get_mpz_t(), n.get_mpz_t(), gcd.get_mpz_t());
 		mpz_divexact(d.get_mpz_t(), d.get_mpz_t(), gcd.get_mpz_t());
 	}
-	
+
 	std::cout << "The number of expansions where log10(numerator) > log10(denominator) is: " << total << "\n";
 	assert(total == 153);
-	
+
 	return 0;
 }

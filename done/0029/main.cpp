@@ -16,10 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
+#include <cmath>
+#include <cstddef>
 #include <iostream>
 #include <set>
-#include <cmath>
-#include <cassert>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -46,7 +47,7 @@ int main(void)
 	std::set<mpz_class> result;
 	uint32_t i, j;
 	mpz_class r;
-	
+
 	for(i = 2; i <= 100; i++)
 	{
 		for(j = 2; j <= 100; j++)
@@ -55,9 +56,9 @@ int main(void)
 			result.insert(r);
 		}
 	}
-	
+
 	std::cout << "The number of terms in the resulting sequence is: " << result.size() << "\n";
-	
+
 	assert(result.size() == 9183);
 	return 0;
 }

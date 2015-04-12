@@ -16,14 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
-/* 
+/*
  * The square root of 2 can be written as an infinite continued fraction.
  *
  * sqrt(2) = 1 +      1
@@ -110,25 +111,25 @@ int main(void)
 	 * the the convergent x(n) for all n in Z is automatically written in lowest terms (i.e., gcd(A(n), B(n)) = 1
 	 * for all valid n).
 	 */
-	
+
 	// The first two convergent numerators are 2(/1) and 3(/2).
-	
+
 	mpz_class Am1 = 2, A = 3, hold;
 	uint64_t sum;
-	
+
 	// We want the numerator of the 100th convergent, so calculate the next A 99 times.
-	
+
 	for(uint32_t n = 1; n < 99; ++n)
 	{
 		// A(n+1) = b(n+1)A(n) + a(n+1)A(n-1)
-		
+
 		hold = (getDenominator(n + 1) * A) + Am1;
 		Am1 = A;
 		A = hold;
 	}
-	
+
 	// A now contains the numerator of the 100th convergent. Add its digits to get our answer.
-	
+
 	sum = 0;
 	while(A > 0)
 	{
@@ -136,9 +137,9 @@ int main(void)
 		sum += hold.get_ui();
 		A /= 10;
 	}
-	
+
 	std::cout << "The sum of the digits in the 100th numerator is: " << sum << "\n";
 	assert(sum == 272);
-	
+
 	return 0;
 }

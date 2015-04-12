@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -35,13 +36,13 @@ int main(void)
 	EDigitInteger eda;
 	mpz_class number, sum;
 	int result;
-	
+
 	mpz_fac_ui(number.get_mpz_t(), 100);
-	
+
 	eda = number;
 	result = eda.sumOfDigits();
 	std::cout << "The sum of the digits in 100! is: " << result << "\n";
-	
+
 	assert(result == 648);
 	return 0;
 }

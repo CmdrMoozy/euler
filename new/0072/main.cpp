@@ -20,8 +20,8 @@
 #include <cassert>
 #include <set>
 
-#include "libquadra/math/QMath.h"
-#include "libquadra/types/QFraction.h"
+#include "libeuler/math/EMath.h"
+#include "libeuler/types/EFraction.h"
 
 /*
  * Consider the fraction, n/d, where n and d are positive integers. If n<d and HCF(n,d)=1, it is
@@ -41,18 +41,18 @@
 
 int main(void)
 {
-	std::set<QFraction> fractions;
+	std::set<EFraction> fractions;
 	uint64_t n;
-	
+
 	for(n = 1; n < DENOMINATOR_LIMIT; ++n)
 	{
-		QFraction f(n, DENOMINATOR_LIMIT);
+		EFraction f(n, DENOMINATOR_LIMIT);
 		f.reduce();
-		
+
 		fractions.insert(f);
 	}
-	
+
 	std::cout << "The set contains " << fractions.size() << " fractions.\n";
-	
+
         return 0;
 }

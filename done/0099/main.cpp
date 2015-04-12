@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
-#include <string>
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 #include <mpfr.h>
 
@@ -56,37 +57,37 @@ int compare(uint64_t ba, uint64_t ea, uint64_t bb, uint64_t be)
 {
 	int ret;
 	mpfr_t a, b, tmp;
-	
+
 	mpfr_init2(a, static_cast<mpfr_prec_t>(128));
 	mpfr_init2(b, static_cast<mpfr_prec_t>(128));
 	mpfr_init2(tmp, static_cast<mpfr_prec_t>(128));
-	
+
 	// Set our mpfr values to the bases.
-	
+
 	mpfr_set_uj(a, ba, MPFR_RNDN);
 	mpfr_set_uj(b, bb, MPFR_RNDN);
-	
+
 	// Take the logarithm of each.
-	
+
 	mpfr_log(a, a, MPFR_RNDN);
 	mpfr_log(b, b, MPFR_RNDN);
-	
+
 	// Multiply the values by their respective exponents.
-	
+
 	mpfr_set_uj(tmp, ea, MPFR_RNDN);
 	mpfr_mul(a, a, tmp, MPFR_RNDN);
-	
+
 	mpfr_set_uj(tmp, be, MPFR_RNDN);
 	mpfr_mul(b, b, tmp, MPFR_RNDN);
-	
+
 	// Done!
-	
+
 	ret = mpfr_cmp(a, b);
-	
+
 	mpfr_clear(a);
 	mpfr_clear(b);
 	mpfr_clear(tmp);
-	
+
 	return ret;
 }
 
@@ -96,46 +97,46 @@ int main(void)
 	std::ifstream ifile;
 	int ln = 0, maxl = 0;
 	uint64_t maxb = 1, maxe = 1;
-	
+
 	ifile.open("base_exp.txt", std::ifstream::in);
-	
+
 	if(ifile.is_open())
 	{
 		while(ifile.good())
 		{
 			std::getline(ifile, line);
 			++ln;
-			
+
 			if(line.length() > 0)
 			{
 				// Parse this particular line.
-				
+
 				std::string bs, es;
 				uint64_t b = 0, e = 0;
 				size_t idx;
-				
+
 				idx = line.find(",");
-				
+
 				if(idx == std::string::npos)
 				{
 					std::cout << "Invalid line in input file.\n";
 					return 1;
 				}
-				
+
 				bs = line.substr(0, idx);
 				es = line.substr(idx + 1, line.length() - (idx + 1));
-				
+
 				b = static_cast<uint64_t>(strtoll(bs.c_str(), NULL, 10));
 				e = static_cast<uint64_t>(strtoll(es.c_str(), NULL, 10));
-				
+
 				if( (b == 0) || (e == 0) )
 				{
 					std::cout << "Invalid line in input file.\n";
 					return 1;
 				}
-				
+
 				// Compare this line's value with our previous maximum value.
-				
+
 				if(compare(maxb, maxe, b, e) < 0)
 				{
 					maxb = b;
@@ -144,7 +145,7 @@ int main(void)
 				}
 			}
 		}
-		
+
 		ifile.close();
 	}
 	else
@@ -152,9 +153,9 @@ int main(void)
 		std::cout << "Unable to open base_exp.txt!\n";
 		return 1;
 	}
-	
+
 	std::cout << "The line number with the largest value was: " << maxl << "\n";
 	assert(maxl == 709);
-	
+
 	return 0;
 }

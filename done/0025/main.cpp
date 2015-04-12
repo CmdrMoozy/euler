@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -53,14 +54,14 @@ int main(void)
 {
 	mpz_class target;
 	uint32_t result;
-	
+
 	// The limit we are searching for is 10^999.
 	target = 10;
 	mpz_pow_ui(target.get_mpz_t(), target.get_mpz_t(), 999);
-	
+
 	result = EMath::fibonacciSearch(1000, target);
 	std::cout << "The " << result << "th number is the first to have >= 1,000 digits.\n";
-	
+
 	assert(result == 4782);
 	return 0;
 }

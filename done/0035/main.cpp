@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
+#include <cstddef>
 #include <iostream>
 #include <map>
-#include <cassert>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -41,12 +42,12 @@ int main(void)
 {
 	int count;
 	ECircularPrimeSieve s;
-	
+
 	s.setLimit(PRIME_LIMIT);
-	
+
 	count = s.getSize();
 	std::cout << "The number of circular primes under " << PRIME_LIMIT << " is: " << count << "\n";
-	
+
 	assert(count == 55);
 	return 0;
 }

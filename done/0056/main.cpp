@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -38,27 +39,27 @@ int main(void)
 	EDigitInteger d;
 	uint32_t a, b, s, result;
 	mpz_class number;
-	
+
 	result = 0;
 	for(a = 99; a >= 1; --a)
 	{
 		// Skip any powers of 10, since they will always have a sum of just 1.
 		if((a % 10) == 0)
 			continue;
-		
+
 		for(b = 99; b >= 1; --b)
 		{
 			mpz_ui_pow_ui(number.get_mpz_t(), a, b);
 			d = number;
-			
+
 			s = d.sumOfDigits();
 			if(s > result)
 				result = s;
 		}
 	}
-	
+
 	std::cout << "The maximum digital sum in our range is: " << result << "\n";
-	
+
 	assert(result == 972);
 	return 0;
 }

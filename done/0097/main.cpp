@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -40,15 +41,15 @@ int main(void)
 	 *
 	 * Calculate it directly because GMP is stupid hella fast.
 	 */
-	
+
 	mpz_class prime = 28433, mod;
-	
+
 	mpz_mul_2exp(prime.get_mpz_t(), prime.get_mpz_t(), 7830457);
 	++prime;
-	
-	
+
+
 	// Get the last ten digits.
-	
+
 	uint64_t digits = 0;
 	for(int i = 0; i < 10; ++i)
 	{
@@ -57,9 +58,9 @@ int main(void)
 		digits = (digits / 10) + mod.get_ui();
 		prime /= 10;
 	}
-	
+
 	std::cout << "The last ten digits of the prime are: " << digits << "\n";
 	assert(digits == 8739992577);
-	
+
 	return 0;
 }

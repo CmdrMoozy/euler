@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -60,31 +61,31 @@ int main(void)
 	int c, result;
 	mpz_class i, j;
 	bool p;
-	
+
 	result = 0;
 	for(i = 1; i < 10000; ++i)
 	{
 		c = 0;
 		d = i;
-		
+
 		do
 		{
 			t = d;
 			t.reverseDigits();
-			
+
 			j = t.toBigInteger() + d.toBigInteger();
 			d = j;
-			
+
 			p = d.isPalindrome();
 			++c;
 		} while( (c <= 50) && !p );
-		
+
 		if(!p)
 			++result;
 	}
-	
+
 	std::cout << "The number of Lychrel numbers below 10,000 is: " << result << "\n";
-	
+
 	assert(result == 249);
 	return 0;
 }

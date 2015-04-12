@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 #include <set>
 
 #include <gmp.h>
@@ -39,15 +40,15 @@ int main(void)
 	mpz_class total;
 	EPrimeSieve s;
 	std::set<uint32_t>::iterator it;
-	
+
 	s.setLimit(PRIME_VALUE_MAX - 1);
-	
+
 	total = 0;
 	for(it = s.begin(); it != s.end(); it++)
 		total += (*it);
-	
+
 	std::cout << "The sum of all primes less than 2,000,000 is: " << total << "\n";
-	
+
 	assert(total == 142913828922);
 	return 0;
 }

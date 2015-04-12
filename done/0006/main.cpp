@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -45,26 +46,26 @@ int main(void)
 {
 	mpz_class result, a, b;
 	int i;
-	
+
 	result = 0;
 	a = 0;
-	
+
 	for(i = START_NUMBER; i <= END_NUMBER; i++)
 		result += i;
-	
+
 	result = (result * result);
-	
+
 	for(i = START_NUMBER; i <= END_NUMBER; i++)
 	{
 		b = (i * i);
 		a += b;
 	}
-	
+
 	result -= a;
-	
+
 	std::cout << "The square of the sum of the first 100 natural numbers, minus the sum of the squares " <<
 		"of the first 100 natural numbers is: " << result << "\n";
-	
+
 	assert(result == 25164150);
 	return 0;
 }

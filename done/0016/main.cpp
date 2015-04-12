@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 
 #include <gmp.h>
 
@@ -34,14 +35,14 @@ int main(void)
 	EDigitInteger eda;
 	mpz_class number;
 	int sum;
-	
+
 	number = 2;
 	mpz_pow_ui(number.get_mpz_t(), number.get_mpz_t(), 1000);
-	
+
 	eda = number;
 	sum = eda.sumOfDigits();
 	std::cout << "The sum of the digits in 2^1000 is: " << sum << "\n";
-	
+
 	assert(sum == 1366);
 	return 0;
 }
