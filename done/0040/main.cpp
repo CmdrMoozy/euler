@@ -40,7 +40,7 @@ int main(void)
 	uint32_t i, j, on, n, result, log;
 	short *digits;
 	digits = new short[1000000];
-	
+
 	// Populate our digits list.
 	i = 0;
 	on = 1;
@@ -48,27 +48,29 @@ int main(void)
 	{
 		n = on;
 		log = EMath::logBaseTen(on);
-		
+
 		j = i + log;
 		while(n > 0)
 		{
-			digits[j--] = n % 10;
+			if(j < 1000000)
+				digits[j] = n % 10;
+			--j;
 			n /= 10;
 		}
 		i += log + 1;
-		
+
 		on++;
 	}
-	
+
 	// Get our result.
-	
+
 	result = digits[0] * digits[9] * digits[99] * digits[999] *
 		digits[9999] * digits[99999] * digits[999999];
-	
+
 	delete[] digits;
-	
+
 	std::cout << "The product of the specified digits is: " << result << "\n";
-	
+
 	assert(result == 210);
 	return 0;
 }

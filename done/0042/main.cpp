@@ -47,48 +47,49 @@ int main(void)
 	std::multiset<uint32_t> scores;
 	std::multiset<uint32_t>::iterator it;
 	uint32_t i, v, maxScore, result;
-	
+
 	// Read in and score all of our words.
-	
+
 	fin.open("words-processed.txt");
 	if(!fin.is_open())
 	{
 		std::cout << "Unable to open 'words-processed.txt'!\n";
 		return 1;
 	}
-	
+
 	while(fin.good())
 	{
 		getline(fin, word);
-		
+
 		for(v = 0, i = 0; i < word.length(); i++)
 			v += static_cast<uint32_t>(word.at(i) - 'A' + 1);
-		
+
 		scores.insert(v);
 	}
-	
+
 	fin.close();
-	
+
 	// Build a list of triangle numbers.
-	
+
 	maxScore = (*scores.rbegin());
 	triangleNumbers = new uint32_t[maxScore + 1];
-	
-	i = v = 0;
+
+	i = 0;
+	v = EMath::getTriangleNumberN(i);
 	while(v <= maxScore)
 	{
-		v = EMath::getTriangleNumberN(i++);
 		triangleNumbers[v] = v;
+		v = EMath::getTriangleNumberN(i++);
 	}
-	
+
 	// Check each score to see if it is a triangle number.
-	
+
 	for(result = 0, it = scores.begin(); it != scores.end(); it++)
 		if(triangleNumbers[(*it)] == (*it))
 			result++;
-		
+
 	std::cout << "The number of triangle words in the text file is: " << result << "\n";
-	
+
 	delete[] triangleNumbers;
 	assert(result == 162);
 	return 0;
