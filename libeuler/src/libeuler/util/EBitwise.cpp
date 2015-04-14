@@ -103,7 +103,7 @@ void EBitwise::doTestSuite()
 		{
 			for(s = 1; s < 32; ++s)
 			{
-				d = (1 << s) - 1;
+				d = (static_cast<uint64_t>(1) << s) - 1;
 				m = EBitwise::modPowTwoLessOne(n, s);
 
 				EASSERT(m == (n%d))
@@ -331,7 +331,9 @@ uint64_t EBitwise::rotr64(uint64_t n, int p)
  */
 uint64_t EBitwise::modPowTwo(uint64_t n, unsigned int s)
 {
-	return ( n & ( (1 << s) - 1 ) );
+	uint64_t ret = static_cast<uint64_t>(1) << s;
+	ret -= 1;
+	return n & ret;
 }
 
 /*!
@@ -344,7 +346,7 @@ uint64_t EBitwise::modPowTwo(uint64_t n, unsigned int s)
  */
 uint64_t EBitwise::modPowTwoLessOne(uint64_t n, unsigned int s)
 {
-	uint64_t d = (1 << s) - 1;
+	uint64_t d = (static_cast<uint64_t>(1) << s) - 1;
 	uint64_t m = 0;
 
 	for(m = n; n > d; n = m)
