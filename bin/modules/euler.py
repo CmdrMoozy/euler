@@ -191,9 +191,9 @@ def create_problem(number):
 			f.write(' * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n')
 			f.write(' */\n')
 			f.write('\n')
-			f.write('#include <iostream>\n')
 			f.write('#include <cassert>\n')
 			f.write('#include <cstdint>\n')
+			f.write('#include <iostream>\n')
 			f.write('\n')
 			f.write('int main(void)\n')
 			f.write('{\n')
@@ -201,6 +201,11 @@ def create_problem(number):
 			f.write('\t\n')
 			f.write('\treturn 0;\n')
 			f.write('}\n')
+
+			f.flush()
+
+		with open('{0}/CMakeLists.txt'.format(path), 'w') as f:
+			f.write('eulerAddProblem()\n')
 
 			f.flush()
 
