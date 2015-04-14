@@ -21,6 +21,7 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <stdexcept>
 
 #include "libeuler/EDefines.h"
 #include "libeuler/util/EBitwise.h"
@@ -44,6 +45,41 @@ void EPoker::doTestSuite()
 		success = true;
 
 
+		// Verify that repeated parses produce the same results as a
+		// single parse call.
+		{
+			EPoker a;
+			EPoker b;
+
+			a.parse("TH 8H 5C QS TC");
+			b.parse("9H 4D JC KS JS");
+			EASSERT(a < b);
+		}
+		{
+			EPoker a;
+			EPoker b;
+
+			a.parse("5C AD 5D AC 9C");
+			b.parse("7C 5H 8D TD KS");
+			EASSERT(a > b);
+
+			a.parse("3H 7H 6S KC JS");
+			b.parse("QH TD JC 2D 8S");
+			EASSERT(a > b);
+
+			a.parse("TH 8H 5C QS TC");
+			b.parse("9H 4D JC KS JS");
+			EASSERT(a < b);
+		}
+
+		{
+			EPoker a;
+			EPoker b;
+
+			a.parse("2S 8D 8C 4C TS");
+			b.parse("9S 9D 9C AC 3D");
+			EASSERT(a < b);
+		}
 	}
 	catch(EAssertionException &e)
 	{
@@ -67,7 +103,7 @@ void EPoker::doTestSuite()
  * This is our default constructor, which creates a new empty object.
  */
 EPoker::EPoker()
-	: cards(0), rankValid(false)
+	: cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
 {
 }
 
@@ -77,7 +113,7 @@ EPoker::EPoker()
  * \param o The object to use for an initial value
  */
 EPoker::EPoker(const EPoker &o)
-	: cards(0), rankValid(false)
+	: cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
 {
 	(*this) = o;
 }
@@ -211,7 +247,7 @@ bool EPoker::parse(const std::string &s)
 
 	// Loop through the string.
 
-	for(int i = 0; i < 14; i += 3)
+	for(std::string::size_type i = 0; i < 14; i += 3)
 	{
 		// Determine the value.
 
@@ -320,6 +356,8 @@ void EPoker::clear()
 	cards = 0;
 	values = 0;
 	rankValid = false;
+	rank = HighCard;
+	rankCards = 0;
 }
 
 /*!
@@ -370,7 +408,7 @@ std::string EPoker::toString() const
 			uint64_t card = EBitwise::rmoIsolate(c);
 			c = c & ~card;
 
-			int idx = static_cast<int>(EBitwise::lg64(card));
+			uint32_t idx = EBitwise::lg64(card);
 
 			switch(valueOfIndex(idx))
 			{
@@ -387,6 +425,8 @@ std::string EPoker::toString() const
 				case EPoker::Queen: ret.append("Q"); break;
 				case EPoker::King:  ret.append("K"); break;
 				case EPoker::Ace:   ret.append("A"); break;
+				default:
+					throw std::runtime_error("Invalid value.");
 			};
 
 			switch(suitOfIndex(idx))
@@ -395,6 +435,8 @@ std::string EPoker::toString() const
 				case EPoker::Diamonds: ret.append("D"); break;
 				case EPoker::Hearts:   ret.append("H"); break;
 				case EPoker::Spades:   ret.append("S"); break;
+				default:
+					throw std::runtime_error("Invalid suit.");
 			};
 
 			ret.append(" ");
@@ -441,7 +483,7 @@ int EPoker::cardsIndexOf(EPoker::CardValue v, EPoker::CardSuit s) const
  * \param i The index to interpret.
  * \return The card value the index corresponds to.
  */
-EPoker::CardValue EPoker::valueOfIndex(int i) const
+EPoker::CardValue EPoker::valueOfIndex(uint32_t i) const
 {
 	return static_cast<EPoker::CardValue>(i / 4);
 }
@@ -452,7 +494,7 @@ EPoker::CardValue EPoker::valueOfIndex(int i) const
  * \param i The index to interpret.
  * \return The card suit the index corresponds to.
  */
-EPoker::CardSuit EPoker::suitOfIndex(int i) const
+EPoker::CardSuit EPoker::suitOfIndex(uint32_t i) const
 {
 	return static_cast<EPoker::CardSuit>(i % 4);
 }
@@ -469,14 +511,13 @@ EPoker::CardSuit EPoker::suitOfIndex(int i) const
 uint64_t EPoker::getComparableValuesList(uint64_t c) const
 {
 	uint64_t vals = 0, card;
-	int idx;
+	uint32_t idx;
 
 	while(c != 0)
 	{
 		card = EBitwise::rmoIsolate(c);
 		c &= ~card;
 		idx = EBitwise::lg64(card);
-
 		vals |= (1ULL << static_cast<int>(valueOfIndex(idx)));
 	}
 
@@ -504,7 +545,7 @@ void EPoker::buildRank() const
 			uint64_t c = cards;
 
 			uint64_t card;
-			int idx;
+			uint32_t idx;
 			std::map<EPoker::CardValue, int>::iterator it;
 			EPoker::CardValue val;
 
@@ -524,7 +565,7 @@ void EPoker::buildRank() const
 				it = valueCount.find(val);
 
 				if(it != valueCount.end())
-					it->second = it->second++;
+					++it->second;
 				else
 					valueCount.insert(std::pair<EPoker::CardValue, int>(val, 1));
 
@@ -856,7 +897,7 @@ int EPoker::compare(const EPoker &o) const
 			{
 				// For this hand, we compare the three cards, then the two cards.
 
-				int aa, ab, ba, bb;
+				uint32_t aa, ab, ba, bb;
 
 				aa = EBitwise::lg64(EBitwise::rmoIsolate(values));
 				ab = EBitwise::lg64(values & ~(1ULL << static_cast<int>(aa)));
@@ -866,14 +907,14 @@ int EPoker::compare(const EPoker &o) const
 
 				if(EBitwise::opop(cards & getValueIsolator(static_cast<EPoker::CardValue>(aa))) == 3)
 				{
-					int hold = aa;
+					uint32_t hold = aa;
 					aa = ab;
 					ab = hold;
 				}
 
 				if(EBitwise::opop(o.cards & getValueIsolator(static_cast<EPoker::CardValue>(ba))) == 3)
 				{
-					int hold = ba;
+					uint32_t hold = ba;
 					ba = bb;
 					bb = hold;
 				}
@@ -897,6 +938,9 @@ int EPoker::compare(const EPoker &o) const
 				}
 			}
 			break;
+
+			default:
+				throw std::runtime_error("Invalid hand rank.");
 		};
 	}
 

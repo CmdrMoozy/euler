@@ -55,7 +55,7 @@ class EPoker
 			King  = 11,
 			Ace   = 12
 		};
-		
+
 		/*!
 		 * \brief This enumeration lists the four standard playing card suits.
 		 */
@@ -66,7 +66,7 @@ class EPoker
 			Hearts   = 2,
 			Spades   = 3
 		};
-		
+
 		/*!
 		 * \brief This enumeration lists the different hand ranks available.
 		 */
@@ -82,51 +82,51 @@ class EPoker
 			FourOfAKind   = 7,
 			StraightFlush = 8
 		};
-		
+
 #ifdef LIBEULER_DEBUG
 		static void doTestSuite();
 #endif
-		
+
 		EPoker();
 		EPoker(const EPoker &o);
 		virtual ~EPoker();
-		
+
 		EPoker &operator=(const EPoker &o);
-	
+
 		bool operator==(const EPoker &o) const;
 		bool operator<(const EPoker &o) const;
 		bool operator<=(const EPoker &o) const;
 		bool operator>(const EPoker &o) const;
 		bool operator>=(const EPoker &o) const;
-		
+
 		bool parse(const std::string &s);
-		
+
 		bool isValid() const;
 		void addCard(EPoker::CardValue v, EPoker::CardSuit s);
 		void removeCard(EPoker::CardValue v, EPoker::CardSuit s);
 		void clear();
 		bool containsValue(EPoker::CardValue v) const;
 		bool containsCard(EPoker::CardValue v, EPoker::CardSuit s) const;
-		
+
 		std::string toString() const;
-		
+
 	private:
 		uint64_t cards;
 		uint64_t values;
-		
+
 		mutable bool rankValid;
 		mutable EPoker::HandRank rank;
 		mutable uint64_t rankCards;
-		
+
 		uint64_t getValueIsolator(EPoker::CardValue v) const;
-		
+
 		int cardsIndexOf(EPoker::CardValue v, EPoker::CardSuit s) const;
-		EPoker::CardValue valueOfIndex(int i) const;
-		EPoker::CardSuit suitOfIndex(int i) const;
+		EPoker::CardValue valueOfIndex(uint32_t i) const;
+		EPoker::CardSuit suitOfIndex(uint32_t i) const;
 		uint64_t getComparableValuesList(uint64_t c) const;
-		
+
 		void buildRank() const;
-		
+
 		int compare(const EPoker &o) const;
 };
 
