@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
+#include <cstring>
 #include <iostream>
 #include <set>
-#include <cassert>
 
 #include "libeuler/math/EMath.h"
 
@@ -50,16 +51,17 @@ int main(void)
 	uint32_t i, j, k;
 	uint32_t total;
 	bool sum;
-	
+
 	abundantNumbers = new uint32_t[LIMIT + 1];
-	
+	memset(abundantNumbers, 0, sizeof(uint32_t) * (LIMIT + 1));
+
 	// Formulate a list of all of the abundant numbers.
 	for(i = 12; i <= LIMIT; i++) // 12 is the smallest abundant number, so start there.
 	{
 		// If we already have this number in our list, continue.
 		if(abundantNumbers[i] == i)
 			continue;
-		
+
 		j = EMath::aliquotSumProperDivisors(i);
 		if(j > i)
 		{ // If this number is abundant...
@@ -68,29 +70,29 @@ int main(void)
 			do
 			{
 				k = i * (j++);
-				
+
 				if(k > LIMIT)
 					break;
-				
+
 				abundantNumbers[k] = k;
 			} while(true);
 		}
 	}
-	
+
 	// For each number in range, see if it can be written as a sum of abundant numbers.
 	total = 0;
 	for(i = 1; i <= LIMIT; i++)
 	{
 		sum = false;
-		
+
 		for(j = 0; j <= LIMIT; j++)
 		{
 			if(abundantNumbers[j] == 0)
 				continue;
-			
+
 			if(abundantNumbers[j] >= i)
 				break;
-			
+
 			k = i - abundantNumbers[j];
 			if(k <= LIMIT)
 			{
@@ -101,15 +103,15 @@ int main(void)
 				}
 			}
 		}
-		
+
 		if(!sum)
 			total += i;
 	}
-	
+
 	delete[] abundantNumbers;
-	
+
 	std::cout << "The sum of the numbers that CANNOT be written as the sum of two abundant numbers is: " << total << "\n";
-	
+
 	assert(total == 4179871);
 	return 0;
 }
