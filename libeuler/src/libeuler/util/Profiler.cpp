@@ -89,23 +89,30 @@ Profiler::Profiler(bool p)
 Profiler::~Profiler()
 {
 	if(print)
-	{
-		double elapsed = getElapsed();
-		std::ostringstream oss;
-		oss << "Profiler: " << std::fixed << std::setprecision(4)
-			<< elapsed << "s\n";
-		std::cout << oss.str();
-	}
+		printElapsed();
 }
 
 /*!
  * \return The number of seconds elapsed since this instance was constructed.
  */
-double Profiler::getElapsed()
+double Profiler::getElapsed() const
 {
 	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(
 		end - start);
-	return static_cast<double>(elapsed.count());
+	return static_cast<double>(elapsed.count()) / 1000000000.0;
+}
+
+/*!
+ * This function prints the current elapsed time since construction to
+ * standard output.
+ */
+void Profiler::printElapsed() const
+{
+	double elapsed = getElapsed();
+	std::ostringstream oss;
+	oss << "Profiler: " << std::fixed << std::setprecision(4)
+		<< elapsed << "s\n";
+	std::cout << oss.str();
 }
 }

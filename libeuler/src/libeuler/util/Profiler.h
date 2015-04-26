@@ -36,7 +36,8 @@ class Profiler
 		Profiler(bool p = false);
 		~Profiler();
 
-		double getElapsed();
+		double getElapsed() const;
+		void printElapsed() const;
 
 	private:
 		bool print;
