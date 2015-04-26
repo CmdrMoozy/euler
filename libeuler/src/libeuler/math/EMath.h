@@ -79,7 +79,7 @@ class EMath
 		static uint64_t aliquotSumDivisors(uint64_t n);
 		static uint64_t aliquotSumProperDivisors(uint64_t n);
 
-		static uint64_t integerPow(uint64_t b, uint64_t e);
+		static uint64_t integerPow(uint32_t b, uint8_t e);
 		static uint64_t modularIntegerPow(uint64_t b, uint64_t e, uint64_t m);
 		static uint32_t logBaseTen(uint64_t n);
 		static uint64_t isqrt(uint64_t n);
