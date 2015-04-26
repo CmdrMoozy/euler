@@ -31,7 +31,7 @@
 #include "libeuler/util/EBitwise.h"
 #include "libeuler/util/EByteArray.h"
 #include "libeuler/util/EDate.h"
-#include "libeuler/util/EProfiler.h"
+#include "libeuler/util/Profiler.h"
 #include "libeuler/structs/EHashMap.h"
 #include "libeuler/structs/EGrid.h"
 #include "libeuler/types/EBigInteger.h"
@@ -61,7 +61,7 @@ int main(void)
 	EBitwise::doTestSuite();
 	EByteArray::doTestSuite();
 	EDate::doTestSuite();
-	EProfiler::doTestSuite();
+	euler::Profiler::doTestSuite();
 	EHashMap<int, int>::doTestSuite();
 	EGrid<int>::doTestSuite();
 	EBigInteger::doTestSuite();

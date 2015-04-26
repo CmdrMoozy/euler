@@ -37,7 +37,7 @@ SET(euler_HEADERS
 	src/libeuler/util/EBitwise.h
 	src/libeuler/util/EByteArray.h
 	src/libeuler/util/EDate.h
-	src/libeuler/util/EProfiler.h
+	src/libeuler/util/Profiler.h
 	src/libeuler/util/EString.h
 
 )
@@ -75,7 +75,7 @@ SET(euler_SOURCES
 	src/libeuler/util/EBitwise.cpp
 	src/libeuler/util/EByteArray.cpp
 	src/libeuler/util/EDate.cpp
-	src/libeuler/util/EProfiler.cpp
+	src/libeuler/util/Profiler.cpp
 	src/libeuler/util/EString.cpp
 
 )
