@@ -16,11 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <array>
+#include <algorithm>
 #include <cassert>
 #include <cstdint>
 #include <iostream>
-#include <unordered_set>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 /*
  * The number 145 is well known for the property that the sum of the factorial
@@ -87,39 +89,72 @@ namespace
 		}
 		return result;
 	}
+
+	inline std::pair<std::vector<uint64_t>::const_iterator, bool>
+	findRepeat(const std::vector<uint64_t>& chain, const uint64_t& value)
+	{
+		// The longest loop is of size 3, as given in the problem
+		// statement. Thus, if the chain is longer, we don't need to
+		// continue searching past the last three elements.
+		std::vector<uint64_t>::const_reverse_iterator end =
+			chain.size() > 3 ? chain.rbegin() + 3 : chain.rend();
+		auto it = std::find(chain.rbegin(), end, value);
+		return std::make_pair(it.base() + 1, it != end);
+	}
 }
 
 int main(void)
 {
 	uint64_t count = 0;
-	std::array<uint64_t, MAX_START + 1> lengthCache;
-	lengthCache.fill(0);
+
+	std::unordered_map<uint64_t, uint64_t> lengthCache(MAX_START);
+	std::vector<uint64_t> chain;
+	chain.reserve(DESIRED_CHAIN_LENGTH);
 
 	for(uint64_t n = MIN_START; n <= MAX_START; ++n)
 	{
-		std::unordered_set<uint64_t> set(DESIRED_CHAIN_LENGTH);
-		uint64_t v = n;
+		chain.clear();
+		uint64_t repeat = 0;
 		uint64_t cachedLength = 0;
+
+		uint64_t v = n;
 		while(true)
 		{
-			if(v <= MAX_START)
+			auto it = lengthCache.find(v);
+			if(it != lengthCache.end())
 			{
-				if(lengthCache[v] != 0)
-				{
-					// We've seen this number before. Use
-					// the cached length from this point.
-					cachedLength = lengthCache[v];
-					break;
-				}
+				// We've seen this number before. Use the
+				// cached length from this point.
+				cachedLength = it->second;
+				break;
 			}
 
-			if(!set.insert(v).second)
+			auto repeatPair = findRepeat(chain, v);
+			if(repeatPair.second)
+			{
+				repeat = *repeatPair.first;
 				break;
+			}
+			chain.push_back(v);
 			v = digitFactorial(v);
 		}
 
-		lengthCache[n] = set.size() + cachedLength;
-		if(lengthCache[n] == DESIRED_CHAIN_LENGTH)
+		// We know the chain length of every number in this chain up
+		// to the first instance of the number we repeated. Cache the
+		// length of each of these numbers.
+		uint64_t length = chain.size() + cachedLength;
+		for(std::vector<uint64_t>::size_type idx = 0;
+			idx < chain.size(); ++idx)
+		{
+			lengthCache.insert(std::make_pair(
+				chain[idx], length - idx));
+
+			// If we've hit the repeat point, then stop here.
+			if(chain[idx] == repeat)
+				break;
+		}
+
+		if(length == DESIRED_CHAIN_LENGTH)
 			++count;
 	}
 
