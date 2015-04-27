@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "libeuler/math/EMath.h"
+#include "libeuler/math/Math.h"
 
 /*
  * The 5-digit number, 16807 = 7^5, is also a fifth power. Similarly, the
@@ -86,7 +86,7 @@ int main(void)
 		uint64_t e = MINIMUM_EXP;
 		while(true)
 		{
-			uint64_t n = EMath::integerPow(b, e);
+			uint64_t n = euler::math::ipow(b, e);
 			uint64_t digits = static_cast<uint64_t>(
 				std::floor(std::log10(
 				static_cast<long double>(n)))) + 1;

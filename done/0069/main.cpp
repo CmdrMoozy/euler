@@ -22,7 +22,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "libeuler/math/EMath.h"
+#include "libeuler/math/Math.h"
 #include "libeuler/math/EPrimeSieve.h"
 
 /*
@@ -62,18 +62,18 @@
 std::vector< std::vector<uint32_t> > composites(EPrimeSieve &p, uint32_t n, uint32_t m = 0)
 {
 	std::vector< std::vector<uint32_t> > r;
-	
+
 	for(std::set<uint32_t>::iterator it = p.begin(); it != p.end(); ++it)
 	{
 		if( (*it) > n )
 			break;
-		
+
 		if( (*it) < m )
 			continue;
-		
+
 		std::vector<uint32_t> tmp(1, (*it));
 		r.push_back(tmp);
-		
+
 		std::vector< std::vector<uint32_t> > s = composites(p, n / (*it), (*it));
 		for(size_t sit = 0; sit < s.size(); ++sit)
 		{
@@ -82,7 +82,7 @@ std::vector< std::vector<uint32_t> > composites(EPrimeSieve &p, uint32_t n, uint
 			r.push_back(tmp);
 		}
 	}
-	
+
 	return r;
 }
 
@@ -98,30 +98,30 @@ uint32_t totient(const std::vector<uint32_t> &n)
 {
 	uint32_t t = 0, h, p, e;
 	size_t i = 0, j;
-	
+
 	while(i < n.size())
 	{
 		// Retrieve the current prime.
-		
+
 		p = n[i];
-		
+
 		// Calculate its exponent, based upon how many times the prime is repeated.
-		
+
 		for(j = i + 1; j < n.size(); ++j)
 		{
 			if(n[j] != p)
 				break;
 		}
-		
+
 		e = j - i;
 		i = j;
-		
+
 		// Calculate the totient!
-		
-		h = EMath::integerPow(p, e - 1) * (p - 1);
+
+		h = euler::math::ipow(p, e - 1) * (p - 1);
 		t = (t == 0) ? h : t * h;
 	}
-	
+
 	return t;
 }
 
@@ -130,33 +130,33 @@ int main(void)
 	EPrimeSieve sieve(1000000);
 	uint32_t maxn = 0, n;
 	double maxr = 0.0, r;
-	
+
 	std::vector< std::vector<uint32_t> > numbers = composites(sieve, 1000000);
 	struct scmp {
 		bool operator()(uint32_t a, uint32_t b) {
 			return a < b;
 		}
 	} cmp;
-	
+
 	for(size_t i = 0; i < numbers.size(); ++i)
 	{
 		std::sort(numbers[i].begin(), numbers[i].end(), cmp);
-		
+
 		n = 1;
 		for(size_t j = 0; j < numbers[i].size(); ++j)
 			n *= numbers[i][j];
-		
+
 		r = static_cast<double>(n) / static_cast<double>(totient(numbers[i]));
-		
+
 		if(r > maxr)
 		{
 			maxn = n;
 			maxr = r;
 		}
 	}
-	
+
 	std::cout << "The number with the largest n/phi(n) ratio is " << maxn << " (" << maxr << ").\n";
 	assert(maxn == 510510);
-	
+
 	return 0;
 }

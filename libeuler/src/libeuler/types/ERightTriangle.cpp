@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-#include "libeuler/math/EMath.h"
+#include "libeuler/math/Math.h"
 
 #ifdef LIBEULER_DEBUG
 	#include <iostream>
@@ -208,8 +208,8 @@ bool ERightTriangle::isValidTriangle() const
 	if(!this->ETriangle::isValidTriangle())
 		return false;
 
-	c = EMath::integerPow(getA(), 2) + EMath::integerPow(getB(), 2);
-	return (c == EMath::integerPow(getC(), 2));
+	c = euler::math::ipow(getA(), 2) + euler::math::ipow(getB(), 2);
+	return (c == euler::math::ipow(getC(), 2));
 }
 
 /*!

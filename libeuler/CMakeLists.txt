@@ -20,6 +20,7 @@ SET(euler_HEADERS
 	src/libeuler/math/EExactCover.h
 	src/libeuler/math/EFactorization.h
 	src/libeuler/math/EMath.h
+	src/libeuler/math/Math.h
 	src/libeuler/math/EPrimeSieve.h
 
 	src/libeuler/structs/EGrid.h
@@ -63,6 +64,7 @@ SET(euler_SOURCES
 	src/libeuler/math/EExactCover.cpp
 	src/libeuler/math/EFactorization.cpp
 	src/libeuler/math/EMath.cpp
+	src/libeuler/math/Math.cpp
 	src/libeuler/math/EPrimeSieve.cpp
 
 	src/libeuler/types/EBigInteger.cpp

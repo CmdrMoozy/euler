@@ -19,6 +19,7 @@
 #include "EFastTotient.h"
 
 #include "libeuler/math/EMath.h"
+#include "libeuler/math/Math.h"
 #include "libeuler/math/EPrimeSieve.h"
 
 #ifdef LIBEULER_DEBUG
@@ -117,7 +118,7 @@ uint32_t EFastTotient::totient(uint32_t n)
 
 		if(e > 0)
 		{
-			h = EMath::integerPow(p, e - 1) * (p - 1);
+			h = euler::math::ipow(p, e - 1) * (p - 1);
 			t = (t == 0) ? h : t * h;
 		}
 	}

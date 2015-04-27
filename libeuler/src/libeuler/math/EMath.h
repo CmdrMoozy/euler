@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_LIBEULER_MATH_MATH_H
-#define INCLUDE_LIBEULER_MATH_MATH_H
+#ifndef INCLUDE_LIBEULER_MATH_MATH_DEPRECATED_H
+#define INCLUDE_LIBEULER_MATH_MATH_DEPRECATED_H
 
 #include <cstddef>
 #include <cstdint>
@@ -79,8 +79,6 @@ class EMath
 		static uint64_t aliquotSumDivisors(uint64_t n);
 		static uint64_t aliquotSumProperDivisors(uint64_t n);
 
-		static uint64_t integerPow(uint32_t b, uint8_t e);
-		static uint64_t modularIntegerPow(uint64_t b, uint64_t e, uint64_t m);
 		static uint32_t logBaseTen(uint64_t n);
 		static uint64_t isqrt(uint64_t n);
 		static bool isSquare(uint64_t n);

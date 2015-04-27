@@ -24,6 +24,7 @@
 
 #include "libeuler/EDefines.h"
 #include "libeuler/math/EFactorization.h"
+#include "libeuler/math/Math.h"
 #include "libeuler/util/EBitwise.h"
 
 #ifdef LIBEULER_DEBUG
@@ -629,32 +630,6 @@ void EMath::doTestSuite()
 			EASSERT( EMath::aliquotSumProperDivisors(i) == (EMath::aliquotSumDivisors(i) - i) )
 		}
 
-		// integerPow
-		for(i = 0; i <= 10; ++i)
-		{
-			for(j = 0; j <= 10; ++j)
-			{
-				rVal = (EMath::integerPow(i, j) ==
-					static_cast<uint64_t>(pow(static_cast<double>(i),
-						static_cast<double>(j))));
-
-				EASSERT(rVal)
-			}
-		}
-
-		// modularIntegerPow
-		for(i = 1; i <= 5; ++i)
-		{
-			for(j = 1; j <= 5; ++j)
-			{
-				rVal = ( EMath::modularIntegerPow( i, j, 5 ) ==
-					(static_cast<uint32_t>(pow(static_cast<double>(i),
-						static_cast<double>(j))) % 5) );
-
-				EASSERT(rVal);
-			}
-		}
-
 		// logBaseTen
 		for(i = 0; i <= 1000000; ++i)
 		{
@@ -737,7 +712,9 @@ void EMath::doTestSuite()
 					b = EMath::getPythagoreanTripleB(i, j, k);
 					c = EMath::getPythagoreanTripleC(i, j, k);
 
-					rVal = (EMath::integerPow(a, 2) + EMath::integerPow(b, 2)) == EMath::integerPow(c, 2);
+					rVal = (euler::math::ipow(a, 2) +
+						euler::math::ipow(b, 2)) ==
+						euler::math::ipow(c, 2);
 					EASSERT(rVal)
 				}
 			}
@@ -1126,7 +1103,7 @@ uint32_t EMath::repetendLength(uint32_t n, EFactorization &f)
 	factors = f.getPrimeFactors();
 
 	for(it = factors.begin(); it != factors.end(); ++it)
-		if(EMath::modularIntegerPow(10, (d / it->first), n) == 1)
+		if(euler::math::ipowmod(10, (d / it->first), n) == 1)
 			d /= it->first;
 
 	return d;
@@ -1283,119 +1260,6 @@ uint64_t EMath::aliquotSumProperDivisors(uint64_t n)
 	}
 
 	return sum;
-}
-
-/*!
- * This function uses integer math to calculate the base b raised to the eth
- * power. Note that this function does not handle any overflow.
- *
- * \param b The base.
- * \param e The exponent.
- * \return b^e
- */
-uint64_t EMath::integerPow(uint32_t b, uint8_t e)
-{
-	static constexpr uint8_t LG_PLUS_ONE[] = {
-		0, 1, 2, 2, 3, 3, 3, 3,
-		4, 4, 4, 4, 4, 4, 4, 4,
-		5, 5, 5, 5, 5, 5, 5, 5,
-		5, 5, 5, 5, 5, 5, 5, 5,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255
-	};
-
-	uint64_t result = 1;
-	switch(LG_PLUS_ONE[e])
-	{
-		case 255:
-			if (b == 1)
-				return 1;
-			return 0;
-		case 6:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		case 5:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		case 4:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		case 3:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		case 2:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		case 1:
-			if (e & 1)
-				result *= b;
-			e >>= 1;
-			b *= b;
-		default:
-			return result;
-	}
-}
-
-/*!
- * This algorithm calculates b^e (mod m). This method is known as the "right-to-left binary method," which
- * is explained in more detail here:
- *     http://en.wikipedia.org/wiki/Modular_exponentiation#Right-to-left_binary_method
- *
- * \param b The base.
- * \param e The exponent to raise the base to.
- * \param m The modulus.
- * \return b^e (mod m).
- */
-uint64_t EMath::modularIntegerPow(uint64_t b, uint64_t e, uint64_t m)
-{
-	uint64_t r = 1;
-
-	while(e > 0)
-	{
-		if(e&1)
-			r = (r*b) % m;
-
-		e >>= 1;
-		b = (b*b) % m;
-	}
-
-	return r;
 }
 
 /*!

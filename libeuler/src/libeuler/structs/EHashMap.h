@@ -25,7 +25,7 @@
 #include <cmath>
 
 #include "libeuler/EDefines.h"
-#include "libeuler/math/EMath.h"
+#include "libeuler/math/Math.h"
 
 #ifdef LIBEULER_DEBUG
 	#include <iostream>
@@ -329,7 +329,7 @@ class EHashMap
 			: bits(r), load(l), keys(0)
 		{
 			int i;
-			capacity = static_cast<int>(EMath::integerPow(2, getHashBits()));
+			capacity = static_cast<int>(euler::math::ipow(2, getHashBits()));
 
 			array = new BucketList *[getCapacity()];
 			for(i = 0; i < getCapacity(); i++)
