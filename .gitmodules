@@ -1,0 +1,3 @@
+[submodule "vrfy"]
+	path = vrfy
+	url = https://github.com/CmdrMoozy/vrfy.git

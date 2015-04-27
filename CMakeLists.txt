@@ -53,3 +53,7 @@ set(euler_LIBRARIES
 add_subdirectory(libeuler)
 add_subdirectory(done)
 add_subdirectory(new)
+
+if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
+	add_subdirectory(vrfy)
+endif()
