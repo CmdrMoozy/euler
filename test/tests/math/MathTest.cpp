@@ -26,12 +26,12 @@ namespace
 {
 void ipowTest()
 {
-	for(int i = 0; i <= 10; ++i)
+	for(unsigned int b = 0; b <= 10; ++b)
 	{
-		for(int j = 0; j <= 10; ++j)
+		for(unsigned int e = 0; e <= 10; ++e)
 		{
-			uint64_t exp = static_cast<uint64_t>(std::pow(i, j));
-			uint64_t act = euler::math::ipow(i, j);
+			uint64_t exp = static_cast<uint64_t>(std::pow(b, e));
+			uint64_t act = euler::math::ipow(b, e);
 			vrfy::assert::assertEquals(exp, act);
 		}
 	}
@@ -39,13 +39,14 @@ void ipowTest()
 
 void ipowmodTest()
 {
-	for(int i = 1; i <= 5; ++i)
+	constexpr unsigned int MODULUS = 5;
+	for(unsigned int b = 1; b <= 5; ++b)
 	{
-		for(int j = 1; j <= 5; ++j)
+		for(unsigned int e = 1; e <= 5; ++e)
 		{
 			uint64_t exp =
-			        static_cast<uint64_t>(std::pow(i, j)) % 5;
-			uint64_t act = euler::math::ipowmod(i, j, 5);
+			        static_cast<uint64_t>(std::pow(b, e)) % MODULUS;
+			uint64_t act = euler::math::ipowmod(b, e, MODULUS);
 			vrfy::assert::assertEquals(exp, act);
 		}
 	}
