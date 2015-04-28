@@ -1,5 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
