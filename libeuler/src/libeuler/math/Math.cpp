@@ -18,36 +18,6 @@
 
 #include "Math.h"
 
-/*
-// TODO - Convert unit tests.
-
-// integerPow
-for(i = 0; i <= 10; ++i)
-{
-	for(j = 0; j <= 10; ++j)
-	{
-		rVal = (EMath::integerPow(i, j) ==
-			static_cast<uint64_t>(pow(static_cast<double>(i),
-				static_cast<double>(j))));
-
-		EASSERT(rVal)
-	}
-}
-
-// modularIntegerPow
-for(i = 1; i <= 5; ++i)
-{
-	for(j = 1; j <= 5; ++j)
-	{
-		rVal = ( EMath::modularIntegerPow( i, j, 5 ) ==
-			(static_cast<uint32_t>(pow(static_cast<double>(i),
-				static_cast<double>(j))) % 5) );
-
-		EASSERT(rVal);
-	}
-}
-*/
-
 namespace
 {
 	/*!

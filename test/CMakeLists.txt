@@ -4,6 +4,9 @@ set(test_SOURCES
 
 	Test.cpp
 
+	tests/math/MathTest.cpp
+	tests/math/MathTest.h
+
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/vrfy/src)

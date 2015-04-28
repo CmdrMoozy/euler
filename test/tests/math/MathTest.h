@@ -16,15 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef INCLUDE_TESTS_MATH_MATH_TEST_H
+#define INCLUDE_TESTS_MATH_MATH_TEST_H
+
 #include <Vrfy/Vrfy.h>
 
-#include "tests/math/MathTest.h"
-
-int main(void)
+namespace euler
 {
-	vrfy::Tests tests;
-	tests.add<euler::test::MathTest>()
-		.execute();
+namespace test
+{
+/*!
+ * \brief This class defines unit test for our various math utilities.
+ */
+class MathTest : public vrfy::Test
+{
+public:
+	MathTest() = default;
+	virtual ~MathTest() = default;
 
-	return EXIT_SUCCESS;
+	/*!
+	 * This function executes all of the tests this class defines.
+	 */
+	virtual void test() override;
+};
 }
+}
+
+#endif
