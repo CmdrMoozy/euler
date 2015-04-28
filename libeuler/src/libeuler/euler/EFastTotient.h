@@ -1,5 +1,6 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler solutions, and supporting libraries and
+ *tools.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,21 +26,21 @@ class EPrimeSieve;
 
 class EFastTotient
 {
-	public:
+public:
 #ifdef LIBEULER_DEBUG
-		static void doTestSuite();
+	static void doTestSuite();
 #endif
-		
-		EFastTotient(EPrimeSieve *s, uint32_t l = 0);
-		virtual ~EFastTotient();
-		
-		uint32_t getLimit() const;
-		void setLimit(uint32_t l);
-		
-		uint32_t totient(uint32_t n);
-		
-	private:
-		EPrimeSieve *sieve;
+
+	EFastTotient(EPrimeSieve *s, uint32_t l = 0);
+	virtual ~EFastTotient();
+
+	uint32_t getLimit() const;
+	void setLimit(uint32_t l);
+
+	uint32_t totient(uint32_t n);
+
+private:
+	EPrimeSieve *sieve;
 };
 
 #endif

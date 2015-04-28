@@ -25,7 +25,8 @@
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EGeoCoord::doTestSuite()
@@ -43,34 +44,62 @@ void EGeoCoord::doTestSuite()
 
 		// Test constructors.
 
-		EGeoCoord aA( ELatLonValue(48.8583, ELatLonValue::Degrees, ELatLonValue::North),
-			ELatLonValue(2.2945, ELatLonValue::Degrees, ELatLonValue::East) );
-		EGeoCoord aB( ELatLonValue(43.0, 43.0, 24.0, ELatLonValue::North), ELatLonValue(10.0, 23.0, 39.0, ELatLonValue::East) );
+		EGeoCoord aA(ELatLonValue(48.8583, ELatLonValue::Degrees,
+		                          ELatLonValue::North),
+		             ELatLonValue(2.2945, ELatLonValue::Degrees,
+		                          ELatLonValue::East));
+		EGeoCoord aB(
+		        ELatLonValue(43.0, 43.0, 24.0, ELatLonValue::North),
+		        ELatLonValue(10.0, 23.0, 39.0, ELatLonValue::East));
 
-		EGeoCoord bA( ELatLonValue(25.0, 11.0, 49.7, ELatLonValue::North), ELatLonValue(55.0, 16.0, 26.8, ELatLonValue::East) );
-		EGeoCoord bB( ELatLonValue(25.0, 2.0, 1.0, ELatLonValue::North), ELatLonValue(121.0, 33.0, 54.0, ELatLonValue::East) );
+		EGeoCoord bA(
+		        ELatLonValue(25.0, 11.0, 49.7, ELatLonValue::North),
+		        ELatLonValue(55.0, 16.0, 26.8, ELatLonValue::East));
+		EGeoCoord bB(
+		        ELatLonValue(25.0, 2.0, 1.0, ELatLonValue::North),
+		        ELatLonValue(121.0, 33.0, 54.0, ELatLonValue::East));
 
-		EGeoCoord cA( ELatLonValue(51.0, 50.0, 0.0, ELatLonValue::North), ELatLonValue(107.0, 35.0, 60.0, ELatLonValue::East) );
-		EGeoCoord cB( ELatLonValue(51.0, 44.0, 0.0, ELatLonValue::South), ELatLonValue(72.0, 30.0, 60.0, ELatLonValue::West) );
+		EGeoCoord cA(
+		        ELatLonValue(51.0, 50.0, 0.0, ELatLonValue::North),
+		        ELatLonValue(107.0, 35.0, 60.0, ELatLonValue::East));
+		EGeoCoord cB(
+		        ELatLonValue(51.0, 44.0, 0.0, ELatLonValue::South),
+		        ELatLonValue(72.0, 30.0, 60.0, ELatLonValue::West));
 
-		EGeoCoord dA( ELatLonValue(39.0, 54.0, 50.0, ELatLonValue::North), ELatLonValue(116.0, 23.0, 30.0, ELatLonValue::East) );
-		EGeoCoord dB( ELatLonValue(34.0, 36.0, 12.0, ELatLonValue::South), ELatLonValue(58.0, 22.0, 54.0, ELatLonValue::West) );
+		EGeoCoord dA(
+		        ELatLonValue(39.0, 54.0, 50.0, ELatLonValue::North),
+		        ELatLonValue(116.0, 23.0, 30.0, ELatLonValue::East));
+		EGeoCoord dB(
+		        ELatLonValue(34.0, 36.0, 12.0, ELatLonValue::South),
+		        ELatLonValue(58.0, 22.0, 54.0, ELatLonValue::West));
 
-		EGeoCoord eA( ELatLonValue(0.0, ELatLonValue::Radians, ELatLonValue::North),
-			ELatLonValue(0.0, ELatLonValue::Radians, ELatLonValue::East) );
-		EGeoCoord eB( ELatLonValue(0.5, ELatLonValue::Degrees, ELatLonValue::South),
-			ELatLonValue(179.5, ELatLonValue::Degrees, ELatLonValue::West) );
+		EGeoCoord eA(ELatLonValue(0.0, ELatLonValue::Radians,
+		                          ELatLonValue::North),
+		             ELatLonValue(0.0, ELatLonValue::Radians,
+		                          ELatLonValue::East));
+		EGeoCoord eB(ELatLonValue(0.5, ELatLonValue::Degrees,
+		                          ELatLonValue::South),
+		             ELatLonValue(179.5, ELatLonValue::Degrees,
+		                          ELatLonValue::West));
 
 		// Test getHemisphere() and inSameHemisphere().
 
-		EASSERT(aA.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(aB.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(bA.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(bB.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(cA.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(cB.getHemisphere() == (EGeoCoord::Southern | EGeoCoord::Western))
-		EASSERT(dA.getHemisphere() == (EGeoCoord::Northern | EGeoCoord::Eastern))
-		EASSERT(dB.getHemisphere() == (EGeoCoord::Southern | EGeoCoord::Western))
+		EASSERT(aA.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(aB.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(bA.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(bB.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(cA.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(cB.getHemisphere() ==
+		        (EGeoCoord::Southern | EGeoCoord::Western))
+		EASSERT(dA.getHemisphere() ==
+		        (EGeoCoord::Northern | EGeoCoord::Eastern))
+		EASSERT(dB.getHemisphere() ==
+		        (EGeoCoord::Southern | EGeoCoord::Western))
 
 		EASSERT(aA.inSameHemisphere(cA))
 		EASSERT(!aA.inSameHemisphere(cB))
@@ -81,23 +110,23 @@ void EGeoCoord::doTestSuite()
 
 		aA.getDistanceTo(distance, aB);
 		dld = mpfr_get_ld(distance, MPFR_RNDN);
-		EASSERT((dld/1000.0 - 844.0) < 1.0)
+		EASSERT((dld / 1000.0 - 844.0) < 1.0)
 
 		bA.getDistanceTo(distance, bB);
 		dld = mpfr_get_ld(distance, MPFR_RNDN);
-		EASSERT((dld/1000.0 - 6610.0) < 1.0)
+		EASSERT((dld / 1000.0 - 6610.0) < 1.0)
 
 		cA.getDistanceTo(distance, cB);
 		dld = mpfr_get_ld(distance, MPFR_RNDN);
-		EASSERT((dld/1000.0 - 19994.0) < 1.0)
+		EASSERT((dld / 1000.0 - 19994.0) < 1.0)
 
 		dA.getDistanceTo(distance, dB);
 		dld = mpfr_get_ld(distance, MPFR_RNDN);
-		EASSERT((dld/1000.0 - 19262.0) < 1.0)
+		EASSERT((dld / 1000.0 - 19262.0) < 1.0)
 
 		eA.getDistanceTo(distance, eB);
 		dld = mpfr_get_ld(distance, MPFR_RNDN);
-		EASSERT((dld/1000.0 - 19942.0) < 1.0)
+		EASSERT((dld / 1000.0 - 19942.0) < 1.0)
 
 		// Test assignment and equivalence operators.
 
@@ -114,7 +143,7 @@ void EGeoCoord::doTestSuite()
 	}
 	catch(EAssertionException &e)
 	{
-std::cout << "Caught EAssertionException: " << e.what() << "\n";
+		std::cout << "Caught EAssertionException: " << e.what() << "\n";
 		ELUNUSED(e)
 		success = false;
 	}
@@ -134,7 +163,8 @@ std::cout << "Caught EAssertionException: " << e.what() << "\n";
 #endif
 
 /*!
- * This is our default constructor, which creates a new object with default-initialized latitude and longitude
+ * This is our default constructor, which creates a new object with
+ * default-initialized latitude and longitude
  * values.
  */
 EGeoCoord::EGeoCoord()
@@ -146,19 +176,21 @@ EGeoCoord::EGeoCoord()
 }
 
 /*!
- * This is our copy constructor, which creates a new coordinate equal to the given other one.
+ * This is our copy constructor, which creates a new coordinate equal to the
+ *given other one.
  *
  * \param o The coordinate to make ourself equal to.
  */
-EGeoCoord::EGeoCoord(const EGeoCoord &o)
-	: latitude(NULL), longitude(NULL)
+EGeoCoord::EGeoCoord(const EGeoCoord &o) : latitude(NULL), longitude(NULL)
 {
 	(*this) = o;
 }
 
 /*!
- * This is our main constructor, which creates a new coordinate based upon the given longitude and latitude
- * values. Note that if the "latitude" parameter is, in fact, longitude, then it is discarded for a default-constructed
+ * This is our main constructor, which creates a new coordinate based upon the
+ *given longitude and latitude
+ * values. Note that if the "latitude" parameter is, in fact, longitude, then it
+ *is discarded for a default-constructed
  * value (same for the other parameter).
  *
  * \param lat The latitude portion of our coordinate.
@@ -184,15 +216,18 @@ EGeoCoord::~EGeoCoord()
 }
 
 /*!
- * This is our assignment operator, which sets our value equal to that of the given other coordinate.
+ * This is our assignment operator, which sets our value equal to that of the
+ *given other coordinate.
  *
  * \param o The coordinate to make ourself equal to.
  * \return A reference to this, so this operator can be chained.
  */
 EGeoCoord &EGeoCoord::operator=(const EGeoCoord &o)
 {
-	if(latitude == NULL) latitude = new ELatLonValue();
-	if(longitude == NULL) longitude = new ELatLonValue();
+	if(latitude == NULL)
+		latitude = new ELatLonValue();
+	if(longitude == NULL)
+		longitude = new ELatLonValue();
 
 	(*latitude) = (*o.latitude);
 	(*longitude) = (*o.longitude);
@@ -201,18 +236,22 @@ EGeoCoord &EGeoCoord::operator=(const EGeoCoord &o)
 }
 
 /*!
- * This is our equivalence operator. It tests if this coordinate is equivalent to the given other coordinate.
- * Note that this is comparing floating point numbers; this can return false in unexpected
- * situations due to rounding. If you want to account for some rounding error, compare the return
- * value of toValue() (on our latitude and longitude values, respectively) manually.
+ * This is our equivalence operator. It tests if this coordinate is equivalent
+ *to the given other coordinate.
+ * Note that this is comparing floating point numbers; this can return false in
+ *unexpected
+ * situations due to rounding. If you want to account for some rounding error,
+ *compare the return
+ * value of toValue() (on our latitude and longitude values, respectively)
+ *manually.
  *
  * \param o The value to compare ourself to.
  * \return True if we are equal, or false otherwise.
  */
 bool EGeoCoord::operator==(const EGeoCoord &o) const
 {
-	return ( (getLatitude() == o.getLatitude()) &&
-		(getLongitude() == o.getLongitude()) );
+	return ((getLatitude() == o.getLatitude()) &&
+	        (getLongitude() == o.getLongitude()));
 }
 
 /*!
@@ -236,7 +275,8 @@ const ELatLonValue &EGeoCoord::getLongitude() const
 }
 
 /*!
- * This function returns the hemisphere our coordinate is in. This is two of our HemisphereFlags values
+ * This function returns the hemisphere our coordinate is in. This is two of our
+ *HemisphereFlags values
  * OR'ed together - North/South | East/West.
  *
  * \return A flag specifying what hemisphere this coordinate is in.
@@ -259,7 +299,8 @@ int EGeoCoord::getHemisphere() const
 }
 
 /*!
- * This function tests if this coordinate and the given other coordinate are in the same hemisphere.
+ * This function tests if this coordinate and the given other coordinate are in
+ *the same hemisphere.
  *
  * \param o The other coordinate to test.
  * \return True if we are in the same hemisphere, or false otherwise.
@@ -270,18 +311,22 @@ bool EGeoCoord::inSameHemisphere(const EGeoCoord &o) const
 }
 
 /*!
- * This function tests if this coordinate and the given other coordinate are approximately antipodal.
- * We allow for an accuracy parameter, with is 5.0 (degrees) by default, which means we return true
+ * This function tests if this coordinate and the given other coordinate are
+ *approximately antipodal.
+ * We allow for an accuracy parameter, with is 5.0 (degrees) by default, which
+ *means we return true
  * if the other point is within 5.0 degrees of being antipodal.
  *
  * \param o The other coordinate to test.
  * \param a The "accuracy" - 5.0deg by default.
- * \return True if our coordinates are (approximately) antipodal, or false otherwise.
+ * \return True if our coordinates are (approximately) antipodal, or false
+ *otherwise.
  */
 bool EGeoCoord::isAntipodal(const EGeoCoord &o, double a) const
 {
 	// If we're in the same hemisphere, just return false.
-	if(inSameHemisphere(o)) return false;
+	if(inSameHemisphere(o))
+		return false;
 
 	// Initialize variables.
 
@@ -313,7 +358,8 @@ bool EGeoCoord::isAntipodal(const EGeoCoord &o, double a) const
 
 	// Test if it is within our tolerance.
 
-	bool ret = ((mpfr_get_d(latA, MPFR_RNDN) <= a) && (mpfr_get_d(lonA, MPFR_RNDN) <= a));
+	bool ret = ((mpfr_get_d(latA, MPFR_RNDN) <= a) &&
+	            (mpfr_get_d(lonA, MPFR_RNDN) <= a));
 
 	// Clear memory.
 
@@ -328,8 +374,10 @@ bool EGeoCoord::isAntipodal(const EGeoCoord &o, double a) const
 }
 
 /*!
- * This function gives a fairly approximate midpoint between our point and the given other point. This
- * is done, generally speaking, using the great circle arc between our two points.
+ * This function gives a fairly approximate midpoint between our point and the
+ *given other point. This
+ * is done, generally speaking, using the great circle arc between our two
+ *points.
  *
  * \param o The "end" coordinate.
  * \param p The number of bits of precision to use.
@@ -360,14 +408,18 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
 	getLatitude().toValue(latA, ELatLonValue::Radians);
 	getLongitude().toValue(lonA, ELatLonValue::Radians);
 
-	if(getHemisphere() & EGeoCoord::Southern) mpfr_neg(latA, latA, MPFR_RNDN);
-	if(getHemisphere() & EGeoCoord::Western) mpfr_neg(lonA, lonA, MPFR_RNDN);
+	if(getHemisphere() & EGeoCoord::Southern)
+		mpfr_neg(latA, latA, MPFR_RNDN);
+	if(getHemisphere() & EGeoCoord::Western)
+		mpfr_neg(lonA, lonA, MPFR_RNDN);
 
 	o.getLatitude().toValue(latB, ELatLonValue::Radians);
 	o.getLongitude().toValue(lonB, ELatLonValue::Radians);
 
-	if(o.getHemisphere() & EGeoCoord::Southern) mpfr_neg(latB, latB, MPFR_RNDN);
-	if(o.getHemisphere() & EGeoCoord::Western) mpfr_neg(lonB, lonB, MPFR_RNDN);
+	if(o.getHemisphere() & EGeoCoord::Southern)
+		mpfr_neg(latB, latB, MPFR_RNDN);
+	if(o.getHemisphere() & EGeoCoord::Western)
+		mpfr_neg(lonB, lonB, MPFR_RNDN);
 
 	/*
 	 * Compute Bx - given by:
@@ -391,7 +443,8 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
 
 	/*
 	 * Compute newLat - given by:
-	 *     newLat = atan2( sin(latA) + sin(latB), sqrt( ( cos(latA)+Bx )^2 + By^2 )
+	 *     newLat = atan2( sin(latA) + sin(latB), sqrt( ( cos(latA)+Bx )^2 +
+	 * By^2 )
 	 */
 
 	mpfr_cos(newLat, latA, MPFR_RNDN);
@@ -407,7 +460,8 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
 	mpfr_sin(tmpB, latB, MPFR_RNDN);
 	mpfr_add(tmpA, tmpA, tmpB, MPFR_RNDN);
 
-	mpfr_atan2(newLat, tmpA, newLat, MPFR_RNDN); // newLat contains our result.
+	mpfr_atan2(newLat, tmpA, newLat,
+	           MPFR_RNDN); // newLat contains our result.
 
 	/*
 	 * Compute newLon - given by:
@@ -417,15 +471,20 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
 	mpfr_cos(newLon, latA, MPFR_RNDN);
 	mpfr_add(newLon, newLon, Bx, MPFR_RNDN);
 	mpfr_atan2(newLon, By, newLon, MPFR_RNDN);
-	mpfr_add(newLon, lonA, newLon, MPFR_RNDN); // newLon contains our result.
+	mpfr_add(newLon, lonA, newLon,
+	         MPFR_RNDN); // newLon contains our result.
 
 	// Create our new coordinate.
 
-	ELatLonValue::ValueDirection latDir = (mpfr_sgn(newLat) < 0 ? ELatLonValue::South : ELatLonValue::North);
-	ELatLonValue::ValueDirection lonDir = (mpfr_sgn(newLon) < 0 ? ELatLonValue::West : ELatLonValue::East);
+	ELatLonValue::ValueDirection latDir =
+	        (mpfr_sgn(newLat) < 0 ? ELatLonValue::South
+	                              : ELatLonValue::North);
+	ELatLonValue::ValueDirection lonDir =
+	        (mpfr_sgn(newLon) < 0 ? ELatLonValue::West
+	                              : ELatLonValue::East);
 
-	EGeoCoord ret( ELatLonValue(newLat, ELatLonValue::Radians, latDir),
-		ELatLonValue(newLon, ELatLonValue::Radians, lonDir) );
+	EGeoCoord ret(ELatLonValue(newLat, ELatLonValue::Radians, latDir),
+	              ELatLonValue(newLon, ELatLonValue::Radians, lonDir));
 
 	// Clean up memory.
 
@@ -446,7 +505,8 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
 }
 
 /*!
- * This function gets the distance between this point and the given other point. For more information:
+ * This function gets the distance between this point and the given other point.
+ *For more information:
  *     http://en.wikipedia.org/wiki/Vincenty%27s_formulae
  *
  * \param d The destination variable to store our result in.
@@ -455,10 +515,10 @@ EGeoCoord EGeoCoord::getMidpointTo(const EGeoCoord &o, mpfr_prec_t p) const
  */
 void EGeoCoord::getDistanceTo(mpfr_t d, const EGeoCoord &b, mpfr_prec_t p) const
 {
-
 	if(isAntipodal(b))
 	{
-		// Our formula fails to converge for nearly-antipodal points. Calculate the distance using a midpoint intstead.
+		// Our formula fails to converge for nearly-antipodal points.
+		// Calculate the distance using a midpoint intstead.
 
 		EGeoCoord mid = getMidpointTo(b);
 
@@ -479,7 +539,8 @@ void EGeoCoord::getDistanceTo(mpfr_t d, const EGeoCoord &b, mpfr_prec_t p) const
 }
 
 /*!
- * This function normalizes our coordinate - this means we ensure that our lat/lon values really ARE latitude/longitude,
+ * This function normalizes our coordinate - this means we ensure that our
+ * lat/lon values really ARE latitude/longitude,
  * and if not, sets them to default-constructed values.
  */
 void EGeoCoord::normalize()
@@ -492,15 +553,18 @@ void EGeoCoord::normalize()
 }
 
 /*!
- * This is our behind-the-scenes function that actually does distance calculations for us. The result will be stored in d, and will
- * use an accuracy of p bits (a value around 80 is more than enough to be accurate to a fraction of a millimeter).
+ * This is our behind-the-scenes function that actually does distance
+ *calculations for us. The result will be stored in d, and will
+ * use an accuracy of p bits (a value around 80 is more than enough to be
+ *accurate to a fraction of a millimeter).
  *
  * \param d The destination variable to store our result in.
  * \param cA Coordinate "A".
  * \param cB Coordinate "B".
  * \param p The number of bits of precision to use.
  */
-void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoord &cB, mpfr_prec_t p) const
+void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA,
+                                    const EGeoCoord &cB, mpfr_prec_t p) const
 {
 	// Variables.
 
@@ -509,14 +573,16 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 	mpfr_t latA, lonA, latB, lonB;
 	mpfr_t U1, U2, L;
 	mpfr_t sinU1, cosU1, sinU2, cosU2;
-	mpfr_t lambda, sinSigma, cosSigma, sigma, sinAzimuth, cos2Azimuth, cos2SigmaM, C;
+	mpfr_t lambda, sinSigma, cosSigma, sigma, sinAzimuth, cos2Azimuth,
+	        cos2SigmaM, C;
 	mpfr_t u2, A, B, deltaSigma;
 
 	// Initialize variables.
 
 	mpfr_init2(convergence, p);
 	mpfr_set_ui(convergence, 10, MPFR_RNDN);
-	mpfr_pow_si(convergence, convergence, -digitsFromPrecision(EABS(p)), MPFR_RNDN);
+	mpfr_pow_si(convergence, convergence, -digitsFromPrecision(EABS(p)),
+	            MPFR_RNDN);
 
 	mpfr_init2(cDelta, p);
 
@@ -568,16 +634,21 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 	cA.getLatitude().toValue(latA, ELatLonValue::Radians);
 	cA.getLongitude().toValue(lonA, ELatLonValue::Radians);
 
-	if(cA.getHemisphere() & EGeoCoord::Southern) mpfr_neg(latA, latA, MPFR_RNDN);
-	if(cA.getHemisphere() & EGeoCoord::Western) mpfr_neg(lonA, lonA, MPFR_RNDN);
+	if(cA.getHemisphere() & EGeoCoord::Southern)
+		mpfr_neg(latA, latA, MPFR_RNDN);
+	if(cA.getHemisphere() & EGeoCoord::Western)
+		mpfr_neg(lonA, lonA, MPFR_RNDN);
 
 	cB.getLatitude().toValue(latB, ELatLonValue::Radians);
 	cB.getLongitude().toValue(lonB, ELatLonValue::Radians);
 
-	if(cB.getHemisphere() & EGeoCoord::Southern) mpfr_neg(latB, latB, MPFR_RNDN);
-	if(cB.getHemisphere() & EGeoCoord::Western) mpfr_neg(lonB, lonB, MPFR_RNDN);
+	if(cB.getHemisphere() & EGeoCoord::Southern)
+		mpfr_neg(latB, latB, MPFR_RNDN);
+	if(cB.getHemisphere() & EGeoCoord::Western)
+		mpfr_neg(lonB, lonB, MPFR_RNDN);
 
-	// Calculate U1 - reduced latitude of point A. Given by: atan( (1-f) * tan(latA) )
+	// Calculate U1 - reduced latitude of point A. Given by: atan( (1-f) *
+	// tan(latA) )
 
 	mpfr_set_ui(tmpA, 1, MPFR_RNDN);
 	mpfr_sub(tmpA, tmpA, f, MPFR_RNDN);
@@ -592,7 +663,8 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 	mpfr_sin(sinU1, U1, MPFR_RNDN);
 	mpfr_cos(cosU1, U1, MPFR_RNDN);
 
-	// Calculate U2 - reduced latitude of point B. Given by: atan( (1-f) * tan(latB) )
+	// Calculate U2 - reduced latitude of point B. Given by: atan( (1-f) *
+	// tan(latB) )
 
 	mpfr_set_ui(tmpA, 1, MPFR_RNDN);
 	mpfr_sub(tmpA, tmpA, f, MPFR_RNDN);
@@ -619,10 +691,11 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 
 	do
 	{
-
 		/*
 		 * Compute sin(sigma) - given by:
-		 *     sin(sigma) = sqrt( ( cos(U2) * sin(lambda) )^2 + ( ( cos(U1) * sin(U2) ) - ( sin(U1) * cos(U2) * cos(lambda) ) )^2 )
+		 *     sin(sigma) = sqrt( ( cos(U2) * sin(lambda) )^2 + ( (
+		 * cos(U1) * sin(U2) ) - ( sin(U1) * cos(U2) * cos(lambda) ) )^2
+		 * )
 		 */
 
 		mpfr_sin(tmpA, lambda, MPFR_RNDN);
@@ -639,11 +712,13 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 		mpfr_pow_ui(tmpB, tmpB, 2, MPFR_RNDN);
 
 		mpfr_add(tmpA, tmpA, tmpB, MPFR_RNDN);
-		mpfr_sqrt(sinSigma, tmpA, MPFR_RNDN); // sinSigma contains our result.
+		mpfr_sqrt(sinSigma, tmpA,
+		          MPFR_RNDN); // sinSigma contains our result.
 
 		/*
 		 * Compute cos(sigma) - given by:
-		 *     cos(sigma) = ( sin(U1) * sin(U2) ) + ( cos(U1) * cos(U2) * cos(lambda) )
+		 *     cos(sigma) = ( sin(U1) * sin(U2) ) + ( cos(U1) * cos(U2)
+		 * * cos(lambda) )
 		 */
 
 		mpfr_mul(tmpA, sinU1, sinU2, MPFR_RNDN);
@@ -652,24 +727,28 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 		mpfr_cos(tmpC, lambda, MPFR_RNDN);
 		mpfr_mul(tmpB, tmpB, tmpC, MPFR_RNDN);
 
-		mpfr_add(cosSigma, tmpA, tmpB, MPFR_RNDN); // cosSigma contains our result.
+		mpfr_add(cosSigma, tmpA, tmpB,
+		         MPFR_RNDN); // cosSigma contains our result.
 
 		/*
 		 * Compute sigma - given by:
 		 *     sigma = atan2( sin(sigma), cos(sigma) )
 		 */
 
-		mpfr_atan2(sigma, sinSigma, cosSigma, MPFR_RNDN); // sigma contains our result.
+		mpfr_atan2(sigma, sinSigma, cosSigma,
+		           MPFR_RNDN); // sigma contains our result.
 
 		/*
 		 * Compute sin(azimuth) - given by:
-		 *     sin(azimuth) = ( cos(U1) * cos(U2) * sin(lambda) ) / sin(sigma)
+		 *     sin(azimuth) = ( cos(U1) * cos(U2) * sin(lambda) ) /
+		 * sin(sigma)
 		 */
 
 		mpfr_mul(sinAzimuth, cosU1, cosU2, MPFR_RNDN);
 		mpfr_sin(tmpA, lambda, MPFR_RNDN);
 		mpfr_mul(sinAzimuth, sinAzimuth, tmpA, MPFR_RNDN);
-		mpfr_div(sinAzimuth, sinAzimuth, sinSigma, MPFR_RNDN); // sinAzimuth contains our result.
+		mpfr_div(sinAzimuth, sinAzimuth, sinSigma,
+		         MPFR_RNDN); // sinAzimuth contains our result.
 
 		/*
 		 * Compute cos2(azimuth) - given by:
@@ -678,17 +757,20 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 
 		mpfr_pow_ui(cos2Azimuth, sinAzimuth, 2, MPFR_RNDN);
 		mpfr_set_ui(tmpA, 1, MPFR_RNDN);
-		mpfr_sub(cos2Azimuth, tmpA, cos2Azimuth, MPFR_RNDN); // cos2Azimuth contains our result.
+		mpfr_sub(cos2Azimuth, tmpA, cos2Azimuth,
+		         MPFR_RNDN); // cos2Azimuth contains our result.
 
 		/*
 		 * Compute cos(2sigmam) - given by:
-		 *     cos(2sigmam) = cos(sigma) - ( ( 2 * sin(U1) * sin(U2) ) / cos2(azimuth) )
+		 *     cos(2sigmam) = cos(sigma) - ( ( 2 * sin(U1) * sin(U2) ) /
+		 * cos2(azimuth) )
 		 */
 
 		mpfr_mul(tmpA, sinU1, sinU2, MPFR_RNDN);
 		mpfr_mul_ui(tmpA, tmpA, 2, MPFR_RNDN);
 		mpfr_div(tmpA, tmpA, cos2Azimuth, MPFR_RNDN);
-		mpfr_sub(cos2SigmaM, cosSigma, tmpA, MPFR_RNDN); // cos2SigmaM contains our result.
+		mpfr_sub(cos2SigmaM, cosSigma, tmpA,
+		         MPFR_RNDN); // cos2SigmaM contains our result.
 
 		/*
 		 * Compute C - given by:
@@ -707,7 +789,8 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 
 		/*
 		 * Compute new theta - given by:
-		 *     theta = L + (1-C)*f*sin(azimuth)*( sigma + C*sin(sigma)*( cos2SigmaM +
+		 *     theta = L + (1-C)*f*sin(azimuth)*( sigma + C*sin(sigma)*(
+		 * cos2SigmaM +
 		 *       C*cos(sigma)*(-1 + 2 * cos2SigmaM^2))))
 		 */
 
@@ -789,7 +872,8 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 
 	/*
 	 * Compute delta sigma - given by:
-	 *     delta sigma = B sinSigma ( cos2SigmaM + (1/4)B( cosSigma( -1 + 2cos2SigmaM^2)
+	 *     delta sigma = B sinSigma ( cos2SigmaM + (1/4)B( cosSigma( -1 +
+	 * 2cos2SigmaM^2)
 	 */
 
 	mpfr_pow_ui(deltaSigma, cos2SigmaM, 2, MPFR_RNDN);
@@ -819,7 +903,8 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 	mpfr_add(deltaSigma, cos2SigmaM, deltaSigma, MPFR_RNDN);
 
 	mpfr_mul(deltaSigma, sinSigma, deltaSigma, MPFR_RNDN);
-	mpfr_mul(deltaSigma, B, deltaSigma, MPFR_RNDN); // deltaSigma contains our result.
+	mpfr_mul(deltaSigma, B, deltaSigma,
+	         MPFR_RNDN); // deltaSigma contains our result.
 
 	/*
 	 * FINALLY - Compute s - given by:
@@ -868,7 +953,8 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA, const EGeoCoo
 }
 
 /*!
- * This is a convenience function that will approximate the number of digits of accuracy a given number of bits
+ * This is a convenience function that will approximate the number of digits of
+ *accuracy a given number of bits
  * of accuracy will provide.
  *
  * \param p The number of bits of accuracy.

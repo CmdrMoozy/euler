@@ -1,5 +1,6 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler solutions, and supporting libraries and
+ *tools.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,14 +27,15 @@ class EOutOfBoundsException;
 
 class ENumberGrid : public EGrid<int>
 {
-	public:
+public:
 #ifdef LIBEULER_DEBUG
-		static void doTestSuite();
+	static void doTestSuite();
 #endif
 
-		ENumberGrid(int s = 0);
+	ENumberGrid(int s = 0);
 
-		int greatestConsecutiveProduct(int n) const throw(EOutOfBoundsException &);
+	int greatestConsecutiveProduct(int n) const
+	        throw(EOutOfBoundsException &);
 };
 
 #endif

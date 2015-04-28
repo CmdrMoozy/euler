@@ -20,22 +20,22 @@
 
 namespace
 {
-	/*!
-	 * This is a utility function which performs a single integer power
-	 * step. This is a simplified implementation of the typical modular
-	 * integer power algorithm.
-	 *
-	 * \param result The result to update.
-	 * \param b The base to use and update.
-	 * \param e The exponent to use and update.
-	 */
-	inline void ipowStep(uint64_t& result, uint64_t& b, uint8_t& e)
-	{
-		if(e & 1)
-			result *= b;
-		e >>= 1;
-		b *= b;
-	}
+/*!
+ * This is a utility function which performs a single integer power
+ * step. This is a simplified implementation of the typical modular
+ * integer power algorithm.
+ *
+ * \param result The result to update.
+ * \param b The base to use and update.
+ * \param e The exponent to use and update.
+ */
+inline void ipowStep(uint64_t &result, uint64_t &b, uint8_t &e)
+{
+	if(e & 1)
+		result *= b;
+	e >>= 1;
+	b *= b;
+}
 }
 
 namespace euler
@@ -45,54 +45,48 @@ namespace math
 uint64_t ipow(uint64_t b, uint8_t e)
 {
 	static constexpr uint8_t LG_PLUS_ONE[] = {
-		0, 1, 2, 2, 3, 3, 3, 3,
-		4, 4, 4, 4, 4, 4, 4, 4,
-		5, 5, 5, 5, 5, 5, 5, 5,
-		5, 5, 5, 5, 5, 5, 5, 5,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255,
-		255, 255, 255, 255, 255, 255, 255, 255
-	};
+	        0,   1,   2,   2,   3,   3,   3,   3,   4,   4,   4,   4,   4,
+	        4,   4,   4,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,
+	        5,   5,   5,   5,   5,   5,   6,   6,   6,   6,   6,   6,   6,
+	        6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   6,
+	        6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   6,   255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	        255, 255, 255, 255, 255, 255, 255, 255, 255};
 
 	uint64_t result = 1;
 	switch(LG_PLUS_ONE[e])
 	{
-		case 255:
-			if (b == 1)
-				return 1;
-			return 0;
-		case 6: ipowStep(result, b, e);
-		case 5: ipowStep(result, b, e);
-		case 4: ipowStep(result, b, e);
-		case 3: ipowStep(result, b, e);
-		case 2: ipowStep(result, b, e);
-		case 1: ipowStep(result, b, e);
-		default: return result;
+	case 255:
+		if(b == 1)
+			return 1;
+		return 0;
+	case 6:
+		ipowStep(result, b, e);
+	case 5:
+		ipowStep(result, b, e);
+	case 4:
+		ipowStep(result, b, e);
+	case 3:
+		ipowStep(result, b, e);
+	case 2:
+		ipowStep(result, b, e);
+	case 1:
+		ipowStep(result, b, e);
+	default:
+		return result;
 	}
 }
 

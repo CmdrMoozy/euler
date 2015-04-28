@@ -23,15 +23,16 @@
 #include "libeuler/math/EPrimeSieve.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
-	#include "libeuler/EExceptions.h"
+#include "libeuler/EDefines.h"
+#include "libeuler/EExceptions.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EFastTotient::doTestSuite()
@@ -87,30 +88,38 @@ uint32_t EFastTotient::totient(uint32_t n)
 {
 	// Handle some cases exactly.
 
-	if(n == 0) return 0;
-	if(n == 1) return 1;
+	if(n == 0)
+		return 0;
+	if(n == 1)
+		return 1;
 
-	// This can be very slow; callers are encouraged to set an upper limit BEFORE calling this function.
+	// This can be very slow; callers are encouraged to set an upper limit
+	// BEFORE calling this function.
 
-	if( n > getLimit() )
+	if(n > getLimit())
 		sieve->setLimit(n);
 
 	/*
-	 * Because the totient is multiplicative, we are going to calculate it based upon the given number's prime
-	 * factorization. This is so we don't need to calculate the GCD of nearly as many numbers, as well as the
-	 * fact that the totient of a prime p is exactly p-1, so we do not need to really "calculate" it.
+	 * Because the totient is multiplicative, we are going to calculate it
+	 * based upon the given number's prime
+	 * factorization. This is so we don't need to calculate the GCD of
+	 * nearly as many numbers, as well as the
+	 * fact that the totient of a prime p is exactly p-1, so we do not need
+	 * to really "calculate" it.
 	 */
 
 	uint32_t t = 0, h, p, e;
 
-	for(std::set<uint32_t>::iterator it = sieve->begin(); it != sieve->end(); ++it)
+	for(std::set<uint32_t>::iterator it = sieve->begin();
+	    it != sieve->end(); ++it)
 	{
-		if(n == 1) break;
+		if(n == 1)
+			break;
 
 		e = 0;
 		p = (*it);
 
-		while( (n % (*it)) == 0 )
+		while((n % (*it)) == 0)
 		{
 			n /= (*it);
 			++e;

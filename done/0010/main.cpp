@@ -47,7 +47,8 @@ int main(void)
 	for(it = s.begin(); it != s.end(); it++)
 		total += (*it);
 
-	std::cout << "The sum of all primes less than 2,000,000 is: " << total << "\n";
+	std::cout << "The sum of all primes less than 2,000,000 is: " << total
+	          << "\n";
 
 	assert(total == 142913828922);
 	return 0;

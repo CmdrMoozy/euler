@@ -27,12 +27,13 @@
 #include "libeuler/util/EBitwise.h"
 
 #ifdef LIBEULER_DEBUG
-	#include "libeuler/EExceptions.h"
+#include "libeuler/EExceptions.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EPoker::doTestSuite()
@@ -43,7 +44,6 @@ void EPoker::doTestSuite()
 	try
 	{
 		success = true;
-
 
 		// Verify that repeated parses produce the same results as a
 		// single parse call.
@@ -103,17 +103,18 @@ void EPoker::doTestSuite()
  * This is our default constructor, which creates a new empty object.
  */
 EPoker::EPoker()
-	: cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
+        : cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
 {
 }
 
 /*!
- * This is our copy constructor, which creates a new object equal to the given other object.
+ * This is our copy constructor, which creates a new object equal to the given
+ *other object.
  *
  * \param o The object to use for an initial value
  */
 EPoker::EPoker(const EPoker &o)
-	: cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
+        : cards(0), values(0), rankValid(false), rank(HighCard), rankCards(0)
 {
 	(*this) = o;
 }
@@ -126,7 +127,8 @@ EPoker::~EPoker()
 }
 
 /*!
- * This is our assignment operator, which makes our value equal to that of the given other object.
+ * This is our assignment operator, which makes our value equal to that of the
+ *given other object.
  *
  * \param o The object to make ourself equal to.
  * \return A reference to this, so this operator can be chained.
@@ -150,9 +152,11 @@ EPoker &EPoker::operator=(const EPoker &o)
 }
 
 /*!
- * This comparison operator tests whether this hand's rank is equal to that of the given other hand.
+ * This comparison operator tests whether this hand's rank is equal to that of
+ *the given other hand.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -164,9 +168,11 @@ bool EPoker::operator==(const EPoker &o) const
 }
 
 /*!
- * This comparison operator tests whether this hand's rank is less than that of the given other hand.
+ * This comparison operator tests whether this hand's rank is less than that of
+ *the given other hand.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -178,9 +184,11 @@ bool EPoker::operator<(const EPoker &o) const
 }
 
 /*!
- * This comparison operator tests whether this hand's rank is less than or equal to that of the given other hand.
+ * This comparison operator tests whether this hand's rank is less than or equal
+ *to that of the given other hand.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -192,9 +200,11 @@ bool EPoker::operator<=(const EPoker &o) const
 }
 
 /*!
- * This comparison operator tests whether this hand's rank is greater than that of the given other hand.
+ * This comparison operator tests whether this hand's rank is greater than that
+ *of the given other hand.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -206,9 +216,11 @@ bool EPoker::operator>(const EPoker &o) const
 }
 
 /*!
- * This comparison operator tests whether this hand's rank is greater than or equal to that of the given other hand.
+ * This comparison operator tests whether this hand's rank is greater than or
+ *equal to that of the given other hand.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -220,15 +232,20 @@ bool EPoker::operator>=(const EPoker &o) const
 }
 
 /*!
- * This function sets the cards present in our deck using a string. This string should be formatted as follows:
+ * This function sets the cards present in our deck using a string. This string
+ *should be formatted as follows:
  *
  *     "VS VS VS VS VS"
  *
- * Where 'V' represents the card value, and 'S' represents the card suit. 'V' should be one of 2, 3, 4, 5, 6, 7,
- * 8, 9, T(en), J(ack), Q(ueen), K(ing), A(ce) and 'S' should be one of C(lubs), D(iamonds), H,(earts) S(pades).
+ * Where 'V' represents the card value, and 'S' represents the card suit. 'V'
+ *should be one of 2, 3, 4, 5, 6, 7,
+ * 8, 9, T(en), J(ack), Q(ueen), K(ing), A(ce) and 'S' should be one of C(lubs),
+ *D(iamonds), H,(earts) S(pades).
  *
- * If for some reason the string given cannot be parsed successfully, this function will return false to indicate
- * this, and the hand will be emptied. If this function returns true, it is also the case that isValid() should
+ * If for some reason the string given cannot be parsed successfully, this
+ *function will return false to indicate
+ * this, and the hand will be emptied. If this function returns true, it is also
+ *the case that isValid() should
  * return true (at least until you modify the hand).
  *
  * \param s The string to parse.
@@ -241,7 +258,8 @@ bool EPoker::parse(const std::string &s)
 	EPoker::CardSuit u = EPoker::Clubs;
 
 	clear();
-	if(s.length() != 14) return false;
+	if(s.length() != 14)
+		return false;
 
 	r = true;
 
@@ -253,33 +271,71 @@ bool EPoker::parse(const std::string &s)
 
 		switch(s[i])
 		{
-			case '2': v = EPoker::Two;   break;
-			case '3': v = EPoker::Three; break;
-			case '4': v = EPoker::Four;  break;
-			case '5': v = EPoker::Five;  break;
-			case '6': v = EPoker::Six;   break;
-			case '7': v = EPoker::Seven; break;
-			case '8': v = EPoker::Eight; break;
-			case '9': v = EPoker::Nine;  break;
-			case 'T': v = EPoker::Ten;   break;
-			case 'J': v = EPoker::Jack;  break;
-			case 'Q': v = EPoker::Queen; break;
-			case 'K': v = EPoker::King;  break;
-			case 'A': v = EPoker::Ace;   break;
+		case '2':
+			v = EPoker::Two;
+			break;
+		case '3':
+			v = EPoker::Three;
+			break;
+		case '4':
+			v = EPoker::Four;
+			break;
+		case '5':
+			v = EPoker::Five;
+			break;
+		case '6':
+			v = EPoker::Six;
+			break;
+		case '7':
+			v = EPoker::Seven;
+			break;
+		case '8':
+			v = EPoker::Eight;
+			break;
+		case '9':
+			v = EPoker::Nine;
+			break;
+		case 'T':
+			v = EPoker::Ten;
+			break;
+		case 'J':
+			v = EPoker::Jack;
+			break;
+		case 'Q':
+			v = EPoker::Queen;
+			break;
+		case 'K':
+			v = EPoker::King;
+			break;
+		case 'A':
+			v = EPoker::Ace;
+			break;
 
-			default: r = false; break;
+		default:
+			r = false;
+			break;
 		};
 
 		// Determine the suit.
 
-		switch(s[i+1])
+		switch(s[i + 1])
 		{
-			case 'C': u = EPoker::Clubs;    break;
-			case 'D': u = EPoker::Diamonds; break;
-			case 'H': u = EPoker::Hearts;   break;
-			case 'S': u = EPoker::Spades;   break;
+		case 'C':
+			u = EPoker::Clubs;
+			break;
+		case 'D':
+			u = EPoker::Diamonds;
+			break;
+		case 'H':
+			u = EPoker::Hearts;
+			break;
+		case 'S':
+			u = EPoker::Spades;
+			break;
 
-			default: r = false; break;
+		default:
+			r = false;
+			break;
 		};
 
 		// Add the card.
@@ -296,12 +352,14 @@ bool EPoker::parse(const std::string &s)
 
 	// Return our status.
 
-	if(!r) clear();
+	if(!r)
+		clear();
 	return r;
 }
 
 /*!
- * This function determines if the current hand is a "valid" poker hand. Valid hands are those that contain exactly
+ * This function determines if the current hand is a "valid" poker hand. Valid
+ *hands are those that contain exactly
  * five unique cards.
  *
  * \return True if the hand is valid, or false otherwise.
@@ -312,7 +370,8 @@ bool EPoker::isValid() const
 }
 
 /*!
- * This function adds the card denoted by the given value and suit from this hand. If the
+ * This function adds the card denoted by the given value and suit from this
+ *hand. If the
  * card is already present, then no action is taken.
  *
  * \param v The value of the card.
@@ -326,7 +385,8 @@ void EPoker::addCard(EPoker::CardValue v, EPoker::CardSuit s)
 }
 
 /*!
- * This function removes the card denoted by the given value and suit from this hand.
+ * This function removes the card denoted by the given value and suit from this
+ *hand.
  * If the card is not in the hand, then no action is taken.
  *
  * \param v The value of the card.
@@ -340,7 +400,7 @@ void EPoker::removeCard(EPoker::CardValue v, EPoker::CardSuit s)
 
 	// Update the values list.
 
-	if( (cards & getValueIsolator(v)) != 0 )
+	if((cards & getValueIsolator(v)) != 0)
 		values &= (1ULL << static_cast<int>(v));
 
 	// Invalidate our existing rank.
@@ -361,7 +421,8 @@ void EPoker::clear()
 }
 
 /*!
- * This function returns whether or not our object contains at least one card with the given value,
+ * This function returns whether or not our object contains at least one card
+ *with the given value,
  * in any suit.
  *
  * \param v The value to search for.
@@ -389,9 +450,11 @@ bool EPoker::containsCard(EPoker::CardValue v, EPoker::CardSuit s) const
  *
  *     VS VS VS VS VS
  *
- * Where V is one of: 23456789TJQKA and S is one of: C(lubs), D(iamonds), H(earts) or S(pades).
+ * Where V is one of: 23456789TJQKA and S is one of: C(lubs), D(iamonds),
+ *H(earts) or S(pades).
  *
- * Note that, if this hand isn't valid, then we will return an empty string instead.
+ * Note that, if this hand isn't valid, then we will return an empty string
+ *instead.
  *
  * \return A string representation of this hand.
  */
@@ -412,31 +475,65 @@ std::string EPoker::toString() const
 
 			switch(valueOfIndex(idx))
 			{
-				case EPoker::Two:   ret.append("2"); break;
-				case EPoker::Three: ret.append("3"); break;
-				case EPoker::Four:  ret.append("4"); break;
-				case EPoker::Five:  ret.append("5"); break;
-				case EPoker::Six:   ret.append("6"); break;
-				case EPoker::Seven: ret.append("7"); break;
-				case EPoker::Eight: ret.append("8"); break;
-				case EPoker::Nine:  ret.append("9"); break;
-				case EPoker::Ten:   ret.append("T"); break;
-				case EPoker::Jack:  ret.append("J"); break;
-				case EPoker::Queen: ret.append("Q"); break;
-				case EPoker::King:  ret.append("K"); break;
-				case EPoker::Ace:   ret.append("A"); break;
-				default:
-					throw std::runtime_error("Invalid value.");
+			case EPoker::Two:
+				ret.append("2");
+				break;
+			case EPoker::Three:
+				ret.append("3");
+				break;
+			case EPoker::Four:
+				ret.append("4");
+				break;
+			case EPoker::Five:
+				ret.append("5");
+				break;
+			case EPoker::Six:
+				ret.append("6");
+				break;
+			case EPoker::Seven:
+				ret.append("7");
+				break;
+			case EPoker::Eight:
+				ret.append("8");
+				break;
+			case EPoker::Nine:
+				ret.append("9");
+				break;
+			case EPoker::Ten:
+				ret.append("T");
+				break;
+			case EPoker::Jack:
+				ret.append("J");
+				break;
+			case EPoker::Queen:
+				ret.append("Q");
+				break;
+			case EPoker::King:
+				ret.append("K");
+				break;
+			case EPoker::Ace:
+				ret.append("A");
+				break;
+			default:
+				throw std::runtime_error("Invalid value.");
 			};
 
 			switch(suitOfIndex(idx))
 			{
-				case EPoker::Clubs:    ret.append("C"); break;
-				case EPoker::Diamonds: ret.append("D"); break;
-				case EPoker::Hearts:   ret.append("H"); break;
-				case EPoker::Spades:   ret.append("S"); break;
-				default:
-					throw std::runtime_error("Invalid suit.");
+			case EPoker::Clubs:
+				ret.append("C");
+				break;
+			case EPoker::Diamonds:
+				ret.append("D");
+				break;
+			case EPoker::Hearts:
+				ret.append("H");
+				break;
+			case EPoker::Spades:
+				ret.append("S");
+				break;
+			default:
+				throw std::runtime_error("Invalid suit.");
 			};
 
 			ret.append(" ");
@@ -449,7 +546,8 @@ std::string EPoker::toString() const
 }
 
 /*!
- * This function returns a bit mask which, when AND'ed with our cards list, will return only the cards
+ * This function returns a bit mask which, when AND'ed with our cards list, will
+ * return only the cards
  * whose value is the one specified, regardless of suit.
  */
 uint64_t EPoker::getValueIsolator(EPoker::CardValue v) const
@@ -465,7 +563,8 @@ uint64_t EPoker::getValueIsolator(EPoker::CardValue v) const
 }
 
 /*!
- * This function returns the index of the bit in our cards list which represents the card of the given
+ * This function returns the index of the bit in our cards list which represents
+ *the card of the given
  * value of the given suit.
  *
  * \param v The value of the card.
@@ -478,7 +577,8 @@ int EPoker::cardsIndexOf(EPoker::CardValue v, EPoker::CardSuit s) const
 }
 
 /*!
- * This function returns the card value represented by a bit at the given index in our cards list.
+ * This function returns the card value represented by a bit at the given index
+ *in our cards list.
  *
  * \param i The index to interpret.
  * \return The card value the index corresponds to.
@@ -489,7 +589,8 @@ EPoker::CardValue EPoker::valueOfIndex(uint32_t i) const
 }
 
 /*!
- * This function returns the card suit represented by a bit at the given index in our cards list.
+ * This function returns the card suit represented by a bit at the given index
+ *in our cards list.
  *
  * \param i The index to interpret.
  * \return The card suit the index corresponds to.
@@ -500,8 +601,10 @@ EPoker::CardSuit EPoker::suitOfIndex(uint32_t i) const
 }
 
 /*!
- * This function accepts a list of cards (this should be in the normal, suit-inclusive format), and returns
- * a list of values, ignoring suits. This means that the highest bit which can be set in our result is 1 << 12.
+ * This function accepts a list of cards (this should be in the normal,
+ *suit-inclusive format), and returns
+ * a list of values, ignoring suits. This means that the highest bit which can
+ *be set in our result is 1 << 12.
  *
  * This is useful to compare the "high cards" of a hand, for instance.
  *
@@ -525,10 +628,12 @@ uint64_t EPoker::getComparableValuesList(uint64_t c) const
 }
 
 /*!
- * This function takes our hand's cards and builds a numeric rank from them. This allows us to quickly compare
+ * This function takes our hand's cards and builds a numeric rank from them.
+ *This allows us to quickly compare
  * two hands to see which "beats" the other.
  *
- * Note that if isValid() returns false, then this function will just clear the rank, because it has no valid
+ * Note that if isValid() returns false, then this function will just clear the
+ *rank, because it has no valid
  * hand to build a rank from.
  */
 void EPoker::buildRank() const
@@ -567,7 +672,9 @@ void EPoker::buildRank() const
 				if(it != valueCount.end())
 					++it->second;
 				else
-					valueCount.insert(std::pair<EPoker::CardValue, int>(val, 1));
+					valueCount.insert(
+					        std::pair<EPoker::CardValue,
+					                  int>(val, 1));
 
 				// Add its value to the values list.
 
@@ -594,7 +701,8 @@ void EPoker::buildRank() const
 			}
 			else
 			{
-				for(iti = valuess.begin(); iti != valuess.end(); ++iti)
+				for(iti = valuess.begin(); iti != valuess.end();
+				    ++iti)
 				{
 					itj = iti;
 					++itj;
@@ -602,7 +710,7 @@ void EPoker::buildRank() const
 					if(itj == valuess.end())
 						break;
 
-					if( ((*itj) - (*iti)) > 1 )
+					if(((*itj) - (*iti)) > 1)
 					{
 						straight = false;
 						break;
@@ -651,14 +759,18 @@ void EPoker::buildRank() const
 				bv = hold;
 			}
 
-			if( (a == 1) && (b == 4) )
+			if((a == 1) && (b == 4))
 			{
-				rankCards = cards & getValueIsolator(static_cast<EPoker::CardValue>(bv));
+				rankCards =
+				        cards &
+				        getValueIsolator(
+				                static_cast<EPoker::CardValue>(
+				                        bv));
 				rank = EPoker::FourOfAKind;
 				rankValid = true;
 				return;
 			}
-			else if( (a == 2) && (b == 3) )
+			else if((a == 2) && (b == 3))
 			{
 				rankCards = cards;
 				rank = EPoker::FullHouse;
@@ -735,17 +847,27 @@ void EPoker::buildRank() const
 				bv = hold;
 			}
 
-			if( (a == 1) && (b == 1) && (c == 3) )
+			if((a == 1) && (b == 1) && (c == 3))
 			{
-				rankCards = cards & getValueIsolator(static_cast<EPoker::CardValue>(cv));
+				rankCards =
+				        cards &
+				        getValueIsolator(
+				                static_cast<EPoker::CardValue>(
+				                        cv));
 				rank = EPoker::ThreeOfAKind;
 				rankValid = true;
 				return;
 			}
-			else if( (a == 1) && (b == 2) && (c == 2) )
+			else if((a == 1) && (b == 2) && (c == 2))
 			{
-				rankCards = cards & (getValueIsolator(static_cast<EPoker::CardValue>(bv)) |
-					getValueIsolator(static_cast<EPoker::CardValue>(cv)));
+				rankCards =
+				        cards &
+				        (getValueIsolator(
+				                 static_cast<EPoker::CardValue>(
+				                         bv)) |
+				         getValueIsolator(
+				                 static_cast<EPoker::CardValue>(
+				                         cv)));
 				rank = EPoker::TwoPair;
 				rankValid = true;
 				return;
@@ -756,12 +878,14 @@ void EPoker::buildRank() const
 
 		if(valueCount.size() == 4)
 		{
-			for(std::map<EPoker::CardValue, int>::iterator it = valueCount.begin();
-				it != valueCount.end(); ++it)
+			for(std::map<EPoker::CardValue, int>::iterator it =
+			            valueCount.begin();
+			    it != valueCount.end(); ++it)
 			{
 				if(it->second == 2)
 				{
-					rankCards = cards & getValueIsolator(it->first);
+					rankCards = cards &
+					            getValueIsolator(it->first);
 					break;
 				}
 			}
@@ -780,11 +904,14 @@ void EPoker::buildRank() const
 }
 
 /*!
- * This function compares our hand's value with another hand's value. We return a value less than,
- * equal to or greater than zero if this hand is less than, equal to or greater than the given other hand,
+ * This function compares our hand's value with another hand's value. We return
+ *a value less than,
+ * equal to or greater than zero if this hand is less than, equal to or greater
+ *than the given other hand,
  * respectively.
  *
- * Note that, if either hand is invalid, then our return value is undefined. It is up to the caller to
+ * Note that, if either hand is invalid, then our return value is undefined. It
+ *is up to the caller to
  * verify this, if necessary, before comparing two hands.
  *
  * \param o The hand to compare ourself to.
@@ -799,158 +926,179 @@ int EPoker::compare(const EPoker &o) const
 
 	// First, see if we can determine the result based only on the rank.
 
-	if( static_cast<int>(rank) < static_cast<int>(o.rank) )
+	if(static_cast<int>(rank) < static_cast<int>(o.rank))
 	{
 		return -1;
 	}
-	else if( static_cast<int>(rank) > static_cast<int>(o.rank) )
+	else if(static_cast<int>(rank) > static_cast<int>(o.rank))
 	{
 		return 1;
 	}
 	else
 	{
-		// We need to compare the cards in either hand, since their rank is the same.
+		// We need to compare the cards in either hand, since their rank
+		// is the same.
 
 		switch(rank)
 		{
-			case EPoker::HighCard:
-			case EPoker::Flush:
-			{
-				// For these hands, we simply compare the highest values in the hands.
+		case EPoker::HighCard:
+		case EPoker::Flush:
+		{
+			// For these hands, we simply compare the highest values
+			// in the hands.
 
-				if(values < o.values)
+			if(values < o.values)
+				return -1;
+			else if(values > o.values)
+				return 1;
+			else
+				return 0;
+		}
+		break;
+
+		case EPoker::Straight:
+		case EPoker::StraightFlush:
+		{
+			// For these two hands, compare high cards, taking into
+			// account the "steel wheel."
+
+			// Check for either hand (or both) being the "steel
+			// wheel."
+
+			bool asw = false, bsw = false;
+
+			if(containsValue(EPoker::Ace) &&
+			   containsValue(EPoker::Two))
+				asw = true;
+
+			if(o.containsValue(EPoker::Ace) &&
+			   o.containsValue(EPoker::Two))
+				bsw = true;
+
+			if(asw && bsw)
+				return 0;
+			else if(asw)
+				return -1;
+			else if(bsw)
+				return 1;
+
+			// Otherwise, just compare the highest card, like
+			// normal.
+
+			if(values < o.values)
+				return -1;
+			else if(values > o.values)
+				return 1;
+			else
+				return 0;
+		}
+		break;
+
+		case EPoker::OnePair:
+		case EPoker::TwoPair:
+		case EPoker::ThreeOfAKind:
+		case EPoker::FourOfAKind:
+		{
+			// For these hands, we compare the cards in the hand,
+			// and then the other cards.
+
+			uint64_t arv = getComparableValuesList(rankCards),
+			         brv = getComparableValuesList(o.rankCards),
+			         aov, bov;
+
+			if(arv < brv)
+			{
+				return -1;
+			}
+			else if(arv > brv)
+			{
+				return 1;
+			}
+			else
+			{
+				aov = getComparableValuesList(cards &
+				                              ~rankCards);
+				bov = getComparableValuesList(o.cards &
+				                              ~o.rankCards);
+
+				if(aov < bov)
 					return -1;
-				else if(values > o.values)
+				else if(aov > bov)
 					return 1;
 				else
 					return 0;
 			}
-			break;
+		}
+		break;
 
-			case EPoker::Straight:
-			case EPoker::StraightFlush:
+		case EPoker::FullHouse:
+		{
+			// For this hand, we compare the three cards, then the
+			// two cards.
+
+			uint32_t aa, ab, ba, bb;
+
+			aa = EBitwise::lg64(EBitwise::rmoIsolate(values));
+			ab = EBitwise::lg64(values &
+			                    ~(1ULL << static_cast<int>(aa)));
+
+			ba = EBitwise::lg64(EBitwise::rmoIsolate(o.values));
+			bb = EBitwise::lg64(o.values &
+			                    ~(1ULL << static_cast<int>(ba)));
+
+			if(EBitwise::opop(cards &
+			                  getValueIsolator(static_cast<
+			                          EPoker::CardValue>(aa))) == 3)
 			{
-				// For these two hands, compare high cards, taking into account the "steel wheel."
+				uint32_t hold = aa;
+				aa = ab;
+				ab = hold;
+			}
 
-				// Check for either hand (or both) being the "steel wheel."
+			if(EBitwise::opop(o.cards &
+			                  getValueIsolator(static_cast<
+			                          EPoker::CardValue>(ba))) == 3)
+			{
+				uint32_t hold = ba;
+				ba = bb;
+				bb = hold;
+			}
 
-				bool asw = false, bsw = false;
-
-				if(containsValue(EPoker::Ace) && containsValue(EPoker::Two))
-					asw = true;
-
-				if(o.containsValue(EPoker::Ace) && o.containsValue(EPoker::Two))
-					bsw = true;
-
-				if(asw && bsw)
-					return 0;
-				else if(asw)
+			if(aa < ba)
+			{
+				return -1;
+			}
+			else if(aa > ba)
+			{
+				return 1;
+			}
+			else
+			{
+				if(ab < bb)
 					return -1;
-				else if(bsw)
-					return 1;
-
-				// Otherwise, just compare the highest card, like normal.
-
-				if(values < o.values)
-					return -1;
-				else if(values > o.values)
+				else if(ab > bb)
 					return 1;
 				else
 					return 0;
 			}
-			break;
+		}
+		break;
 
-			case EPoker::OnePair:
-			case EPoker::TwoPair:
-			case EPoker::ThreeOfAKind:
-			case EPoker::FourOfAKind:
-			{
-				// For these hands, we compare the cards in the hand, and then the other cards.
-
-				uint64_t arv = getComparableValuesList(rankCards),
-					brv = getComparableValuesList(o.rankCards), aov, bov;
-
-				if(arv < brv)
-				{
-					return -1;
-				}
-				else if(arv > brv)
-				{
-					return 1;
-				}
-				else
-				{
-					aov = getComparableValuesList(cards & ~rankCards);
-					bov = getComparableValuesList(o.cards & ~o.rankCards);
-
-					if(aov < bov)
-						return -1;
-					else if(aov > bov)
-						return 1;
-					else
-						return 0;
-				}
-			}
-			break;
-
-			case EPoker::FullHouse:
-			{
-				// For this hand, we compare the three cards, then the two cards.
-
-				uint32_t aa, ab, ba, bb;
-
-				aa = EBitwise::lg64(EBitwise::rmoIsolate(values));
-				ab = EBitwise::lg64(values & ~(1ULL << static_cast<int>(aa)));
-
-				ba = EBitwise::lg64(EBitwise::rmoIsolate(o.values));
-				bb = EBitwise::lg64(o.values & ~(1ULL << static_cast<int>(ba)));
-
-				if(EBitwise::opop(cards & getValueIsolator(static_cast<EPoker::CardValue>(aa))) == 3)
-				{
-					uint32_t hold = aa;
-					aa = ab;
-					ab = hold;
-				}
-
-				if(EBitwise::opop(o.cards & getValueIsolator(static_cast<EPoker::CardValue>(ba))) == 3)
-				{
-					uint32_t hold = ba;
-					ba = bb;
-					bb = hold;
-				}
-
-				if(aa < ba)
-				{
-					return -1;
-				}
-				else if(aa > ba)
-				{
-					return 1;
-				}
-				else
-				{
-					if(ab < bb)
-						return -1;
-					else if(ab > bb)
-						return 1;
-					else
-						return 0;
-				}
-			}
-			break;
-
-			default:
-				throw std::runtime_error("Invalid hand rank.");
+		default:
+			throw std::runtime_error("Invalid hand rank.");
 		};
 	}
 
-	// This should never be reached, but is necessary to avoid a compiler warning.
+	// This should never be reached, but is necessary to avoid a compiler
+	// warning.
 	return 0;
 }
 
 /*!
- * This is our output stream operator, which allows our objects to be easily printed to
- * a standard C++ ostream object. The value printed is effectively the same as that returned
+ * This is our output stream operator, which allows our objects to be easily
+ *printed to
+ * a standard C++ ostream object. The value printed is effectively the same as
+ *that returned
  * by our class's toString() member function.
  *
  * \param out The output stream to which we will write.

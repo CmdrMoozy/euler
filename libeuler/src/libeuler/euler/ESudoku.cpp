@@ -40,7 +40,8 @@ ESudoku::~ESudoku()
 }
 
 /*!
- * This function clears our object, by clearing both our puzzle and solution buffers, as well as our
+ * This function clears our object, by clearing both our puzzle and solution
+ * buffers, as well as our
  * behind-the-scenes exact cover problem solver object.
  */
 void ESudoku::clear()
@@ -51,8 +52,10 @@ void ESudoku::clear()
 }
 
 /*!
- * This function loads the given puzzle, p. p must be a vector contanining 81 elements, where each element, n,
- * stores the number (1-9, or 0 if this cell is not pre-filled-in) that cell n in the puzzle contains.
+ * This function loads the given puzzle, p. p must be a vector contanining 81
+ *elements, where each element, n,
+ * stores the number (1-9, or 0 if this cell is not pre-filled-in) that cell n
+ *in the puzzle contains.
  *
  * \param p The puzzle to load.
  * \return True on success, or false on failure.
@@ -63,16 +66,20 @@ bool ESudoku::load(const std::vector<int> &p)
 
 	// Set the puzzle.
 
-	if(p.size() != 81) return false;
+	if(p.size() != 81)
+		return false;
 	puzzle = p;
 
-	// Perform preprocessing to try and speed up (or eliminate the need for) an exact cover solution.
+	// Perform preprocessing to try and speed up (or eliminate the need for)
+	// an exact cover solution.
 
 	preprocess();
 
-	// If our preprocessing has solved the puzzle, then just return - no need to do an exact cover solution.
+	// If our preprocessing has solved the puzzle, then just return - no
+	// need to do an exact cover solution.
 
-	if(solution.size() != 0) return true;
+	if(solution.size() != 0)
+		return true;
 
 	// Figure out how many rows & columns we need to represent it.
 
@@ -80,7 +87,7 @@ bool ESudoku::load(const std::vector<int> &p)
 
 	for(unsigned int i = 0; i < puzzle.size(); ++i)
 	{
-		if( (puzzle[i] < 0) || (puzzle[i] > 9) )
+		if((puzzle[i] < 0) || (puzzle[i] > 9))
 		{
 			clear();
 			return false;
@@ -90,7 +97,7 @@ bool ESudoku::load(const std::vector<int> &p)
 		{
 			rows += 9;
 		}
-		else if( (puzzle[i] >= 1) && (puzzle[i] <= 9) )
+		else if((puzzle[i] >= 1) && (puzzle[i] <= 9))
 		{
 			rows += 1;
 		}
@@ -109,35 +116,46 @@ bool ESudoku::load(const std::vector<int> &p)
 	for(unsigned int i = 0; i < puzzle.size(); ++i)
 	{
 		/*
-		First  node is at (i, row) - to indicate that cell i has a symbol in it.
-		Second node is at 81 + ((row * 9) + symbol-1) - to indicate that the row-th row has the symbol in it.
-		Third  node is at 162 + ((col * 9) + symbol-1) - to indicate that the col-th column has the symbol in it.
-		Fourth node is at 243 + ((box * 9) + symbol-1) - to indicate that the box-th box has the symbol in it.
+		First  node is at (i, row) - to indicate that cell i has a
+		symbol in it.
+		Second node is at 81 + ((row * 9) + symbol-1) - to indicate that
+		the row-th row has the symbol in it.
+		Third  node is at 162 + ((col * 9) + symbol-1) - to indicate
+		that the col-th column has the symbol in it.
+		Fourth node is at 243 + ((box * 9) + symbol-1) - to indicate
+		that the box-th box has the symbol in it.
 		*/
 
 		if(puzzle[i] == 0)
 		{
-			// This is a zero node, so we need to produce nine rows for it.
+			// This is a zero node, so we need to produce nine rows
+			// for it.
 
 			for(int s = 1; s <= 9; ++s)
 			{ // For each possible symbol, 1-9...
-				solver->setAt( i,                              row, true );
-				solver->setAt( 81  + ((rowOf(i)) * 9) + (s-1), row, true );
-				solver->setAt( 162 + ((colOf(i)) * 9) + (s-1), row, true );
-				solver->setAt( 243 + ((boxOf(i)) * 9) + (s-1), row, true );
+				solver->setAt(i, row, true);
+				solver->setAt(81 + ((rowOf(i)) * 9) + (s - 1),
+				              row, true);
+				solver->setAt(162 + ((colOf(i)) * 9) + (s - 1),
+				              row, true);
+				solver->setAt(243 + ((boxOf(i)) * 9) + (s - 1),
+				              row, true);
 
 				++row;
 			}
-
 		}
 		else
 		{
-			// This is a filled-in node, so we need to add a single column for it.
+			// This is a filled-in node, so we need to add a single
+			// column for it.
 
-			solver->setAt( i                                , row, true );
-			solver->setAt( 81  + ((rowOf(i) * 9) + (puzzle[i]-1)), row, true );
-			solver->setAt( 162 + ((colOf(i) * 9) + (puzzle[i]-1)), row, true );
-			solver->setAt( 243 + ((boxOf(i) * 9) + (puzzle[i]-1)), row, true );
+			solver->setAt(i, row, true);
+			solver->setAt(81 + ((rowOf(i) * 9) + (puzzle[i] - 1)),
+			              row, true);
+			solver->setAt(162 + ((colOf(i) * 9) + (puzzle[i] - 1)),
+			              row, true);
+			solver->setAt(243 + ((boxOf(i) * 9) + (puzzle[i] - 1)),
+			              row, true);
 
 			++row;
 		}
@@ -147,9 +165,12 @@ bool ESudoku::load(const std::vector<int> &p)
 }
 
 /*!
- * This function solves the puzzle we currently have loaded. No puzzle being loaded is considered an error,
- * and already having a valid solution to the current puzzle results in us taking no action. Note that if the
- * puzzle we have loaded has multiple solutions, we consider this an error - Sudoku puzzles are "supposed"
+ * This function solves the puzzle we currently have loaded. No puzzle being
+ *loaded is considered an error,
+ * and already having a valid solution to the current puzzle results in us
+ *taking no action. Note that if the
+ * puzzle we have loaded has multiple solutions, we consider this an error -
+ *Sudoku puzzles are "supposed"
  * to have only one correct solution.
  *
  * Note that if the puzzle has already been solved, then we take no action.
@@ -161,14 +182,17 @@ bool ESudoku::load(const std::vector<int> &p)
  */
 bool ESudoku::solve(bool s)
 {
-	if(solution.size() != 0) return true;
-	if(puzzle.size() != 81)	return false;
+	if(solution.size() != 0)
+		return true;
+	if(puzzle.size() != 81)
+		return false;
 
 	// Retrieve the solution from our EExactCover.
 
 	solver->solve(s);
 
-	std::vector< std::vector< std::pair<int, int> > > solutions = solver->getSolutions();
+	std::vector<std::vector<std::pair<int, int>>> solutions =
+	        solver->getSolutions();
 	if(solutions.size() != 1)
 		return false;
 
@@ -176,13 +200,14 @@ bool ESudoku::solve(bool s)
 
 	static struct paircmp
 	{
-		bool operator() (const std::pair<int,int> &a, const std::pair<int,int> &b)
+		bool operator()(const std::pair<int, int> &a,
+		                const std::pair<int, int> &b)
 		{
 			return a.first < b.first;
 		}
 	} mycmp;
 
-	std::vector< std::pair<int, int> > stmp;
+	std::vector<std::pair<int, int>> stmp;
 	for(unsigned int i = 0; i < solutions[0].size(); ++i)
 		if(solutions[0][i].first < 81)
 			stmp.push_back(solutions[0][i]);
@@ -214,8 +239,10 @@ bool ESudoku::solve(bool s)
 }
 
 /*!
- * This function returns a copy of the puzzle's solution. This is represented as a vector, where each index in the
- * vector (0 <= n <= 80) represents the value stored in cell n in the resulting Sudoku puzzle.
+ * This function returns a copy of the puzzle's solution. This is represented as
+ *a vector, where each index in the
+ * vector (0 <= n <= 80) represents the value stored in cell n in the resulting
+ *Sudoku puzzle.
  *
  * \return The puzzle's solution.
  */
@@ -225,8 +252,10 @@ std::vector<int> ESudoku::getSolution() const
 }
 
 /*!
- * This function updates a preprocesing mask table with a given new digit located at a given position.
- * This function provides a convenient way to update ALL of the masks when a given cell is filled in,
+ * This function updates a preprocesing mask table with a given new digit
+ *located at a given position.
+ * This function provides a convenient way to update ALL of the masks when a
+ *given cell is filled in,
  * including those in its row, column and box.
  *
  * \param m The mask table to be updated.
@@ -246,9 +275,12 @@ void ESudoku::updateMasks(std::vector<uint16_t> &m, int i, int v)
 }
 
 /*!
- * This function is a helper for preprocess, that recursively fills in cells whose value can be calculated
- * deterministically. That is, if only one value is possible for an unknown cell, it is filled in, and then
- * we recurse on each cell we affected with the change (in the modified cell's column, row and box).
+ * This function is a helper for preprocess, that recursively fills in cells
+ *whose value can be calculated
+ * deterministically. That is, if only one value is possible for an unknown
+ *cell, it is filled in, and then
+ * we recurse on each cell we affected with the change (in the modified cell's
+ *column, row and box).
  *
  * \param m The preprocessing mask table.
  * \param i The index of the cell to test.
@@ -260,7 +292,8 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	bool u = false;
 
 	// Do not try to guess non-blank cells.
-	if(puzzle.at(i)) return;
+	if(puzzle.at(i))
+		return;
 
 	// Fill in any singles.
 
@@ -357,8 +390,10 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 }
 
 /*!
- * This function is a helper for preprocess, that scans the current mask table for pairs. This allows us
- * to simplify the puzzle, by eliminating the values present in the pair in the other cells in a group.
+ * This function is a helper for preprocess, that scans the current mask table
+ *for pairs. This allows us
+ * to simplify the puzzle, by eliminating the values present in the pair in the
+ *other cells in a group.
  *
  * \param m The preprocessing mask table.
  * \return True if we eliminated some possibilities, or false otherwise.
@@ -386,9 +421,10 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// Try to find an identical cell.
 
 				k = rowIndex(rowOf(i), j);
-				if(k == i) continue;
+				if(k == i)
+					continue;
 
-				if( m.at(k) == m.at(i) )
+				if(m.at(k) == m.at(i))
 				{
 					p = k;
 					break;
@@ -397,12 +433,14 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			if(p)
 			{
-				// We have found a pair - remove the pair values from other cells in this ROW.
+				// We have found a pair - remove the pair values
+				// from other cells in this ROW.
 
 				for(int j = 0; j < 9; ++j)
 				{
 					k = rowIndex(rowOf(i), j);
-					if( (k == i) || (k == p) ) continue;
+					if((k == i) || (k == p))
+						continue;
 
 					r |= (m.at(k) & pmask) > 0;
 					m[k] &= ~pmask;
@@ -418,9 +456,10 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// Try to find an identical cell.
 
 				k = colIndex(colOf(i), j);
-				if(k == i) continue;
+				if(k == i)
+					continue;
 
-				if( m.at(k) == m.at(i) )
+				if(m.at(k) == m.at(i))
 				{
 					p = k;
 					break;
@@ -429,12 +468,14 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			if(p)
 			{
-				// We have found a pair - remove the pair values from other cells in this ROW.
+				// We have found a pair - remove the pair values
+				// from other cells in this ROW.
 
 				for(int j = 0; j < 9; ++j)
 				{
 					k = colIndex(colOf(i), j);
-					if( (k == i) || (k == p) ) continue;
+					if((k == i) || (k == p))
+						continue;
 
 					r |= (m.at(k) & pmask) > 0;
 					m[k] &= ~pmask;
@@ -450,9 +491,10 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// Try to find an identical cell.
 
 				k = boxIndex(boxOf(i), j);
-				if(k == i) continue;
+				if(k == i)
+					continue;
 
-				if( m.at(k) == m.at(i) )
+				if(m.at(k) == m.at(i))
 				{
 					p = k;
 					break;
@@ -461,12 +503,14 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			if(p)
 			{
-				// We have found a pair - remove the pair values from other cells in this ROW.
+				// We have found a pair - remove the pair values
+				// from other cells in this ROW.
 
 				for(int j = 0; j < 9; ++j)
 				{
 					k = boxIndex(boxOf(i), j);
-					if( (k == i) || (k == p) ) continue;
+					if((k == i) || (k == p))
+						continue;
 
 					r |= (m.at(k) & pmask) > 0;
 					m[k] &= ~pmask;
@@ -479,14 +523,16 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 }
 
 /*!
- * This function performs preprocessing on our puzzle, in an attempt to either speed up or completely eliminate
- * the need for an exact cover solution. We do this by filling in any cells that are deterministic (i.e., cells
- * where only a single digit is valid), and by using some other techniques (e.g., "naked pairs") to eliminate
+ * This function performs preprocessing on our puzzle, in an attempt to either
+ * speed up or completely eliminate
+ * the need for an exact cover solution. We do this by filling in any cells that
+ * are deterministic (i.e., cells
+ * where only a single digit is valid), and by using some other techniques
+ * (e.g., "naked pairs") to eliminate
  * other candidates.
  */
 void ESudoku::preprocess()
 {
-
 	std::vector<uint16_t> mask(81, 0x01FF);
 
 	// Build a table of digit masks indicating what digits are still valid.
@@ -494,7 +540,8 @@ void ESudoku::preprocess()
 	for(size_t i = 0; i < puzzle.size(); ++i)
 	{
 		// Ignore empty cells.
-		if(!puzzle.at(i)) continue;
+		if(!puzzle.at(i))
+			continue;
 
 		updateMasks(mask, i, puzzle.at(i));
 		mask[i] = 0; // Ensure filled-in cells have a 0 mask.
@@ -520,11 +567,13 @@ void ESudoku::preprocess()
 		}
 	}
 
-	if(s) solution = puzzle;
+	if(s)
+		solution = puzzle;
 }
 
 /*!
- * This utility function returns the index of the row that contains the given index in our puzzle. Note that
+ * This utility function returns the index of the row that contains the given
+ *index in our puzzle. Note that
  * this (currently) only works for 9x9 puzzles.
  *
  * NOTE: This function does NOT do bounds-checking!
@@ -534,31 +583,30 @@ void ESudoku::preprocess()
  */
 int ESudoku::rowOf(int i) const
 {
-	static int rowLookup[] = {
-		0,0,0,0,0,0,0,0,0,
+	static int rowLookup[] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
 
-		1,1,1,1,1,1,1,1,1,
+	                          1, 1, 1, 1, 1, 1, 1, 1, 1,
 
-		2,2,2,2,2,2,2,2,2,
+	                          2, 2, 2, 2, 2, 2, 2, 2, 2,
 
-		3,3,3,3,3,3,3,3,3,
+	                          3, 3, 3, 3, 3, 3, 3, 3, 3,
 
-		4,4,4,4,4,4,4,4,4,
+	                          4, 4, 4, 4, 4, 4, 4, 4, 4,
 
-		5,5,5,5,5,5,5,5,5,
+	                          5, 5, 5, 5, 5, 5, 5, 5, 5,
 
-		6,6,6,6,6,6,6,6,6,
+	                          6, 6, 6, 6, 6, 6, 6, 6, 6,
 
-		7,7,7,7,7,7,7,7,7,
+	                          7, 7, 7, 7, 7, 7, 7, 7, 7,
 
-		8,8,8,8,8,8,8,8,8
-	};
+	                          8, 8, 8, 8, 8, 8, 8, 8, 8};
 
 	return rowLookup[i];
 }
 
 /*!
- * This utility function returns the index of the column that contains the given index in our puzzle. Note that
+ * This utility function returns the index of the column that contains the given
+ *index in our puzzle. Note that
  * this (currently) only works for 9x9 puzzles.
  *
  * NOTE: This function does NOT do bounds-checking!
@@ -569,22 +617,17 @@ int ESudoku::rowOf(int i) const
 int ESudoku::colOf(int i) const
 {
 	static int colLookup[] = {
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8,
-		0, 1, 2, 3, 4, 5, 6, 7, 8
-	};
+	        0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2,
+	        3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5,
+	        6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8,
+	        0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8};
 
 	return colLookup[i];
 }
 
 /*!
- * This utility function returns the index of the box that contains the given index in our puzzle. Note that
+ * This utility function returns the index of the box that contains the given
+ *index in our puzzle. Note that
  * this (currently) only works for 9x9 puzzles.
  *
  * NOTE: This function does NOT do bounds-checking!
@@ -594,25 +637,21 @@ int ESudoku::colOf(int i) const
  */
 int ESudoku::boxOf(int i) const
 {
-	static int boxLookup[] = {
-		0,0,0, 1,1,1, 2,2,2,
-		0,0,0, 1,1,1, 2,2,2,
-		0,0,0, 1,1,1, 2,2,2,
+	static int boxLookup[] = {0, 0, 0, 1, 1, 1, 2, 2, 2, 0, 0, 0, 1, 1,
+	                          1, 2, 2, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2,
 
-		3,3,3, 4,4,4, 5,5,5,
-		3,3,3, 4,4,4, 5,5,5,
-		3,3,3, 4,4,4, 5,5,5,
+	                          3, 3, 3, 4, 4, 4, 5, 5, 5, 3, 3, 3, 4, 4,
+	                          4, 5, 5, 5, 3, 3, 3, 4, 4, 4, 5, 5, 5,
 
-		6,6,6, 7,7,7, 8,8,8,
-		6,6,6, 7,7,7, 8,8,8,
-		6,6,6, 7,7,7, 8,8,8
-	};
+	                          6, 6, 6, 7, 7, 7, 8, 8, 8, 6, 6, 6, 7, 7,
+	                          7, 8, 8, 8, 6, 6, 6, 7, 7, 7, 8, 8, 8};
 
 	return boxLookup[i];
 }
 
 /*!
- * This utility function returns the index in a single-dimensional array which represents the ith element of row r.
+ * This utility function returns the index in a single-dimensional array which
+ *represents the ith element of row r.
  *
  * NOTE: This function does NOT do bounds-checking!
  *
@@ -626,7 +665,8 @@ int ESudoku::rowIndex(int r, int i) const
 }
 
 /*!
- * This utility function returns the index in a single-dimensional array which represents the ith element of
+ * This utility function returns the index in a single-dimensional array which
+ *represents the ith element of
  * column c.
  *
  * NOTE: This function does NOT do bounds-checking!
@@ -641,7 +681,8 @@ int ESudoku::colIndex(int c, int i) const
 }
 
 /*!
- * This utility function returns the index in a single-dimensional array which represents the ith element of
+ * This utility function returns the index in a single-dimensional array which
+ *represents the ith element of
  * box b.
  *
  * NOTE: This function does NOT do bounds-checking!
@@ -654,5 +695,5 @@ int ESudoku::boxIndex(int b, int i) const
 {
 	int bi = b / 3;
 	bi = (bi * 27) + ((b % 3) * 3);
-	return ( bi + ( ((i / 3) * 9) + (i % 3) ) );
+	return (bi + (((i / 3) * 9) + (i % 3)));
 }

@@ -23,8 +23,7 @@
 int main(void)
 {
 	vrfy::Tests tests;
-	tests.add<euler::test::MathTest>()
-		.execute();
+	tests.add<euler::test::MathTest>().execute();
 
 	return EXIT_SUCCESS;
 }

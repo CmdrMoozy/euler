@@ -26,78 +26,78 @@
 #include "libeuler/util/EString.h"
 
 /*!
- * \brief This maps a numeral to its value. These are used for parsing roman numerals.
+ * \brief This maps a numeral to its value. These are used for parsing roman
+ * numerals.
  */
-const std::map<char, uint64_t> ERomanNumeral::VALUES = {
-	{ 'I', 1    },
-	{ 'V', 5    },
-	{ 'X', 10   },
-	{ 'L', 50   },
-	{ 'C', 100  },
-	{ 'D', 500  },
-	{ 'M', 1000 }
-};
+const std::map<char, uint64_t> ERomanNumeral::VALUES = {{'I', 1},
+                                                        {'V', 5},
+                                                        {'X', 10},
+                                                        {'L', 50},
+                                                        {'C', 100},
+                                                        {'D', 500},
+                                                        {'M', 1000}};
 
 /*!
- * \brief This is a set of strings and their values, for turning values into numerals.
+ * \brief This is a set of strings and their values, for turning values into
+ * numerals.
  */
-const std::set<OVPair, ERomanNumeral::OVPairComparator> ERomanNumeral::OUT_VALUES = {
-	{ "M",  1000 },
-	{ "CM", 900  },
-	{ "D",  500  },
-	{ "CD", 400  },
-	{ "C",  100  },
-	{ "XC", 90   },
-	{ "L",  50   },
-	{ "XL", 40   },
-	{ "X",  10   },
-	{ "IX", 9    },
-	{ "V",  5    },
-	{ "IV", 4    },
-	{ "I",  1    }
-};
+const std::set<OVPair, ERomanNumeral::OVPairComparator>
+        ERomanNumeral::OUT_VALUES = {{"M", 1000},
+                                     {"CM", 900},
+                                     {"D", 500},
+                                     {"CD", 400},
+                                     {"C", 100},
+                                     {"XC", 90},
+                                     {"L", 50},
+                                     {"XL", 40},
+                                     {"X", 10},
+                                     {"IX", 9},
+                                     {"V", 5},
+                                     {"IV", 4},
+                                     {"I", 1}};
 
 /*!
- * This is our default constructor, which creates a new roman numeral object with a
+ * This is our default constructor, which creates a new roman numeral object
+ * with a
  * default value of 0.
  */
-ERomanNumeral::ERomanNumeral()
-	: value(0)
+ERomanNumeral::ERomanNumeral() : value(0)
 {
 }
 
 /*!
- * This constructor creates a new roman numeral object with the given initial value.
+ * This constructor creates a new roman numeral object with the given initial
+ *value.
  *
  * \param v The value for this new object.
  */
-ERomanNumeral::ERomanNumeral(uint64_t v)
-	: value(0)
+ERomanNumeral::ERomanNumeral(uint64_t v) : value(0)
 {
 	setValue(v);
 }
 
 /*!
- * This constructor creates a new roman numeral object with an initial value equal to the
- * given roman numeral string. If the given string is invalid (i.e., parse() would return
+ * This constructor creates a new roman numeral object with an initial value
+ *equal to the
+ * given roman numeral string. If the given string is invalid (i.e., parse()
+ *would return
  * false), then our value is set to 0 instead.
  *
  * \param v The value for this new object, as a roman numeral string.
  */
-ERomanNumeral::ERomanNumeral(const std::string &v)
-	: value(0)
+ERomanNumeral::ERomanNumeral(const std::string &v) : value(0)
 {
 	parse(v);
 }
 
 /*!
- * This is our copy constructor, which creates a new roman numeral object which is equal
+ * This is our copy constructor, which creates a new roman numeral object which
+ *is equal
  * to the given other existing object.
  *
  * \param o The object to copy.
  */
-ERomanNumeral::ERomanNumeral(const ERomanNumeral &o)
-	: value(0)
+ERomanNumeral::ERomanNumeral(const ERomanNumeral &o) : value(0)
 {
 	*this = o;
 }
@@ -110,7 +110,8 @@ ERomanNumeral::~ERomanNumeral()
 }
 
 /*!
- * This is our assignment operator, which sets this roman numeral object equal to the
+ * This is our assignment operator, which sets this roman numeral object equal
+ *to the
  * given other object.
  *
  * \param o The object to set ourself equal to.
@@ -124,7 +125,8 @@ ERomanNumeral &ERomanNumeral::operator=(const ERomanNumeral &o)
 }
 
 /*!
- * This operator tests if the value of this roman numeral object is equal to the value of
+ * This operator tests if the value of this roman numeral object is equal to the
+ *value of
  * the given other roman numeral object.
  *
  * \param o The other object to compare ourself to.
@@ -136,7 +138,8 @@ bool ERomanNumeral::operator==(const ERomanNumeral &o) const
 }
 
 /*!
- * This operator tests if the value of this roman numeral object is less than the value of
+ * This operator tests if the value of this roman numeral object is less than
+ *the value of
  * the given other roman numeral object.
  *
  * \param o The other object to compare ourself to.
@@ -148,7 +151,8 @@ bool ERomanNumeral::operator<(const ERomanNumeral &o) const
 }
 
 /*!
- * This operator tests if the value of this roman numeral object is greater than the value
+ * This operator tests if the value of this roman numeral object is greater than
+ *the value
  * of the given other roman numeral object.
  *
  * \param o The other object to compare ourself to.
@@ -160,11 +164,13 @@ bool ERomanNumeral::operator>(const ERomanNumeral &o) const
 }
 
 /*!
- * This operator tests if the value of this roman numeral object is less than or equal to
+ * This operator tests if the value of this roman numeral object is less than or
+ *equal to
  * the value of the given other roman numeral object.
  *
  * \param o The other object to compare ourself to.
- * \return True if this is less than or equal to the given object, or false otherwise.
+ * \return True if this is less than or equal to the given object, or false
+ *otherwise.
  */
 bool ERomanNumeral::operator<=(const ERomanNumeral &o) const
 {
@@ -172,11 +178,13 @@ bool ERomanNumeral::operator<=(const ERomanNumeral &o) const
 }
 
 /*!
- * This operator tests if this value of this roman numeral object is greater than or equal
+ * This operator tests if this value of this roman numeral object is greater
+ *than or equal
  * to the value of the given other roman numeral object.
  *
  * \param o The other object to compare ourself to.
- * \return True if this is greater than or equal to the given object, or false otherwise.
+ * \return True if this is greater than or equal to the given object, or false
+ *otherwise.
  */
 bool ERomanNumeral::operator>=(const ERomanNumeral &o) const
 {
@@ -194,8 +202,10 @@ uint64_t ERomanNumeral::getValue() const
 }
 
 /*!
- * This function returns the current value of this roman numeral object, as a minimal
- * roman numeral string. That is, the resulting string uses the smallest possible number
+ * This function returns the current value of this roman numeral object, as a
+ *minimal
+ * roman numeral string. That is, the resulting string uses the smallest
+ *possible number
  * of numerals to represent the value.
  *
  * \return This roman numeral's value, as a string.
@@ -206,8 +216,9 @@ std::string ERomanNumeral::getStringValue() const
 
 	uint64_t v = getValue();
 
-	for(std::set<OVPair>::const_iterator it = ERomanNumeral::OUT_VALUES.cbegin();
-		it != ERomanNumeral::OUT_VALUES.cend(); ++it)
+	for(std::set<OVPair>::const_iterator it =
+	            ERomanNumeral::OUT_VALUES.cbegin();
+	    it != ERomanNumeral::OUT_VALUES.cend(); ++it)
 	{
 		while(v >= it->second)
 		{
@@ -220,7 +231,8 @@ std::string ERomanNumeral::getStringValue() const
 }
 
 /*!
- * This function sets the value of this roman numeral object to the given integer value.
+ * This function sets the value of this roman numeral object to the given
+ *integer value.
  *
  * \param v The new value for this object.
  */
@@ -230,10 +242,14 @@ void ERomanNumeral::setValue(uint64_t v)
 }
 
 /*!
- * This function attempts to set our roman numeral object's value from the given roman
- * numeral string literal. Note that this input string is case-insensitive, and doesn't
- * neccessarily need to be minimal (e.g., this function considers "IIIII" a valid way to
- * represent 5). If the given string can't be parsed because it appears to be invalid, our
+ * This function attempts to set our roman numeral object's value from the given
+ *roman
+ * numeral string literal. Note that this input string is case-insensitive, and
+ *doesn't
+ * neccessarily need to be minimal (e.g., this function considers "IIIII" a
+ *valid way to
+ * represent 5). If the given string can't be parsed because it appears to be
+ *invalid, our
  * object's value will be set to 0 and this function will return appropriately.
  *
  * \param v The value string to try and parse.
@@ -260,8 +276,9 @@ bool ERomanNumeral::parse(const std::string &v)
 
 	// Prepare the regular expression we'll use to match the input string.
 
-	std::string regexs = "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?(L*)"
-		"([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$";
+	std::string regexs =
+	        "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?(L*)"
+	        "([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$";
 
 	regex = pcre_compile(regexs.c_str(), 0, &error, &erroroff, NULL);
 
@@ -273,7 +290,7 @@ bool ERomanNumeral::parse(const std::string &v)
 	// Execute the regular expression on our input string.
 
 	rc = pcre_exec(regex, NULL, pv.c_str(), static_cast<int>(pv.length()),
-		0, 0, ovector, 42);
+	               0, 0, ovector, 42);
 
 	if(rc <= 0)
 	{
@@ -287,13 +304,15 @@ bool ERomanNumeral::parse(const std::string &v)
 	for(i = 1; i < rc; ++i)
 	{
 		/*
-		 * From our regular expression, we have the following capture groups:
+		 * From our regular expression, we have the following capture
+		 *groups:
 		 *
 		 *     i = 1, 3, 5, 7, 9, 11, 13 - Additive groups.
 		 *
 		 *     i = 2, 4, 6, 8, 10, 12 - Subtractive groups.
 		 *
-		 * Add their values to the running total, checking that they're valid.
+		 * Add their values to the running total, checking that they're
+		 *valid.
 		 */
 
 		// Get this group as a std::string.
@@ -310,37 +329,38 @@ bool ERomanNumeral::parse(const std::string &v)
 
 		switch(i)
 		{
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 9:
-			case 11:
-			case 13:
-			{
-				if(!ERomanNumeral::getAdditiveStringValue(group, &gv))
-					return false;
-
-				total += gv;
-			}
-			break;
-
-			case 2:
-			case 4:
-			case 6:
-			case 8:
-			case 10:
-			case 12:
-			{
-				if(!ERomanNumeral::getSubtractiveStringValue(group, &gv))
-					return false;
-
-				total += gv;
-			}
-			break;
-
-			default:
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 9:
+		case 11:
+		case 13:
+		{
+			if(!ERomanNumeral::getAdditiveStringValue(group, &gv))
 				return false;
+
+			total += gv;
+		}
+		break;
+
+		case 2:
+		case 4:
+		case 6:
+		case 8:
+		case 10:
+		case 12:
+		{
+			if(!ERomanNumeral::getSubtractiveStringValue(group,
+			                                             &gv))
+				return false;
+
+			total += gv;
+		}
+		break;
+
+		default:
+			return false;
 		}
 	}
 
@@ -352,25 +372,30 @@ bool ERomanNumeral::parse(const std::string &v)
 }
 
 /*!
- * This is the () operator of our OVPairComparator struct, which is used to sort output
+ * This is the () operator of our OVPairComparator struct, which is used to sort
+ *output
  * value pairs in descending order.
  *
  * \param a The first output value pair to compare.
  * \param b The second output value pair to compare.
  * \return True if a comes before b, or false otherwise.
  */
-bool ERomanNumeral::OVPairComparator::operator()(const OVPair &a, const OVPair &b)
+bool ERomanNumeral::OVPairComparator::operator()(const OVPair &a,
+                                                 const OVPair &b)
 {
 	return a.second > b.second;
 }
 
 /*!
- * This function computes the numeric value of the given additive string. That is, a
- * string of numerals which contains no "subtractive pairs" (e.g., "IV" = 4). Empty srings
+ * This function computes the numeric value of the given additive string. That
+ *is, a
+ * string of numerals which contains no "subtractive pairs" (e.g., "IV" = 4).
+ *Empty srings
  * are considered valid, and are assumed to have a value of 0.
  *
  * \param s The additive string to examine.
- * \param v This will be set to the resulting value of the string, or 0 on error.
+ * \param v This will be set to the resulting value of the string, or 0 on
+ *error.
  * \return True if the input string was valid, or false otherwise.
  */
 bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
@@ -393,7 +418,7 @@ bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
 	for(size_t i = 0; i < s.length(); ++i)
 	{
 		std::map<char, uint64_t>::const_iterator it =
-			ERomanNumeral::VALUES.find(s.at(i));
+		        ERomanNumeral::VALUES.find(s.at(i));
 
 		if(it == ERomanNumeral::VALUES.cend())
 			return false;
@@ -409,12 +434,15 @@ bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
 }
 
 /*!
- * This function computes the numeric value of the given subtractive pair string. That is,
- * the given input string should be a two-character subtractive pair (e.g., "IX" = 9), or
+ * This function computes the numeric value of the given subtractive pair
+ *string. That is,
+ * the given input string should be a two-character subtractive pair (e.g., "IX"
+ *= 9), or
  * an empty string (which results in a value of 0).
  *
  * \param s The subtractive string to examine.
- * \param v This will be set to the resulting value of the string, or 0 on error.
+ * \param v This will be set to the resulting value of the string, or 0 on
+ *error.
  * \return True if the input string was valid, or false otherwise.
  */
 bool ERomanNumeral::getSubtractiveStringValue(const std::string &s, uint64_t *v)
@@ -436,16 +464,17 @@ bool ERomanNumeral::getSubtractiveStringValue(const std::string &s, uint64_t *v)
 		return false;
 
 	std::map<char, uint64_t>::const_iterator subit =
-		ERomanNumeral::VALUES.find(s.at(0));
+	        ERomanNumeral::VALUES.find(s.at(0));
 
 	std::map<char, uint64_t>::const_iterator valit =
-		ERomanNumeral::VALUES.find(s.at(1));
+	        ERomanNumeral::VALUES.find(s.at(1));
 
 	// Make sure both characters were valid.
 
-	std::map<char, uint64_t>::const_iterator end = ERomanNumeral::VALUES.cend();
+	std::map<char, uint64_t>::const_iterator end =
+	        ERomanNumeral::VALUES.cend();
 
-	if( (subit == end) || (valit == end) )
+	if((subit == end) || (valit == end))
 		return false;
 
 	if(valit->second < subit->second)

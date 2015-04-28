@@ -27,13 +27,16 @@
 #include "libeuler/euler/ESpiral.h"
 
 /*
- * This value is sufficiently high enough for us to get the correct answer, and sufficiently low enough
- * to achieve our goal of executing in < 1second on the netbook -- do not increase it!
+ * This value is sufficiently high enough for us to get the correct answer, and
+ * sufficiently low enough
+ * to achieve our goal of executing in < 1second on the netbook -- do not
+ * increase it!
  */
 #define PRIME_PRECISION 25
 
 /*
- * Starting with 1 and spiralling anticlockwise in the following way, a square spiral with side
+ * Starting with 1 and spiralling anticlockwise in the following way, a square
+ *spiral with side
  * length 7 is formed.
  *
  *    (37)36 35 34 33 32(31)
@@ -44,12 +47,16 @@
  *     42 21 22 23 24 25 26
  *    (43)44 45 46 47 48 49
  *
- * It is interesting to note that the odd squares lie along the bottom right diagonal, but what is
- * more interesting is that 8 out of the 13 numbers lying along both diagonals are prime; that is, a
+ * It is interesting to note that the odd squares lie along the bottom right
+ *diagonal, but what is
+ * more interesting is that 8 out of the 13 numbers lying along both diagonals
+ *are prime; that is, a
  * ratio of 8/13 = 62%.
  *
- * If one complete new layer is wrapped around the spiral above, a square spiral with side length 9
- * will be formed. If this process is continued, what is the side length of the square spiral for which
+ * If one complete new layer is wrapped around the spiral above, a square spiral
+ *with side length 9
+ * will be formed. If this process is continued, what is the side length of the
+ *square spiral for which
  * the ratio of primes along both diagonals first falls below 10%?
  */
 
@@ -66,14 +73,18 @@ int main(void)
 	{
 		++o;
 
-		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
-		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
-		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION)) ++primes;
+		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION))
+			++primes;
+		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION))
+			++primes;
+		if(EMath::isPrime(mpz_class(sp.next()), PRIME_PRECISION))
+			++primes;
 		sp.next();
-	} while((primes*10) > ((o*4)+1));
+	} while((primes * 10) > ((o * 4) + 1));
 
 	result = sp.getSizeFor(o);
-	std::cout << "The size of spiral whose diagonal prime ratio first falls below 10% is: " << result << "\n";
+	std::cout << "The size of spiral whose diagonal prime ratio first "
+	             "falls below 10% is: " << result << "\n";
 
 	assert(result == 26241);
 	return 0;

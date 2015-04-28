@@ -23,14 +23,15 @@
 #include "libeuler/math/Math.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
+#include "libeuler/EDefines.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void ERightTriangle::doTestSuite()
@@ -47,7 +48,7 @@ void ERightTriangle::doTestSuite()
 		t.set(5, 3, 4);
 
 		// Test normalization.
-		EASSERT( (t.getA() < t.getB()) && (t.getB() < t.getC()) )
+		EASSERT((t.getA() < t.getB()) && (t.getB() < t.getC()))
 
 		// Test some right triangles.
 		t.set(3, 4, 5);
@@ -114,25 +115,26 @@ void ERightTriangle::doTestSuite()
  * This is our default constructor, which initializes a new ERightTriangle.
  */
 ERightTriangle::ERightTriangle(uint32_t a, uint32_t b, uint32_t c)
-	: ETriangle(a, b, c)
+        : ETriangle(a, b, c)
 {
 	normalize();
 }
 
 /*!
- * This is our copy constructor, which initializes our triangle to a value equal to that of the given other
+ * This is our copy constructor, which initializes our triangle to a value equal
+ *to that of the given other
  * triangle.
  *
  * \param o The other object to make ourself equal to.
  */
-ERightTriangle::ERightTriangle(const ERightTriangle &o)
-	: ETriangle(o)
+ERightTriangle::ERightTriangle(const ERightTriangle &o) : ETriangle(o)
 {
 	normalize();
 }
 
 /*!
- * This is our assignment operator, which makes our value equal to that of the given other triangle.
+ * This is our assignment operator, which makes our value equal to that of the
+ *given other triangle.
  *
  * \param o The other object to make ourself equal to.
  * \return A reference to this, so the operator can be chained.
@@ -178,8 +180,10 @@ void ERightTriangle::setC(uint32_t c)
 }
 
 /*!
- * This function sets the side lengths of our triangle. Note that if the lengths provided do not
- * constitute a valid triangle, then our triangle is cleared (i.e., all side lengths are set to 0).
+ * This function sets the side lengths of our triangle. Note that if the lengths
+ *provided do not
+ * constitute a valid triangle, then our triangle is cleared (i.e., all side
+ *lengths are set to 0).
  *
  * \param a The new length of side A.
  * \param a The new length of side B.
@@ -195,8 +199,10 @@ void ERightTriangle::set(uint32_t a, uint32_t b, uint32_t c)
 }
 
 /*!
- * This is a reimplemented version of the same function on our parent class. It tests whether or not our triangle
- * is valid (i.e., if the sum of any two sides is greater than the length of the third side), and it additionally
+ * This is a reimplemented version of the same function on our parent class. It
+ *tests whether or not our triangle
+ * is valid (i.e., if the sum of any two sides is greater than the length of the
+ *third side), and it additionally
  * makes sure we are a RIGHT triangle (i.e., a^2 + b^2 = c^2 holds true).
  *
  * \return True if our triangle is valid, or false otherwise.
@@ -213,18 +219,21 @@ bool ERightTriangle::isValidTriangle() const
 }
 
 /*!
- * This is our internal function which normalizes our triangle. That is, a triangle with sides {3, 4, 5} will be
- * treated as equal to a triangle with sides {4, 3, 5}, since they are just mirror images of each other. This is
- * achieved by ensuring that the GREATER of A and B is always assigned to A, and the other value is always assigned
+ * This is our internal function which normalizes our triangle. That is, a
+ * triangle with sides {3, 4, 5} will be
+ * treated as equal to a triangle with sides {4, 3, 5}, since they are just
+ * mirror images of each other. This is
+ * achieved by ensuring that the GREATER of A and B is always assigned to A, and
+ * the other value is always assigned
  * to B.
  */
 void ERightTriangle::normalize()
 {
 	uint32_t a, b, c;
 
-	c = std::max<uint32_t>( std::max<uint32_t>(getA(), getB()), getC() );
-	a = std::min<uint32_t>( std::min<uint32_t>(getA(), getB()), getC() );
-	b = (getA() + getB() + getC()) - (a+c);
+	c = std::max<uint32_t>(std::max<uint32_t>(getA(), getB()), getC());
+	a = std::min<uint32_t>(std::min<uint32_t>(getA(), getB()), getC());
+	b = (getA() + getB() + getC()) - (a + c);
 
 	this->ETriangle::setA(a);
 	this->ETriangle::setB(b);

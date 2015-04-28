@@ -27,7 +27,8 @@
 #include "libeuler/util/EString.h"
 
 /*
- * In the 5 by 5 matrix below, the minimal path sum from the top left to bottom right, by only
+ * In the 5 by 5 matrix below, the minimal path sum from the top left to bottom
+ *right, by only
  * moving to the right and down, is indicated in bold red and is equal to 2427.
  *
  *     [ (131)  673   234   103    18  ]
@@ -36,8 +37,10 @@
  *     [  537   699   497  (121)  956  ]
  *     [  805   732   524  ( 37) (331) ]
  *
- * Find the minimal path sum, in matrix.txt (right click and 'Save Link/Target As...'), a 31K text
- * file containing an 80 by 80 matrix, from the top left to the bottom right by moving only right
+ * Find the minimal path sum, in matrix.txt (right click and 'Save Link/Target
+ *As...'), a 31K text
+ * file containing an 80 by 80 matrix, from the top left to the bottom right by
+ *moving only right
  * and down.
  */
 
@@ -47,62 +50,64 @@
 int main(void)
 {
 	EGridVertex *grid[GRID_HEIGHT][GRID_WIDTH];
-	
+
 	int i, j;
-	
+
 	// Read the input file, and assemble the graph.
-	
+
 	std::string line;
 	std::ifstream gridfile("matrix.txt");
-	
+
 	if(!gridfile.is_open())
 	{
 		std::cout << "FATAL: Couldn't open matrix.txt for reading.\n";
 		return 1;
 	}
-	
+
 	i = 0;
-	
+
 	uint64_t minCost = UINT64_MAX;
-	
+
 	while(std::getline(gridfile, line))
 	{
 		j = 0;
 		std::vector<std::string> values = EString::split(line, ',');
-		
-		for(std::vector<std::string>::iterator it = values.begin(); it != values.end(); ++it)
+
+		for(std::vector<std::string>::iterator it = values.begin();
+		    it != values.end(); ++it)
 		{
 			uint64_t v = static_cast<uint64_t>(std::stoll(*it));
-			
+
 			if(v < minCost)
 				minCost = v;
-			
+
 			grid[i][j] = new EGridVertex(j, i, v);
-			
+
 			++j;
 		}
-		
+
 		++i;
 	}
-	
+
 	for(i = 0; i < GRID_HEIGHT; ++i)
 	{
 		for(j = 0; j < GRID_WIDTH; ++j)
 		{
-			if( (i + 1) < GRID_HEIGHT )
+			if((i + 1) < GRID_HEIGHT)
 				grid[i][j]->addEdge(grid[i + 1][j]);
-			
-			if( (j + 1) < GRID_WIDTH )
+
+			if((j + 1) < GRID_WIDTH)
 				grid[i][j]->addEdge(grid[i][j + 1]);
 		}
 	}
-	
+
 	// Compute the minimum path sum and we're done!
-	
-	uint64_t minimum = EGridGraph::aStar(grid[0][0], grid[GRID_HEIGHT - 1][GRID_WIDTH - 1], minCost);
-	
+
+	uint64_t minimum = EGridGraph::aStar(
+	        grid[0][0], grid[GRID_HEIGHT - 1][GRID_WIDTH - 1], minCost);
+
 	std::cout << "The minimum path sum is: " << minimum << "\n";
 	assert(minimum == 427337);
-	
+
 	return 0;
 }

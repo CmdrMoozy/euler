@@ -32,45 +32,45 @@
 
 namespace
 {
-	/*
-	 * For this problem, we're searching for all b^e=n for positive
-	 * integers n. This means we are trying to find values which satisfy:
-	 *
-	 *     floor(log(b^e)) + 1 = e
-	 *
-	 * We know that b^e is a positive integer. This implies that either
-	 * b is nonnegative or e is even. We can exclude the case of negative
-	 * b and even e, without loss of generality, since there exists some
-	 * other b and e which produce an equivalent n. Thus, we only need to
-	 * consider nonnegative b. We can also see that we can exclude the
-	 * case of b = 0, since log(0^e) = log(0) which is undefined. This
-	 * case will be counted as a solution to the problem separately.
-	 */
+/*
+ * For this problem, we're searching for all b^e=n for positive
+ * integers n. This means we are trying to find values which satisfy:
+ *
+ *     floor(log(b^e)) + 1 = e
+ *
+ * We know that b^e is a positive integer. This implies that either
+ * b is nonnegative or e is even. We can exclude the case of negative
+ * b and even e, without loss of generality, since there exists some
+ * other b and e which produce an equivalent n. Thus, we only need to
+ * consider nonnegative b. We can also see that we can exclude the
+ * case of b = 0, since log(0^e) = log(0) which is undefined. This
+ * case will be counted as a solution to the problem separately.
+ */
 
-	const uint64_t MINIMUM_BASE = 1;
+const uint64_t MINIMUM_BASE = 1;
 
-	/*
-	 * Since we are trying to find values satisfying
-	 * floor(log(b^e)) + 1 = e, we can see that floor(log(b^e)) must be
-	 * strictly less than e. Thus, we have:
-	 *
-	 *     floor(e * log(b)) < e
-	 *
-	 * Note that, if b >= 10, then log(b) >= 1, which means that we've
-	 * violated the restriction that floor(e * log(b)) < e. Thus, b must
-	 * be strictly less than 10.
-	 */
+/*
+ * Since we are trying to find values satisfying
+ * floor(log(b^e)) + 1 = e, we can see that floor(log(b^e)) must be
+ * strictly less than e. Thus, we have:
+ *
+ *     floor(e * log(b)) < e
+ *
+ * Note that, if b >= 10, then log(b) >= 1, which means that we've
+ * violated the restriction that floor(e * log(b)) < e. Thus, b must
+ * be strictly less than 10.
+ */
 
-	const uint64_t MAXIMUM_BASE = 9;
+const uint64_t MAXIMUM_BASE = 9;
 
-	/*
-	 * We can also see that e must be nonnegative, since b^e for negative
-	 * e produces a non-integer value of n. The value of e also cannot
-	 * be equal to zero, since a "zero-digit positive integer" by
-	 * definition doesn't exist.
-	 */
+/*
+ * We can also see that e must be nonnegative, since b^e for negative
+ * e produces a non-integer value of n. The value of e also cannot
+ * be equal to zero, since a "zero-digit positive integer" by
+ * definition doesn't exist.
+ */
 
-	const uint64_t MINIMUM_EXP = 1;
+const uint64_t MINIMUM_EXP = 1;
 }
 
 int main(void)
@@ -87,9 +87,10 @@ int main(void)
 		while(true)
 		{
 			uint64_t n = euler::math::ipow(b, e);
-			uint64_t digits = static_cast<uint64_t>(
-				std::floor(std::log10(
-				static_cast<long double>(n)))) + 1;
+			uint64_t digits =
+			        static_cast<uint64_t>(std::floor(std::log10(
+			                static_cast<long double>(n)))) +
+			        1;
 
 			/*
 			 * If we've found a value for e such that the digits
@@ -123,8 +124,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The number of n-digit nth power " <<
-		"positive intgers is: " << count << "\n";
+	std::cout << "The number of n-digit nth power "
+	          << "positive intgers is: " << count << "\n";
 	assert(count == 49);
 
 	return 0;

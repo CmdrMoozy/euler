@@ -34,13 +34,17 @@
  *     192 x 2 = 384
  *     192 x 3 = 576
  *
- * By concatenating each product we get the 1 to 9 pandigital, 192384576. We will call 192384576
+ * By concatenating each product we get the 1 to 9 pandigital, 192384576. We
+ *will call 192384576
  * the concatenated product of 192 and (1,2,3)
  *
- * The same can be achieved by starting with 9 and multiplying by 1, 2, 3, 4, and 5, giving the
- * pandigital, 918273645, which is the concatenated product of 9 and (1,2,3,4,5).
+ * The same can be achieved by starting with 9 and multiplying by 1, 2, 3, 4,
+ *and 5, giving the
+ * pandigital, 918273645, which is the concatenated product of 9 and
+ *(1,2,3,4,5).
  *
- * What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product
+ * What is the largest 1 to 9 pandigital 9-digit number that can be formed as
+ *the concatenated product
  * of an integer with (1,2, ... ,n) where n > 1?
  */
 
@@ -59,41 +63,56 @@ int main(void)
 	uint64_t concat, lbound, ubound;
 
 	/*
-	 * Test every number of multiples from [2, 9], since 9 is the largest number of multiples we
-	 * can take that can still possibly produce a 9-digit number (assuming the base is one).
+	 * Test every number of multiples from [2, 9], since 9 is the largest
+	 * number of multiples we
+	 * can take that can still possibly produce a 9-digit number (assuming
+	 * the base is one).
 	 */
 
 	for(uint64_t n = 2; n <= 9; ++n)
 	{ // The largest number we will multiply the base by.
 
 		/*
-		 * We calculate lower and upper bounds for the base number based on the fact that the end number needs
-		 * to be nine digits in length. Thus, we generate the largest number which would produce a result of less
+		 * We calculate lower and upper bounds for the base number based
+		 *on the fact that the end number needs
+		 * to be nine digits in length. Thus, we generate the largest
+		 *number which would produce a result of less
 		 * than nine digits:
 		 *
 		 *     10^(floor(9/n) - 1)
 		 *
-		 * And the smallest number which would produce a result of more than nine digits:
+		 * And the smallest number which would produce a result of more
+		 *than nine digits:
 		 *
 		 *     10^(floor(9/n))
 		 *
-		 * For instance, when n = 3, our bounds are going to be: (99, 1000), which would result in us testing numbers
+		 * For instance, when n = 3, our bounds are going to be: (99,
+		 *1000), which would result in us testing numbers
 		 * in the inclusive range [100, 999].
 		 */
 
-		lbound = euler::math::ipow(10, static_cast<uint32_t>(floor(9.0 / static_cast<double>(n))) - 1);
-		ubound = euler::math::ipow(10, static_cast<uint32_t>(floor(9.0 / static_cast<double>(n))));
+		lbound = euler::math::ipow(
+		        10, static_cast<uint32_t>(
+		                    floor(9.0 / static_cast<double>(n))) -
+		                    1);
+		ubound = euler::math::ipow(
+		        10, static_cast<uint32_t>(
+		                    floor(9.0 / static_cast<double>(n))));
 
 		for(uint64_t base = lbound; base < ubound; ++base)
 		{ // The base number we are taking multiples of.
 
 			/*
-			 * The problem description gives that the pandigital 918273645 exists, which means that the greatest
-			 * pandigital must be greater than or equal to the given one. Thus, the first digit of our base must
+			 * The problem description gives that the pandigital
+			 * 918273645 exists, which means that the greatest
+			 * pandigital must be greater than or equal to the given
+			 * one. Thus, the first digit of our base must
 			 * be a nine.
 			 */
 
-			if(base / (euler::math::ipow(10, EMath::logBaseTen(base))) != 9)
+			if(base / (euler::math::ipow(
+			                  10, EMath::logBaseTen(base))) !=
+			   9)
 				continue;
 
 			// Formulate the number.
@@ -114,7 +133,8 @@ int main(void)
 				}
 			}
 
-			// If the number isn't exactly 9 digits, it cannot be 9-digit pandigital.
+			// If the number isn't exactly 9 digits, it cannot be
+			// 9-digit pandigital.
 
 			if(EMath::logBaseTen(concat) != 8)
 				continue;
@@ -124,9 +144,7 @@ int main(void)
 			ptest = concat;
 			if(ptest.isPandigital())
 				numbers.insert(concat);
-
 		}
-
 	}
 
 	// Print out the largest number we got.

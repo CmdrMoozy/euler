@@ -22,14 +22,15 @@
 #include "libeuler/util/EArrayUtilities.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
+#include "libeuler/EDefines.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EFactorization::doTestSuite()
@@ -124,7 +125,8 @@ void EFactorization::doTestSuite()
 #endif
 
 /*!
- * This is our default constructor, which initializes a new EFactorization object
+ * This is our default constructor, which initializes a new EFactorization
+ *object
  * to factor the given number.
  *
  * \param n The number this object will be factoring.
@@ -154,7 +156,8 @@ uint32_t EFactorization::getNumber()
 }
 
 /*!
- * This function sets the number our object will be operating on, possibly resizing our
+ * This function sets the number our object will be operating on, possibly
+ *resizing our
  * object's prime number sieve if need be.
  *
  * \param n The new number to be factored.
@@ -185,8 +188,10 @@ int EFactorization::getPrimeFactorsCount()
 }
 
 /*!
- * This function returns the NUMBER of factors our number has (in total), without actually
- * generating the list of them. This function will, however, generate only the PRIME factors
+ * This function returns the NUMBER of factors our number has (in total),
+ *without actually
+ * generating the list of them. This function will, however, generate only the
+ *PRIME factors
  * if they have not been generated already.
  *
  * \return The number of ALL factors our number has.
@@ -217,8 +222,10 @@ int EFactorization::getAllFactorsCount()
 }
 
 /*!
- * This function generates our list of primes factors if it hasn't already been generated,
- * and then returns a const reference to the list. Note that the map returns maps prime to
+ * This function generates our list of primes factors if it hasn't already been
+ *generated,
+ * and then returns a const reference to the list. Note that the map returns
+ *maps prime to
  * its exponent.
  *
  * \return A list of all of our number's prime factors.
@@ -232,7 +239,8 @@ const std::map<uint32_t, uint32_t> &EFactorization::getPrimeFactors()
 }
 
 /*!
- * This function generates our list of all factors if it hasn't already been generated, and
+ * This function generates our list of all factors if it hasn't already been
+ *generated, and
  * then returns a const reference to the list.
  *
  * \return A list of all of our number's factors.
@@ -246,7 +254,8 @@ const std::set<uint32_t> &EFactorization::getAllFactors()
 }
 
 /*!
- * This is our behind-the-scenes function that generates our number's prime factors.
+ * This is our behind-the-scenes function that generates our number's prime
+ * factors.
  */
 void EFactorization::generatePrimeFactors()
 {
@@ -267,7 +276,7 @@ void EFactorization::generatePrimeFactors()
 	// If this number is prime, then it is its own prime factor.
 	if(sieve->contains(number))
 	{
-		primeFactors.insert( std::pair<uint32_t, uint32_t>(number, 1) );
+		primeFactors.insert(std::pair<uint32_t, uint32_t>(number, 1));
 		primesGenerated = true;
 		return;
 	}
@@ -277,27 +286,31 @@ void EFactorization::generatePrimeFactors()
 	for(sieveIt = sieve->begin(); n > 1; sieveIt++)
 	{
 		c = 0;
-		while( (n % (*sieveIt)) == 0 )
+		while((n % (*sieveIt)) == 0)
 		{
 			n /= (*sieveIt);
 			c++;
 		}
 
-		if(c > 0) primeFactors.insert( std::pair<uint32_t, uint32_t>((*sieveIt), c) );
+		if(c > 0)
+			primeFactors.insert(
+			        std::pair<uint32_t, uint32_t>((*sieveIt), c));
 	}
 
 	primesGenerated = true;
 }
 
 /*!
- * This is our behind-the-scenes function that generates all of our factors. If the prime factors have
- * not been generated yet, then they will be generated first, and then expanded into all of the factors.
+ * This is our behind-the-scenes function that generates all of our factors. If
+ * the prime factors have
+ * not been generated yet, then they will be generated first, and then expanded
+ * into all of the factors.
  */
 void EFactorization::generateAllFactors()
 {
 	std::multiset<uint32_t> primesList;
 	uint32_t i;
-	std::multiset< std::multiset<uint32_t> > primesPS;
+	std::multiset<std::multiset<uint32_t>> primesPS;
 
 	// 0 can't be factored.
 	if(number == 0)
@@ -312,16 +325,21 @@ void EFactorization::generateAllFactors()
 		generatePrimeFactors();
 
 	// Generate a list of all factors, including "duplicates" for powers.
-	for(std::map<uint32_t, uint32_t>::iterator it = primeFactors.begin(); it != primeFactors.end(); ++it)
+	for(std::map<uint32_t, uint32_t>::iterator it = primeFactors.begin();
+	    it != primeFactors.end(); ++it)
 		for(i = 0; i < it->second; ++i)
 			primesList.insert(it->first);
 
-	// Multiply out all the different combinations to get our list of all factors.
+	// Multiply out all the different combinations to get our list of all
+	// factors.
 	primesPS = EArrayUtilities::getPowerSet<uint32_t>(primesList);
-	for(std::multiset< std::multiset<uint32_t> >::iterator it = primesPS.begin(); it != primesPS.end(); ++it)
+	for(std::multiset<std::multiset<uint32_t>>::iterator it =
+	            primesPS.begin();
+	    it != primesPS.end(); ++it)
 	{
 		i = 1;
-		for(std::multiset<uint32_t>::iterator sit = it->begin(); sit != it->end(); ++sit)
+		for(std::multiset<uint32_t>::iterator sit = it->begin();
+		    sit != it->end(); ++sit)
 			i *= (*sit);
 
 		allFactors.insert(i);

@@ -27,26 +27,34 @@
 #include <mpfr.h>
 
 /*
- * Comparing two numbers written in index form like 2^11 and 3^7 is not difficult, as any
+ * Comparing two numbers written in index form like 2^11 and 3^7 is not
+ *difficult, as any
  * calculator would confirm that 2^11 = 2048 < 3^7 = 2187.
  *
- * However, confirming that 632382^518061 > 519432^525806 would be much more difficult, as
+ * However, confirming that 632382^518061 > 519432^525806 would be much more
+ *difficult, as
  * both numbers contain over three million digits.
  *
- * Using base_exp.txt, a 22K text file containing one thousand lines with a base/exponent
- * pair on each line, determine which line number has the greatest numerical value.
+ * Using base_exp.txt, a 22K text file containing one thousand lines with a
+ *base/exponent
+ * pair on each line, determine which line number has the greatest numerical
+ *value.
  *
- * NOTE: The first two lines in the file represent the numbers in the example given above.
+ * NOTE: The first two lines in the file represent the numbers in the example
+ *given above.
  */
 
 /*!
- * This function compares two b^e values. We take advantage of the fact that deciding if:
+ * This function compares two b^e values. We take advantage of the fact that
+ *deciding if:
  *
  *     a^b > c^d is equivalent to deciding if:
  *     log(a^b) > log(c^d)
  *
- * This function is a typical three-state compare: it returns an integer greater than, equal
- * to or less than zero if a is greater than, equal to or less than b, respectively.
+ * This function is a typical three-state compare: it returns an integer greater
+ *than, equal
+ * to or less than zero if a is greater than, equal to or less than b,
+ *respectively.
  *
  * \param ba The base of the first value.
  * \param ea The exponent of the first value.
@@ -119,23 +127,29 @@ int main(void)
 
 				if(idx == std::string::npos)
 				{
-					std::cout << "Invalid line in input file.\n";
+					std::cout << "Invalid line in input "
+					             "file.\n";
 					return 1;
 				}
 
 				bs = line.substr(0, idx);
-				es = line.substr(idx + 1, line.length() - (idx + 1));
+				es = line.substr(idx + 1,
+				                 line.length() - (idx + 1));
 
-				b = static_cast<uint64_t>(strtoll(bs.c_str(), NULL, 10));
-				e = static_cast<uint64_t>(strtoll(es.c_str(), NULL, 10));
+				b = static_cast<uint64_t>(
+				        strtoll(bs.c_str(), NULL, 10));
+				e = static_cast<uint64_t>(
+				        strtoll(es.c_str(), NULL, 10));
 
-				if( (b == 0) || (e == 0) )
+				if((b == 0) || (e == 0))
 				{
-					std::cout << "Invalid line in input file.\n";
+					std::cout << "Invalid line in input "
+					             "file.\n";
 					return 1;
 				}
 
-				// Compare this line's value with our previous maximum value.
+				// Compare this line's value with our previous
+				// maximum value.
 
 				if(compare(maxb, maxe, b, e) < 0)
 				{
@@ -154,7 +168,8 @@ int main(void)
 		return 1;
 	}
 
-	std::cout << "The line number with the largest value was: " << maxl << "\n";
+	std::cout << "The line number with the largest value was: " << maxl
+	          << "\n";
 	assert(maxl == 709);
 
 	return 0;

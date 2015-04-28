@@ -1,5 +1,6 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler solutions, and supporting libraries and
+ *tools.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,18 +26,21 @@
 class EGridVertex;
 
 /*!
- * \brief This class provides utilities for graphs constructed with EGridVertex's.
+ * \brief This class provides utilities for graphs constructed with
+ * EGridVertex's.
  */
 class EGridGraph
 {
-	public:
-		static uint64_t aStar(EGridVertex *s, EGridVertex *e, uint64_t m);
-	
-	private:
-		static uint64_t aStarHeuristic(const EGridVertex *a,
-			const EGridVertex *b, uint64_t m);
-		static uint64_t aStarReconstruct(const std::map<const EGridVertex *,
-			const EGridVertex *> &navigated, const EGridVertex *c);
+public:
+	static uint64_t aStar(EGridVertex *s, EGridVertex *e, uint64_t m);
+
+private:
+	static uint64_t aStarHeuristic(const EGridVertex *a,
+	                               const EGridVertex *b, uint64_t m);
+	static uint64_t
+	aStarReconstruct(const std::map<const EGridVertex *,
+	                                const EGridVertex *> &navigated,
+	                 const EGridVertex *c);
 };
 
 #endif

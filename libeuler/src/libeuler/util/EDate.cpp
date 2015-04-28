@@ -19,14 +19,15 @@
 #include "EDate.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
+#include "libeuler/EDefines.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EDate::doTestSuite()
@@ -42,9 +43,11 @@ void EDate::doTestSuite()
 		 * It is known that:
 		 *
 		 * January 1, 1900 was a Monday
-		 * There were 171 Sundays that fell on the first of a month during the 20th century.
+		 * There were 171 Sundays that fell on the first of a month
+		 *during the 20th century.
 		 *
-		 * Test that our class gives us the correct answer to this problem.
+		 * Test that our class gives us the correct answer to this
+		 *problem.
 		 */
 
 		int s;
@@ -85,7 +88,8 @@ void EDate::doTestSuite()
 #endif
 
 /*!
- * This function converts our EDate::DayOfWeek value to a literal string, so it can be
+ * This function converts our EDate::DayOfWeek value to a literal string, so it
+ *can be
  * (for instance) printed out.
  *
  * \param d The numerical day-of-the-week.
@@ -95,42 +99,45 @@ std::string EDate::dayOfWeekToString(EDate::DayOfWeek d)
 {
 	switch(d)
 	{
-		case EDate::Sunday:
-			return "Sunday";
-			break;
+	case EDate::Sunday:
+		return "Sunday";
+		break;
 
-		case EDate::Monday:
-			return "Monday";
-			break;
+	case EDate::Monday:
+		return "Monday";
+		break;
 
-		case EDate::Tuesday:
-			return "Tuesday";
-			break;
+	case EDate::Tuesday:
+		return "Tuesday";
+		break;
 
-		case EDate::Wednesday:
-			return "Wednesday";
-			break;
+	case EDate::Wednesday:
+		return "Wednesday";
+		break;
 
-		case EDate::Thursday:
-			return "Thursday";
-			break;
+	case EDate::Thursday:
+		return "Thursday";
+		break;
 
-		case EDate::Friday:
-			return "Friday";
-			break;
+	case EDate::Friday:
+		return "Friday";
+		break;
 
-		case EDate::Saturday:
-			return "Saturday";
-			break;
+	case EDate::Saturday:
+		return "Saturday";
+		break;
 	};
 
 	return "";
 }
 
 /*!
- * This function returns the number of days in the given month of the given year, taking into
- * account leap-years and whatnot. Note that the year only matters for February; the rest of
- * the time, one can just use the randomly-selected default year value by not passing their own
+ * This function returns the number of days in the given month of the given
+ *year, taking into
+ * account leap-years and whatnot. Note that the year only matters for February;
+ *the rest of
+ * the time, one can just use the randomly-selected default year value by not
+ *passing their own
  * value.
  *
  * \param m The numeric month.
@@ -141,32 +148,33 @@ int EDate::getDaysInMonth(int m, int y)
 {
 	switch(m)
 	{
-		case 4:
-		case 6:
-		case 9:
-		case 11:
-			return 30;
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+		return 30;
+		break;
+
+	case 2:
+		switch(EDate::getDaysInYear(y))
+		{
+		case 365:
+			return 28;
 			break;
 
-		case 2:
-			switch(EDate::getDaysInYear(y))
-			{
-				case 365:
-					return 28;
-					break;
-
-				case 366:
-					return 29;
-					break;
-			};
+		case 366:
+			return 29;
 			break;
+		};
+		break;
 	};
 
 	return 31;
 }
 
 /*!
- * This function returns the number of days in a given year, including leap-years and
+ * This function returns the number of days in a given year, including
+ *leap-years and
  * leap-centuries and whatnot.
  *
  * \param y The year.
@@ -174,16 +182,16 @@ int EDate::getDaysInMonth(int m, int y)
  */
 int EDate::getDaysInYear(int y)
 {
-	if( (y % 100) != 0 )
+	if((y % 100) != 0)
 	{
-		if( (y % 4) != 0 )
+		if((y % 4) != 0)
 			return 365;
 		else
 			return 366;
 	}
 	else
 	{
-		if( (y % 400) != 0 )
+		if((y % 400) != 0)
 			return 365;
 		else
 			return 366;
@@ -191,7 +199,8 @@ int EDate::getDaysInYear(int y)
 }
 
 /*!
- * This is our default constructor, which initializes our date to the given year, month and day, and
+ * This is our default constructor, which initializes our date to the given
+ *year, month and day, and
  * (optionally) accounting for the given day of the week.
  *
  * \param y The year.
@@ -200,7 +209,7 @@ int EDate::getDaysInYear(int y)
  * \param dow The day of the week.
  */
 EDate::EDate(int y, int m, int d, EDate::DayOfWeek dow)
-	: year(y), month(m), day(d), dayOfWeek(dow)
+        : year(y), month(m), day(d), dayOfWeek(dow)
 {
 }
 
@@ -212,7 +221,8 @@ EDate::~EDate()
 }
 
 /*!
- * This is one of our comparison operators, which tests whether our object is less than the value
+ * This is one of our comparison operators, which tests whether our object is
+ *less than the value
  * of the given other object.
  *
  * \param o The other date to compare ourself to.
@@ -282,8 +292,10 @@ EDate::DayOfWeek EDate::getDayOfWeek() const
 }
 
 /*!
- * This function adds a given number of days to our object's current date, accounting for
- * rollovers in the month and year, as well as keeping track of the correct day-of-the-week.
+ * This function adds a given number of days to our object's current date,
+ *accounting for
+ * rollovers in the month and year, as well as keeping track of the correct
+ *day-of-the-week.
  *
  * \param d The number of days to add.
  */
@@ -296,33 +308,33 @@ void EDate::addDays(int d)
 		day++;
 		switch(dayOfWeek)
 		{
-			case EDate::Sunday:
-				dayOfWeek = EDate::Monday;
-				break;
+		case EDate::Sunday:
+			dayOfWeek = EDate::Monday;
+			break;
 
-			case EDate::Monday:
-				dayOfWeek = EDate::Tuesday;
-				break;
+		case EDate::Monday:
+			dayOfWeek = EDate::Tuesday;
+			break;
 
-			case EDate::Tuesday:
-				dayOfWeek = EDate::Wednesday;
-				break;
+		case EDate::Tuesday:
+			dayOfWeek = EDate::Wednesday;
+			break;
 
-			case EDate::Wednesday:
-				dayOfWeek = EDate::Thursday;
-				break;
+		case EDate::Wednesday:
+			dayOfWeek = EDate::Thursday;
+			break;
 
-			case EDate::Thursday:
-				dayOfWeek = EDate::Friday;
-				break;
+		case EDate::Thursday:
+			dayOfWeek = EDate::Friday;
+			break;
 
-			case EDate::Friday:
-				dayOfWeek = EDate::Saturday;
-				break;
+		case EDate::Friday:
+			dayOfWeek = EDate::Saturday;
+			break;
 
-			case EDate::Saturday:
-				dayOfWeek = EDate::Sunday;
-				break;
+		case EDate::Saturday:
+			dayOfWeek = EDate::Sunday;
+			break;
 		};
 
 		if(day > EDate::getDaysInMonth(month, year))
@@ -340,7 +352,8 @@ void EDate::addDays(int d)
 }
 
 /*!
- * This is a convenience function that adds a given number of weeks to our object's current
+ * This is a convenience function that adds a given number of weeks to our
+ *object's current
  * date. This is equivalent to addDays(w * 7).
  *
  * \param w The number of weeks to add to our date.

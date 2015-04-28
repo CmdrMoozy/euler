@@ -21,14 +21,15 @@
 #include <climits>
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
+#include "libeuler/EDefines.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EBitwise::doTestSuite()
@@ -67,7 +68,8 @@ void EBitwise::doTestSuite()
 
 		EASSERT(EBitwise::reverseBits(0x0000FFFF) == 0x0000FFFF)
 		EASSERT(EBitwise::reverseBits(0x000000AA) == 0x00000055)
-		EASSERT(EBitwise::reverseAllBits(0xFA37A0B1) == EBitwise::reverseBits(0xFA37A0B1))
+		EASSERT(EBitwise::reverseAllBits(0xFA37A0B1) ==
+		        EBitwise::reverseBits(0xFA37A0B1))
 
 		// isPalindromic
 
@@ -86,27 +88,27 @@ void EBitwise::doTestSuite()
 
 		// modPowTwo
 
-		for(n = 1000000; n < 100000000; n += (n%983))
+		for(n = 1000000; n < 100000000; n += (n % 983))
 		{
 			for(s = 1; s < 32; ++s)
 			{
 				d = (1 << s);
 				m = EBitwise::modPowTwo(n, s);
 
-				EASSERT(m == (n%d))
+				EASSERT(m == (n % d))
 			}
 		}
 
 		// modPowTwoLessOne
 
-		for(n = 1000000; n < 100000000; n += (n%937))
+		for(n = 1000000; n < 100000000; n += (n % 937))
 		{
 			for(s = 1; s < 32; ++s)
 			{
 				d = (static_cast<uint64_t>(1) << s) - 1;
 				m = EBitwise::modPowTwoLessOne(n, s);
 
-				EASSERT(m == (n%d))
+				EASSERT(m == (n % d))
 			}
 		}
 
@@ -164,10 +166,13 @@ bool EBitwise::isPowerOfTwo(uint32_t v)
 }
 
 /*!
- * This function is similar to lg() in that it calculates the base-2 logarithm of the given value,
- * except that it is designed to work only on values that are guaranteed to be powers of 2.
+ * This function is similar to lg() in that it calculates the base-2 logarithm
+ *of the given value,
+ * except that it is designed to work only on values that are guaranteed to be
+ *powers of 2.
  *
- * Note that this function is slightly faster than lg(), and as such should be used where possible.
+ * Note that this function is slightly faster than lg(), and as such should be
+ *used where possible.
  *
  * \param v The value to take the lg() of.
  * \return The log2(v).
@@ -199,7 +204,8 @@ uint32_t EBitwise::lg64(uint64_t v)
 }
 
 /*!
- * This function reverses the order of ALL of the bits in v (including leading 0's).
+ * This function reverses the order of ALL of the bits in v (including leading
+ *0's).
  *
  * \param v The value to reverse.
  * \return A value which is bit-reversed v.
@@ -209,7 +215,7 @@ uint32_t EBitwise::reverseAllBits(uint32_t v)
 	uint32_t r = v;
 	int s = sizeof(v) * CHAR_BIT - 1;
 
-	for (v >>= 1; v; v >>= 1)
+	for(v >>= 1; v; v >>= 1)
 	{
 		r <<= 1;
 		r |= v & 1;
@@ -221,7 +227,8 @@ uint32_t EBitwise::reverseAllBits(uint32_t v)
 }
 
 /*!
- * This function reverses the order of the bits in v, excluding any leading zeros.
+ * This function reverses the order of the bits in v, excluding any leading
+ *zeros.
  *
  * \param v The value to reverse.
  * \return A value which is bit-reversed v.
@@ -232,7 +239,8 @@ uint32_t EBitwise::reverseBits(uint32_t v)
 }
 
 /*!
- * This is a convenience function, which tests if v is palindromic in base 2. This test
+ * This is a convenience function, which tests if v is palindromic in base 2.
+ *This test
  * just compares if v is equal to reverseBits(v).
  *
  * \param v The value to test.
@@ -244,7 +252,8 @@ bool EBitwise::isPalindromic(uint32_t v)
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 32-bit unsigned
+ *integer n by
  * p places to the left.
  *
  * \param n The value to operate on.
@@ -257,7 +266,8 @@ uint32_t EBitwise::rotateLeft(uint32_t n, int p)
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 32-bit unsigned
+ *integer n by
  * p places to the right.
  *
  * \param n The value to operate on.
@@ -270,7 +280,8 @@ uint32_t EBitwise::rotateRight(uint32_t n, int p)
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 32-bit unsigned
+ *integer n by
  * p places to the left.
  *
  * \param n The value to operate on.
@@ -279,11 +290,12 @@ uint32_t EBitwise::rotateRight(uint32_t n, int p)
  */
 uint32_t EBitwise::rotl32(uint32_t n, int p)
 {
-	return (n << (p%32)) | (n >> (32 - (p%32)));
+	return (n << (p % 32)) | (n >> (32 - (p % 32)));
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 32-bit unsigned
+ *integer n by
  * p places to the right.
  *
  * \param n The value to operate on.
@@ -292,11 +304,12 @@ uint32_t EBitwise::rotl32(uint32_t n, int p)
  */
 uint32_t EBitwise::rotr32(uint32_t n, int p)
 {
-	return (n >> (p%32)) | (n << (32 - (p%32)));
+	return (n >> (p % 32)) | (n << (32 - (p % 32)));
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 64-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 64-bit unsigned
+ *integer n by
  * p places to the left.
  *
  * \param n The value to operate on.
@@ -305,11 +318,12 @@ uint32_t EBitwise::rotr32(uint32_t n, int p)
  */
 uint64_t EBitwise::rotl64(uint64_t n, int p)
 {
-	return (n << (p%64)) | (n >> (64 - (p%64)));
+	return (n << (p % 64)) | (n >> (64 - (p % 64)));
 }
 
 /*!
- * This function does a circular shift (a rotation) of the 64-bit unsigned integer n by
+ * This function does a circular shift (a rotation) of the 64-bit unsigned
+ *integer n by
  * p places to the right.
  *
  * \param n The value to operate on.
@@ -318,11 +332,12 @@ uint64_t EBitwise::rotl64(uint64_t n, int p)
  */
 uint64_t EBitwise::rotr64(uint64_t n, int p)
 {
-	return (n >> (p%64)) | (n << (64 - (p%64)));
+	return (n >> (p % 64)) | (n << (64 - (p % 64)));
 }
 
 /*!
- * This function returns the result of a modulus division of a numerator, n, by some power of two
+ * This function returns the result of a modulus division of a numerator, n, by
+ *some power of two
  * 2^s.
  *
  * \param n Our numerator.
@@ -337,7 +352,8 @@ uint64_t EBitwise::modPowTwo(uint64_t n, unsigned int s)
 }
 
 /*!
- * This function returns the result of a modulus division of a numerator, n, by one less than some
+ * This function returns the result of a modulus division of a numerator, n, by
+ *one less than some
  * power of two (2^s)-1.
  *
  * \param n Our numerator.
@@ -364,7 +380,7 @@ uint64_t EBitwise::modPowTwoLessOne(uint64_t n, unsigned int s)
  */
 uint64_t EBitwise::rmoOff(uint64_t x)
 {
-	return (x & (x-1));
+	return (x & (x - 1));
 }
 
 /*!
@@ -375,7 +391,7 @@ uint64_t EBitwise::rmoOff(uint64_t x)
  */
 uint64_t EBitwise::rmzOn(uint64_t x)
 {
-	return (x | (x+1));
+	return (x | (x + 1));
 }
 
 /*!
@@ -397,11 +413,12 @@ bool EBitwise::isPowTwo(uint64_t n)
  */
 bool EBitwise::isPowTwoLessOne(uint64_t n)
 {
-	return (n && !(n & (n+1)));
+	return (n && !(n & (n + 1)));
 }
 
 /*!
- * This function isolates the right-most one bit in the given input value. For instance:
+ * This function isolates the right-most one bit in the given input value. For
+ *instance:
  *     rmoIsolate( 0101 1000 ) = 0000 1000
  *
  * \param x Our input value.
@@ -413,7 +430,8 @@ uint64_t EBitwise::rmoIsolate(uint64_t x)
 }
 
 /*!
- * This function isolates the right-most zero bit in the given input value. For instance:
+ * This function isolates the right-most zero bit in the given input value. For
+ *instance:
  *     rmzIsolate( 0101 0111 ) = 0000 1000
  *
  * \param x Our input value.
@@ -421,11 +439,12 @@ uint64_t EBitwise::rmoIsolate(uint64_t x)
  */
 uint64_t EBitwise::rmzIsolate(uint64_t x)
 {
-	return (~x | (x-1));
+	return (~x | (x - 1));
 }
 
 /*!
- * This function returns a mask for the trailing zero bits in the given input value. For instance:
+ * This function returns a mask for the trailing zero bits in the given input
+ *value. For instance:
  *     trailZMask( 1100 1000 ) = 0000 0111
  *
  * \param x Our input value.
@@ -433,11 +452,12 @@ uint64_t EBitwise::rmzIsolate(uint64_t x)
  */
 uint64_t EBitwise::trailZMask(uint64_t x)
 {
-	return (~x & (x-1));
+	return (~x & (x - 1));
 }
 
 /*!
- * This function returns a mask for the trailing one bits in the given input value. For instance:
+ * This function returns a mask for the trailing one bits in the given input
+ *value. For instance:
  *     trailOMask( 1100 0111 ) = 0000 0111
  *
  * \param x Our input value.
@@ -445,11 +465,12 @@ uint64_t EBitwise::trailZMask(uint64_t x)
  */
 uint64_t EBitwise::trailOMask(uint64_t x)
 {
-	return (~x | (x+1));
+	return (~x | (x + 1));
 }
 
 /*!
- * This function returns a mask for the right-most one bit and the trailing zeros after it. For instance:
+ * This function returns a mask for the right-most one bit and the trailing
+ *zeros after it. For instance:
  *     trailRMOZMask( 0101 0000 ) = 0001 1111
  *
  * \param x Our input value.
@@ -457,11 +478,12 @@ uint64_t EBitwise::trailOMask(uint64_t x)
  */
 uint64_t EBitwise::trailRMOZMask(uint64_t x)
 {
-	return (x ^ (x-1));
+	return (x ^ (x - 1));
 }
 
 /*!
- * This function returns a mask for the right-most zero bit and the trailing ones after it. For instance:
+ * This function returns a mask for the right-most zero bit and the trailing
+ *ones after it. For instance:
  *     trailRMZOMask( 1110 1111 ) = 0001 1111
  *
  * \param x Our input value.
@@ -469,7 +491,7 @@ uint64_t EBitwise::trailRMOZMask(uint64_t x)
  */
 uint64_t EBitwise::trailRMZOMask(uint64_t x)
 {
-	return (x ^ (x+1));
+	return (x ^ (x + 1));
 }
 
 /*!
@@ -481,7 +503,7 @@ uint64_t EBitwise::trailRMZOMask(uint64_t x)
  */
 uint64_t EBitwise::rmoPropR(uint64_t x)
 {
-	return (x | (x-1));
+	return (x | (x - 1));
 }
 
 /*!
@@ -493,7 +515,7 @@ uint64_t EBitwise::rmoPropR(uint64_t x)
  */
 uint64_t EBitwise::rmzPropR(uint64_t x)
 {
-	return (x & (x+1));
+	return (x & (x + 1));
 }
 
 /*!
@@ -505,7 +527,7 @@ uint64_t EBitwise::rmzPropR(uint64_t x)
  */
 uint64_t EBitwise::rmosOff(uint64_t x)
 {
-	return ( ((x | (x-1)) + 1) & x );
+	return (((x | (x - 1)) + 1) & x);
 }
 
 /*!
@@ -517,13 +539,15 @@ uint64_t EBitwise::rmosOff(uint64_t x)
  */
 uint64_t EBitwise::rmzsOn(uint64_t x)
 {
-	return ( ((x & (x+1)) - 1) | x );
+	return (((x & (x + 1)) - 1) | x);
 }
 
 /*!
- * This function returns the number of one bits set in the given input value, or it's "population count".
+ * This function returns the number of one bits set in the given input value, or
+ *it's "population count".
  *
- * Note that if you are just going to test if the number of one bits is exactly one, it is somewhat faster
+ * Note that if you are just going to test if the number of one bits is exactly
+ *one, it is somewhat faster
  * to call isPowTwo() instead.
  *
  * \param x Our input value.
@@ -531,10 +555,10 @@ uint64_t EBitwise::rmzsOn(uint64_t x)
  */
 int EBitwise::opop(uint64_t x)
 {
-	x = (x & 0x5555555555555555) + ((x >> 1 ) & 0x5555555555555555);
-	x = (x & 0x3333333333333333) + ((x >> 2 ) & 0x3333333333333333);
-	x = (x & 0x0F0F0F0F0F0F0F0F) + ((x >> 4 ) & 0x0F0F0F0F0F0F0F0F);
-	x = (x & 0x00FF00FF00FF00FF) + ((x >> 8 ) & 0x00FF00FF00FF00FF);
+	x = (x & 0x5555555555555555) + ((x >> 1) & 0x5555555555555555);
+	x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333);
+	x = (x & 0x0F0F0F0F0F0F0F0F) + ((x >> 4) & 0x0F0F0F0F0F0F0F0F);
+	x = (x & 0x00FF00FF00FF00FF) + ((x >> 8) & 0x00FF00FF00FF00FF);
 	x = (x & 0x0000FFFF0000FFFF) + ((x >> 16) & 0x0000FFFF0000FFFF);
 	x = (x & 0x00000000FFFFFFFF) + ((x >> 32) & 0x00000000FFFFFFFF);
 	return x;
@@ -563,8 +587,7 @@ int EBitwise::nlz32(uint32_t x)
 		}
 
 		c >>= 1;
-	}
-	while(c != 0);
+	} while(c != 0);
 
 	return static_cast<int>(n - x);
 }
@@ -592,8 +615,7 @@ int EBitwise::nlz64(uint64_t x)
 		}
 
 		c >>= 1;
-	}
-	while(c != 0);
+	} while(c != 0);
 
 	return static_cast<int>(n - x);
 }

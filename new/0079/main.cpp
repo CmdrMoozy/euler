@@ -38,19 +38,17 @@ int main(void)
 {
 	std::string line;
 	std::ifstream ifile("keylog.txt");
-	
+
 	if(!ifile.is_open())
 	{
 		std::cout << "Failed to open input file 'keylog.txt'!\n";
 		return 1;
 	}
-	
+
 	while(ifile.good())
 	{
 		std::getline(ifile, line);
-		
-		
 	}
-	
+
 	return 0;
 }

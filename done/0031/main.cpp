@@ -21,7 +21,8 @@
 #include <cstdint>
 
 /*
- * In England the currency is made up of pound and pence, and there are eight coins in general
+ * In England the currency is made up of pound and pence, and there are eight
+ *coins in general
  * circulation:
  *
  *     1p, 2p, 5p, 10p, 20p, 50p, 1pound and 2pound.
@@ -36,47 +37,74 @@
 int main(void)
 {
 	uint64_t total = 0;
-	
+
 	/*
-	 * Just calculate the answer using brute force, skipping the interior loops if the total produced by
-	 * the outer loops is already too great. A stupid solution, but acceptably fast.
+	 * Just calculate the answer using brute force, skipping the interior
+	 * loops if the total produced by
+	 * the outer loops is already too great. A stupid solution, but
+	 * acceptably fast.
 	 */
-	
+
 	for(int one = 200; one >= 0; --one)
 	{
 		for(int two = 200; two >= 0; two -= 2)
 		{
-			if( (one + two) > 200 )
+			if((one + two) > 200)
 				continue;
-			
+
 			for(int five = 200; five >= 0; five -= 5)
 			{
-				if( (one + two + five) > 200 )
+				if((one + two + five) > 200)
 					continue;
-				
+
 				for(int ten = 200; ten >= 0; ten -= 10)
 				{
-					if( (one + two + five + ten) > 200 )
+					if((one + two + five + ten) > 200)
 						continue;
-					
-					for(int twenty = 200; twenty >= 0; twenty -= 20)
+
+					for(int twenty = 200; twenty >= 0;
+					    twenty -= 20)
 					{
-						if( (one + two + five + ten + twenty) > 200 )
+						if((one + two + five + ten +
+						    twenty) > 200)
 							continue;
-						
-						for(int fifty = 200; fifty >= 0; fifty -= 50)
+
+						for(int fifty = 200; fifty >= 0;
+						    fifty -= 50)
 						{
-							if( (one + two + five + ten + twenty + fifty) > 200 )
+							if((one + two + five +
+							    ten + twenty +
+							    fifty) > 200)
 								continue;
-							
-							for(int onequid = 200; onequid >= 0; onequid -= 100)
+
+							for(int onequid = 200;
+							    onequid >= 0;
+							    onequid -= 100)
 							{
-								if( (one + two + five + ten + twenty + fifty + onequid) > 200 )
+								if((one + two +
+								    five + ten +
+								    twenty +
+								    fifty +
+								    onequid) >
+								   200)
 									continue;
-								
-								for(int twoquid = 200; twoquid >= 0; twoquid -= 200)
+
+								for(int twoquid =
+								            200;
+								    twoquid >=
+								            0;
+								    twoquid -=
+								    200)
 								{
-									if( (one + two + five + ten + twenty + fifty + onequid + twoquid) == 200 )
+									if((one +
+									    two +
+									    five +
+									    ten +
+									    twenty +
+									    fifty +
+									    onequid +
+									    twoquid) ==
+									   200)
 										++total;
 								}
 							}
@@ -86,9 +114,9 @@ int main(void)
 			}
 		}
 	}
-	
+
 	std::cout << "Two pounds can be made " << total << " different ways.\n";
 	assert(total == 73682);
-	
+
 	return 0;
 }

@@ -19,15 +19,15 @@
 #include "EGridVertex.h"
 
 /*!
- * This is our default constructor, which creates a new EGridVertex which represents a vertex with
+ * This is our default constructor, which creates a new EGridVertex which
+ *represents a vertex with
  * the given value and (x, y) position in the grid.
  *
  * \param x The X-component of this vertex's grid position.
  * \param y The Y-component of this vertex's grid position.
  * \param v The value (or cost) of this vertex.
  */
-EGridVertex::EGridVertex(int x, int y, uint64_t v)
-	: xOff(x), yOff(y), value(v)
+EGridVertex::EGridVertex(int x, int y, uint64_t v) : xOff(x), yOff(y), value(v)
 {
 }
 
@@ -39,8 +39,10 @@ EGridVertex::~EGridVertex()
 }
 
 /*!
- * This operator compares this vertex with the given other one. This is used, e.g., to place a list
- * of vertices in a std::set<> and have them sorted by cost. The two vertices are compared using
+ * This operator compares this vertex with the given other one. This is used,
+ *e.g., to place a list
+ * of vertices in a std::set<> and have them sorted by cost. The two vertices
+ *are compared using
  * their two values.
  *
  * \param o The vertex to compare ourself to.
@@ -82,7 +84,8 @@ uint64_t EGridVertex::getValue() const
 }
 
 /*!
- * This function returns a copy of this vertex's list of edges (or adjacent vertices).
+ * This function returns a copy of this vertex's list of edges (or adjacent
+ *vertices).
  *
  * \return Our list of adjacent vertices.
  */
@@ -92,7 +95,8 @@ std::vector<const EGridVertex *> EGridVertex::getEdges() const
 }
 
 /*!
- * This function adds the given vertex to this vertex's list of adjacent vertices.
+ * This function adds the given vertex to this vertex's list of adjacent
+ *vertices.
  *
  * \param v The vertex we are now adjacent to.
  */

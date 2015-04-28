@@ -23,14 +23,15 @@
 #include "libeuler/EDefines.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/math/EMath.h"
+#include "libeuler/math/EMath.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EPrimeSieve::doTestSuite()
@@ -72,7 +73,8 @@ void EPrimeSieve::doTestSuite()
 #endif
 
 /*!
- * This is our default constructor, which initializes a new EPrimeSieve object with
+ * This is our default constructor, which initializes a new EPrimeSieve object
+ * with
  * a limit of 0.
  */
 EPrimeSieve::EPrimeSieve(uint32_t l)
@@ -98,7 +100,8 @@ uint32_t EPrimeSieve::getLimit() const
 }
 
 /*!
- * This function sets the limit up to which primes will be generated, discarding previous
+ * This function sets the limit up to which primes will be generated, discarding
+ *previous
  * data and re-generating all of the appropriate primes.
  *
  * \param nL The new number limit.
@@ -110,7 +113,8 @@ void EPrimeSieve::setLimit(uint32_t nL)
 }
 
 /*!
- * This function returns the size of our sieve, or in other words, the number of prime numbers
+ * This function returns the size of our sieve, or in other words, the number of
+ *prime numbers
  * it currently contains.
  *
  * \return The number of primes in our sieve.
@@ -121,7 +125,8 @@ uint32_t EPrimeSieve::getSize() const
 }
 
 /*!
- * This function tests whether our prime number sieve contains the given number (i.e., whether
+ * This function tests whether our prime number sieve contains the given number
+ *(i.e., whether
  * or not it is prime, assuming it is <= our number limit).
  *
  * \param i The number to search for.
@@ -148,7 +153,8 @@ bool EPrimeSieve::erase(uint32_t i)
  * set::end if the item is not in our sieve.
  *
  * \param n The value to search for.
- * \return An iterator to the number in the sieve, of set::end if it is not found.
+ * \return An iterator to the number in the sieve, of set::end if it is not
+ *found.
  */
 std::set<uint32_t>::iterator EPrimeSieve::find(uint32_t n)
 {
@@ -216,7 +222,8 @@ std::set<uint32_t>::const_reverse_iterator EPrimeSieve::rbegin() const
 }
 
 /*!
- * Returns an iterator to the "before-the-first" element in our list of primes, which is
+ * Returns an iterator to the "before-the-first" element in our list of primes,
+ *which is
  * the "end" of our list in reverse order.
  *
  * \return An iterator to the element before the beginning of our list.
@@ -227,7 +234,8 @@ std::set<uint32_t>::reverse_iterator EPrimeSieve::rend()
 }
 
 /*!
- * Returns a const iterator to the "before-the-first" element in our list of primes, which is
+ * Returns a const iterator to the "before-the-first" element in our list of
+ *primes, which is
  * the "end" of our list in reverse order.
  *
  * \return An iterator to the element before the beginning of our list.
@@ -238,7 +246,8 @@ std::set<uint32_t>::const_reverse_iterator EPrimeSieve::rend() const
 }
 
 /*!
- * Returns an iterator to the first prime number that is greater than or equal to n.
+ * Returns an iterator to the first prime number that is greater than or equal
+ *to n.
  *
  * \param n The target number.
  * \return An iterator to the first prime >= n.
@@ -260,12 +269,14 @@ std::set<uint32_t>::iterator EPrimeSieve::upperBound(const uint32_t &n) const
 }
 
 /*!
- * This is our behind-the-scenes worker function, which generates all of the prime numbers >= limit,
+ * This is our behind-the-scenes worker function, which generates all of the
+ * prime numbers >= limit,
  * and then inserts them into our binary search tree for the user to access.
  */
 void EPrimeSieve::generatePrimes()
 {
-	EByteArray isPrime(EByteArray::getMinimumByteLength(limit + 1), EByteArray::Clear);
+	EByteArray isPrime(EByteArray::getMinimumByteLength(limit + 1),
+	                   EByteArray::Clear);
 	uint32_t root = EMath::isqrt(limit);
 	uint32_t x, y, n, s, k;
 	uint32_t a, b, c;
@@ -283,15 +294,16 @@ void EPrimeSieve::generatePrimes()
 				c = (y * y);
 
 				n = a + c;
-				if( (n <= limit) && ( ((n % 12) == 1) || ((n % 12) == 5)) )
+				if((n <= limit) &&
+				   (((n % 12) == 1) || ((n % 12) == 5)))
 					isPrime.flipBitAt(n);
 
 				n = b + c;
-				if( (n <= limit) && ((n % 12) == 7) )
+				if((n <= limit) && ((n % 12) == 7))
 					isPrime.flipBitAt(n);
 
 				n = b - c;
-				if( (x > y) && (n <= limit) && ((n % 12) == 11) )
+				if((x > y) && (n <= limit) && ((n % 12) == 11))
 					isPrime.flipBitAt(n);
 			}
 		}

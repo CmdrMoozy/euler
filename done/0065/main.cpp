@@ -33,10 +33,12 @@
  *                   -------
  *                   2 + ...
  *
- * The infinite continued fraction can be written, sqrt(2) = [1;(2)], (2) indicates that 2 repeats
+ * The infinite continued fraction can be written, sqrt(2) = [1;(2)], (2)
+ *indicates that 2 repeats
  * ad infinitum. In a similar way, sqrt(23) = [4;(1,3,1,8)].
  *
- * It turns out that the sequence of partial values of continued fractions for square roots provide the best
+ * It turns out that the sequence of partial values of continued fractions for
+ *square roots provide the best
  * rational approximations. Let us consider the convergents for sqrt(2):
  *
  *     3/2
@@ -46,7 +48,8 @@
  *
  * Hence the sequence of the first ten convergents for sqrt(2) are:
  *
- *     1, 3/2, 7/5, 17/12, 41/29, 99/70, 239/169, 577/408, 1393/985, 3363/2378, ...
+ *     1, 3/2, 7/5, 17/12, 41/29, 99/70, 239/169, 577/408, 1393/985, 3363/2378,
+ *...
  *
  * What is most surprising is that the important mathematical constant,
  *
@@ -58,11 +61,13 @@
  *
  * The sum of the digits in the numerator of the 10th convergent is 1+4+5+7=17.
  *
- * Find the sum of the digits in the numerator of the 100th convergent of the continued fraction for e.
+ * Find the sum of the digits in the numerator of the 100th convergent of the
+ *continued fraction for e.
  */
 
 /*
- * This function returns the nth continued fraction denominator for the continued fraction representation
+ * This function returns the nth continued fraction denominator for the
+ *continued fraction representation
  * of e, elsewhere referred to as b(n).
  *
  * We are using the continued fraction: [ 2; (1, 2k, 1) ] for this calculation.
@@ -71,8 +76,8 @@ uint64_t getDenominator(uint32_t n)
 {
 	if(n > 0)
 	{
-		if( (n % 3) == 2 )
-			return 2 * ((n+1)/3);
+		if((n % 3) == 2)
+			return 2 * ((n + 1) / 3);
 		else
 			return 1;
 	}
@@ -85,7 +90,8 @@ uint64_t getDenominator(uint32_t n)
 int main(void)
 {
 	/*
-	 * By the Fundamental Recurrence formulas (http://en.wikipedia.org/wiki/Fundamental_recurrence_formulas),
+	 * By the Fundamental Recurrence formulas
+	 *(http://en.wikipedia.org/wiki/Fundamental_recurrence_formulas),
 	 * we are given the following:
 	 *
 	 * The nth convergent, x(n), = A(n) / B(n).
@@ -100,15 +106,19 @@ int main(void)
 	 *       B(1) = b(1)
 	 *     B(n+1) = b(n+1)B(n) + a(n+1)B(n-1)
 	 *
-	 * Where a(n) and b(n) represent the nth numerator and denominator of the continued fraction, respectively.
-	 * It can be seen that for the continued fraction representation [...], where S(n) is the nth term of the
+	 * Where a(n) and b(n) represent the nth numerator and denominator of
+	 *the continued fraction, respectively.
+	 * It can be seen that for the continued fraction representation [...],
+	 *where S(n) is the nth term of the
 	 * representation starting at S(0), that:
 	 *
 	 *     b(n) = S(n)
 	 *     a(n) = 1
 	 *
-	 * It should also be noted that, by the way continued fraction representations are constructed, we know that
-	 * the the convergent x(n) for all n in Z is automatically written in lowest terms (i.e., gcd(A(n), B(n)) = 1
+	 * It should also be noted that, by the way continued fraction
+	 *representations are constructed, we know that
+	 * the the convergent x(n) for all n in Z is automatically written in
+	 *lowest terms (i.e., gcd(A(n), B(n)) = 1
 	 * for all valid n).
 	 */
 
@@ -117,7 +127,8 @@ int main(void)
 	mpz_class Am1 = 2, A = 3, hold;
 	uint64_t sum;
 
-	// We want the numerator of the 100th convergent, so calculate the next A 99 times.
+	// We want the numerator of the 100th convergent, so calculate the next
+	// A 99 times.
 
 	for(uint32_t n = 1; n < 99; ++n)
 	{
@@ -128,7 +139,8 @@ int main(void)
 		A = hold;
 	}
 
-	// A now contains the numerator of the 100th convergent. Add its digits to get our answer.
+	// A now contains the numerator of the 100th convergent. Add its digits
+	// to get our answer.
 
 	sum = 0;
 	while(A > 0)
@@ -138,7 +150,8 @@ int main(void)
 		A /= 10;
 	}
 
-	std::cout << "The sum of the digits in the 100th numerator is: " << sum << "\n";
+	std::cout << "The sum of the digits in the 100th numerator is: " << sum
+	          << "\n";
 	assert(sum == 272);
 
 	return 0;

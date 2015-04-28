@@ -1,5 +1,6 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler solutions, and supporting libraries and
+ *tools.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,34 +23,38 @@
 #include "libeuler/math/EPrimeSieve.h"
 
 /*!
- * \brief This is an extension of our sieve which searches for circular primes only.
+ * \brief This is an extension of our sieve which searches for circular primes
+ *only.
  *
- * It behaves in exactly the same way, except after the primes are generated it proceeds
+ * It behaves in exactly the same way, except after the primes are generated it
+ *proceeds
  * to filter out all non-circular primes.
  */
 class ECircularPrimeSieve : public EPrimeSieve
 {
-	public:
+public:
 #ifdef LIBEULER_DEBUG
-		static void doTestSuite();
+	static void doTestSuite();
 #endif
 
-		ECircularPrimeSieve();
+	ECircularPrimeSieve();
 
-	protected:
-		virtual void generatePrimes();
+protected:
+	virtual void generatePrimes();
 
-	private:
-		/*!
-		 * This enum represents the category of a given prime, whether it hasn't been tested yet,
-		 * is definitely Circular, or definitely NotCircular. It is used only internally.
-		 */
-		enum PrimeCategory
-		{
-			Untested,
-			Circular,
-			NotCircular
-		};
+private:
+	/*!
+	 * This enum represents the category of a given prime, whether it hasn't
+	 * been tested yet,
+	 * is definitely Circular, or definitely NotCircular. It is used only
+	 * internally.
+	 */
+	enum PrimeCategory
+	{
+		Untested,
+		Circular,
+		NotCircular
+	};
 };
 
 #endif

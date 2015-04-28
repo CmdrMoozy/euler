@@ -1,5 +1,6 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.
+ * euler - A collection of ProjectEuler solutions, and supporting libraries and
+ *tools.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,30 +24,31 @@
 #include <cstdint>
 
 /*!
- * \brief This class implements a vertex in a graph which also has an (x, y) position in a grid.
+ * \brief This class implements a vertex in a graph which also has an (x, y)
+ * position in a grid.
  */
 class EGridVertex
 {
-	public:
-		EGridVertex(int x, int y, uint64_t v);
-		virtual ~EGridVertex();
-		
-		bool operator<(const EGridVertex &o) const;
-		
-		int getX() const;
-		int getY() const;
-		uint64_t getValue() const;
-		std::vector<const EGridVertex *> getEdges() const;
-		
-		void addEdge(const EGridVertex *v);
-		void clearEdges();
-		
-	private:
-		int xOff;
-		int yOff;
-		
-		uint64_t value;
-		std::vector<const EGridVertex *> edges;
+public:
+	EGridVertex(int x, int y, uint64_t v);
+	virtual ~EGridVertex();
+
+	bool operator<(const EGridVertex &o) const;
+
+	int getX() const;
+	int getY() const;
+	uint64_t getValue() const;
+	std::vector<const EGridVertex *> getEdges() const;
+
+	void addEdge(const EGridVertex *v);
+	void clearEdges();
+
+private:
+	int xOff;
+	int yOff;
+
+	uint64_t value;
+	std::vector<const EGridVertex *> edges;
 };
 
 #endif

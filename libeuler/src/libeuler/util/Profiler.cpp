@@ -23,11 +23,11 @@
 #include <sstream>
 
 #ifdef LIBEULER_DEBUG
-	#include <cmath>
-	#include <thread>
+#include <cmath>
+#include <thread>
 
-	#include "libeuler/EDefines.h"
-	#include "libeuler/EExceptions.h"
+#include "libeuler/EDefines.h"
+#include "libeuler/EExceptions.h"
 #endif
 
 namespace euler
@@ -78,7 +78,7 @@ void Profiler::doTestSuite()
  * \param p Whether or not to print the elasped time on destruction.
  */
 Profiler::Profiler(bool p)
-	: print(p), start(std::chrono::high_resolution_clock::now())
+        : print(p), start(std::chrono::high_resolution_clock::now())
 {
 }
 
@@ -99,7 +99,7 @@ double Profiler::getElapsed() const
 {
 	auto end = std::chrono::high_resolution_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(
-		end - start);
+	        end - start);
 	return static_cast<double>(elapsed.count()) / 1000000000.0;
 }
 
@@ -111,8 +111,8 @@ void Profiler::printElapsed() const
 {
 	double elapsed = getElapsed();
 	std::ostringstream oss;
-	oss << "Profiler: " << std::fixed << std::setprecision(4)
-		<< elapsed << "s\n";
+	oss << "Profiler: " << std::fixed << std::setprecision(4) << elapsed
+	    << "s\n";
 	std::cout << oss.str();
 }
 }

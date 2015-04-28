@@ -55,52 +55,42 @@
 
 namespace
 {
-	constexpr uint64_t MIN_START = 0;
-	constexpr uint64_t MAX_START = 999999;
+constexpr uint64_t MIN_START = 0;
+constexpr uint64_t MAX_START = 999999;
 
-	constexpr uint64_t DESIRED_CHAIN_LENGTH = 60;
+constexpr uint64_t DESIRED_CHAIN_LENGTH = 60;
 
-	inline uint64_t factorialOfDigit(uint64_t digit)
+inline uint64_t factorialOfDigit(uint64_t digit)
+{
+	static constexpr uint64_t LOOKUP_TABLE[] = {
+	        1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
+
+	assert(digit < 10);
+	return LOOKUP_TABLE[digit];
+}
+
+uint64_t digitFactorial(uint64_t v)
+{
+	uint64_t result = 0;
+	while(v)
 	{
-		static constexpr uint64_t LOOKUP_TABLE[] = {
-			1,
-			1,
-			2,
-			6,
-			24,
-			120,
-			720,
-			5040,
-			40320,
-			362880
-		};
-
-		assert(digit < 10);
-		return LOOKUP_TABLE[digit];
+		result += factorialOfDigit(v % 10);
+		v /= 10;
 	}
+	return result;
+}
 
-	uint64_t digitFactorial(uint64_t v)
-	{
-		uint64_t result = 0;
-		while(v)
-		{
-			result += factorialOfDigit(v % 10);
-			v /= 10;
-		}
-		return result;
-	}
-
-	inline std::pair<std::vector<uint64_t>::const_iterator, bool>
-	findRepeat(const std::vector<uint64_t>& chain, const uint64_t& value)
-	{
-		// The longest loop is of size 3, as given in the problem
-		// statement. Thus, if the chain is longer, we don't need to
-		// continue searching past the last three elements.
-		std::vector<uint64_t>::const_reverse_iterator end =
-			chain.size() > 3 ? chain.rbegin() + 3 : chain.rend();
-		auto it = std::find(chain.rbegin(), end, value);
-		return std::make_pair(it.base() + 1, it != end);
-	}
+inline std::pair<std::vector<uint64_t>::const_iterator, bool>
+findRepeat(const std::vector<uint64_t> &chain, const uint64_t &value)
+{
+	// The longest loop is of size 3, as given in the problem
+	// statement. Thus, if the chain is longer, we don't need to
+	// continue searching past the last three elements.
+	std::vector<uint64_t>::const_reverse_iterator end =
+	        chain.size() > 3 ? chain.rbegin() + 3 : chain.rend();
+	auto it = std::find(chain.rbegin(), end, value);
+	return std::make_pair(it.base() + 1, it != end);
+}
 }
 
 int main(void)
@@ -144,10 +134,10 @@ int main(void)
 		// length of each of these numbers.
 		uint64_t length = chain.size() + cachedLength;
 		for(std::vector<uint64_t>::size_type idx = 0;
-			idx < chain.size(); ++idx)
+		    idx < chain.size(); ++idx)
 		{
-			lengthCache.insert(std::make_pair(
-				chain[idx], length - idx));
+			lengthCache.insert(
+			        std::make_pair(chain[idx], length - idx));
 
 			// If we've hit the repeat point, then stop here.
 			if(chain[idx] == repeat)
@@ -158,8 +148,8 @@ int main(void)
 			++count;
 	}
 
-	std::cout << count << " values below one million produce 60-term " <<
-		"digit factorial sequences.\n";
+	std::cout << count << " values below one million produce 60-term "
+	          << "digit factorial sequences.\n";
 	assert(count == 402);
 
 	return 0;

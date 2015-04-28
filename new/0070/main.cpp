@@ -31,9 +31,10 @@ int main(void)
 
 	uint32_t t, result;
 
-	for(std::set<uint32_t>::reverse_iterator it = sieve.rbegin(); it != sieve.rend(); ++it)
+	for(std::set<uint32_t>::reverse_iterator it = sieve.rbegin();
+	    it != sieve.rend(); ++it)
 	{
-std::cout << (*it) << "\n";
+		std::cout << (*it) << "\n";
 		t = EMath::totient((*it));
 
 		if(EMath::isPermutationOf((*it), t))

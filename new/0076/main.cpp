@@ -30,7 +30,8 @@
  *     2 + 1 + 1 + 1
  *     1 + 1 + 1 + 1 + 1
  *
- * How many different ways can one hundred be written as a sum of at least two positive
+ * How many different ways can one hundred be written as a sum of at least two
+ *positive
  * integers?
  */
 
@@ -39,28 +40,25 @@
 int main(void)
 {
 	uint64_t *counts = new uint64_t[MAX_VALUE + 1];
-	
+
 	// Set some initial counts for the recurrence relation.
-	
+
 	counts[0] = 0;
 	counts[1] = 0;
 	counts[2] = 1;
-	
+
 	// For each next value, count using previous values.
-	
+
 	for(uint64_t v = 3; v <= MAX_VALUE; ++v)
 	{
 		for(uint64_t sub = 1; sub < v; ++sub)
 		{
-			
 		}
 	}
-	
+
 	// Done! Print the answer.
-	
-	
-	
+
 	delete[] counts;
-	
+
 	return 0;
 }

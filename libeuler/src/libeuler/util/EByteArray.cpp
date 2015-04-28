@@ -22,12 +22,13 @@
 #include "libeuler/util/EBitwise.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void EByteArray::doTestSuite()
@@ -43,7 +44,8 @@ void EByteArray::doTestSuite()
 		// getMinimumByteLength
 
 		for(i = 0; i < 1000; ++i)
-			EASSERT(EByteArray::getMinimumByteLength(i) == ( (i - (i%8))/8 ) + 1)
+			EASSERT(EByteArray::getMinimumByteLength(i) ==
+			        ((i - (i % 8)) / 8) + 1)
 
 		// Default Constructor + bitSize
 
@@ -127,10 +129,10 @@ void EByteArray::doTestSuite()
 
 		// leftRotate + rightRotate
 
-		a.at( a.getSize() - 1 ) = 0xFF;
+		a.at(a.getSize() - 1) = 0xFF;
 		a.leftRotate(8);
 
-		EASSERT(a.at( a.getSize() - 1 ) == 0x00)
+		EASSERT(a.at(a.getSize() - 1) == 0x00)
 		EASSERT(a.at(0) == 0xFF)
 
 		a.clearBits();
@@ -138,7 +140,7 @@ void EByteArray::doTestSuite()
 
 		a.rightRotate(4);
 		EASSERT(a.at(0) == 0x0A)
-		EASSERT(a.at( a.getSize() - 1 ) == 0x50)
+		EASSERT(a.at(a.getSize() - 1) == 0x50)
 
 		uint32_t number;
 		EByteArray b(4, EByteArray::Clear);
@@ -255,7 +257,8 @@ void EByteArray::doTestSuite()
 #endif
 
 /*!
- * This is a utility function, which returns the minimum length of a bitstring in BYTES in order to
+ * This is a utility function, which returns the minimum length of a bitstring
+ *in BYTES in order to
  * accomadate the given number of BITS.
  *
  * \param b The number of bits we need to accomadate.
@@ -267,9 +270,12 @@ int EByteArray::getMinimumByteLength(int b)
 }
 
 /*!
- * This is our default constructor, which initializes a new QByteArray object of the given length
- * (in BYTES), using the given fill policy to determine its initial value. Note that fill policies
- * including preserve are treated the same as their non-preserve counterparts, since it doesn't make
+ * This is our default constructor, which initializes a new QByteArray object of
+ *the given length
+ * (in BYTES), using the given fill policy to determine its initial value. Note
+ *that fill policies
+ * including preserve are treated the same as their non-preserve counterparts,
+ *since it doesn't make
  * since to preserve old data when initializing a new object.
  *
  * \param l The length of our new bitstring, in BYTES.
@@ -280,17 +286,17 @@ EByteArray::EByteArray(int l, EByteArray::FillPolicy p)
 	// Initialize our data list depending on the FillPolicy we were given.
 	switch(p)
 	{
-		case EByteArray::Set:
-		case EByteArray::PreserveSet:
-			setSize(l);
-			setBits();
-			break;
+	case EByteArray::Set:
+	case EByteArray::PreserveSet:
+		setSize(l);
+		setBits();
+		break;
 
-		case EByteArray::Clear:
-		case EByteArray::PreserveClear:
-			setSize(l);
-			clearBits();
-			break;
+	case EByteArray::Clear:
+	case EByteArray::PreserveClear:
+		setSize(l);
+		clearBits();
+		break;
 	};
 }
 
@@ -302,7 +308,8 @@ EByteArray::~EByteArray()
 }
 
 /*!
- * This function tests if our value is equal to that of the given other byte array.
+ * This function tests if our value is equal to that of the given other byte
+ *array.
  *
  * \param o The array to compare ourself to.
  * \return True if we are equal to o, or false otherwise.
@@ -313,7 +320,8 @@ bool EByteArray::operator==(const EByteArray &o) const
 }
 
 /*!
- * This function tests if our value is less than that of the given other byte array.
+ * This function tests if our value is less than that of the given other byte
+ *array.
  *
  * \param o The array to compare ourself to.
  * \return True if we are less than o, or false otherwise.
@@ -324,7 +332,8 @@ bool EByteArray::operator<(const EByteArray &o) const
 }
 
 /*!
- * This function tests if our value is less than or equal to that of the given other byte array.
+ * This function tests if our value is less than or equal to that of the given
+ *other byte array.
  *
  * \param o The array to compare ourself to.
  * \return True if we are less than or equal to o, or false otherwise.
@@ -335,7 +344,8 @@ bool EByteArray::operator<=(const EByteArray &o) const
 }
 
 /*!
- * This function tests if our value is greater than that of the given other byte array.
+ * This function tests if our value is greater than that of the given other byte
+ *array.
  *
  * \param o The array to compare ourself to.
  * \return True if we are greater than o, or false otherwise.
@@ -346,7 +356,8 @@ bool EByteArray::operator>(const EByteArray &o) const
 }
 
 /*!
- * This function tests if our value is greater than or equal to that of the given other byte array.
+ * This function tests if our value is greater than or equal to that of the
+ *given other byte array.
  *
  * \param o The array to compare ourself to.
  * \return True if we are greater than or equal to o, or false otherwise.
@@ -357,7 +368,8 @@ bool EByteArray::operator>=(const EByteArray &o) const
 }
 
 /*!
- * This is a convenience function which returns the size of our bitstring in BITS. It is equivalent
+ * This is a convenience function which returns the size of our bitstring in
+ *BITS. It is equivalent
  * to multiplying the return value of size() by 8.
  *
  * \return The size of our bitstring in bits.
@@ -368,11 +380,15 @@ int EByteArray::bitSize() const
 }
 
 /*!
- * This function resizes our bitstring to the given length (in BYTES), filling in the new space according to a
- * specified fill policy. Note that policies of "Clear" and "Set" will OVERRIDE existing data with all 0's or all
- * 1's, repsectively, whereas the Preserve policies will maintain existing data, only filling in the new space.
+ * This function resizes our bitstring to the given length (in BYTES), filling
+ *in the new space according to a
+ * specified fill policy. Note that policies of "Clear" and "Set" will OVERRIDE
+ *existing data with all 0's or all
+ * 1's, repsectively, whereas the Preserve policies will maintain existing data,
+ *only filling in the new space.
  *
- * Note that setSize() will achieve more or less the same thing, but this function provides more granularity with
+ * Note that setSize() will achieve more or less the same thing, but this
+ *function provides more granularity with
  * the new bits/bytes via our FillPolicy parameter.
  *
  * \param l The new length of our bitstring.
@@ -424,14 +440,15 @@ void EByteArray::resize(int n, EByteArray::FillPolicy p)
 }
 
 /*!
- * This function returns whether or not the bit at the given BIT OFFSET is set or not.
+ * This function returns whether or not the bit at the given BIT OFFSET is set
+ *or not.
  *
  * \param i The offset of the desired bit.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset you provide is out-of-bounds.
+ * \exception EOutOfBoundsException This exception is thrown if the bit offset
+ *you provide is out-of-bounds.
  * \return True if the specified bit is set, or false otherwise.
  */
-bool EByteArray::bitAt(int i) const
-	throw(EOutOfBoundsException &)
+bool EByteArray::bitAt(int i) const throw(EOutOfBoundsException &)
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
@@ -444,35 +461,36 @@ bool EByteArray::bitAt(int i) const
  *
  * \param i The offset of the desired bit.
  * \param v Whether or not the specified bit should be set to "1" or not.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset you provide is out-of-bounds.
+ * \exception EOutOfBoundsException This exception is thrown if the bit offset
+ *you provide is out-of-bounds.
  */
-void EByteArray::setBitAt(int i, bool v)
-	throw(EOutOfBoundsException &)
+void EByteArray::setBitAt(int i, bool v) throw(EOutOfBoundsException &)
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
 
 	switch(v)
 	{
-		case true:
-			at(byteOffset(i)) |= mask;
-			break;
+	case true:
+		at(byteOffset(i)) |= mask;
+		break;
 
-		case false:
-			at(byteOffset(i)) &= (~mask);
-			break;
+	case false:
+		at(byteOffset(i)) &= (~mask);
+		break;
 	};
 }
 
 /*!
- * This function flips the state of the bit at the given BIT OFFSET in our bitstring. That is,
+ * This function flips the state of the bit at the given BIT OFFSET in our
+ *bitstring. That is,
  * a "1" bit will become "0," and a "0" bit will become "1."
  *
  * \param i The offset of the desired bit.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset you provide is out-of-bounds.
+ * \exception EOutOfBoundsException This exception is thrown if the bit offset
+ *you provide is out-of-bounds.
  */
-void EByteArray::flipBitAt(int i)
-	throw(EOutOfBoundsException &)
+void EByteArray::flipBitAt(int i) throw(EOutOfBoundsException &)
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
@@ -481,7 +499,8 @@ void EByteArray::flipBitAt(int i)
 }
 
 /*!
- * This is a convenience function that clears all of the bits in our bitstring (i.e., it
+ * This is a convenience function that clears all of the bits in our bitstring
+ * (i.e., it
  * sets all bits to 0).
  */
 void EByteArray::clearBits()
@@ -504,7 +523,8 @@ void EByteArray::clearBits()
 }
 
 /*!
- * This is a convenience function that sets all of the bits in our bitstring (i.e., it
+ * This is a convenience function that sets all of the bits in our bitstring
+ * (i.e., it
  * sets all bits to 1).
  */
 void EByteArray::setBits()
@@ -527,7 +547,8 @@ void EByteArray::setBits()
 }
 
 /*!
- * This function returns the total number of "1" bits in our byte array - i.e., its population.
+ * This function returns the total number of "1" bits in our byte array - i.e.,
+ *its population.
  *
  * \return The number of "1" bits.
  */
@@ -553,8 +574,10 @@ int EByteArray::population() const
 }
 
 /*!
- * This function does a logical left-shift of our bitstring by a specified number of places. Note that,
- * just like the left shift operator on primitive types, new bits shifted in on the right will be set to
+ * This function does a logical left-shift of our bitstring by a specified
+ *number of places. Note that,
+ * just like the left shift operator on primitive types, new bits shifted in on
+ *the right will be set to
  * 0.
  *
  * \param n The number of places to left-shift our bitstring.
@@ -614,17 +637,19 @@ void EByteArray::leftShift(int n)
 }
 
 /*!
- * This function does a logical left rotation of our bitstring by a specified number of places. This is similar
- * to a logical left shift, except bits that are ejected off the left side of the bitstring are then carried back
+ * This function does a logical left rotation of our bitstring by a specified
+ *number of places. This is similar
+ * to a logical left shift, except bits that are ejected off the left side of
+ *the bitstring are then carried back
  * to the front (at the right).
  *
  * \param n The number of places to left-rotate our bitstring.
  */
 void EByteArray::leftRotate(int n)
 {
-	//v <<< n = (v << n) | (v >> (bits - n))
+	// v <<< n = (v << n) | (v >> (bits - n))
 
-	EByteArray b( (*this) );
+	EByteArray b((*this));
 
 	n %= bitSize();
 
@@ -634,8 +659,10 @@ void EByteArray::leftRotate(int n)
 }
 
 /*!
- * This function does a logical right shift of our bitstring by a specified number of places. Note that,
- * just like the right shift operator on primitive types, new bits shifted in on the left will be set to
+ * This function does a logical right shift of our bitstring by a specified
+ *number of places. Note that,
+ * just like the right shift operator on primitive types, new bits shifted in on
+ *the left will be set to
  * 0.
  *
  * \param n The number of places to right-shift our bitstring.
@@ -672,7 +699,7 @@ void EByteArray::rightShift(int n)
 		// Shift the remaining distance.
 		for(i = 0; i < n; i++)
 		{
-			for(j = getSize() - 1; ; j--)
+			for(j = getSize() - 1;; j--)
 			{
 				hB = (at(j) & 1) > 0;
 				at(j) >>= 1;
@@ -698,8 +725,10 @@ void EByteArray::rightShift(int n)
 }
 
 /*!
- * This function does a logical left rotation of our bitstring by a specified number of places. This is similar
- * to a logical left shift, except bits that are ejected off the left side of the bitstring are then carried back
+ * This function does a logical left rotation of our bitstring by a specified
+ *number of places. This is similar
+ * to a logical left shift, except bits that are ejected off the left side of
+ *the bitstring are then carried back
  * to the front (at the right).
  *
  * \param n The number of places to left-rotate our bitstring.
@@ -708,7 +737,7 @@ void EByteArray::rightRotate(int n)
 {
 	// v >>> n = (v >> n) | (v << (bits - n))
 
-	EByteArray b( (*this) );
+	EByteArray b((*this));
 
 	n %= bitSize();
 
@@ -718,7 +747,8 @@ void EByteArray::rightRotate(int n)
 }
 
 /*!
- * This function sets our object's value to its logical logical complement. That is, all "1" bits are flipped to
+ * This function sets our object's value to its logical logical complement. That
+ * is, all "1" bits are flipped to
  * "0," and all "0" bits are flipped to "1."
  */
 void EByteArray::bitwiseComplement()
@@ -741,9 +771,12 @@ void EByteArray::bitwiseComplement()
 }
 
 /*!
- * This function sets our value to the logical AND of our current value, and the value of the given other object. This
- * operation is done byte-by-byte. If the other object is SMALLER than our object by n bytes, then the n high bytes in
- * our object are not modified, and, similarly, if the other object is LARGER than our object by n bytes, then the n high
+ * This function sets our value to the logical AND of our current value, and the
+ *value of the given other object. This
+ * operation is done byte-by-byte. If the other object is SMALLER than our
+ *object by n bytes, then the n high bytes in
+ * our object are not modified, and, similarly, if the other object is LARGER
+ *than our object by n bytes, then the n high
  * bytes in the other object are simply ignored.
  *
  * \param o The other bitstring with which we will perform a logical AND.
@@ -769,9 +802,12 @@ void EByteArray::bitwiseAnd(const EByteArray &o)
 }
 
 /*!
- * This function sets our value to the logical OR of our current value, and the value of the given other object. This
- * operation is done byte-by-byte. If the other object is SMALLER than our object by n bytes, then the n high bytes
- * in our object are not modified, and, similarly, if the other object is LARGER than our object by n bytes, then the
+ * This function sets our value to the logical OR of our current value, and the
+ *value of the given other object. This
+ * operation is done byte-by-byte. If the other object is SMALLER than our
+ *object by n bytes, then the n high bytes
+ * in our object are not modified, and, similarly, if the other object is LARGER
+ *than our object by n bytes, then the
  * n high bytes in the other object are simply ignored.
  *
  * \param o The other bitstring with which we will perform a logical OR.
@@ -797,9 +833,12 @@ void EByteArray::bitwiseOr(const EByteArray &o)
 }
 
 /*!
- * This function sets our value to the logical XOR (eXclusive OR) of our current value, and the value of the given other
- * object. This operation is done byte-by-byte. If the other object is SMALLER than our object by n bytes, then the n
- * high bytes in our object are not modified and, similarly, if the other object is LARGER than our object by n bytes,
+ * This function sets our value to the logical XOR (eXclusive OR) of our current
+ *value, and the value of the given other
+ * object. This operation is done byte-by-byte. If the other object is SMALLER
+ *than our object by n bytes, then the n
+ * high bytes in our object are not modified and, similarly, if the other object
+ *is LARGER than our object by n bytes,
  * then the n high bytes in the other object are simply ignored.
  *
  * \param o The other bitstring with which we will perform a logical XOR.
@@ -825,12 +864,15 @@ void EByteArray::bitwiseXor(const EByteArray &o)
 }
 
 /*!
- * This function is similar to the other implementation of bitwiseAnd(), except it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical AND operation, starting with the byte at the given left-shift
+ * This function is similar to the other implementation of bitwiseAnd(), except
+ *it takes a 32-bit unsigned integer instead
+ * of a second bitstring. It does the same byte-by-byte logical AND operation,
+ *starting with the byte at the given left-shift
  * offset.
  *
  * \param v The integer with which we will perform a logical AND.
- * \param lS The number of BYTES to left-shift the value before performing the operation.
+ * \param lS The number of BYTES to left-shift the value before performing the
+ *operation.
  */
 void EByteArray::bitwiseAnd(uint32_t v, int lS)
 {
@@ -855,12 +897,15 @@ void EByteArray::bitwiseAnd(uint32_t v, int lS)
 }
 
 /*!
- * This function is similar to the other implementation of bitwiseOr(), except it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical OR operation, starting with the byte at the given left-shift
+ * This function is similar to the other implementation of bitwiseOr(), except
+ *it takes a 32-bit unsigned integer instead
+ * of a second bitstring. It does the same byte-by-byte logical OR operation,
+ *starting with the byte at the given left-shift
  * offset.
  *
  * \param v The integer with which we will perform a logical OR.
- * \param lS The number of BYTES to left-shift the value before performing the operation.
+ * \param lS The number of BYTES to left-shift the value before performing the
+ *operation.
  */
 void EByteArray::bitwiseOr(uint32_t v, int lS)
 {
@@ -885,12 +930,15 @@ void EByteArray::bitwiseOr(uint32_t v, int lS)
 }
 
 /*!
- * This function is similar to the other implementation of bitwiseXor(), except that it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical XOR operation, starting with the byte at the given left-shift
+ * This function is similar to the other implementation of bitwiseXor(), except
+ *that it takes a 32-bit unsigned integer instead
+ * of a second bitstring. It does the same byte-by-byte logical XOR operation,
+ *starting with the byte at the given left-shift
  * offset.
  *
  * \param v The integer with which we will perform a logical XOR.
- * \param lS The number of BYTES to left-shift the value before performing the operation.
+ * \param lS The number of BYTES to left-shift the value before performing the
+ *operation.
  */
 void EByteArray::bitwiseXor(uint32_t v, int lS)
 {
@@ -915,11 +963,13 @@ void EByteArray::bitwiseXor(uint32_t v, int lS)
 }
 
 /*!
- * This function provides our class with a three-way-compare function against another byte array.
+ * This function provides our class with a three-way-compare function against
+ *another byte array.
  * This function returns -1 if this < o, 0 if this == o, and 1 if this > o.
  *
  * \param o The byte array to compare ourself to.
- * \return A number representing the comparison between this array and the other.
+ * \return A number representing the comparison between this array and the
+ *other.
  */
 int EByteArray::compare(const EByteArray &o) const
 {
@@ -946,7 +996,8 @@ int EByteArray::compare(const EByteArray &o) const
 }
 
 /*!
- * This is a utility function, which returns the ABOLUTE BIT offset version of the given
+ * This is a utility function, which returns the ABOLUTE BIT offset version of
+ *the given
  * byte / relative bit offset.
  *
  * \param by The byte offset of the desired bit.
@@ -959,7 +1010,8 @@ int EByteArray::bitOffset(int by, int bi) const
 }
 
 /*!
- * This is a utility function, which returns the BYTE offset the given BIT OFFSET lies in.
+ * This is a utility function, which returns the BYTE offset the given BIT
+ *OFFSET lies in.
  *
  * \param i The offset of a BIT.
  * \return The offset of the BYTE the specified BIT is in.
@@ -970,7 +1022,8 @@ int EByteArray::byteOffset(int i) const
 }
 
 /*!
- * This is a utility function, which returns the RELATIVE bit offset of the given ABSOLUTE
+ * This is a utility function, which returns the RELATIVE bit offset of the
+ *given ABSOLUTE
  * bit offset.
  *
  * \param i The ABSOLUTE offset of a bit.
@@ -982,7 +1035,8 @@ int EByteArray::relativeBitOffset(int i) const
 }
 
 /*!
- * This is a utility function, which checks whether our bitstring has AT LEAST one "1" bit in it.
+ * This is a utility function, which checks whether our bitstring has AT LEAST
+ *one "1" bit in it.
  *
  * \return True if we have at least one bit set, or false otherwise.
  */

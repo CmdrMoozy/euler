@@ -30,32 +30,35 @@
  *
  * In general,
  *
- * nCr = n! / (r! * (n-r)!), where r <= n, n! = n * (n-1 * ... * 3 * 2 * 1, and 0! = 1.
+ * nCr = n! / (r! * (n-r)!), where r <= n, n! = n * (n-1 * ... * 3 * 2 * 1, and
+ *0! = 1.
  *
  * It is not until n = 23, that a value exceeds one-million: 23C10 = 1144066.
  *
- * How many, not necessarily distinct, values of nCr, for 1 <= n <= 100, are greater than one-million?
+ * How many, not necessarily distinct, values of nCr, for 1 <= n <= 100, are
+ *greater than one-million?
  */
 
 int main(void)
 {
 	uint64_t v;
 	uint32_t n, r, c;
-	
+
 	c = 0;
 	for(n = 1; n <= 100; n++)
 	{
 		for(r = 1; r <= n; r++)
 		{
 			v = EMath::combinations(n, r);
-			
+
 			if(v > 1000000)
 				c++;
 		}
 	}
-	
-	std::cout << "The number of values that exceed 1,000,000 is: " << c << "\n";
-	
+
+	std::cout << "The number of values that exceed 1,000,000 is: " << c
+	          << "\n";
+
 	assert(c == 4075);
 	return 0;
 }

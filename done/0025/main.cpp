@@ -60,7 +60,8 @@ int main(void)
 	mpz_pow_ui(target.get_mpz_t(), target.get_mpz_t(), 999);
 
 	result = EMath::fibonacciSearch(1000, target);
-	std::cout << "The " << result << "th number is the first to have >= 1,000 digits.\n";
+	std::cout << "The " << result
+	          << "th number is the first to have >= 1,000 digits.\n";
 
 	assert(result == 4782);
 	return 0;

@@ -43,7 +43,8 @@ void ipowmodTest()
 	{
 		for(int j = 1; j <= 5; ++j)
 		{
-			uint64_t exp = static_cast<uint64_t>(std::pow(i, j)) % 5;
+			uint64_t exp =
+			        static_cast<uint64_t>(std::pow(i, j)) % 5;
 			uint64_t act = euler::math::ipowmod(i, j, 5);
 			vrfy::assert::assertEquals(exp, act);
 		}

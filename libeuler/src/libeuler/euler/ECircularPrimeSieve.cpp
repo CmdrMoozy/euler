@@ -23,14 +23,15 @@
 #include "libeuler/types/EDigitInteger.h"
 
 #ifdef LIBEULER_DEBUG
-	#include <iostream>
+#include <iostream>
 
-	#include "libeuler/EDefines.h"
+#include "libeuler/EDefines.h"
 #endif
 
 #ifdef LIBEULER_DEBUG
 /*!
- * This function implements our test suite for this class. It uses non-abort()'ing
+ * This function implements our test suite for this class. It uses
+ * non-abort()'ing
  * assertions, and merely prints the result to stdout.
  */
 void ECircularPrimeSieve::doTestSuite()
@@ -43,7 +44,8 @@ void ECircularPrimeSieve::doTestSuite()
 		success = true;
 
 		/*
-		 * To test this, we solve a known problem. It is known that there are 55 circular primes below 1,000,000 -
+		 * To test this, we solve a known problem. It is known that
+		 * there are 55 circular primes below 1,000,000 -
 		 * make sure our class gets the correct answer.
 		 */
 
@@ -67,24 +69,26 @@ void ECircularPrimeSieve::doTestSuite()
 #endif
 
 /*!
- * This is our default constructor, which initializes a new EulerCircularPrimeSieve object with
+ * This is our default constructor, which initializes a new
+ * EulerCircularPrimeSieve object with
  * a limit of 0.
  */
-ECircularPrimeSieve::ECircularPrimeSieve()
-	: EPrimeSieve()
+ECircularPrimeSieve::ECircularPrimeSieve() : EPrimeSieve()
 {
 }
 
 /*!
- * This is a reimplementation of generatePrimes(), which will generate the same list as our parent,
- * but will then remove all of the non-circular primes, leaving us with a functional EulerCircularPrimeSieve.
+ * This is a reimplementation of generatePrimes(), which will generate the same
+ * list as our parent,
+ * but will then remove all of the non-circular primes, leaving us with a
+ * functional EulerCircularPrimeSieve.
  */
 void ECircularPrimeSieve::generatePrimes()
 {
 	EDigitInteger number, tnumber;
-	std::map< uint32_t, PrimeCategory > resultsMap;
+	std::map<uint32_t, PrimeCategory> resultsMap;
 	std::set<uint32_t>::iterator sit;
-	std::map< uint32_t, PrimeCategory >::iterator mit, tmit;
+	std::map<uint32_t, PrimeCategory>::iterator mit, tmit;
 	int i;
 	int digit;
 
@@ -93,29 +97,32 @@ void ECircularPrimeSieve::generatePrimes()
 
 	// Copy our prime numbers into our map.
 	for(sit = begin(); sit != end(); sit++)
-		resultsMap.insert( std::pair< uint32_t, PrimeCategory >( (*sit), Untested ) );
+		resultsMap.insert(
+		        std::pair<uint32_t, PrimeCategory>((*sit), Untested));
 
 	// Filter out the non-circular primes.
 	for(mit = resultsMap.begin(); mit != resultsMap.end(); mit++)
 	{
 		// If we've already determined this value, continue.
-		if( mit->second != Untested )
+		if(mit->second != Untested)
 			continue;
 
-		// If this prime is a single digit, then it is by definition circular.
+		// If this prime is a single digit, then it is by definition
+		// circular.
 		if(mit->first < 10)
 		{
 			mit->second = Circular;
 			continue;
 		}
 
-		// Our number cannot contain 0, 2, 4, 5, 6 or 8, or it is definitely not a circular prime.
+		// Our number cannot contain 0, 2, 4, 5, 6 or 8, or it is
+		// definitely not a circular prime.
 		number = mit->first;
 		for(i = 0; i < number.digitCount(); i++)
 		{
 			digit = number.get(i);
-			if( (digit == 0) || (digit == 2) || (digit == 4) || (digit == 5) || (digit == 6) ||
-				(digit == 8) )
+			if((digit == 0) || (digit == 2) || (digit == 4) ||
+			   (digit == 5) || (digit == 6) || (digit == 8))
 			{
 				// Mark this current number as non-circular.
 				mit->second = NotCircular;
@@ -123,16 +130,19 @@ void ECircularPrimeSieve::generatePrimes()
 			}
 		}
 
-		// If we've already determined that our number is non-circular, continue.
+		// If we've already determined that our number is non-circular,
+		// continue.
 		if(mit->second == NotCircular)
 			continue;
 
-		// Take the current number, and go through all its rotations. If we find one that isn't prime, mark the original not circular.
+		// Take the current number, and go through all its rotations. If
+		// we find one that isn't prime, mark the original not circular.
 		tnumber = number;
 		for(i = 0; i < (tnumber.digitCount() - 1); i++)
 		{
 			tnumber.leftDigitalRotate(1);
-			tmit = resultsMap.find( static_cast<uint32_t>(tnumber.toInteger()) );
+			tmit = resultsMap.find(
+			        static_cast<uint32_t>(tnumber.toInteger()));
 			if(tmit == resultsMap.end())
 			{
 				mit->second = NotCircular;
@@ -140,13 +150,16 @@ void ECircularPrimeSieve::generatePrimes()
 			}
 		}
 
-		// Set this number and all of its rotations as being the proper type.
+		// Set this number and all of its rotations as being the proper
+		// type.
 		if(mit->second == NotCircular)
-		{ // If our number was marked not circular, we need to mark ALL of its rotations not circular.
+		{ // If our number was marked not circular, we need to mark ALL
+			// of its rotations not circular.
 			for(i = 0; i < (number.digitCount() - 1); i++)
 			{
 				number.leftDigitalRotate(1);
-				tmit = resultsMap.find( static_cast<uint32_t>(number.toInteger()) );
+				tmit = resultsMap.find(static_cast<uint32_t>(
+				        number.toInteger()));
 				if(tmit != resultsMap.end())
 				{
 					tmit->second = NotCircular;
@@ -159,14 +172,16 @@ void ECircularPrimeSieve::generatePrimes()
 			for(i = 0; i < (number.digitCount() - 1); i++)
 			{
 				number.leftDigitalRotate(1);
-				tmit = resultsMap.find( static_cast<uint32_t>(number.toInteger()) );
+				tmit = resultsMap.find(static_cast<uint32_t>(
+				        number.toInteger()));
 				if(tmit != resultsMap.end())
 					tmit->second = Circular;
 			}
 		}
 	}
 
-	// Iterate through our temporary map and remove all of the non-circular primes from our sieve.
+	// Iterate through our temporary map and remove all of the non-circular
+	// primes from our sieve.
 	for(mit = resultsMap.begin(); mit != resultsMap.end(); mit++)
 	{
 		if(mit->second == NotCircular)

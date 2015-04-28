@@ -44,7 +44,7 @@ int main(void)
 	value = VALUE_TO_FACTOR;
 	mpz_sqrt(root.get_mpz_t(), value.get_mpz_t());
 
-	s.setLimit( static_cast<uint32_t>(root.get_ui()) );
+	s.setLimit(static_cast<uint32_t>(root.get_ui()));
 
 	it = s.end();
 	it--;
@@ -52,7 +52,8 @@ int main(void)
 	{
 		if((value % (*it)) == 0)
 		{
-			std::cout << "The largest prime factor of " << value << " is: " << (*it) << "\n";
+			std::cout << "The largest prime factor of " << value
+			          << " is: " << (*it) << "\n";
 
 			assert((*it) == 6857);
 			return 0;

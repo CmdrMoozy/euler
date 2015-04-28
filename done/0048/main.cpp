@@ -33,8 +33,8 @@ int main(void)
 {
 	uint32_t i, j;
 	mpz_class power, m;
-	uint32_t sum[10] = {0,0,0,0,0,0,0,0,0,0};
-	uint32_t assertResult[10] = {9,1,1,0,8,4,6,7,0,0};
+	uint32_t sum[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	uint32_t assertResult[10] = {9, 1, 1, 0, 8, 4, 6, 7, 0, 0};
 
 	// Add the last ten digits of each number.
 	for(i = 1; i <= 1000; i++)
@@ -42,7 +42,7 @@ int main(void)
 		mpz_ui_pow_ui(power.get_mpz_t(), i, i);
 
 		j = 1;
-		while( (power > 0) && (j <= 10) )
+		while((power > 0) && (j <= 10))
 		{
 			m = (power % 10);
 			sum[10 - (j++)] += m.get_ui();
@@ -53,7 +53,7 @@ int main(void)
 	// Carry everything.
 	for(i = 9; i > 0; i--)
 	{
-		sum[i-1] += sum[i]/10;
+		sum[i - 1] += sum[i] / 10;
 		sum[i] %= 10;
 	}
 	sum[0] %= 10;
