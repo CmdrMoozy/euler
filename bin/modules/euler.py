@@ -174,7 +174,7 @@ def create_problem(number):
 
 		with open('{0}/main.cpp'.format(path), 'w') as f:
 			f.write('/*\n')
-			f.write(' * euler - A collection of ProjectEuler solutions, and supporting libraries and tools.\n')
+			f.write(' * euler - A collection of ProjectEuler libraries, tools, and solutions.\n')
 			f.write(' * Copyright (C) 2013 Axel Rasmussen\n')
 			f.write(' *\n')
 			f.write(' * This program is free software: you can redistribute it and/or modify\n')
