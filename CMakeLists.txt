@@ -4,7 +4,12 @@ project(euler)
 set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/make)
+set(CMAKE_MODULE_PATH
+
+	${PROJECT_SOURCE_DIR}/make
+	${PROJECT_SOURCE_DIR}/vrfy/CMake
+
+)
 
 # Note which type of build we're performing.
 
@@ -56,4 +61,5 @@ add_subdirectory(new)
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_subdirectory(vrfy)
+	add_subdirectory(test)
 endif()
