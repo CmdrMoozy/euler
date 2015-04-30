@@ -59,19 +59,23 @@ namespace
  * positions, and (grid width - rect width + 1) horizontal positions.
  */
 
+/*
 uint64_t containedRectangleShapes(uint64_t w, uint64_t h)
 {
-	return ((w + 1) * (h + 1)) - (w + 1) - (h + 1);
+        return ((w + 1) * (h + 1)) - (w + 1) - (h + 1);
 }
+*/
 
+/*
 uint64_t containedRectangles(uint64_t w, uint64_t h)
 {
-	uint64_t count = 0;
-	for(uint64_t rw = 1; rw <= w; ++rw)
-		for(uint64_t rh = 1; rh <= h; ++rh)
-			count += ((w + 1) - rw) * ((h + 1) - rh);
-	return count;
+        uint64_t count = 0;
+        for(uint64_t rw = 1; rw <= w; ++rw)
+                for(uint64_t rh = 1; rh <= h; ++rh)
+                        count += ((w + 1) - rw) * ((h + 1) - rh);
+        return count;
 }
+*/
 }
 
 int main(void)
