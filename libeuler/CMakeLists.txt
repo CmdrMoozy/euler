@@ -33,6 +33,7 @@ SET(euler_HEADERS
 	src/libeuler/types/ERomanNumeral.h
 	src/libeuler/types/ETriangle.h
 
+	src/libeuler/util/AbsoluteValue.h
 	src/libeuler/util/EArray.h
 	src/libeuler/util/EArrayUtilities.h
 	src/libeuler/util/EBitwise.h
