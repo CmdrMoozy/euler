@@ -16,12 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <vector>
-#include <string>
+#include <algorithm>
+#include <atomic>
+#include <cassert>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <cassert>
-#include <algorithm>
+#include <string>
+#include <vector>
 
 extern "C" {
 #include <pthread.h>
@@ -36,18 +38,14 @@ extern "C" {
 
 /*
  * This structure defines the context of a consumer thread, including our list
- * of puzzles that
- * are to be solved, the total from the solved puzzles, a mutex consumers can
- * lock so they can
- * pop puzzles off the list or add to the total, and an error flag for consumers
- * to indicate
- * failure.
+ * of puzzles that are to be solved, the total from the solved puzzles, and an
+ * error flag for consumers to indicate failure.
  */
 typedef struct ThreadContext
 {
 	std::vector<std::vector<int>> puzzles;
-	int next;
-	int total;
+	std::atomic<std::size_t> next;
+	std::atomic<int> total;
 
 	bool error;
 
@@ -61,7 +59,7 @@ void *consumer(void *c)
 {
 	ESudoku solver;
 	int a;
-	ThreadContext *context = (ThreadContext *)c;
+	ThreadContext *context = static_cast<ThreadContext *>(c);
 	std::vector<int> puzzle;
 
 	// Keep going until the loop terminates itself.
@@ -69,11 +67,9 @@ void *consumer(void *c)
 	while(true)
 	{
 		// Get the next puzzle and increment the index.
-
-		int p = __sync_fetch_and_add(
-		        &context->next,
-		        1); // Atomic fetch & inc ftw - no locking needed.
-		if(static_cast<size_t>(p) >= context->puzzles.size())
+		std::size_t p =
+		        context->next.fetch_add(1, std::memory_order_seq_cst);
+		if(static_cast<std::size_t>(p) >= context->puzzles.size())
 			break;
 
 		// Try to solve the puzzle.
@@ -100,10 +96,8 @@ void *consumer(void *c)
 		a *= 10;
 		a += puzzle[2];
 
-		// Add our solution to the total (use GCC atomic add so we don't
-		// need to wait for lock).
-
-		__sync_fetch_and_add(&context->total, a);
+		// Add our solution to the total.
+		context->total.fetch_add(a, std::memory_order_seq_cst);
 	}
 
 	return NULL;
@@ -217,7 +211,7 @@ int main(void)
 	ESudoku solver;
 	int a;
 
-	for(size_t i = 0; i < context.puzzles.size(); ++i)
+	for(std::size_t i = 0; i < context.puzzles.size(); ++i)
 	{
 		if(!solver.load(context.puzzles.at(i)))
 		{
