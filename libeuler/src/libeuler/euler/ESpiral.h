@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,22 +19,20 @@
 #ifndef INCLUDE_LIBEULER_EULER_SPIRAL_H
 #define INCLUDE_LIBEULER_EULER_SPIRAL_H
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
 /*!
- * \brief This class represents an n by n matrix (where n is odd) filled in in a
- *spiral pattern.
+ * \brief Represent an NxN matrix (for odd N) filled in in a spiral pattern.
  *
  * It is such that the CENTER cell's value is 1, and the following cells are
- *filled in
- * in clockwise order, starting with the cell to the immediate right of the
- *center, incrementing
- * the value by 1 with each new cell.
+ * filled in in clockwise order, starting with the cell to the immediate right
+ * of the center, incrementing the value by 1 with each new cell.
  *
  * Note that addressing is done with (0, 0) being the CENTER cell, (1, 1) II
- *being the cell
- * to the top-left, (1, 1) IV being the cell to the bottom-right and so on.
+ * being the cell to the top-left, (1, 1) IV being the cell to the bottom-right
+ * and so on.
  */
 class ESpiral
 {
@@ -43,8 +40,7 @@ public:
 	/*!
 	 * This enum represents a quadrant, according to the cartesian quadrants
 	 * (such that quadrant 1 is to the top-right of (0, 0), and they
-	 * progress
-	 * counter-clockwise).
+	 * progress counter-clockwise).
 	 */
 	enum Quadrant
 	{
@@ -61,7 +57,7 @@ public:
 	ESpiral();
 	virtual ~ESpiral();
 
-	int getSizeFor(int o);
+	std::size_t getSizeFor(std::size_t o);
 
 	void begin();
 	uint64_t next();
@@ -78,7 +74,7 @@ private:
 	std::vector<uint64_t> cacheI, cacheII, cacheIII, cacheIV;
 
 	ESpiral::Quadrant currentQuadrant;
-	int currentOffset;
+	std::size_t currentOffset;
 	uint64_t currentValue;
 };
 

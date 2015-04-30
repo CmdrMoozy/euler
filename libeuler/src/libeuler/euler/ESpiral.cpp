@@ -18,9 +18,13 @@
 
 #include "ESpiral.h"
 
-#include "libeuler/EDefines.h"
+#include <stdexcept>
+
+#include "libeuler/util/AbsoluteValue.h"
 
 #ifdef LIBEULER_DEBUG
+#include "libeuler/EDefines.h"
+
 #include <iostream>
 #endif
 
@@ -55,9 +59,8 @@ void ESpiral::doTestSuite()
 
 		ESpiral s;
 		uint64_t result = 1;
-		int i;
 
-		i = 1;
+		std::size_t i = 1;
 		while(s.getSizeFor(i) <= 1001)
 		{
 			result += s.diagonalValueAt(i, ESpiral::I);
@@ -101,13 +104,12 @@ ESpiral::~ESpiral()
 
 /*!
  * This function returns the size of a matrix that would be required for offset
- *(o, o) to be
- * in-bounds.
+ * (o, o) to be in-bounds.
  *
  * \param o The desired offset.
  * \return The minimum size required for the offset to be in-bounds.
  */
-int ESpiral::getSizeFor(int o)
+std::size_t ESpiral::getSizeFor(std::size_t o)
 {
 	// The size for offset o is the oth odd number.
 	return (1 + (o * 2));
@@ -115,10 +117,9 @@ int ESpiral::getSizeFor(int o)
 
 /*!
  * This is one of our functions that allows this class to be used like an
- * iterator. You call begin()
- * to reset to the beginning of the spiral, at which point next() and previous()
- * will return the next
- * and previous values respectively.
+ * iterator. You call begin() to reset to the beginning of the spiral, at which
+ * point next() and previous() will return the next and previous values
+ * respectively.
  */
 void ESpiral::begin()
 {
@@ -129,11 +130,9 @@ void ESpiral::begin()
 
 /*!
  * This function is one of our iterator-style accessors. It returns our current
- *value, and the moves our
- * state to the next value in a clockwise direction.
+ * value, and the moves our state to the next value in a clockwise direction.
  *
- * \return Our current value; calculated by the most recent call to previous()
- *or next().
+ * \return Current value; calculated by most recent to previous() or next().
  */
 uint64_t ESpiral::next()
 {
@@ -144,7 +143,7 @@ uint64_t ESpiral::next()
 		if(currentQuadrant == ESpiral::I)
 			++currentOffset;
 		currentValue += static_cast<uint64_t>(
-		        EABS(getSizeFor(currentOffset) - 1));
+		        euler::absolute(getSizeFor(currentOffset) - 1));
 		currentQuadrant = ESpiral::fsmNext[currentQuadrant];
 	}
 	else
@@ -159,11 +158,10 @@ uint64_t ESpiral::next()
 
 /*!
  * This function is one of our iterator-style accessors. It returns our current
- *value, and the moves our
- * state to the previous value in a clockwise direction.
+ * value, and the moves our state to the previous value in a clockwise
+ * direction.
  *
- * \return Our current value; calculated by the most recent call to previous()
- *or next().
+ * \return Current value; calculated by most recent previous() or next().
  */
 uint64_t ESpiral::previous()
 {
@@ -196,12 +194,10 @@ uint64_t ESpiral::previous()
 
 /*!
  * This function clears our class's cache. We use this cache to DRASTICALLY
- * speed up calls to
- * diagonalValueAt(), but this takes up a decently large chunk of memory.
- * Calling this function
- * will reset our cache to that of a new default-cosntructed QSpiral, but
- * subsequent calls
- * to the aforementioned functions will be slower (until the cache is rebuilt).
+ * speed up calls to diagonalValueAt(), but this takes up a decently large
+ * chunk of memory. Calling this function will reset our cache to that of a new
+ * default-cosntructed QSpiral, but subsequent calls to the aforementioned
+ * functions will be slower (until the cache is rebuilt).
  */
 void ESpiral::clearCache()
 {
@@ -213,12 +209,9 @@ void ESpiral::clearCache()
 
 /*!
  * This function returns the value of the cell that is (o, o) away from (0, 0),
- *in the given
- * quadrant q. Note that this function assumes that our spiral was filled in
- *using a CLOCKWISE
- * pattern; counter-clockwise can easily be accounted for by, as the caller,
- *translating the
- * quadrant argument.
+ * in the given quadrant q. Note that this function assumes that our spiral was
+ * filled in using a CLOCKWISE pattern; counter-clockwise can easily be
+ * accounted for by, as the caller, translating the quadrant argument.
  *
  * \param o The offset from (0, 0).
  * \param q The quadrant in which the desired cell lies.
@@ -262,6 +255,9 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 				return cacheIV[o];
 
 		break;
+
+	default:
+		throw std::runtime_error("Invalid quadrant.");
 	};
 
 	// Determine our size.
@@ -329,6 +325,9 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 		cacheIV[o] = r;
 
 		break;
+
+	default:
+		throw std::runtime_error("Invalid quadrant.");
 	};
 
 	// Return our result.
