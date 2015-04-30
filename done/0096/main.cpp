@@ -22,20 +22,16 @@
 #include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <string>
+#include <system_error>
+#include <thread>
 #include <vector>
-
-extern "C" {
-#include <pthread.h>
-#include <unistd.h>
-}
 
 #include "libeuler/euler/ESudoku.h"
 
-// Utilize (# processors) + 1 threads.
-#define THREADS
-#define CONSUMER_THREAD_COUNT (((int)sysconf(_SC_NPROCESSORS_ONLN)) + 1)
-
+namespace
+{
 /*
  * This structure defines the context of a consumer thread, including our list
  * of puzzles that are to be solved, the total from the solved puzzles, and an
@@ -55,11 +51,10 @@ typedef struct ThreadContext
  * Consumers take unsolved puzzles, solve them, and then add the resulting
  * answer to our context.
  */
-void *consumer(void *c)
+void solvePuzzles(ThreadContext &context)
 {
 	ESudoku solver;
 	int a;
-	ThreadContext *context = static_cast<ThreadContext *>(c);
 	std::vector<int> puzzle;
 
 	// Keep going until the loop terminates itself.
@@ -68,24 +63,24 @@ void *consumer(void *c)
 	{
 		// Get the next puzzle and increment the index.
 		std::size_t p =
-		        context->next.fetch_add(1, std::memory_order_seq_cst);
-		if(static_cast<std::size_t>(p) >= context->puzzles.size())
+		        context.next.fetch_add(1, std::memory_order_seq_cst);
+		if(static_cast<std::size_t>(p) >= context.puzzles.size())
 			break;
 
 		// Try to solve the puzzle.
 
-		if(!solver.load(context->puzzles.at(p)))
+		if(!solver.load(context.puzzles.at(p)))
 		{
 			std::cout << "Failed to load puzzle!\n";
-			context->error = true;
-			return NULL;
+			context.error = true;
+			return;
 		}
 
 		if(!solver.solve(true))
 		{
 			std::cout << "Failed to solve puzzle!\n";
-			context->error = true;
-			return NULL;
+			context.error = true;
+			return;
 		}
 
 		puzzle = solver.getSolution();
@@ -97,10 +92,9 @@ void *consumer(void *c)
 		a += puzzle[2];
 
 		// Add our solution to the total.
-		context->total.fetch_add(a, std::memory_order_seq_cst);
+		context.total.fetch_add(a, std::memory_order_seq_cst);
 	}
-
-	return NULL;
+}
 }
 
 /*
@@ -166,30 +160,31 @@ int main(void)
 	delete[] buf;
 	pfile.close();
 
-#ifdef THREADS
-
 	// Spin up some threads to solve the puzzles.
-
-	pthread_t *threads = new pthread_t[CONSUMER_THREAD_COUNT];
-	int rc;
-
-	for(int i = 0; i < CONSUMER_THREAD_COUNT; ++i)
+	std::vector<std::shared_ptr<std::thread>> threads;
+	for(unsigned i = 0; i < std::thread::hardware_concurrency(); ++i)
 	{
-		rc = pthread_create(&threads[i], NULL, consumer,
-		                    (void *)&context);
-		if(rc)
+		auto work = [&context]()
 		{
-			std::cout << "Unable to start thread!\n";
-			return 1;
-		}
+			solvePuzzles(context);
+		};
+		threads.push_back(std::make_shared<std::thread>(work));
 	}
 
-	// Wait for threads to finish up.
-
-	for(int i = 0; i < CONSUMER_THREAD_COUNT; ++i)
-		pthread_join(threads[i], NULL);
-
-	delete[] threads;
+	// Wait for the threads to finish up.
+	for(auto thread : threads)
+	{
+		try
+		{
+			thread->join();
+		}
+		catch(const std::system_error &e)
+		{
+			if(e.code() != std::errc::invalid_argument)
+				throw;
+		}
+	}
+	threads.clear();
 
 	// Print the answer!
 
@@ -205,42 +200,6 @@ int main(void)
 		             "successfully!\n";
 		return 1;
 	}
-
-#else
-
-	ESudoku solver;
-	int a;
-
-	for(std::size_t i = 0; i < context.puzzles.size(); ++i)
-	{
-		if(!solver.load(context.puzzles.at(i)))
-		{
-			std::cout << "Failed to load puzzle!\n";
-			return 1;
-		}
-
-		if(!solver.solve(true))
-		{
-			std::cout << "Failed to solve puzzle!\n";
-			return 1;
-		}
-
-		puzzle = solver.getSolution();
-
-		a = puzzle[0];
-		a *= 10;
-		a += puzzle[1];
-		a *= 10;
-		a += puzzle[2];
-
-		context.total += a;
-	}
-
-	std::cout << "The sum of the numbers in the solution is: "
-	          << context.total << "\n";
-	assert(context.total == 24702);
-
-#endif
 
 	return 0;
 }
