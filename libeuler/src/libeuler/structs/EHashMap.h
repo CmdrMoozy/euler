@@ -20,6 +20,7 @@
 #ifndef INCLUDE_LIBEULER_STRUCTS_HASH_MAP_H
 #define INCLUDE_LIBEULER_STRUCTS_HASH_MAP_H
 
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <string>
@@ -44,8 +45,8 @@ struct Hash
 {
 	/*!
 	 * This function hashes a string-based key for us. It just adds up the
-	 *values in the string and then calls
-	 * operator() (uint32_t, uint32_t) on the result.
+	 * values in the string and then calls operator() (uint32_t, uint32_t)
+	 * on the result.
 	 *
 	 * \param k The key we are about to hash.
 	 * \param r The capacity of the hash table is assumed to be 2^r.
@@ -358,7 +359,7 @@ public:
 	 * \param r The bit-length of our hash (our capacity will be 2^r).
 	 * \param l The desired load factor for this hash map.
 	 */
-	EHashMap(int r = 10, float l = 0.75) : bits(r), load(l), keys(0)
+	EHashMap(uint32_t r = 10, float l = 0.75) : bits(r), load(l), keys(0)
 	{
 		int i;
 		capacity =
@@ -479,12 +480,11 @@ public:
 
 	/*!
 	 * This function returns the number of bits in our hash and (via
-	 *calculation) the total
-	 * capacity of our hash map (2^r).
+	 * calculation) the total capacity of our hash map (2^r).
 	 *
 	 * \return The number of bits in our hash.
 	 */
-	int getHashBits() const
+	uint32_t getHashBits() const
 	{
 		return bits;
 	}
@@ -1106,14 +1106,14 @@ private:
 		 *
 		 * \return This list's length.
 		 */
-		int getLength() const
+		std::size_t getLength() const
 		{
-			uint32_t r = 0;
+			std::size_t r = 0;
 			Node *c = head;
 
 			while(c != NULL)
 			{
-				r++;
+				++r;
 				c = c->getNext();
 			}
 
@@ -1136,7 +1136,7 @@ private:
 	 * \return The minimum hash bit length needed to store the given amount
 	 *of keys.
 	 */
-	int getMinimumBits(int r, int k, float l)
+	uint32_t getMinimumBits(uint32_t r, int k, float l)
 	{
 		uint32_t c;
 
@@ -1190,7 +1190,7 @@ private:
 
 	mutable Hasher h;
 	BucketList **array;
-	int bits;
+	uint32_t bits;
 	int capacity;
 	float load;
 	int keys;
