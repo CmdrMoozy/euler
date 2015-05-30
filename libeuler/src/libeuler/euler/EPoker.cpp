@@ -1046,18 +1046,22 @@ int EPoker::compare(const EPoker &o) const
 			bb = EBitwise::lg64(o.values &
 			                    ~(1ULL << static_cast<int>(ba)));
 
-			if(EBitwise::opop(cards &
-			                  getValueIsolator(static_cast<
-			                          EPoker::CardValue>(aa))) == 3)
+			if(EBitwise::opop(
+			           cards &
+			           getValueIsolator(
+			                   static_cast<EPoker::CardValue>(
+			                           aa))) == 3)
 			{
 				uint32_t hold = aa;
 				aa = ab;
 				ab = hold;
 			}
 
-			if(EBitwise::opop(o.cards &
-			                  getValueIsolator(static_cast<
-			                          EPoker::CardValue>(ba))) == 3)
+			if(EBitwise::opop(
+			           o.cards &
+			           getValueIsolator(
+			                   static_cast<EPoker::CardValue>(
+			                           ba))) == 3)
 			{
 				uint32_t hold = ba;
 				ba = bb;
