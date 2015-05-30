@@ -25,6 +25,7 @@ SET(euler_HEADERS
 
 	src/libeuler/structs/EGrid.h
 	src/libeuler/structs/EHashMap.h
+	src/libeuler/structs/Hash.h
 
 	src/libeuler/types/EBigInteger.h
 	src/libeuler/types/EDigitInteger.h
@@ -67,6 +68,8 @@ SET(euler_SOURCES
 	src/libeuler/math/EMath.cpp
 	src/libeuler/math/Math.cpp
 	src/libeuler/math/EPrimeSieve.cpp
+
+	src/libeuler/structs/Hash.cpp
 
 	src/libeuler/types/EBigInteger.cpp
 	src/libeuler/types/EDigitInteger.cpp
