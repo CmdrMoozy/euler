@@ -16,20 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
-#include <string>
+#include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "libeuler/graph/EGridGraph.h"
-#include "libeuler/graph/EGridVertex.h"
+#include "libeuler/graph/dijkstra.h"
+#include "libeuler/graph/Graph.h"
+#include "libeuler/graph/Vertex.h"
 #include "libeuler/util/EString.h"
 
 /*
  * In the 5 by 5 matrix below, the minimal path sum from the top left to bottom
- *right, by only
- * moving to the right and down, is indicated in bold red and is equal to 2427.
+ * right, by only moving to the right and down, is indicated in bold red and is
+ * equal to 2427.
  *
  *     [ (131)  673   234   103    18  ]
  *     [ (201) ( 96) (342)  965   150  ]
@@ -38,76 +43,93 @@
  *     [  805   732   524  ( 37) (331) ]
  *
  * Find the minimal path sum, in matrix.txt (right click and 'Save Link/Target
- *As...'), a 31K text
- * file containing an 80 by 80 matrix, from the top left to the bottom right by
- *moving only right
- * and down.
+ * As...'), a 31K text file containing an 80 by 80 matrix, from the top left
+ * to the bottom right by moving only right and down.
  */
 
-#define GRID_WIDTH 80
-#define GRID_HEIGHT 80
+namespace
+{
+constexpr std::size_t GRID_WIDTH = 80;
+constexpr std::size_t GRID_HEIGHT = 80;
+}
 
 int main(void)
 {
-	EGridVertex *grid[GRID_HEIGHT][GRID_WIDTH];
-
-	int i, j;
-
-	// Read the input file, and assemble the graph.
-
-	std::string line;
-	std::ifstream gridfile("matrix.txt");
-
-	if(!gridfile.is_open())
+	// Open the file containing the edge weights.
+	std::ifstream file("matrix.txt");
+	if(!file.is_open())
 	{
 		std::cout << "FATAL: Couldn't open matrix.txt for reading.\n";
-		return 1;
+		return EXIT_FAILURE;
 	}
 
-	i = 0;
-
-	uint64_t minCost = UINT64_MAX;
-
-	while(std::getline(gridfile, line))
+	// Load the edge weights from the file.
+	int64_t weights[GRID_WIDTH][GRID_HEIGHT];
+	std::string line;
+	for(std::size_t x = 0; std::getline(file, line);)
 	{
-		j = 0;
-		std::vector<std::string> values = EString::split(line, ',');
-
-		for(std::vector<std::string>::iterator it = values.begin();
-		    it != values.end(); ++it)
+		std::vector<std::string> rowWeights = EString::split(line, ',');
+		std::size_t y = 0;
+		for(auto weight : rowWeights)
 		{
-			uint64_t v = static_cast<uint64_t>(std::stoll(*it));
-
-			if(v < minCost)
-				minCost = v;
-
-			grid[i][j] = new EGridVertex(j, i, v);
-
-			++j;
+			weights[x][y] =
+			        static_cast<int64_t>(std::stoll(weight));
+			++y;
 		}
-
-		++i;
+		++x;
 	}
 
-	for(i = 0; i < GRID_HEIGHT; ++i)
+	// We need to create a graph with GRAPH_WIDTH * GRAPH_HEIGHT nodes,
+	// plus two extra nodes (the start and end).
+	euler::graph::Graph graph;
+	euler::graph::Vertex *internalVertices[GRID_WIDTH][GRID_HEIGHT];
+	euler::graph::Vertex &start = graph.addVertex();
+	euler::graph::Vertex &end = graph.addVertex();
+	for(std::size_t x = 0; x < GRID_WIDTH; ++x)
 	{
-		for(j = 0; j < GRID_WIDTH; ++j)
-		{
-			if((i + 1) < GRID_HEIGHT)
-				grid[i][j]->addEdge(grid[i + 1][j]);
+		for(std::size_t y = 0; y < GRID_HEIGHT; ++y)
+			internalVertices[x][y] = &graph.addVertex();
+	}
 
-			if((j + 1) < GRID_WIDTH)
-				grid[i][j]->addEdge(grid[i][j + 1]);
+	// Connect all of the internal nodes, so that from each node we can
+	// move either to the right or down (as per the problem description).
+	for(std::size_t x = 0; x < GRID_WIDTH; ++x)
+	{
+		for(std::size_t y = 0; y < GRID_HEIGHT; ++y)
+		{
+			// Create the "right" connection.
+			if((x + 1) < GRID_WIDTH)
+			{
+				graph.connect(
+				        *internalVertices[x][y],
+				        *internalVertices[x + 1][y],
+				        weights[x + 1][y],
+				        euler::graph::EDGE_DIRECTION_FORWARD);
+			}
+
+			// Create the "down" connection.
+			if((y + 1) < GRID_HEIGHT)
+			{
+				graph.connect(
+				        *internalVertices[x][y],
+				        *internalVertices[x][y + 1],
+				        weights[x][y + 1],
+				        euler::graph::EDGE_DIRECTION_FORWARD);
+			}
 		}
 	}
 
-	// Compute the minimum path sum and we're done!
+	// Connect the start and end nodes.
+	graph.connect(start, *internalVertices[0][0], weights[0][0],
+	              euler::graph::EDGE_DIRECTION_FORWARD);
+	graph.connect(*internalVertices[GRID_WIDTH - 1][GRID_HEIGHT - 1], end,
+	              0, euler::graph::EDGE_DIRECTION_FORWARD);
 
-	uint64_t minimum = EGridGraph::aStar(
-	        grid[0][0], grid[GRID_HEIGHT - 1][GRID_WIDTH - 1], minCost);
+	// Find the shortest path, and we're done!
 
-	std::cout << "The minimum path sum is: " << minimum << "\n";
-	assert(minimum == 427337);
+	auto result = euler::graph::dijkstra(graph, start, end);
+	std::cout << "The minimum path sum is: " << result.sum << "\n";
+	assert(result.sum == 427337);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
