@@ -14,6 +14,7 @@ SET(euler_HEADERS
 	src/libeuler/geodesy/EGeoCoord.h
 	src/libeuler/geodesy/ELatLonValue.h
 
+	src/libeuler/graph/dijkstra.h
 	src/libeuler/graph/Edge.h
 	src/libeuler/graph/EGridGraph.h
 	src/libeuler/graph/EGridVertex.h
@@ -64,6 +65,7 @@ SET(euler_SOURCES
 	src/libeuler/geodesy/EGeoCoord.cpp
 	src/libeuler/geodesy/ELatLonValue.cpp
 
+	src/libeuler/graph/dijkstra.cpp
 	src/libeuler/graph/Edge.cpp
 	src/libeuler/graph/EGridGraph.cpp
 	src/libeuler/graph/EGridVertex.cpp
