@@ -17,6 +17,7 @@ SET(euler_HEADERS
 	src/libeuler/graph/Edge.h
 	src/libeuler/graph/EGridGraph.h
 	src/libeuler/graph/EGridVertex.h
+	src/libeuler/graph/Graph.h
 	src/libeuler/graph/Vertex.h
 
 	src/libeuler/math/EExactCover.h
@@ -66,6 +67,7 @@ SET(euler_SOURCES
 	src/libeuler/graph/Edge.cpp
 	src/libeuler/graph/EGridGraph.cpp
 	src/libeuler/graph/EGridVertex.cpp
+	src/libeuler/graph/Graph.cpp
 	src/libeuler/graph/Vertex.cpp
 
 	src/libeuler/math/EExactCover.cpp
