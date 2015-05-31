@@ -4,6 +4,9 @@ set(test_SOURCES
 
 	Test.cpp
 
+	tests/graph/GraphTest.cpp
+	tests/graph/GraphTest.h
+
 	tests/math/MathTest.cpp
 	tests/math/MathTest.h
 

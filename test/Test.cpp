@@ -18,12 +18,15 @@
 
 #include <Vrfy/Vrfy.h>
 
+#include "tests/graph/GraphTest.h"
 #include "tests/math/MathTest.h"
 
 int main(void)
 {
 	vrfy::Tests tests;
-	tests.add<euler::test::MathTest>().execute();
+	tests.add<euler::test::GraphTest>()
+	        .add<euler::test::MathTest>()
+	        .execute();
 
 	return EXIT_SUCCESS;
 }

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_TESTS_MATH_MATH_TEST_H
-#define INCLUDE_TESTS_MATH_MATH_TEST_H
+#ifndef INCLUDE_TESTS_GRAPH_GRAPH_TEST_H
+#define INCLUDE_TESTS_GRAPH_GRAPH_TEST_H
 
 #include <Vrfy/Vrfy.h>
 
@@ -26,13 +26,13 @@ namespace euler
 namespace test
 {
 /*!
- * \brief This class defines unit test for our various math utilities.
+ * \brief This class defines unit test for our Graph structure and algorithms.
  */
-class MathTest : public vrfy::Test
+class GraphTest : public vrfy::Test
 {
 public:
-	MathTest() = default;
-	virtual ~MathTest() = default;
+	GraphTest() = default;
+	virtual ~GraphTest() = default;
 
 	/*!
 	 * This function executes all of the tests this class defines.
