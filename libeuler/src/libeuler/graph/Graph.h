@@ -54,7 +54,8 @@ public:
 	std::size_t vertexCount() const;
 
 	Vertex &addVertex();
-	void connect(Vertex &a, Vertex &b, int64_t w);
+	void connect(Vertex &a, Vertex &b, int64_t w,
+	             EdgeDirection direction = EDGE_DIRECTION_BOTH);
 
 private:
 	VertexVector_t vertices;

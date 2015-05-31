@@ -32,6 +32,13 @@ namespace graph
 {
 class Vertex;
 
+enum EdgeDirection
+{
+	EDGE_DIRECTION_FORWARD = (1u << 0),
+	EDGE_DIRECTION_BACKWARD = (1u << 1),
+	EDGE_DIRECTION_BOTH = EDGE_DIRECTION_FORWARD | EDGE_DIRECTION_BACKWARD
+};
+
 class Edge
 {
 public:
@@ -39,7 +46,8 @@ public:
 	Vertex &b;
 	int64_t weight;
 
-	Edge(Vertex &va, Vertex &vb, int64_t w);
+	Edge(Vertex &va, Vertex &vb, int64_t w,
+	     EdgeDirection direction = EDGE_DIRECTION_BOTH);
 
 	Edge(const Edge &) = default;
 	~Edge() = default;

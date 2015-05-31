@@ -26,22 +26,28 @@ namespace euler
 {
 namespace graph
 {
-Edge::Edge(Vertex &va, Vertex &vb, int64_t w)
+Edge::Edge(Vertex &va, Vertex &vb, int64_t w, EdgeDirection direction)
         : a(va), b(vb), weight(w), cleanup()
 {
 	if(a.connectedTo(b))
 		throw std::runtime_error("Can't create duplicate edges.");
 
-	va.edges.insert(*this);
-	vb.edges.insert(*this);
+	if(direction & EDGE_DIRECTION_FORWARD)
+		va.edges.insert(*this);
+
+	if(direction & EDGE_DIRECTION_BACKWARD)
+		vb.edges.insert(*this);
 
 	Vertex *vaPtr = &va;
 	Vertex *vbPtr = &vb;
 	cleanup = std::make_shared<util::ScopeExit<std::function<void()>>>(
-	        [vaPtr, vbPtr]()
+	        [vaPtr, vbPtr, direction]()
 	        {
-		        vaPtr->removeConnection(*vbPtr);
-		        vbPtr->removeConnection(*vaPtr);
+		        if(direction & EDGE_DIRECTION_FORWARD)
+			        vaPtr->removeConnection(*vbPtr);
+
+		        if(direction & EDGE_DIRECTION_BACKWARD)
+			        vbPtr->removeConnection(*vaPtr);
 		});
 }
 

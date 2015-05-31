@@ -60,9 +60,9 @@ Vertex &Graph::addVertex()
 	return *vertices.back();
 }
 
-void Graph::connect(Vertex &a, Vertex &b, int64_t w)
+void Graph::connect(Vertex &a, Vertex &b, int64_t w, EdgeDirection direction)
 {
-	std::unique_ptr<Edge> edge(new Edge(a, b, w));
+	std::unique_ptr<Edge> edge(new Edge(a, b, w, direction));
 	edges.push_back(std::move(edge));
 }
 }
