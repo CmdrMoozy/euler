@@ -11,7 +11,7 @@ function(eulerSetCompileFlags)
 		set(F_WARN "${F_WARN} -Wdisabled-optimization")
 		set(F_WARN "${F_WARN} -Wstrict-overflow=5 -Wswitch-default")
 
-		set(F_SAN "-fstack-protctor-strong -fsanitize=address")
+		set(F_SAN "-fstack-protector-strong -fsanitize=address")
 		set(F_SAN "${F_SAN} -fsanitize=undefined")
 
 		set(F_DBG "${F_WARN} ${F_SAN} -std=c++11 -g -O0")
