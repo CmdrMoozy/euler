@@ -14,8 +14,10 @@ SET(euler_HEADERS
 	src/libeuler/geodesy/EGeoCoord.h
 	src/libeuler/geodesy/ELatLonValue.h
 
+	src/libeuler/graph/Edge.h
 	src/libeuler/graph/EGridGraph.h
 	src/libeuler/graph/EGridVertex.h
+	src/libeuler/graph/Vertex.h
 
 	src/libeuler/math/EExactCover.h
 	src/libeuler/math/EFactorization.h
@@ -42,6 +44,7 @@ SET(euler_HEADERS
 	src/libeuler/util/EDate.h
 	src/libeuler/util/Profiler.h
 	src/libeuler/util/EString.h
+	src/libeuler/util/ScopeExit.h
 
 )
 
@@ -60,8 +63,10 @@ SET(euler_SOURCES
 	src/libeuler/geodesy/EGeoCoord.cpp
 	src/libeuler/geodesy/ELatLonValue.cpp
 
+	src/libeuler/graph/Edge.cpp
 	src/libeuler/graph/EGridGraph.cpp
 	src/libeuler/graph/EGridVertex.cpp
+	src/libeuler/graph/Vertex.cpp
 
 	src/libeuler/math/EExactCover.cpp
 	src/libeuler/math/EFactorization.cpp
