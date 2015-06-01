@@ -19,14 +19,16 @@
 #include "GraphTest.h"
 
 #include <cstddef>
+#include <cmath>
+#include <functional>
 #include <memory>
+#include <unordered_map>
+#include <utility>
 
+#include "libeuler/graph/astar.h"
 #include "libeuler/graph/dijkstra.h"
 #include "libeuler/graph/Graph.h"
 #include "libeuler/graph/Vertex.h"
-
-// DEBUG
-#include <iostream>
 
 namespace
 {
@@ -46,6 +48,9 @@ struct TestGraph
 	std::shared_ptr<euler::graph::Graph> graph;
 	euler::graph::Vertex *start;
 	euler::graph::Vertex *end;
+
+	std::unordered_map<const euler::graph::Vertex *,
+	                   std::pair<std::size_t, std::size_t>> positionMap;
 };
 
 TestGraph createTestGraph()
@@ -75,6 +80,9 @@ TestGraph createTestGraph()
 					continue;
 
 			vertices[x][y] = &test.graph->addVertex();
+			auto position = std::make_pair(x, y);
+			test.positionMap.insert(
+			        std::make_pair(vertices[x][y], position));
 		}
 	}
 
@@ -126,6 +134,38 @@ void testDijkstra()
 	vrfy::assert::assertEquals<int64_t>(TEST_GRAPH_EXPECTED_DISTANCE,
 	                                    result.sum);
 }
+
+void testAStarConsistent()
+{
+	TestGraph test = createTestGraph();
+
+	euler::graph::AStarHeuristicFunction_t heuristicFn =
+	        [&test](const euler::graph::Vertex &a,
+	                const euler::graph::Vertex &b) -> int64_t
+	{
+		auto aposit = test.positionMap.find(&a);
+		auto bposit = test.positionMap.find(&b);
+		vrfy::assert::assertTrue((aposit != test.positionMap.end()) &&
+		                         (bposit != test.positionMap.end()));
+
+		auto apos = aposit->second;
+		auto bpos = bposit->second;
+
+		double distance =
+		        (bpos.first - apos.first) * (bpos.first - apos.first);
+		distance += (bpos.second - apos.second) *
+		            (bpos.second - apos.second);
+		distance = sqrt(distance);
+		return static_cast<int64_t>(floor(distance));
+	};
+
+	auto result = euler::graph::astar<euler::graph::ConsistentHeuristic>(
+	        *test.graph, *test.start, *test.end, heuristicFn);
+	vrfy::assert::assertEquals(TEST_GRAPH_EXPECTED_LENGTH,
+	                           result.path.size());
+	vrfy::assert::assertEquals<int64_t>(TEST_GRAPH_EXPECTED_DISTANCE,
+	                                    result.sum);
+}
 }
 
 namespace euler
@@ -135,6 +175,7 @@ namespace test
 void GraphTest::test()
 {
 	testDijkstra();
+	testAStarConsistent();
 }
 }
 }
