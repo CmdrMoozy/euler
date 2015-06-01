@@ -24,6 +24,8 @@ SET(euler_SOURCES
 	src/libeuler/geodesy/ELatLonValue.cpp
 	src/libeuler/geodesy/ELatLonValue.h
 
+	src/libeuler/graph/astar.cpp
+	src/libeuler/graph/astar.h
 	src/libeuler/graph/dijkstra.cpp
 	src/libeuler/graph/dijkstra.h
 	src/libeuler/graph/Edge.cpp
