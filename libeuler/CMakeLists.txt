@@ -18,6 +18,8 @@ SET(euler_SOURCES
 	src/libeuler/euler/ESudoku.h
 	src/libeuler/euler/ETriangleStructure.cpp
 	src/libeuler/euler/ETriangleStructure.h
+	src/libeuler/euler/GridGraphUtils.cpp
+	src/libeuler/euler/GridGraphUtils.h
 
 	src/libeuler/geodesy/EGeoCoord.cpp
 	src/libeuler/geodesy/EGeoCoord.h
