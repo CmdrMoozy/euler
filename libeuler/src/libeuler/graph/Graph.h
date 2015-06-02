@@ -19,8 +19,10 @@
 #ifndef INCLUDE_LIBEULER_GRAPH_GRAPH_H
 #define INCLUDE_LIBEULER_GRAPH_GRAPH_H
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "libeuler/graph/Edge.h"
@@ -61,6 +63,17 @@ private:
 	VertexVector_t vertices;
 	EdgeVector_t edges;
 };
+}
+
+namespace graph_utils
+{
+/*!
+ * @param apos The first (x, y) position.
+ * @param bpos The second (x, y) position.
+ * @return The floor of the euclidean distance between the two points.
+ */
+int64_t euclideanDistance(const std::pair<std::size_t, std::size_t> &apos,
+                          const std::pair<std::size_t, std::size_t> &bpos);
 }
 }
 

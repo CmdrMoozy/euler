@@ -18,7 +18,7 @@
 
 #include "Graph.h"
 
-#include <utility>
+#include <cmath>
 
 namespace euler
 {
@@ -64,6 +64,17 @@ void Graph::connect(Vertex &a, Vertex &b, int64_t w, EdgeDirection direction)
 {
 	std::unique_ptr<Edge> edge(new Edge(a, b, w, direction));
 	edges.push_back(std::move(edge));
+}
+}
+
+namespace graph_utils
+{
+int64_t euclideanDistance(const std::pair<std::size_t, std::size_t> &apos,
+                          const std::pair<std::size_t, std::size_t> &bpos)
+{
+	double distance = (bpos.first - apos.first) * (bpos.first * apos.first);
+	distance += (bpos.second - apos.second) * (bpos.second * apos.second);
+	return static_cast<int64_t>(floor(sqrt(distance)));
 }
 }
 }
