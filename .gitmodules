@@ -1,3 +1,6 @@
 [submodule "vrfy"]
 	path = vrfy
 	url = https://github.com/CmdrMoozy/vrfy.git
+[submodule "3rdparty/catch"]
+	path = 3rdparty/catch
+	url = https://github.com/philsquared/Catch.git
