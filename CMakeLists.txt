@@ -6,7 +6,7 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(CMAKE_MODULE_PATH
 
-	${PROJECT_SOURCE_DIR}/make
+	${PROJECT_SOURCE_DIR}/cmake
 	${PROJECT_SOURCE_DIR}/vrfy/CMake
 
 )
@@ -22,7 +22,7 @@ string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
 
 # Includ extra CMake functions.
 
-include(${CMAKE_SOURCE_DIR}/make/Functions.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Functions.cmake)
 
 # Find our dependencies.
 
@@ -32,7 +32,7 @@ find_package(PCRE REQUIRED)
 
 # Setup our compile flags.
 
-include(${CMAKE_SOURCE_DIR}/make/SetFlags.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/SetFlags.cmake)
 eulerSetCompileFlags()
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
