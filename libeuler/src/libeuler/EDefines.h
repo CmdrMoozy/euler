@@ -56,37 +56,10 @@
 #endif
 #endif
 
-/*
- * This macro is designed to give us access to the name of our current function,
- *for debugging
- * purposes.
- *
- * This macro is __E_PRETTY_FUNCTION__, which is supposed to provide the name of
- *the function
- * it is evaluated in, for use in debugging output.
- *
- * In fairly recent versions of GCC, __PRETTY_FUNCTION__ is defined. In case it
- *isn't,
- * we try some fallbacks - __FUNCTION__, which is defined in older GCC versions
- *and also
- * in MSVC, or __func__, which is defined as part of the C99 standard and should
- *be present
- * in ANY semi-modern compiler.
- */
-#ifndef __E_PRETTY_FUNCTION__
-#ifdef __PRETTY_FUNCTION__
-#define __E_PRETTY_FUNCTION__ __PRETTY_FUNCTION__
-#elif defined(__FUNCTION__)
-#define __E_PRETTY_FUNCTION__ __FUNCTION__
-#else
-#define __E_PRETTY_FUNCTION__ __func__
-#endif
-#endif
-
 // This macro prints out information about the given exception and then aborts()
 // (for debugging purposes).
 #define EDIE_LOGIC(exception)                                                  \
-	std::cerr << "\nDEBUG: LOGIC ERROR: " << __E_PRETTY_FUNCTION__         \
+	std::cerr << "\nDEBUG: LOGIC ERROR: " << __PRETTY_FUNCTION__           \
 	          << " EXCEPTION: " << exception.what() << "\n";               \
 	abort();
 
@@ -95,5 +68,13 @@
 	if(!(assertion))                                                       \
 		throw EAssertionException("Assertion '" #assertion             \
 		                          "' failed.\n");
+
+// Define the EFALLTHROUGH annotation, which is used to silence compiler
+// warnings when we intentionally want switch() fallthrough behavior.
+#ifdef __clang__
+#define EFALLTHROUGH [[clang::fallthrough]];
+#else
+#define EFALLTHROUGH
+#endif
 
 #endif

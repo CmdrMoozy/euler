@@ -83,9 +83,9 @@ bool ESudoku::load(const std::vector<int> &p)
 
 	// Figure out how many rows & columns we need to represent it.
 
-	int rows = 0, columns = 324;
+	std::size_t rows = 0, columns = 324;
 
-	for(unsigned int i = 0; i < puzzle.size(); ++i)
+	for(std::size_t i = 0; i < puzzle.size(); ++i)
 	{
 		if((puzzle[i] < 0) || (puzzle[i] > 9))
 		{
@@ -112,8 +112,8 @@ bool ESudoku::load(const std::vector<int> &p)
 
 	// Take our puzzle and convert it into an exact cover problem.
 
-	int row = 0;
-	for(unsigned int i = 0; i < puzzle.size(); ++i)
+	std::size_t row = 0;
+	for(std::size_t i = 0; i < puzzle.size(); ++i)
 	{
 		/*
 		First  node is at (i, row) - to indicate that cell i has a
@@ -131,7 +131,7 @@ bool ESudoku::load(const std::vector<int> &p)
 			// This is a zero node, so we need to produce nine rows
 			// for it.
 
-			for(int s = 1; s <= 9; ++s)
+			for(std::size_t s = 1; s <= 9; ++s)
 			{ // For each possible symbol, 1-9...
 				solver->setAt(i, row, true);
 				solver->setAt(81 + ((rowOf(i)) * 9) + (s - 1),
@@ -149,13 +149,17 @@ bool ESudoku::load(const std::vector<int> &p)
 			// This is a filled-in node, so we need to add a single
 			// column for it.
 
+			std::size_t puzzleValue =
+			        static_cast<std::size_t>(puzzle[i]);
 			solver->setAt(i, row, true);
-			solver->setAt(81 + ((rowOf(i) * 9) + (puzzle[i] - 1)),
+			solver->setAt(81 + ((rowOf(i) * 9) + (puzzleValue - 1)),
 			              row, true);
-			solver->setAt(162 + ((colOf(i) * 9) + (puzzle[i] - 1)),
-			              row, true);
-			solver->setAt(243 + ((boxOf(i) * 9) + (puzzle[i] - 1)),
-			              row, true);
+			solver->setAt(
+			        162 + ((colOf(i) * 9) + (puzzleValue - 1)), row,
+			        true);
+			solver->setAt(
+			        243 + ((boxOf(i) * 9) + (puzzleValue - 1)), row,
+			        true);
 
 			++row;
 		}
@@ -191,8 +195,8 @@ bool ESudoku::solve(bool s)
 
 	solver->solve(s);
 
-	std::vector<std::vector<std::pair<int, int>>> solutions =
-	        solver->getSolutions();
+	std::vector<std::vector<std::pair<std::size_t, std::size_t>>>
+	        solutions = solver->getSolutions();
 	if(solutions.size() != 1)
 		return false;
 
@@ -207,7 +211,7 @@ bool ESudoku::solve(bool s)
 		}
 	} mycmp;
 
-	std::vector<std::pair<int, int>> stmp;
+	std::vector<std::pair<decltype(puzzle)::size_type, int>> stmp;
 	for(unsigned int i = 0; i < solutions[0].size(); ++i)
 		if(solutions[0][i].first < 81)
 			stmp.push_back(solutions[0][i]);
@@ -262,11 +266,11 @@ std::vector<int> ESudoku::getSolution() const
  * \param i The index in puzzle of the value to update with.
  * \param v The value to mark as invalid for the appropriate cells.
  */
-void ESudoku::updateMasks(std::vector<uint16_t> &m, int i, int v)
+void ESudoku::updateMasks(std::vector<uint16_t> &m, std::size_t i, int v)
 {
-	uint16_t mask = ~(1 << (v - 1));
+	uint16_t mask = static_cast<uint16_t>(~(1 << (v - 1)));
 
-	for(int j = 0; j < 9; ++j)
+	for(std::size_t j = 0; j < 9; ++j)
 	{
 		m[rowIndex(rowOf(i), j)] &= mask;
 		m[colIndex(colOf(i), j)] &= mask;
@@ -285,9 +289,9 @@ void ESudoku::updateMasks(std::vector<uint16_t> &m, int i, int v)
  * \param m The preprocessing mask table.
  * \param i The index of the cell to test.
  */
-void ESudoku::reduce(std::vector<uint16_t> &m, int i)
+void ESudoku::reduce(std::vector<uint16_t> &m, std::size_t i)
 {
-	int ai;
+	std::size_t ai;
 	uint16_t amask, cmask;
 	bool u = false;
 
@@ -300,7 +304,8 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	if(EBitwise::isPowTwo(m.at(i)))
 	{
 		// Fill in its value in the puzzle.
-		puzzle[i] = EBitwise::lg32(m.at(i)) + 1;
+		puzzle[i] = static_cast<decltype(puzzle)::value_type>(
+		        EBitwise::lg32(m.at(i)) + 1);
 		m[i] = 0;
 		u = true;
 	}
@@ -311,7 +316,7 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	{
 		amask = 0;
 
-		for(int j = 0; j < 9; ++j)
+		for(std::size_t j = 0; j < 9; ++j)
 		{
 			ai = rowIndex(rowOf(i), j);
 			amask |= (ai != i) ? m.at(ai) : 0;
@@ -322,7 +327,8 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 		if(EBitwise::isPowTwo(cmask))
 		{
 			// Fill in this cell's value in the puzzle.
-			puzzle[i] = EBitwise::lg32(cmask) + 1;
+			puzzle[i] = static_cast<decltype(puzzle)::value_type>(
+			        EBitwise::lg32(cmask) + 1);
 			m[i] = 0;
 			u = true;
 		}
@@ -334,7 +340,7 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	{
 		amask = 0;
 
-		for(int j = 0; j < 9; ++j)
+		for(std::size_t j = 0; j < 9; ++j)
 		{
 			ai = colIndex(colOf(i), j);
 			amask |= (ai != i) ? m.at(ai) : 0;
@@ -345,7 +351,8 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 		if(EBitwise::isPowTwo(cmask))
 		{
 			// Fill in this cell's value in the puzzle.
-			puzzle[i] = EBitwise::lg32(cmask) + 1;
+			puzzle[i] = static_cast<decltype(puzzle)::value_type>(
+			        EBitwise::lg32(cmask) + 1);
 			m[i] = 0;
 			u = true;
 		}
@@ -357,7 +364,7 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	{
 		amask = 0;
 
-		for(int j = 0; j < 9; ++j)
+		for(std::size_t j = 0; j < 9; ++j)
 		{
 			ai = boxIndex(boxOf(i), j);
 			amask |= (ai != i) ? m.at(ai) : 0;
@@ -368,7 +375,8 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 		if(EBitwise::isPowTwo(cmask))
 		{
 			// Fill in this cell's value in the puzzle.
-			puzzle[i] = EBitwise::lg32(cmask) + 1;
+			puzzle[i] = static_cast<decltype(puzzle)::value_type>(
+			        EBitwise::lg32(cmask) + 1);
 			m[i] = 0;
 			u = true;
 		}
@@ -380,7 +388,7 @@ void ESudoku::reduce(std::vector<uint16_t> &m, int i)
 	{
 		updateMasks(m, i, puzzle.at(i));
 
-		for(int j = 0; j < 9; ++j)
+		for(std::size_t j = 0; j < 9; ++j)
 		{
 			reduce(m, rowIndex(rowOf(i), j));
 			reduce(m, colIndex(colOf(i), j));
@@ -402,9 +410,9 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 {
 	uint16_t pmask;
 	bool r = false;
-	int p, k;
+	std::size_t p, k;
 
-	for(int i = 0; i < 81; ++i)
+	for(std::size_t i = 0; i < 81; ++i)
 	{
 		// Look for cells with exactly two possible values.
 
@@ -416,7 +424,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			p = 0;
 
-			for(int j = 0; j < 9; ++j)
+			for(std::size_t j = 0; j < 9; ++j)
 			{
 				// Try to find an identical cell.
 
@@ -436,7 +444,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// We have found a pair - remove the pair values
 				// from other cells in this ROW.
 
-				for(int j = 0; j < 9; ++j)
+				for(std::size_t j = 0; j < 9; ++j)
 				{
 					k = rowIndex(rowOf(i), j);
 					if((k == i) || (k == p))
@@ -451,7 +459,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			p = 0;
 
-			for(int j = 0; j < 9; ++j)
+			for(std::size_t j = 0; j < 9; ++j)
 			{
 				// Try to find an identical cell.
 
@@ -471,7 +479,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// We have found a pair - remove the pair values
 				// from other cells in this ROW.
 
-				for(int j = 0; j < 9; ++j)
+				for(std::size_t j = 0; j < 9; ++j)
 				{
 					k = colIndex(colOf(i), j);
 					if((k == i) || (k == p))
@@ -486,7 +494,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 
 			p = 0;
 
-			for(int j = 0; j < 9; ++j)
+			for(std::size_t j = 0; j < 9; ++j)
 			{
 				// Try to find an identical cell.
 
@@ -506,7 +514,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 				// We have found a pair - remove the pair values
 				// from other cells in this ROW.
 
-				for(int j = 0; j < 9; ++j)
+				for(std::size_t j = 0; j < 9; ++j)
 				{
 					k = boxIndex(boxOf(i), j);
 					if((k == i) || (k == p))
@@ -581,25 +589,19 @@ void ESudoku::preprocess()
  * \param i The index of the cell in the puzzle.
  * \return The index of the row that contains this index.
  */
-int ESudoku::rowOf(int i) const
+std::size_t ESudoku::rowOf(std::size_t i) const
 {
-	static int rowLookup[] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-	                          1, 1, 1, 1, 1, 1, 1, 1, 1,
-
-	                          2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-	                          3, 3, 3, 3, 3, 3, 3, 3, 3,
-
-	                          4, 4, 4, 4, 4, 4, 4, 4, 4,
-
-	                          5, 5, 5, 5, 5, 5, 5, 5, 5,
-
-	                          6, 6, 6, 6, 6, 6, 6, 6, 6,
-
-	                          7, 7, 7, 7, 7, 7, 7, 7, 7,
-
-	                          8, 8, 8, 8, 8, 8, 8, 8, 8};
+	// clang-format off
+	static constexpr std::size_t rowLookup[] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
+	                                            1, 1, 1, 1, 1, 1, 1, 1, 1,
+	                                            2, 2, 2, 2, 2, 2, 2, 2, 2,
+	                                            3, 3, 3, 3, 3, 3, 3, 3, 3,
+	                                            4, 4, 4, 4, 4, 4, 4, 4, 4,
+	                                            5, 5, 5, 5, 5, 5, 5, 5, 5,
+	                                            6, 6, 6, 6, 6, 6, 6, 6, 6,
+	                                            7, 7, 7, 7, 7, 7, 7, 7, 7,
+	                                            8, 8, 8, 8, 8, 8, 8, 8, 8};
+	// clang-format on
 
 	return rowLookup[i];
 }
@@ -614,9 +616,9 @@ int ESudoku::rowOf(int i) const
  * \param i The index of the cell in the puzzle.
  * \return The index of the column that contains this index.
  */
-int ESudoku::colOf(int i) const
+std::size_t ESudoku::colOf(std::size_t i) const
 {
-	static int colLookup[] = {
+	static constexpr std::size_t colLookup[] = {
 	        0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2,
 	        3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5,
 	        6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -635,16 +637,21 @@ int ESudoku::colOf(int i) const
  * \param i The index of the cell in the puzzle.
  * \return The index of the box that contains this index.
  */
-int ESudoku::boxOf(int i) const
+std::size_t ESudoku::boxOf(std::size_t i) const
 {
-	static int boxLookup[] = {0, 0, 0, 1, 1, 1, 2, 2, 2, 0, 0, 0, 1, 1,
-	                          1, 2, 2, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2,
+	// clang-format off
+	static constexpr std::size_t boxLookup[] = {0, 0, 0, 1, 1, 1, 2, 2, 2,
+						    0, 0, 0, 1, 1, 1, 2, 2, 2,
+						    0, 0, 0, 1, 1, 1, 2, 2, 2,
 
-	                          3, 3, 3, 4, 4, 4, 5, 5, 5, 3, 3, 3, 4, 4,
-	                          4, 5, 5, 5, 3, 3, 3, 4, 4, 4, 5, 5, 5,
+	                                            3, 3, 3, 4, 4, 4, 5, 5, 5,
+						    3, 3, 3, 4, 4, 4, 5, 5, 5,
+						    3, 3, 3, 4, 4, 4, 5, 5, 5,
 
-	                          6, 6, 6, 7, 7, 7, 8, 8, 8, 6, 6, 6, 7, 7,
-	                          7, 8, 8, 8, 6, 6, 6, 7, 7, 7, 8, 8, 8};
+						    6, 6, 6, 7, 7, 7, 8, 8, 8,
+						    6, 6, 6, 7, 7, 7, 8, 8, 8,
+						    6, 6, 6, 7, 7, 7, 8, 8, 8};
+	// clang-format on
 
 	return boxLookup[i];
 }
@@ -659,7 +666,7 @@ int ESudoku::boxOf(int i) const
  * \param i The index relative to the given row.
  * \return The single-dimension array index corresponding to the given cell.
  */
-int ESudoku::rowIndex(int r, int i) const
+std::size_t ESudoku::rowIndex(std::size_t r, std::size_t i) const
 {
 	return ((r * 9) + i);
 }
@@ -675,7 +682,7 @@ int ESudoku::rowIndex(int r, int i) const
  * \param i The index relative to the given column.
  * \return The single-dimensional array index corresponding to the given cell.
  */
-int ESudoku::colIndex(int c, int i) const
+std::size_t ESudoku::colIndex(std::size_t c, std::size_t i) const
 {
 	return (c + (i * 9));
 }
@@ -691,9 +698,9 @@ int ESudoku::colIndex(int c, int i) const
  * \param i The index relative to the given box.
  * \return The single-dimensional array index corresponding to the given cell.
  */
-int ESudoku::boxIndex(int b, int i) const
+std::size_t ESudoku::boxIndex(std::size_t b, std::size_t i) const
 {
-	int bi = b / 3;
+	std::size_t bi = b / 3;
 	bi = (bi * 27) + ((b % 3) * 3);
 	return (bi + (((i / 3) * 9) + (i % 3)));
 }

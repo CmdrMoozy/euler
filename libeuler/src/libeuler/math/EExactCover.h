@@ -20,8 +20,9 @@
 #ifndef INCLUDE_LIBEULER_MATH_EXACT_COVER_H
 #define INCLUDE_LIBEULER_MATH_EXACT_COVER_H
 
-#include <vector>
+#include <cstddef>
 #include <utility>
+#include <vector>
 
 /*!
  * \brief This class implements a structure to solve exact cover problems.
@@ -44,22 +45,23 @@ private:
 	class EECRoot;
 
 public:
-	EExactCover(int c = 0, int r = 0);
+	EExactCover(std::size_t c = 0, std::size_t r = 0);
 	virtual ~EExactCover();
 
 	void clear();
-	int getRows() const;
-	int getColumns() const;
-	void setSize(int c, int r);
+	std::size_t getRows() const;
+	std::size_t getColumns() const;
+	void setSize(std::size_t c, std::size_t r);
 
-	bool getAt(int c, int r) const;
-	void setAt(int c, int r, bool v);
-	int getColumnSize(int c) const;
-	int getColumnName(int c) const;
-	void setColumnName(int c, int n);
+	bool getAt(std::size_t c, std::size_t r) const;
+	void setAt(std::size_t c, std::size_t r, bool v);
+	std::size_t getColumnSize(std::size_t c) const;
+	int getColumnName(std::size_t c) const;
+	void setColumnName(std::size_t c, int n);
 
 	void solve(bool s = false);
-	std::vector<std::vector<std::pair<int, int>>> getSolutions() const;
+	std::vector<std::vector<std::pair<std::size_t, std::size_t>>>
+	getSolutions() const;
 	void clearSolutions();
 
 private:
@@ -67,17 +69,17 @@ private:
 	std::vector<std::vector<EECNode *>> solutions;
 
 	EECRoot *root;
-	int rows, columns;
+	std::size_t rows, columns;
 
-	EECHeader *columnByIndex(int c) const;
-	EECNode *nodeByIndex(int c, int r) const;
-	std::pair<int, int> indexFromNode(EECNode *n) const;
+	EECHeader *columnByIndex(std::size_t c) const;
+	EECNode *nodeByIndex(std::size_t c, std::size_t r) const;
+	std::pair<std::size_t, std::size_t> indexFromNode(EECNode *n) const;
 
 	void cover(EECHeader *c);
 	void uncover(EECHeader *c);
 
 	EECHeader *selectColumn();
-	void search(int k, std::vector<EECNode *> &o);
+	void search(std::size_t k, std::vector<EECNode *> &o);
 
 private:
 	/*!
@@ -118,7 +120,7 @@ private:
 	{
 	public:
 		int name;
-		int size;
+		std::size_t size;
 
 		EECHeader(EECRoot *r);
 		virtual ~EECHeader();

@@ -547,8 +547,8 @@ void EMath::doTestSuite()
 		{
 			fac.setNumber(static_cast<uint32_t>(i));
 			EASSERT(fac.getAllFactorsCount() ==
-			        static_cast<int>(EMath::aliquotNumberDivisors(
-			                static_cast<uint32_t>(i))))
+			        EMath::aliquotNumberDivisors(
+			                static_cast<uint32_t>(i)))
 		}
 
 		// aliquotSumDivisors + aliquotSumProperDivisors
@@ -734,9 +734,8 @@ void EMath::doTestSuite()
 			}
 		}
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EValueRangeException &e)
@@ -1669,11 +1668,9 @@ bool EMath::isPermutationOf(uint64_t a, uint64_t b)
  *
  * \param n The number of available choices.
  * \param r The number of selections we will make.
- * \exception EValueRangeException This exception is thrown if nPr cannot be
- *evaluated.
  * \return n permutations of r.
  */
-uint64_t EMath::permutations(int n, int r) throw(EValueRangeException &)
+uint64_t EMath::permutations(int n, int r)
 {
 	uint64_t result;
 	uint32_t i;
@@ -1721,11 +1718,9 @@ uint64_t EMath::permutations(int n, int r) throw(EValueRangeException &)
  *
  * \param n The number of available choices.
  * \param r The number of selections we will make.
- * \exception EValueRangeException This exception is thrown if nCr cannot be
- *evaluated.
  * \return n combinations of r.
  */
-uint64_t EMath::combinations(int n, int r) throw(EValueRangeException &)
+uint64_t EMath::combinations(int n, int r)
 {
 	int *num, *den;
 	int i, j, k;
@@ -1776,7 +1771,7 @@ uint64_t EMath::combinations(int n, int r) throw(EValueRangeException &)
 	// Get the products that make up n! over a range of [n, j).
 
 	numLength = n - j;
-	num = new int[numLength];
+	num = new int[static_cast<std::size_t>(numLength)];
 
 	k = 0;
 	for(i = n; i > j; i--)
@@ -1792,7 +1787,7 @@ uint64_t EMath::combinations(int n, int r) throw(EValueRangeException &)
 	j = (j > 1) ? j : 1;
 	denLength = j - 1;
 
-	den = new int[denLength];
+	den = new int[static_cast<std::size_t>(denLength)];
 
 	for(i = 0; (j - i) > 1; i++)
 		den[i] = j - i;
@@ -1823,10 +1818,10 @@ uint64_t EMath::combinations(int n, int r) throw(EValueRangeException &)
 	p = q = 1;
 
 	for(i = 0; i < numLength; i++)
-		p *= num[i];
+		p *= static_cast<uint64_t>(num[i]);
 
 	for(i = 0; i < denLength; i++)
-		q *= den[i];
+		q *= static_cast<uint64_t>(den[i]);
 
 	// Clean up our temporary arrays.
 	delete[] num;

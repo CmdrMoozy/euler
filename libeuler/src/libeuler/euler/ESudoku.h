@@ -20,8 +20,9 @@
 #ifndef INCLUDE_LIBEULER_EULER_SUDOKU_H
 #define INCLUDE_LIBEULER_EULER_SUDOKU_H
 
-#include <vector>
+#include <cstddef>
 #include <cstdint>
+#include <vector>
 
 // Forward declarations.
 class EExactCover;
@@ -50,18 +51,18 @@ private:
 	std::vector<int> solution;
 	EExactCover *solver;
 
-	void updateMasks(std::vector<uint16_t> &m, int i, int v);
-	void reduce(std::vector<uint16_t> &m, int i);
+	void updateMasks(std::vector<uint16_t> &m, std::size_t i, int v);
+	void reduce(std::vector<uint16_t> &m, std::size_t i);
 	bool optimizePairs(std::vector<uint16_t> &m);
 	void preprocess();
 
-	int rowOf(int i) const;
-	int colOf(int i) const;
-	int boxOf(int i) const;
+	std::size_t rowOf(std::size_t i) const;
+	std::size_t colOf(std::size_t i) const;
+	std::size_t boxOf(std::size_t i) const;
 
-	int rowIndex(int r, int i) const;
-	int colIndex(int c, int i) const;
-	int boxIndex(int b, int i) const;
+	std::size_t rowIndex(std::size_t r, std::size_t i) const;
+	std::size_t colIndex(std::size_t c, std::size_t i) const;
+	std::size_t boxIndex(std::size_t b, std::size_t i) const;
 };
 
 #endif

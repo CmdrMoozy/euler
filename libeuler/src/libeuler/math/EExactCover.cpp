@@ -113,7 +113,7 @@ EExactCover::EECHeader::~EECHeader()
 /*!
  * We override our superclass's accessor, because headers do not store data.
  *
- * \param d Our new data - unused.
+ * \param UNUSED_d Our new data - unused.
  */
 void EExactCover::EECHeader::setData(bool EUNUSED(d))
 {
@@ -164,7 +164,7 @@ EExactCover::EECRoot::~EECRoot()
  * \param c The number of columns this exact cover should contain.
  * \param r The number of rows this exact cover should contain.
  */
-EExactCover::EExactCover(int c, int r)
+EExactCover::EExactCover(std::size_t c, std::size_t r)
         : single(false), root(NULL), rows(0), columns(0)
 {
 	setSize(c, r);
@@ -195,7 +195,7 @@ void EExactCover::clear()
  *
  * \return Our row count.
  */
-int EExactCover::getRows() const
+std::size_t EExactCover::getRows() const
 {
 	return rows;
 }
@@ -206,7 +206,7 @@ int EExactCover::getRows() const
  *
  * \return Our column count.
  */
-int EExactCover::getColumns() const
+std::size_t EExactCover::getColumns() const
 {
 	return columns;
 }
@@ -219,11 +219,9 @@ int EExactCover::getColumns() const
  * \param c The number of columns our object should contain.
  * \param r The number of rows our object should contain.
  */
-void EExactCover::setSize(int c, int r)
+void EExactCover::setSize(std::size_t c, std::size_t r)
 {
 	clear();
-	if((c <= 0) || (r <= 0))
-		return;
 
 	// Create our root node.
 
@@ -231,7 +229,7 @@ void EExactCover::setSize(int c, int r)
 
 	// Create our column headers.
 
-	for(int i = 0; i < c; ++i)
+	for(std::size_t i = 0; i < c; ++i)
 	{
 		EExactCover::EECHeader *h = new EExactCover::EECHeader(root);
 
@@ -241,7 +239,7 @@ void EExactCover::setSize(int c, int r)
 		h->left->right = h;
 		h->right->left = h;
 
-		h->name = i;
+		h->name = static_cast<int>(i);
 	}
 
 	EExactCover::EECHeader *lastCol =
@@ -254,11 +252,11 @@ void EExactCover::setSize(int c, int r)
 	// Create our nodes.
 
 	EExactCover::EECHeader *header = root;
-	for(int i = 0; i < c; ++i)
+	for(std::size_t i = 0; i < c; ++i)
 	{
 		header = dynamic_cast<EExactCover::EECHeader *>(header->right);
 
-		for(int j = 0; j < r; ++j)
+		for(std::size_t j = 0; j < r; ++j)
 		{
 			EExactCover::EECNode *n =
 			        new EExactCover::EECNode(header);
@@ -280,7 +278,7 @@ void EExactCover::setSize(int c, int r)
 	// Link toroidally horizontally.
 
 	EExactCover::EECNode *ln = lastCol->down, *fn = firstCol->down;
-	for(int i = 0; i < r; ++i)
+	for(std::size_t i = 0; i < r; ++i)
 	{
 		ln->right = fn;
 		fn->left = ln;
@@ -302,7 +300,7 @@ void EExactCover::setSize(int c, int r)
  * \param r The row of the desired data.
  * \return The data stored at the given index, or false on error.
  */
-bool EExactCover::getAt(int c, int r) const
+bool EExactCover::getAt(std::size_t c, std::size_t r) const
 {
 	EExactCover::EECNode *node = nodeByIndex(c, r);
 	if(node == NULL)
@@ -320,7 +318,7 @@ bool EExactCover::getAt(int c, int r) const
  * \param r The row of the destination node.
  * \param v The new data this node should store.
  */
-void EExactCover::setAt(int c, int r, bool v)
+void EExactCover::setAt(std::size_t c, std::size_t r, bool v)
 {
 	EExactCover::EECNode *node = nodeByIndex(c, r);
 	if(node == NULL)
@@ -335,16 +333,16 @@ void EExactCover::setAt(int c, int r, bool v)
  * it contains). Note that the size is re-calculated each time, so this function
  *is (relatively speaking)
  * slow when called repeatedly. Note that if the given index is out-of-bounds,
- *we return -1.
+ *we return 0.
  *
  * \param c The index of the desired column.
- * \return The column's size, or -1 on error.
+ * \return The column's size, or 0 if the column index is out-of-bounds.
  */
-int EExactCover::getColumnSize(int c) const
+std::size_t EExactCover::getColumnSize(std::size_t c) const
 {
 	EExactCover::EECHeader *column = columnByIndex(c);
 	if(column == NULL)
-		return -1;
+		return 0;
 
 	return column->size;
 }
@@ -357,7 +355,7 @@ int EExactCover::getColumnSize(int c) const
  * \param c The index of the desired column.
  * \return The column's name, or 0 on error.
  */
-int EExactCover::getColumnName(int c) const
+int EExactCover::getColumnName(std::size_t c) const
 {
 	EExactCover::EECHeader *column = columnByIndex(c);
 	if(column == NULL)
@@ -374,7 +372,7 @@ int EExactCover::getColumnName(int c) const
  * \param c The index of the desired column.
  * \param n The column's new name.
  */
-void EExactCover::setColumnName(int c, int n)
+void EExactCover::setColumnName(std::size_t c, int n)
 {
 	EExactCover::EECHeader *column = columnByIndex(c);
 	if(column == NULL)
@@ -396,7 +394,7 @@ void EExactCover::solve(bool s)
 	clearSolutions();
 
 	// If our object is empty, just return.
-	if((getColumns() <= 0) || (getRows() <= 0))
+	if((getColumns() == 0) || (getRows() == 0))
 		return;
 
 	std::vector<EExactCover::EECNode *> o;
@@ -412,15 +410,16 @@ void EExactCover::solve(bool s)
  *
  * \return A list of the solutions.
  */
-std::vector<std::vector<std::pair<int, int>>> EExactCover::getSolutions() const
+std::vector<std::vector<std::pair<std::size_t, std::size_t>>>
+EExactCover::getSolutions() const
 {
-	std::vector<std::vector<std::pair<int, int>>> ret;
+	std::vector<std::vector<std::pair<std::size_t, std::size_t>>> ret;
 
-	for(unsigned int i = 0; i < solutions.size(); ++i)
+	for(std::size_t i = 0; i < solutions.size(); ++i)
 	{ // For each solution...
-		std::vector<std::pair<int, int>> s;
+		std::vector<std::pair<std::size_t, std::size_t>> s;
 
-		for(unsigned int j = 0; j < solutions[i].size(); ++j)
+		for(std::size_t j = 0; j < solutions[i].size(); ++j)
 		{ // For each node involved in the solution...
 			EExactCover::EECNode *n = solutions[i][j];
 			do
@@ -461,13 +460,13 @@ void EExactCover::clearSolutions()
  * \param c The index of the column desired.
  * \return A pointer to the desired column, or NULL on error.
  */
-EExactCover::EECHeader *EExactCover::columnByIndex(int c) const
+EExactCover::EECHeader *EExactCover::columnByIndex(std::size_t c) const
 {
-	if((c < 0) || (c >= getColumns()))
+	if(c >= getColumns())
 		return NULL;
 
 	EExactCover::EECNode *col = root->right;
-	for(int i = 0; i < c; ++i)
+	for(std::size_t i = 0; i < c; ++i)
 	{
 		if(col == root)
 			return NULL;
@@ -491,9 +490,10 @@ EExactCover::EECHeader *EExactCover::columnByIndex(int c) const
  * \param r The row of the node desired.
  * \return A pointer to the node desired, or NULL on error.
  */
-EExactCover::EECNode *EExactCover::nodeByIndex(int c, int r) const
+EExactCover::EECNode *EExactCover::nodeByIndex(std::size_t c,
+                                               std::size_t r) const
 {
-	if((c < 0) || (c >= getColumns()) || (r < 0) || (r >= getRows()))
+	if((c >= getColumns()) || (r >= getRows()))
 		return NULL;
 
 	EExactCover::EECHeader *col = columnByIndex(c);
@@ -501,7 +501,7 @@ EExactCover::EECNode *EExactCover::nodeByIndex(int c, int r) const
 		return NULL;
 
 	EExactCover::EECNode *node = col->down;
-	for(int i = 0; i < r; ++i)
+	for(std::size_t i = 0; i < r; ++i)
 	{
 		if(node == col)
 			return NULL;
@@ -515,16 +515,17 @@ EExactCover::EECNode *EExactCover::nodeByIndex(int c, int r) const
  * This is a convenience function that determines the index of the given node in
  *our table. Note that, if the node given is
  * in reality a column header or the root node, or is NULL, then an index of
- *-1,-1 is returned instead. Also note that if
+ *0,0 is returned instead. Also note that if
  * any columns are cover()'ed when this function is called, the results are
  *undefined.
  *
  * \param n The node whose index is to be determined.
  * \return A (column,row) index of the given node.
  */
-std::pair<int, int> EExactCover::indexFromNode(EExactCover::EECNode *n) const
+std::pair<std::size_t, std::size_t>
+EExactCover::indexFromNode(EExactCover::EECNode *n) const
 {
-	int col = -1, row = -1;
+	std::size_t col = 0, row = 0;
 
 	if((n != NULL) && (dynamic_cast<EExactCover::EECRoot *>(n) == NULL) &&
 	   (dynamic_cast<EExactCover::EECHeader *>(n) == NULL))
@@ -550,7 +551,7 @@ std::pair<int, int> EExactCover::indexFromNode(EExactCover::EECNode *n) const
 		}
 	}
 
-	return std::pair<int, int>(col, row);
+	return std::make_pair(col, row);
 }
 
 /*!
@@ -701,7 +702,7 @@ void EExactCover::uncover(EExactCover::EECHeader *c)
 EExactCover::EECHeader *EExactCover::selectColumn()
 {
 	EExactCover::EECHeader *c = NULL;
-	int s = getRows() + 1;
+	std::size_t s = getRows() + 1;
 
 	EExactCover::EECHeader *j =
 	        dynamic_cast<EExactCover::EECHeader *>(root->right);
@@ -730,7 +731,7 @@ EExactCover::EECHeader *EExactCover::selectColumn()
  * \param k The current search level.
  * \param o A buffer for the current solution.
  */
-void EExactCover::search(int k, std::vector<EExactCover::EECNode *> &o)
+void EExactCover::search(std::size_t k, std::vector<EExactCover::EECNode *> &o)
 {
 	// If we are in single mode and a solution has already been found, stop
 	// recursing.
@@ -744,7 +745,7 @@ void EExactCover::search(int k, std::vector<EExactCover::EECNode *> &o)
 		// Grab nodes O[0] ... O[k-1] as the current solution.
 		std::vector<EExactCover::EECNode *> solution;
 		solution.resize(k, NULL);
-		for(int i = 0; i < k; ++i)
+		for(std::size_t i = 0; i < k; ++i)
 			solution[i] = o[i];
 
 		// Add this to our solutions list, and terminate.

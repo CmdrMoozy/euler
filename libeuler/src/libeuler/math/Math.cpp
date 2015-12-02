@@ -18,6 +18,8 @@
 
 #include "Math.h"
 
+#include "libeuler/EDefines.h"
+
 namespace
 {
 /*!
@@ -75,16 +77,22 @@ uint64_t ipow(uint64_t b, uint8_t e)
 		return 0;
 	case 6:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	case 5:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	case 4:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	case 3:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	case 2:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	case 1:
 		ipowStep(result, b, e);
+		EFALLTHROUGH;
 	default:
 		return result;
 	}

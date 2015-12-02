@@ -110,9 +110,8 @@ void EFactorization::doTestSuite()
 		EASSERT(all.find(75) != all.end())
 		EASSERT(all.find(150) != all.end())
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -179,7 +178,7 @@ void EFactorization::setNumber(uint32_t n)
  *
  * \return The number of prime factors of our number.
  */
-int EFactorization::getPrimeFactorsCount()
+std::size_t EFactorization::getPrimeFactorsCount()
 {
 	if(!primesGenerated)
 		generatePrimeFactors();
@@ -196,10 +195,10 @@ int EFactorization::getPrimeFactorsCount()
  *
  * \return The number of ALL factors our number has.
  */
-int EFactorization::getAllFactorsCount()
+std::size_t EFactorization::getAllFactorsCount()
 {
 	std::map<uint32_t, uint32_t>::iterator it;
-	uint32_t result = 1;
+	std::size_t result = 1;
 
 	if(!primesGenerated)
 		generatePrimeFactors();

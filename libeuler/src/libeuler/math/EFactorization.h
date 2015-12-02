@@ -47,8 +47,8 @@ public:
 	uint32_t getNumber();
 	void setNumber(uint32_t n);
 
-	int getPrimeFactorsCount();
-	int getAllFactorsCount();
+	std::size_t getPrimeFactorsCount();
+	std::size_t getAllFactorsCount();
 	const std::map<uint32_t, uint32_t> &getPrimeFactors();
 
 	const std::set<uint32_t> &getAllFactors();

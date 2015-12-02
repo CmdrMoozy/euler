@@ -58,9 +58,8 @@ void EPrimeSieve::doTestSuite()
 			}
 		}
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -277,7 +276,7 @@ void EPrimeSieve::generatePrimes()
 {
 	EByteArray isPrime(EByteArray::getMinimumByteLength(limit + 1),
 	                   EByteArray::Clear);
-	uint32_t root = EMath::isqrt(limit);
+	uint64_t root = EMath::isqrt(limit);
 	uint32_t x, y, n, s, k;
 	uint32_t a, b, c;
 
