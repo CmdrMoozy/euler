@@ -36,7 +36,6 @@
 void ETriangleStructure::doTestSuite()
 {
 	bool success;
-	int i;
 
 	std::cout << "\tTesting 'ETriangleStructure'...\t\t";
 	try
@@ -70,16 +69,15 @@ void ETriangleStructure::doTestSuite()
 		        {4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4,
 		         23}};
 
-		for(i = 0; i < 15; ++i)
+		for(std::size_t i = 0; i < 15; ++i)
 			t.setRowAt(i, data[i]);
 
 		EASSERT(t.getHeight() == 15)
 		EASSERT(t.getLargestPathSum() == 1074)
 	}
 
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EOutOfBoundsException &e)
@@ -102,7 +100,7 @@ void ETriangleStructure::doTestSuite()
  *
  * \param h The height (number of rows) of our new triangle.
  */
-ETriangleStructure::ETriangleStructure(int h) : height(0), data(NULL)
+ETriangleStructure::ETriangleStructure(std::size_t h) : height(0), data(NULL)
 {
 	setHeight(h, ETriangleStructure::ZeroOut);
 }
@@ -140,13 +138,11 @@ ETriangleStructure::~ETriangleStructure()
  */
 ETriangleStructure &ETriangleStructure::operator=(const ETriangleStructure &o)
 {
-	int i, j;
-
 	try
 	{
 		setHeight(o.getHeight(), ETriangleStructure::None);
-		for(i = 0; i < getHeight(); i++)
-			for(j = 0; j < getHeight(); j++)
+		for(std::size_t i = 0; i < getHeight(); i++)
+			for(std::size_t j = 0; j < getHeight(); j++)
 				setAt(i, j, o.at(i, j));
 	}
 	catch(EOutOfBoundsException &e)
@@ -168,11 +164,9 @@ ETriangleStructure &ETriangleStructure::operator=(const ETriangleStructure &o)
  */
 void ETriangleStructure::clear()
 {
-	int i;
-
 	if(data != NULL)
 	{
-		for(i = 0; i < getHeight(); i++)
+		for(std::size_t i = 0; i < getHeight(); i++)
 			if(data[i] != NULL)
 				delete[] data[i];
 
@@ -188,7 +182,7 @@ void ETriangleStructure::clear()
  *
  * \return The height of our triangle.
  */
-int ETriangleStructure::getHeight() const
+std::size_t ETriangleStructure::getHeight() const
 {
 	return height;
 }
@@ -203,24 +197,22 @@ int ETriangleStructure::getHeight() const
  * \param h The new height of our triangle.
  * \param f The "FillMode" we will be using.
  */
-void ETriangleStructure::setHeight(int h, ETriangleStructure::FillMode f)
+void ETriangleStructure::setHeight(std::size_t h,
+                                   ETriangleStructure::FillMode f)
 {
-	int i, j;
 	int **newData;
 
-	h = (h >= 0 ? h : 0);
-
 	newData = new int *[h];
-	for(i = 0; i < h; i++)
+	for(std::size_t i = 0; i < h; i++)
 		newData[i] = new int[h];
 
 	try
 	{
 		if(f != ETriangleStructure::None)
 		{
-			for(i = 0; i < h; i++)
+			for(std::size_t i = 0; i < h; i++)
 			{
-				for(j = 0; j < h; j++)
+				for(std::size_t j = 0; j < h; j++)
 				{
 					if(isInBounds(i, j) &&
 					   (f == ETriangleStructure::Preserve))
@@ -255,8 +247,7 @@ void ETriangleStructure::setHeight(int h, ETriangleStructure::FillMode f)
  * \exception EOutOfBoundsException This exception is thrown if the given row
  *and/or column are out-of-bounds.
  */
-void ETriangleStructure::setAt(int r, int c,
-                               int v) throw(EOutOfBoundsException &)
+void ETriangleStructure::setAt(std::size_t r, std::size_t c, int v)
 {
 	if(!isInBounds(r, c))
 		throw EOutOfBoundsException(
@@ -276,12 +267,9 @@ void ETriangleStructure::setAt(int r, int c,
  * \exception EOutOfBoundsException This exception is thrown if the row is
  *out-of-bounds.
  */
-void ETriangleStructure::setRowAt(int r,
-                                  const int *v) throw(EOutOfBoundsException &)
+void ETriangleStructure::setRowAt(std::size_t r, const int *v)
 {
-	int i;
-
-	for(i = 0; i < (r + 1); i++)
+	for(std::size_t i = 0; i < (r + 1); i++)
 		setAt(r, i, v[i]);
 }
 
@@ -294,7 +282,7 @@ void ETriangleStructure::setRowAt(int r,
  *and/or column are out-of-bounds.
  * \return The value found at the given index.
  */
-int ETriangleStructure::at(int r, int c) const throw(EOutOfBoundsException &)
+int ETriangleStructure::at(std::size_t r, std::size_t c) const
 {
 	if(!isInBounds(r, c))
 		throw EOutOfBoundsException(
@@ -319,41 +307,42 @@ int ETriangleStructure::at(int r, int c) const throw(EOutOfBoundsException &)
  */
 int ETriangleStructure::getLargestPathSum() const
 {
-	int i, j;
 	int cL, cR;
 	ETriangleStructure t((*this));
 
 	try
 	{
-		for(i = (t.getHeight() - 2); i >= 0; i--)
-		{ // For each row from the next-to-last to the first...
-			for(j = 0; j < (i + 1); j++)
+		for(std::size_t i = 0; i <= (t.getHeight() - 2); ++i)
+		{ // For each row from the first to the next-to-last...
+			// Subtract to get the index, because we want to iterate
+			// over the rows backwards.
+			std::size_t idx = (t.getHeight() - 2) - i;
+			for(std::size_t j = 0; j < (idx + 1); j++)
 			{ // For each cell...
 				// Set our left-child's value.
 				try
 				{
-					cL = t.leftChildValue(i, j);
+					cL = t.leftChildValue(idx, j);
 				}
-				catch(EOutOfBoundsException &e)
+				catch(EOutOfBoundsException &)
 				{
-					ELUNUSED(e)
 					cL = INT_MIN;
 				}
 
 				// Set our right-child's value.
 				try
 				{
-					cR = t.rightChildValue(i, j);
+					cR = t.rightChildValue(idx, j);
 				}
-				catch(EOutOfBoundsException &e)
+				catch(EOutOfBoundsException &)
 				{
-					ELUNUSED(e)
 					cR = INT_MIN;
 				}
 
 				// Our new value is our old value plus the
 				// largest child's value.
-				t.setAt(i, j, t.at(i, j) + (cL > cR ? cL : cR));
+				t.setAt(idx, j,
+				        t.at(idx, j) + (cL > cR ? cL : cR));
 			}
 		}
 
@@ -384,8 +373,7 @@ int ETriangleStructure::getLargestPathSum() const
  *is out-of-bounds, or if it has no valid left child.
  * \return The value of the given cell's left child.
  */
-int ETriangleStructure::leftChildValue(int r, int c) const
-        throw(EOutOfBoundsException &)
+int ETriangleStructure::leftChildValue(std::size_t r, std::size_t c) const
 {
 	return at(r + 1, c);
 }
@@ -403,8 +391,7 @@ int ETriangleStructure::leftChildValue(int r, int c) const
  *is out-of-bounds, or if it has no valid right child.
  * \return The value of the given cell's right child.
  */
-int ETriangleStructure::rightChildValue(int r, int c) const
-        throw(EOutOfBoundsException &)
+int ETriangleStructure::rightChildValue(std::size_t r, std::size_t c) const
 {
 	return at(r + 1, c + 1);
 }
@@ -418,8 +405,7 @@ int ETriangleStructure::rightChildValue(int r, int c) const
  * \param c The column in which the cell is found.
  * \return True if the given offset is in-bounds, or false otherwise.
  */
-bool ETriangleStructure::isInBounds(int r, int c) const
+bool ETriangleStructure::isInBounds(std::size_t r, std::size_t c) const
 {
-	return (((r >= 0) && (r < getHeight())) &&
-	        ((c >= 0) && (c < getHeight())));
+	return (r < getHeight()) && (c < getHeight());
 }

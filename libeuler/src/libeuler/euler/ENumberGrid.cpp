@@ -92,9 +92,8 @@ void ENumberGrid::doTestSuite()
 
 		EASSERT(g.greatestConsecutiveProduct(4) == 70600674)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EOutOfBoundsException &e)
@@ -114,8 +113,11 @@ ENumberGrid::ENumberGrid(int s) : EGrid<int>(s)
 {
 }
 
+ENumberGrid::~ENumberGrid()
+{
+}
+
 int ENumberGrid::greatestConsecutiveProduct(int n) const
-        throw(EOutOfBoundsException &)
 {
 	int i, j, k, greatest, c;
 

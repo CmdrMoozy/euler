@@ -60,7 +60,7 @@ void ESpiral::doTestSuite()
 		ESpiral s;
 		uint64_t result = 1;
 
-		std::size_t i = 1;
+		uint32_t i = 1;
 		while(s.getSizeFor(i) <= 1001)
 		{
 			result += s.diagonalValueAt(i, ESpiral::I);
@@ -73,9 +73,8 @@ void ESpiral::doTestSuite()
 
 		EASSERT(result == 669171001)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -255,9 +254,6 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 				return cacheIV[o];
 
 		break;
-
-	default:
-		throw std::runtime_error("Invalid quadrant.");
 	};
 
 	// Determine our size.
@@ -283,7 +279,6 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 		break;
 
 	case ESpiral::IV:
-	default:
 		m = 3;
 		break;
 	};
@@ -325,9 +320,6 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 		cacheIV[o] = r;
 
 		break;
-
-	default:
-		throw std::runtime_error("Invalid quadrant.");
 	};
 
 	// Return our result.

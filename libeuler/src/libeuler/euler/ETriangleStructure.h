@@ -20,6 +20,7 @@
 #ifndef INCLUDE_LIBEULER_EULER_TRIANGLE_STRUCTURE_H
 #define INCLUDE_LIBEULER_EULER_TRIANGLE_STRUCTURE_H
 
+#include <cstddef>
 #include <cstdint>
 
 #include "libeuler/EExceptions.h"
@@ -58,31 +59,31 @@ public:
 	static void doTestSuite();
 #endif
 
-	ETriangleStructure(int h = 0);
+	ETriangleStructure(std::size_t h = 0);
 	ETriangleStructure(const ETriangleStructure &o);
 	virtual ~ETriangleStructure();
 
 	ETriangleStructure &operator=(const ETriangleStructure &o);
 
 	void clear();
-	int getHeight() const;
-	void setHeight(int h, ETriangleStructure::FillMode f =
-	                              ETriangleStructure::Preserve);
+	std::size_t getHeight() const;
+	void setHeight(std::size_t h, ETriangleStructure::FillMode f =
+	                                      ETriangleStructure::Preserve);
 
-	void setAt(int r, int c, int v) throw(EOutOfBoundsException &);
-	void setRowAt(int r, const int *v) throw(EOutOfBoundsException &);
-	int at(int r, int c) const throw(EOutOfBoundsException &);
+	void setAt(std::size_t r, std::size_t c, int v);
+	void setRowAt(std::size_t r, const int *v);
+	int at(std::size_t r, std::size_t c) const;
 
 	int getLargestPathSum() const;
 
 private:
-	int height;
+	std::size_t height;
 	int **data;
 
-	int leftChildValue(int r, int c) const throw(EOutOfBoundsException &);
-	int rightChildValue(int r, int c) const throw(EOutOfBoundsException &);
+	int leftChildValue(std::size_t r, std::size_t c) const;
+	int rightChildValue(std::size_t r, std::size_t c) const;
 
-	bool isInBounds(int r, int c) const;
+	bool isInBounds(std::size_t r, std::size_t c) const;
 };
 
 #endif

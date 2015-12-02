@@ -54,9 +54,8 @@ void ECircularPrimeSieve::doTestSuite()
 
 		EASSERT(s.getSize() == 55)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 

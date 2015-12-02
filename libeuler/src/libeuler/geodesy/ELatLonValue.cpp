@@ -193,7 +193,7 @@ ELatLonValue &ELatLonValue::operator=(const ELatLonValue &o)
  * value of toValue() manually.
  *
  * \param o The value to compare ourself to.
- * \param True if our values are exactly equal, or false otherwise.
+ * \return True if our values are exactly equal, or false otherwise.
  */
 bool ELatLonValue::operator==(const ELatLonValue &o) const
 {
@@ -399,7 +399,7 @@ void ELatLonValue::normalize()
 			direction = ELatLonValue::East;
 			break;
 
-		default:
+		case ELatLonValue::None:
 			direction = ELatLonValue::None;
 			break;
 		};
@@ -478,11 +478,11 @@ std::ostream &operator<<(std::ostream &out, const ELatLonValue &v)
 		out << "W ";
 		break;
 
-	default:
+	case ELatLonValue::None:
 		break;
 	};
 
-	out << v.getDegrees() << "° " << v.getMinutes() << "' ";
+	out << v.getDegrees() << "deg " << v.getMinutes() << "' ";
 	out << std::fixed << std::setprecision(2) << v.getSeconds() << "\"";
 
 	return out;

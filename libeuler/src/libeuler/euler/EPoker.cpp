@@ -81,9 +81,8 @@ void EPoker::doTestSuite()
 			EASSERT(a < b);
 		}
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EOutOfBoundsException &e)
@@ -514,8 +513,6 @@ std::string EPoker::toString() const
 			case EPoker::Ace:
 				ret.append("A");
 				break;
-			default:
-				throw std::runtime_error("Invalid value.");
 			};
 
 			switch(suitOfIndex(idx))
@@ -532,8 +529,6 @@ std::string EPoker::toString() const
 			case EPoker::Spades:
 				ret.append("S");
 				break;
-			default:
-				throw std::runtime_error("Invalid suit.");
 			};
 
 			ret.append(" ");
@@ -954,7 +949,6 @@ int EPoker::compare(const EPoker &o) const
 			else
 				return 0;
 		}
-		break;
 
 		case EPoker::Straight:
 		case EPoker::StraightFlush:
@@ -992,7 +986,6 @@ int EPoker::compare(const EPoker &o) const
 			else
 				return 0;
 		}
-		break;
 
 		case EPoker::OnePair:
 		case EPoker::TwoPair:
@@ -1029,7 +1022,6 @@ int EPoker::compare(const EPoker &o) const
 					return 0;
 			}
 		}
-		break;
 
 		case EPoker::FullHouse:
 		{
@@ -1086,16 +1078,8 @@ int EPoker::compare(const EPoker &o) const
 					return 0;
 			}
 		}
-		break;
-
-		default:
-			throw std::runtime_error("Invalid hand rank.");
 		};
 	}
-
-	// This should never be reached, but is necessary to avoid a compiler
-	// warning.
-	return 0;
 }
 
 /*!

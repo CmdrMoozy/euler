@@ -33,9 +33,9 @@ public:
 #endif
 
 	ENumberGrid(int s = 0);
+	virtual ~ENumberGrid();
 
-	int greatestConsecutiveProduct(int n) const
-	        throw(EOutOfBoundsException &);
+	int greatestConsecutiveProduct(int n) const;
 };
 
 #endif

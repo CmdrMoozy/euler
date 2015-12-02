@@ -50,9 +50,8 @@ void EFastTotient::doTestSuite()
 		for(uint32_t i = 1; i < 5000; ++i)
 			EASSERT(EMath::totient(i) == t.totient(i));
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -108,7 +107,8 @@ uint32_t EFastTotient::totient(uint32_t n)
 	 * to really "calculate" it.
 	 */
 
-	uint32_t t = 0, h, p, e;
+	uint8_t e;
+	uint64_t t = 0, p, h;
 
 	for(std::set<uint32_t>::iterator it = sieve->begin();
 	    it != sieve->end(); ++it)
@@ -132,5 +132,5 @@ uint32_t EFastTotient::totient(uint32_t n)
 		}
 	}
 
-	return t;
+	return static_cast<uint32_t>(t);
 }
