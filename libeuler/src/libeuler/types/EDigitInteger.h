@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +23,7 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 #ifdef _WIN32
 // Disable all warnings for gmp.h and gmpxx.h on win32, since they generate
@@ -39,7 +39,6 @@
 #pragma warning(pop)
 #endif
 
-#include "libeuler/structs/EHashMap.h"
 #include "libeuler/EExceptions.h"
 
 #ifdef LIBEULER_DEBUG
@@ -50,37 +49,20 @@
 class EDigitInteger;
 std::ostream &operator<<(std::ostream &out, const EDigitInteger &i);
 
-/*
- * These two hardcoded parameters define our default EHashMap capacity and
- * desired load factor
- * for EDigitInteger objects. A default capacity of 7 (i.e., 128) and a desired
- * load factor of
- * 1:1 for keys(digits):capacity should work fine.
- */
-#define EDIGITINTEGER_DEFAULT_CAPACITY 7
-#define EDIGITINTEGER_LOAD_FACTOR 1.0
-
 /*!
  * \brief This class stores integers of arbitrary size as a series of digits.
  *
  * This allows for non-standard checks that involve individual digits, such as
- *whether or not
- * the number is a palindrome. This class is a subclass of EHashMap, where the
- *"keys" are the
- * indices of the digits in our number, and the "values" are the values of the
- *digits themselves.
+ * whether or not the number is a palindrome.
  *
  * It should be noted that, although this class provides some rudimentary
- *mathematical functions
- * (mostly +, -, *, / and %) they are going to be MUCH slower than the same
- *operations on primitive
- * types (or even the same operation on GMP types). As such, if you are going to
- *be performing
- * lots of math, you should do it with some other type and then initialize a new
- *EDigitInteger using
- * that value.
+ * mathematical functions (mostly +, -, *, / and %) they are going to be MUCH
+ * slower than the same operations on primitive types (or even the same
+ * operation on GMP types). As such, if you are going to be performing lots of
+ * math, you should do it with some other type and then initialize a new
+ * EDigitInteger using that value.
  */
-class EDigitInteger : public EHashMap<int, int>
+class EDigitInteger
 {
 public:
 #ifdef LIBEULER_DEBUG
@@ -88,12 +70,14 @@ public:
 #endif
 
 	EDigitInteger();
-	EDigitInteger(const EDigitInteger &o);
+	EDigitInteger(EDigitInteger const &) = default;
+	EDigitInteger(EDigitInteger &&) = default;
 	explicit EDigitInteger(uint64_t v);
 	explicit EDigitInteger(const mpz_class &v);
-	virtual ~EDigitInteger();
+	~EDigitInteger() = default;
 
-	EDigitInteger &operator=(const EDigitInteger &o);
+	EDigitInteger &operator=(EDigitInteger const &) = default;
+	EDigitInteger &operator=(EDigitInteger &&) = default;
 	EDigitInteger &operator=(const std::string &v);
 	EDigitInteger &operator=(uint64_t v);
 	EDigitInteger &operator=(const mpz_class &v);
@@ -110,18 +94,14 @@ public:
 	EDigitInteger &operator+=(const EDigitInteger &o);
 	EDigitInteger &operator-=(const EDigitInteger &o);
 	EDigitInteger &operator*=(const EDigitInteger &o);
-	EDigitInteger &
-	operator/=(const EDigitInteger &o) throw(EDivideByZeroException &);
-	EDigitInteger &
-	operator%=(const EDigitInteger &o) throw(EDivideByZeroException &);
+	EDigitInteger &operator/=(const EDigitInteger &o);
+	EDigitInteger &operator%=(const EDigitInteger &o);
 
 	EDigitInteger operator+(const EDigitInteger &o) const;
 	EDigitInteger operator-(const EDigitInteger &o) const;
 	EDigitInteger operator*(const EDigitInteger &o) const;
-	EDigitInteger operator/(const EDigitInteger &o) const
-	        throw(EDivideByZeroException &);
-	EDigitInteger operator%(const EDigitInteger &o) const
-	        throw(EDivideByZeroException &);
+	EDigitInteger operator/(const EDigitInteger &o) const;
+	EDigitInteger operator%(const EDigitInteger &o) const;
 
 	EDigitInteger &operator++();
 	EDigitInteger operator++(int i);
@@ -132,6 +112,9 @@ public:
 	void setPositive(bool p);
 	int digitCount() const;
 
+	bool hasNthDigit(int i) const;
+	int get(int i) const;
+
 	int sumOfDigits() const;
 
 	bool isPalindrome() const;
@@ -139,8 +122,7 @@ public:
 
 	bool isDigitallyEquivalent(const EDigitInteger &o) const;
 
-	virtual bool put(const int &k,
-	                 const int &v) throw(EValueRangeException &);
+	virtual bool put(const int &k, const int &v);
 	virtual bool erase(const int &k);
 
 	void rightDigitalShift(int p);
@@ -155,24 +137,22 @@ public:
 
 	bool reverseDigits(int l = 0, int r = -1);
 
-	uint64_t rangeToInteger(int l, int r) const
-	        throw(EOutOfBoundsException &);
+	uint64_t rangeToInteger(int l, int r) const;
 	uint64_t toInteger() const;
-	mpz_class rangeToBigInteger(int l, int r) const
-	        throw(EOutOfBoundsException &);
+	mpz_class rangeToBigInteger(int l, int r) const;
 	mpz_class toBigInteger() const;
-	std::string rangeToString(int l, int r) const
-	        throw(EOutOfBoundsException &);
+	std::string rangeToString(int l, int r) const;
 	std::string toString() const;
 
 private:
+	std::unordered_map<int, int> digits;
 	bool positive;
 
 	bool volatileSetDigitAt(int k, int v);
 	bool removeLeadingZeros();
 
 	void carry();
-	void borrow() throw(EUnderflowException &);
+	void borrow();
 
 	void setZero();
 
@@ -186,8 +166,7 @@ private:
 	void unsignedAdd(const EDigitInteger &i);
 	void unsignedSubtract(const EDigitInteger &i);
 	void unsignedMultiply(const EDigitInteger &i);
-	void unsignedDivide(const EDigitInteger &i,
-	                    bool m = false) throw(EDivideByZeroException &);
+	void unsignedDivide(const EDigitInteger &i, bool m = false);
 
 	void quicksortAsc(int l, int r);
 	void quicksortDesc(int l, int r);

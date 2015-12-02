@@ -49,9 +49,6 @@ SET(euler_SOURCES
 	src/libeuler/math/EPrimeSieve.h
 
 	src/libeuler/structs/EGrid.h
-	src/libeuler/structs/EHashMap.h
-	src/libeuler/structs/Hash.cpp
-	src/libeuler/structs/Hash.h
 
 	src/libeuler/types/EBigInteger.cpp
 	src/libeuler/types/EBigInteger.h

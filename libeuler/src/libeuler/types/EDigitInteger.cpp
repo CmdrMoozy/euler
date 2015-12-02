@@ -18,12 +18,13 @@
 
 #include "EDigitInteger.h"
 
-#include <iostream>
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <cstring>
-#include <cctype>
+#include <iostream>
 #include <sstream>
-#include <algorithm>
+#include <utility>
 
 #include "libeuler/EDefines.h"
 
@@ -166,7 +167,7 @@ void EDigitInteger::doTestSuite()
 		{
 			// Set a.
 			j = rand();
-			a = j;
+			a = static_cast<uint64_t>(j);
 			if(j & 1)
 			{
 				j *= -1;
@@ -180,7 +181,7 @@ void EDigitInteger::doTestSuite()
 
 			// Set b.
 			k = rand();
-			b = k;
+			b = static_cast<uint64_t>(k);
 			if(k & 1)
 			{
 				k *= -1;
@@ -591,7 +592,7 @@ void EDigitInteger::doTestSuite()
 			for(i = 0; static_cast<int>(i) < a.digitCount(); ++i)
 			{
 				EASSERT(a.get(static_cast<int>(i)) ==
-				        array.at(static_cast<int>(i)))
+				        array.at(static_cast<std::size_t>(i)))
 			}
 		} while(array.permutate() && a.permutateDigits());
 
@@ -613,7 +614,7 @@ void EDigitInteger::doTestSuite()
 			for(i = 0; static_cast<int>(i) < a.digitCount(); ++i)
 			{
 				EASSERT(a.get(static_cast<int>(i)) ==
-				        array.at(static_cast<int>(i)))
+				        array.at(static_cast<std::size_t>(i)))
 			}
 		} while(array.reversePermutate() && a.reversePermutateDigits());
 
@@ -635,9 +636,8 @@ void EDigitInteger::doTestSuite()
 			EASSERT(a.get(static_cast<int>(i)) >=
 			        a.get(static_cast<int>(i + 1)))
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EException &e)
@@ -658,34 +658,13 @@ void EDigitInteger::doTestSuite()
  * default capacity,
  * load factor, value and sign.
  */
-EDigitInteger::EDigitInteger()
-        : EHashMap<int, int>(EDIGITINTEGER_DEFAULT_CAPACITY,
-                             EDIGITINTEGER_LOAD_FACTOR)
+EDigitInteger::EDigitInteger() : digits(), positive(true)
 {
 	setZero();
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
-#endif
-}
-
-/*!
- * This is our copy constructor, which initializes a new object that has the
- *same value as
- * the given other object.
- *
- * \param o The other object we will be equal to.
- */
-EDigitInteger::EDigitInteger(const EDigitInteger &o) : EHashMap<int, int>(o)
-{
-	// Our constructor takes care of our digit list, so just set our other
-	// properties...
-	setPositive(o.isPositive());
-
-#ifdef LIBEULER_DEBUG
-	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 }
 
@@ -696,9 +675,7 @@ EDigitInteger::EDigitInteger(const EDigitInteger &o) : EHashMap<int, int>(o)
  *
  * \param v The value we will be equal to.
  */
-EDigitInteger::EDigitInteger(uint64_t v)
-        : EHashMap<int, int>(EDIGITINTEGER_DEFAULT_CAPACITY,
-                             EDIGITINTEGER_LOAD_FACTOR)
+EDigitInteger::EDigitInteger(uint64_t v) : digits(), positive(true)
 {
 	(*this) = v;
 }
@@ -710,41 +687,9 @@ EDigitInteger::EDigitInteger(uint64_t v)
  *
  * \param v The value we will be equal to.
  */
-EDigitInteger::EDigitInteger(const mpz_class &v)
-        : EHashMap<int, int>(EDIGITINTEGER_DEFAULT_CAPACITY,
-                             EDIGITINTEGER_LOAD_FACTOR)
+EDigitInteger::EDigitInteger(const mpz_class &v) : digits(), positive(true)
 {
 	(*this) = v;
-}
-
-/*!
- * This is our default destructor, which cleans up & destroys our object.
- */
-EDigitInteger::~EDigitInteger()
-{
-}
-
-/*!
- * This is an assignment operator, which sets our value equal to that of the
- *given other object.
- *
- * \param o The other object to set ourself equal to.
- * \return A reference to this, so the operator can be chained.
- */
-EDigitInteger &EDigitInteger::operator=(const EDigitInteger &o)
-{
-	// Use our superclass's assignment operator...
-	EHashMap<int, int>::operator=(o);
-
-	// Set our other properties...
-	setPositive(o.isPositive());
-
-#ifdef LIBEULER_DEBUG
-	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
-#endif
-
-	return (*this);
 }
 
 /*!
@@ -858,13 +803,13 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -941,13 +886,13 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1153,7 +1098,7 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 		if(unsignedLessThan(o))
 		{
 			EDigitInteger tmp(o);
-			swapValues(tmp);
+			std::swap(digits, tmp.digits);
 
 			msign = !msign;
 			unsignedSubtract(tmp);
@@ -1169,13 +1114,13 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1215,7 +1160,7 @@ EDigitInteger &EDigitInteger::operator-=(const EDigitInteger &o)
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1252,13 +1197,13 @@ EDigitInteger &EDigitInteger::operator*=(const EDigitInteger &o)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1280,12 +1225,9 @@ EDigitInteger &EDigitInteger::operator*=(const EDigitInteger &o)
  * contains the result. Note that any remainder encountered is simply discarded.
  *
  * \param o The object to divide ourself by.
- * \exception EDivideByZeroException This exception is thrown if the other value
- *provided is zero.
  * \return A reference to this, to the operator can be chained.
  */
-EDigitInteger &EDigitInteger::
-operator/=(const EDigitInteger &o) throw(EDivideByZeroException &)
+EDigitInteger &EDigitInteger::operator/=(const EDigitInteger &o)
 {
 	// The result is positive if either both inputs are positive or both are
 	// negative.
@@ -1298,13 +1240,13 @@ operator/=(const EDigitInteger &o) throw(EDivideByZeroException &)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1330,12 +1272,9 @@ operator/=(const EDigitInteger &o) throw(EDivideByZeroException &)
  * dividend (i.e., our sign doesn't change).
  *
  * \param o The object to divide ourself by.
- * \exception EDivideByZeroException This exception is thrown if the other value
- *provided is zero.
  * \return A reference to this, so the operator can be chained.
  */
-EDigitInteger &EDigitInteger::
-operator%=(const EDigitInteger &o) throw(EDivideByZeroException &)
+EDigitInteger &EDigitInteger::operator%=(const EDigitInteger &o)
 {
 	bool sign = isPositive();
 	unsignedDivide(o, true);
@@ -1344,13 +1283,13 @@ operator%=(const EDigitInteger &o) throw(EDivideByZeroException &)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	// Make sure that, if our value is 0, we are positive.
 	try
 	{
-		if(getKeys() == 1)
+		if(digitCount() == 1)
 			if(get(0) == 0)
 				setPositive(true);
 	}
@@ -1418,12 +1357,9 @@ EDigitInteger EDigitInteger::operator*(const EDigitInteger &o) const
  *simply discarded.
  *
  * \param o The other object to divide our value by.
- * \exception EDivideByZeroException This exception is thrown if the other value
- *provided is zero.
  * \return A new object containing the result.
  */
 EDigitInteger EDigitInteger::operator/(const EDigitInteger &o) const
-        throw(EDivideByZeroException &)
 {
 	EDigitInteger r((*this));
 	r /= o;
@@ -1438,12 +1374,9 @@ EDigitInteger EDigitInteger::operator/(const EDigitInteger &o) const
  * sign as the dividend (i.e., the sign of the left-hand operand).
  *
  * \param o The object to divide ourself by.
- * \exception EDivideByZeroException This exception is thrown if the other value
- *provided is zero.
  * \return A new object containing the result.
  */
 EDigitInteger EDigitInteger::operator%(const EDigitInteger &o) const
-        throw(EDivideByZeroException &)
 {
 	EDigitInteger r((*this));
 	r %= o;
@@ -1465,7 +1398,7 @@ EDigitInteger &EDigitInteger::operator++()
  * This is our postfix increment operator, which will increase our current
  *object's value by 1.
  *
- * \param i This parameter is unused; it is simply there to differentiate
+ * \param UNUSED_i This parameter is unused; it is simply there to differentiate
  *between post- versus prefix.
  * \return A copy of our original value, so the change occurs after the
  *expression is evaluated.
@@ -1493,7 +1426,7 @@ EDigitInteger &EDigitInteger::operator--()
  * This is our postfix decrement operator, which will decrease our current
  *object's value by 1.
  *
- * \param i This parameter is unused; it is simply there to differentiate
+ * \param UNUSED_i This parameter is unused; it is simply there to differentiate
  *between post- versus prefix.
  * \return A copy of our original value, so the change occurs after the
  *expression is evaluated.
@@ -1530,15 +1463,28 @@ void EDigitInteger::setPositive(bool p)
 }
 
 /*!
- * This function returns the same value as getKeys(), since we are a subclass of
- *EHashMap,
- * but its name is a bit more logical than that of our parent class's function.
- *
  * \return The nubmer of digits in our number.
  */
 int EDigitInteger::digitCount() const
 {
-	return getKeys();
+	return digits.size();
+}
+
+/*!
+ * Tests if this integer has an nth digit (i.e., if the number of digits in
+ * this integer is strictly greater than i).
+ *
+ * \param i The 0-indexed digit position.
+ * \return Whether or not this integer has an nth digit.
+ */
+bool EDigitInteger::hasNthDigit(int i) const
+{
+	return digitCount() > i;
+}
+
+int EDigitInteger::get(int i) const
+{
+	return digits.at(i);
 }
 
 /*!
@@ -1555,7 +1501,7 @@ int EDigitInteger::sumOfDigits() const
 
 	try
 	{
-		for(i = total = 0; i < getKeys(); ++i)
+		for(i = total = 0; i < digitCount(); ++i)
 			total += get(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -1585,7 +1531,7 @@ bool EDigitInteger::isPalindrome() const
 
 	try
 	{
-		for(a = 0, b = (getKeys() - 1); a < b; ++a, --b)
+		for(a = 0, b = (digitCount() - 1); a < b; ++a, --b)
 			if(get(a) != get(b))
 				return false;
 	}
@@ -1616,18 +1562,18 @@ bool EDigitInteger::isPalindrome() const
  */
 bool EDigitInteger::isPandigital() const
 {
-	int digits[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int digitCounts[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	// 10-digit and larger numbers cannot be pandigital in base 10.
-	if(getKeys() >= 10)
+	if(digitCount() >= 10)
 		return false;
 
 	// Look at each of our digits.
 
 	try
 	{
-		for(int i = 0; i < getKeys(); ++i)
-			++digits[get(i)];
+		for(int i = 0; i < digitCount(); ++i)
+			++digitCounts[get(i)];
 	}
 	catch(EOutOfBoundsException &e)
 	{
@@ -1641,18 +1587,18 @@ bool EDigitInteger::isPandigital() const
 	// Ensure that the digits we SHOULD contain are exactly one, and the
 	// digits we SHOULDN'T are still zero.
 
-	if(digits[0] != 0)
+	if(digitCounts[0] != 0)
 		return false;
 
-	for(int i = 1; i <= getKeys(); ++i)
+	for(int i = 1; i <= digitCount(); ++i)
 	{
-		if(digits[i] != 1)
+		if(digitCounts[i] != 1)
 			return false;
 	}
 
-	for(int i = getKeys() + 1; i < 10; ++i)
+	for(int i = digitCount() + 1; i < 10; ++i)
 	{
-		if(digits[i] != 0)
+		if(digitCounts[i] != 0)
 			return false;
 	}
 
@@ -1676,25 +1622,25 @@ bool EDigitInteger::isPandigital() const
 bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 {
 	int i;
-	int digits[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int digitCounts[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	// If we have a different number of digits, return false immediately.
-	if(getKeys() != o.getKeys())
+	if(digitCount() != o.digitCount())
 		return false;
 
 	try
 	{
 		// Add both of our numbers' digits to our cache.
-		for(i = 0; i < getKeys(); ++i)
+		for(i = 0; i < digitCount(); ++i)
 		{
-			digits[get(i)]++;
-			digits[o.get(i)]--;
+			digitCounts[get(i)]++;
+			digitCounts[o.get(i)]--;
 		}
 
 		// Loop through the counter and if we find an inconsistency,
 		// return false.
 		for(i = 0; i < 10; ++i)
-			if(digits[i] != 0)
+			if(digitCounts[i] != 0)
 				return false;
 	}
 	catch(EOutOfBoundsException &e)
@@ -1718,12 +1664,9 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
  *
  * \param k The position to insert the new digit at.
  * \param v The value of the digit to insert.
- * \exception EValueRangeException This exception is thrown if 0 <= v <= 9 is
- *not true.
  * \return True if a new digit was inserted, or false if a digit was replaced.
  */
-bool EDigitInteger::put(const int &k,
-                        const int &v) throw(EValueRangeException &)
+bool EDigitInteger::put(const int &k, const int &v)
 {
 	bool r;
 
@@ -1757,18 +1700,18 @@ bool EDigitInteger::erase(const int &k)
 
 	// If the position is out-of-range or if it is the last digit in our
 	// number, just remove it and return.
-	if(k >= getKeys())
+	if(k >= digitCount())
 		return false;
-	else if(k == (getKeys() - 1))
+	else if(k == (digitCount() - 1))
 	{
-		r = EHashMap<int, int>::erase(k);
+		r = digits.erase(k) > 0;
 
-		if(getKeys() < 1)
+		if(digitCount() < 1)
 			put(0, 0);
 
 #ifdef LIBEULER_DEBUG
 		// Make sure our number still has at least 1 digit.
-		EASSERT(getKeys() >= 1);
+		EASSERT(digitCount() >= 1);
 #endif
 
 		return r;
@@ -1777,17 +1720,17 @@ bool EDigitInteger::erase(const int &k)
 	try
 	{
 		// Otherwise, shift everything down and then pop the top digit.
-		for(i = k; i < (getKeys() - 1); ++i)
+		for(i = k; i < (digitCount() - 1); ++i)
 			put(i, get(i + 1));
 
-		r = EHashMap<int, int>::erase(getKeys() - 1);
+		r = digits.erase(digitCount() - 1) > 0;
 
-		if(getKeys() < 1)
+		if(digitCount() < 1)
 			put(0, 0);
 
 #ifdef LIBEULER_DEBUG
 		// Make sure our number still has at least 1 digit.
-		EASSERT(getKeys() >= 1);
+		EASSERT(digitCount() >= 1);
 #endif
 
 		return r;
@@ -1811,7 +1754,7 @@ bool EDigitInteger::erase(const int &k)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	return false;
@@ -1829,7 +1772,7 @@ bool EDigitInteger::erase(const int &k)
 void EDigitInteger::rightDigitalShift(int p)
 {
 	int i;
-	int d = getKeys();
+	int d = digitCount();
 
 	// A shift of 0 places has no effect.
 	if(p == 0)
@@ -1859,8 +1802,8 @@ void EDigitInteger::rightDigitalShift(int p)
 
 		// Get rid of the remaining digits at the high end of our
 		// number.
-		i = getKeys() - p;
-		while(EHashMap<int, int>::erase(i++))
+		i = digitCount() - p;
+		while(digits.erase(i++) > 0)
 			;
 	}
 	catch(EValueRangeException &e)
@@ -1882,7 +1825,7 @@ void EDigitInteger::rightDigitalShift(int p)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 }
 
@@ -1957,7 +1900,7 @@ bool EDigitInteger::rightDigitalRotate(int p)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	return r;
@@ -1975,7 +1918,7 @@ bool EDigitInteger::rightDigitalRotate(int p)
 void EDigitInteger::leftDigitalShift(int p)
 {
 	int i;
-	int d = getKeys();
+	int d = digitCount();
 
 	// A shift of 0 places has no effect.
 	if(p == 0)
@@ -2017,7 +1960,7 @@ void EDigitInteger::leftDigitalShift(int p)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 }
 
@@ -2045,7 +1988,7 @@ bool EDigitInteger::leftDigitalRotate(int p)
 		return rightDigitalRotate(EABS(p));
 
 	// Don't do any full rotations.
-	p %= getKeys();
+	p %= digitCount();
 
 	// Rotation 0 places has no effect.
 	if(p == 0)
@@ -2096,7 +2039,7 @@ bool EDigitInteger::leftDigitalRotate(int p)
 
 #ifdef LIBEUADRA_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	return r;
@@ -2326,9 +2269,9 @@ bool EDigitInteger::reverseDigits(int l, int r)
 	bool ret;
 
 	l = (l < 0) ? 0 : l;
-	r = (r == -1) ? (getKeys() - 1) : r;
-	r = (r <= l) ? (getKeys() - 1) : r;
-	r = (r >= getKeys()) ? (getKeys() - 1) : r;
+	r = (r == -1) ? (digitCount() - 1) : r;
+	r = (r <= l) ? (digitCount() - 1) : r;
+	r = (r >= digitCount()) ? (digitCount() - 1) : r;
 
 	try
 	{
@@ -2360,7 +2303,7 @@ bool EDigitInteger::reverseDigits(int l, int r)
 
 #ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(getKeys() >= 1);
+	EASSERT(digitCount() >= 1);
 #endif
 
 	return ret;
@@ -2373,23 +2316,20 @@ bool EDigitInteger::reverseDigits(int l, int r)
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
- * \exception EOutOfBoundsException This exception is thrown if the range [l,r]
- *is out-of-bounds.
  * \return The specified range as a 64-bit unsigned integer.
  */
 uint64_t EDigitInteger::rangeToInteger(int l, int r) const
-        throw(EOutOfBoundsException &)
 {
 	int i;
 	uint64_t ret = 0;
 
-	if((l < 0) || (r >= getKeys()))
+	if((l < 0) || (r >= digitCount()))
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
 	for(i = r; i >= l; --i)
 	{
 		ret *= 10;
-		ret += get(i);
+		ret += static_cast<uint64_t>(get(i));
 	}
 
 	return ret;
@@ -2404,7 +2344,7 @@ uint64_t EDigitInteger::rangeToInteger(int l, int r) const
  */
 uint64_t EDigitInteger::toInteger() const
 {
-	return rangeToInteger(0, getKeys() - 1);
+	return rangeToInteger(0, digitCount() - 1);
 }
 
 /*!
@@ -2414,17 +2354,14 @@ uint64_t EDigitInteger::toInteger() const
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
- * \exception EOutOfBoundsException This exception is thrown if the range [l,r]
- *is out-of-bounds.
  * \return The specified range as a GMP big integer.
  */
 mpz_class EDigitInteger::rangeToBigInteger(int l, int r) const
-        throw(EOutOfBoundsException &)
 {
 	int i;
 	mpz_class ret = 0;
 
-	if((l < 0) || (r >= getKeys()))
+	if((l < 0) || (r >= digitCount()))
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
 	for(i = r; i >= l; --i)
@@ -2445,7 +2382,7 @@ mpz_class EDigitInteger::rangeToBigInteger(int l, int r) const
  */
 mpz_class EDigitInteger::toBigInteger() const
 {
-	return rangeToBigInteger(0, getKeys() - 1);
+	return rangeToBigInteger(0, digitCount() - 1);
 }
 
 /*!
@@ -2459,17 +2396,14 @@ mpz_class EDigitInteger::toBigInteger() const
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
- * \exception EOutOfBoundsException This exception is thrown if the range [l,r]
- *is out-of-bounds.
  * \return The specified range as a std::string.
  */
 std::string EDigitInteger::rangeToString(int l, int r) const
-        throw(EOutOfBoundsException &)
 {
 	int i;
 	std::ostringstream oss;
 
-	if((l < 0) || (r >= getKeys()))
+	if((l < 0) || (r >= digitCount()))
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
 	for(i = r; i >= l; --i)
@@ -2489,7 +2423,7 @@ std::string EDigitInteger::rangeToString(int l, int r) const
  */
 std::string EDigitInteger::toString() const
 {
-	std::string r = rangeToString(0, getKeys() - 1);
+	std::string r = rangeToString(0, digitCount() - 1);
 
 	if(!isPositive())
 		r.insert(0, "-");
@@ -2499,15 +2433,13 @@ std::string EDigitInteger::toString() const
 
 /*!
  * This function behaves the same as our public put() function, except it does
- *not do range checking
- * on the value provided, so it can be used to, e.g., store intermediate values
- *while performing an
- * addition or subtraction operation.
+ * not do range checking on the value provided, so it can be used to, e.g.,
+ * store intermediate values while performing an addition or subtraction
+ * operation.
  *
- * \param i The position of the digit to set.
+ * \param k The position of the digit to set.
  * \param v The value of the new digit.
- * \return True if a new digit was inserted, or false if a digit was just
- *updated.
+ * \return True if a new digit was inserted, or false if a digit was updated.
  */
 bool EDigitInteger::volatileSetDigitAt(int k, int v)
 {
@@ -2515,11 +2447,11 @@ bool EDigitInteger::volatileSetDigitAt(int k, int v)
 
 	// Fill in digits between the previous end of our number and the
 	// specified digit with 0's.
-	for(i = getKeys(); i < k; ++i)
-		EHashMap<int, int>::put(i, 0);
+	for(i = digitCount(); i < k; ++i)
+		digits.insert(std::make_pair(i, 0));
 
 	// Actually insert the new value.
-	return EHashMap<int, int>::put(k, v);
+	return digits.insert(std::make_pair(k, v)).second;
 }
 
 /*!
@@ -2535,14 +2467,14 @@ bool EDigitInteger::removeLeadingZeros()
 	int i;
 
 	// Don't operate on numbers with 1 or fewer digits.
-	if(getKeys() <= 1)
+	if(digitCount() <= 1)
 		return false;
 
 	// Remove leading 0's from our number.
 	r = false;
 	try
 	{
-		for(i = (getKeys() - 1); i > 0; --i)
+		for(i = (digitCount() - 1); i > 0; --i)
 		{
 			if(get(i) == 0)
 			{
@@ -2573,9 +2505,7 @@ bool EDigitInteger::removeLeadingZeros()
  */
 void EDigitInteger::carry()
 {
-	int j;
-
-	for(j = 0; containsKey(j); ++j)
+	for(int j = 0; hasNthDigit(j); ++j)
 	{
 		while(get(j) > 9)
 		{
@@ -2593,22 +2523,21 @@ void EDigitInteger::carry()
 	}
 
 #ifdef LIBEULER_DEBUG
-	for(j = 0; j < digitCount(); ++j)
+	for(int j = 0; j < static_cast<int>(digitCount()); ++j)
 		EASSERT((0 <= get(j)) && (get(j) <= 9))
 #endif
 }
 
 /*!
  * This utility function borrows all of our digits, starting from the low
- * digits, so it will be
- * "normalized" (that is, 0 <= digit <= 9 is always true), i.e. after a
- * subtraction operation.
+ * digits, so it will be "normalized" (that is, 0 <= digit <= 9 is always
+ * true), i.e. after a subtraction operation.
  */
-void EDigitInteger::borrow() throw(EUnderflowException &)
+void EDigitInteger::borrow()
 {
 	int j;
 
-	for(j = 0; containsKey(j + 1); ++j)
+	for(j = 0; hasNthDigit(j + 1); ++j)
 	{
 		while(get(j) < 0)
 		{
@@ -2638,7 +2567,7 @@ void EDigitInteger::borrow() throw(EUnderflowException &)
  */
 void EDigitInteger::setZero()
 {
-	clear();
+	digits.clear();
 	volatileSetDigitAt(0, 0);
 	setPositive(true);
 }
@@ -2656,13 +2585,13 @@ bool EDigitInteger::unsignedEqualTo(const EDigitInteger &o) const
 	int i;
 
 	// If our numbers contain varying numbers of digits, return immediately.
-	if(getKeys() != o.getKeys())
+	if(digitCount() != o.digitCount())
 		return false;
 
 	try
 	{
 		// Test each digit until we find something that doesn't match.
-		for(i = 0; i < getKeys(); ++i)
+		for(i = 0; i < digitCount(); ++i)
 			if(get(i) != o.get(i))
 				return false;
 	}
@@ -2704,15 +2633,15 @@ bool EDigitInteger::unsignedLessThan(const EDigitInteger &o) const
 
 	// See if we can determine a return value based purely on the number of
 	// digits.
-	if(getKeys() > o.getKeys())
+	if(digitCount() > o.digitCount())
 		return false; // We have more digits, so we are greater.
-	else if(getKeys() < o.getKeys())
+	else if(digitCount() < o.digitCount())
 		return true; // We have fewer digits, so we are less.
 
 	try
 	{
 		// Test each of our digits to try and find an answer.
-		for(i = (getKeys() - 1); i >= 0; --i)
+		for(i = (digitCount() - 1); i >= 0; --i)
 			if(get(i) > o.get(i))
 				return false; // Our digit is greater, so our
 			                      // number is greater.
@@ -2788,21 +2717,19 @@ void EDigitInteger::unsignedAdd(const EDigitInteger &i)
 	{
 		// Insert zeros at the front of our number until we are at least
 		// as big as the other.
-		if(i.getKeys() > getKeys())
-			volatileSetDigitAt(i.getKeys(), 0);
+		if(i.digitCount() > digitCount())
+			volatileSetDigitAt(i.digitCount(), 0);
 
 		// Do a digit-by-digit add, carrying as we go...
-		for(j = 0; j < i.getKeys(); ++j)
+		for(j = 0; j < i.digitCount(); ++j)
 			volatileSetDigitAt(j, get(j) + i.get(j));
 
 		carry();
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
 #ifdef LIBULER_DEBUG
 		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
 #endif
 	}
 }
@@ -2840,7 +2767,7 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 		{
 			// Only subtract if we are in-bounds on the other
 			// number.
-			if(j < i.getKeys())
+			if(j < i.digitCount())
 				volatileSetDigitAt(j, get(j) - i.get(j));
 		}
 
@@ -2895,12 +2822,12 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 		result.setZero();
 
 		// Loop through each digit in both numbers...
-		for(b = 0; b < i.getKeys(); ++b)
+		for(b = 0; b < i.digitCount(); ++b)
 		{ // "b" represents the digit in the number we're multiplying
 			// by.
-			for(a = 0; a < getKeys(); ++a)
+			for(a = 0; a < digitCount(); ++a)
 			{ // "a" represents the digit in our current number.
-				if((b + a) >= result.getKeys())
+				if((b + a) >= result.digitCount())
 					result.volatileSetDigitAt(b + a, 0);
 
 				// Multiply our current digits and add the
@@ -2944,11 +2871,8 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
  * \param i The other value to divide ourself by.
  * \param m Whether or not to do modulus division - true means we return the
  *remainder, false means we return the division result.
- * \exception EDivideByZeroException This exception is thrown if the given other
- *value is 0.
  */
-void EDigitInteger::unsignedDivide(const EDigitInteger &i,
-                                   bool m) throw(EDivideByZeroException &)
+void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 {
 	EDigitInteger a, b, result;
 	int aDigits, bDigits, j;
@@ -3032,8 +2956,8 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i,
 		b = i;
 		b.setPositive(true);
 
-		aDigits = a.getKeys();
-		bDigits = b.getKeys();
+		aDigits = a.digitCount();
+		bDigits = b.digitCount();
 
 		// Initialize this - which will ultimately be our result.
 		setZero();
@@ -3072,10 +2996,11 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i,
 			// optimize even more.
 			for(j = 9; j > 0; --j)
 			{
-				if((b * EDigitInteger(j)) <= a)
+				uint64_t value = static_cast<uint64_t>(j);
+				if((b * EDigitInteger(value)) <= a)
 				{
-					b *= EDigitInteger(j);
-					result *= EDigitInteger(j);
+					b *= EDigitInteger(value);
+					result *= EDigitInteger(value);
 					break;
 				}
 			}
@@ -3088,8 +3013,8 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i,
 			// loop.
 			b = i;
 			b.setPositive(true);
-			bDigits = b.getKeys();
-			aDigits = a.getKeys();
+			bDigits = b.digitCount();
+			aDigits = a.digitCount();
 			result = 1;
 		}
 
