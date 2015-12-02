@@ -19,6 +19,7 @@
 #ifndef INCLUDE_LIBEULER_STRUCTS_GRID_H
 #define INCLUDE_LIBEULER_STRUCTS_GRID_H
 
+#include <cstddef>
 #include <cstdlib>
 
 #include "libeuler/EDefines.h"
@@ -81,9 +82,8 @@ public:
 			g.setSize(5);
 			g.clear();
 		}
-		catch(EAssertionException &e)
+		catch(EAssertionException &)
 		{
-			ELUNUSED(e)
 			success = false;
 		}
 		catch(EOutOfBoundsException &e)
@@ -105,7 +105,7 @@ public:
 	 *treated as
 	 * zero.
 	 *
-	 * \param n The size our object will start with.
+	 * \param s The size our object will start with.
 	 */
 	EGrid(int s = 0) : data(NULL), size(0)
 	{
@@ -140,7 +140,7 @@ public:
 	 *contents are
 	 * not preserved. Note that negative sizes are treated as zero.
 	 *
-	 * \param n The new size of our grid.
+	 * \param s The new size of our grid.
 	 */
 	void setSize(int s)
 	{
@@ -150,10 +150,10 @@ public:
 		s = (s >= 0) ? s : 0;
 
 		size = s;
-		data = new T *[getSize()];
+		data = new T *[static_cast<std::size_t>(getSize())];
 
 		for(i = 0; i < getSize(); i++)
-			data[i] = new T[getSize()];
+			data[i] = new T[static_cast<std::size_t>(getSize())];
 	}
 
 	/*!
@@ -183,11 +183,9 @@ public:
 	 *
 	 * \param i The row at which the given value is found.
 	 * \param j The column at which the given value is found.
-	 * \exception QOutOfBoundsException This exception is thrown if the
-	 *given row and/or column is out-of-bounds.
 	 * \return A copy of the value stored at the given position.
 	 */
-	T &at(int i, int j) const throw(EOutOfBoundsException &)
+	T &at(int i, int j) const
 	{
 		if(!indexIsInBounds(i, j))
 			throw EOutOfBoundsException(
@@ -202,10 +200,8 @@ public:
 	 * \param i The row at which the desired value is found.
 	 * \param j The column at which the desired value is found.
 	 * \param v The new value that we will store at the given position.
-	 * \exception QOutOfBoundsException This exception is thrown if the
-	 *given row and/or column is out-of-bounds.
 	 */
-	void set(int i, int j, const T &v) throw(EOutOfBoundsException &)
+	void set(int i, int j, const T &v)
 	{
 		at(i, j) = v;
 	}

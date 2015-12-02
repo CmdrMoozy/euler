@@ -46,9 +46,8 @@ void EBigInteger::doTestSuite()
 	{
 		success = true;
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EValueRangeException &e)
@@ -145,7 +144,7 @@ bool EBigInteger::operator>=(const EBigInteger &o) const
 EBigInteger EBigInteger::operator-() const
 {
 	EBigInteger r((*this));
-	r *= -1;
+	r *= EBigInteger(static_cast<int64_t>(-1));
 	return r;
 }
 
@@ -429,9 +428,19 @@ int64_t EBigInteger::toInt() const
 	{
 		// Get our value using toUInt() instead.
 		uint64_t r = toUInt();
-		r %= sgn() < 0 ? INT64_MIN : INT64_MAX;
-		r *= sgn();
-		return r;
+		int s = sgn();
+		if((s < 0) && (r >= static_cast<uint64_t>(INT64_MAX) + 1))
+		{
+			return INT64_MIN;
+		}
+		else if((s > 0) && (r >= static_cast<uint64_t>(INT64_MAX)))
+		{
+			return INT64_MAX;
+		}
+		else
+		{
+			return s * static_cast<int64_t>(r);
+		}
 	}
 #endif
 }

@@ -38,15 +38,6 @@ struct VertexState
 	VisitedState state;
 	VertexState *previous;
 
-	VertexState()
-	        : vertex(nullptr),
-	          heuristicScore(INT64_MAX),
-	          actualScore(INT64_MAX),
-	          state(VisitedState::NONE),
-	          previous(nullptr)
-	{
-	}
-
 	explicit VertexState(const euler::graph::Vertex *v)
 	        : vertex(v),
 	          heuristicScore(INT64_MAX),
@@ -56,12 +47,7 @@ struct VertexState
 	{
 	}
 
-	explicit VertexState(const euler::graph::Vertex &v) : VertexState(&v)
-	{
-	}
-
 	VertexState(const VertexState &) = default;
-	~VertexState() = default;
 	VertexState &operator=(const VertexState &) = default;
 };
 

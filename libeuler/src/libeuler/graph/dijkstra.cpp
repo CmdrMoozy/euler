@@ -31,14 +31,6 @@ struct VertexState
 	bool visited;
 	VertexState *previous;
 
-	VertexState()
-	        : vertex(nullptr),
-	          distance(INT64_MAX),
-	          visited(false),
-	          previous(nullptr)
-	{
-	}
-
 	explicit VertexState(const euler::graph::Vertex *v)
 	        : vertex(v),
 	          distance(INT64_MAX),
@@ -47,26 +39,8 @@ struct VertexState
 	{
 	}
 
-	explicit VertexState(const euler::graph::Vertex &v) : VertexState(&v)
-	{
-	}
-
 	VertexState(const VertexState &) = default;
-	~VertexState() = default;
 	VertexState &operator=(const VertexState &) = default;
-
-	bool operator<(const VertexState &o) const
-	{
-		if(vertex < o.vertex)
-			return true;
-		else
-			return false;
-	}
-
-	bool operator==(const VertexState &o) const
-	{
-		return !(*this < o) && !(o < *this);
-	}
 };
 
 typedef std::unordered_map<const euler::graph::Vertex *, VertexState>
