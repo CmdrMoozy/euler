@@ -39,7 +39,7 @@ if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_definitions(-DLIBEULER_DEBUG)
 endif()
 
-include_directories("${PROJECT_SOURCE_DIR}/libeuler/src")
+include_directories(3rdparty/include libeuler/src)
 
 # Set the libraries we'll use.
 
@@ -55,11 +55,14 @@ set(euler_LIBRARIES
 
 )
 
+# Add our targets.
+
+enable_testing()
+
 add_subdirectory(libeuler)
 add_subdirectory(done)
 add_subdirectory(new)
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
-	add_subdirectory(vrfy)
 	add_subdirectory(test)
 endif()

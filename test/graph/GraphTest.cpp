@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GraphTest.h"
+#include <catch/catch.hpp>
 
 #include <cstddef>
 #include <cmath>
@@ -123,19 +123,18 @@ TestGraph createTestGraph()
 
 	return test;
 }
+}
 
-void testDijkstra()
+TEST_CASE("Test Dijkstra path finding algorithm", "[Graph]")
 {
 	TestGraph test = createTestGraph();
 	auto result =
 	        euler::graph::dijkstra(*test.graph, *test.start, *test.end);
-	vrfy::assert::assertEquals(TEST_GRAPH_EXPECTED_LENGTH,
-	                           result.path.size());
-	vrfy::assert::assertEquals<int64_t>(TEST_GRAPH_EXPECTED_DISTANCE,
-	                                    result.sum);
+	CHECK(TEST_GRAPH_EXPECTED_LENGTH == result.path.size());
+	CHECK(TEST_GRAPH_EXPECTED_DISTANCE == result.sum);
 }
 
-void testAStarConsistent()
+TEST_CASE("Test A* heuristic consistency", "[Graph]")
 {
 	TestGraph test = createTestGraph();
 
@@ -145,8 +144,8 @@ void testAStarConsistent()
 	{
 		auto aposit = test.positionMap.find(&a);
 		auto bposit = test.positionMap.find(&b);
-		vrfy::assert::assertTrue((aposit != test.positionMap.end()) &&
-		                         (bposit != test.positionMap.end()));
+		CHECK(aposit != test.positionMap.end());
+		CHECK(bposit != test.positionMap.end());
 
 		auto apos = aposit->second;
 		auto bpos = bposit->second;
@@ -161,21 +160,6 @@ void testAStarConsistent()
 
 	auto result = euler::graph::astar<euler::graph::ConsistentHeuristic>(
 	        *test.graph, *test.start, *test.end, heuristicFn);
-	vrfy::assert::assertEquals(TEST_GRAPH_EXPECTED_LENGTH,
-	                           result.path.size());
-	vrfy::assert::assertEquals<int64_t>(TEST_GRAPH_EXPECTED_DISTANCE,
-	                                    result.sum);
-}
-}
-
-namespace euler
-{
-namespace test
-{
-void GraphTest::test()
-{
-	testDijkstra();
-	testAStarConsistent();
-}
-}
+	CHECK(TEST_GRAPH_EXPECTED_LENGTH == result.path.size());
+	CHECK(TEST_GRAPH_EXPECTED_DISTANCE == result.sum);
 }

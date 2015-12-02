@@ -1,18 +1,13 @@
-find_package(DWARF REQUIRED)
+set(euler-test_SOURCES
 
-set(test_SOURCES
+	euler-test.cpp
 
-	Test.cpp
+	graph/GraphTest.cpp
 
-	tests/graph/GraphTest.cpp
-	tests/graph/GraphTest.h
-
-	tests/math/MathTest.cpp
-	tests/math/MathTest.h
+	math/MathTest.cpp
 
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/vrfy/src)
-
-add_executable(Test ${test_SOURCES})
-target_link_libraries(Test ${euler_LIBRARIES} euler ${Vrfy_LIBS})
+add_executable(euler-test ${euler-test_SOURCES})
+target_link_libraries(euler-test ${euler_LIBRARIES} euler)
+add_test(euler-test euler-test)

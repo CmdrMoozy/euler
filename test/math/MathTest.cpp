@@ -16,15 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MathTest.h"
+#include <catch/catch.hpp>
 
 #include <cmath>
 
 #include "libeuler/math/Math.h"
 
-namespace
-{
-void ipowTest()
+TEST_CASE("Test ipow function", "[Math]")
 {
 	for(unsigned int b = 0; b <= 10; ++b)
 	{
@@ -32,12 +30,12 @@ void ipowTest()
 		{
 			uint64_t exp = static_cast<uint64_t>(std::pow(b, e));
 			uint64_t act = euler::math::ipow(b, e);
-			vrfy::assert::assertEquals(exp, act);
+			CHECK(exp == act);
 		}
 	}
 }
 
-void ipowmodTest()
+TEST_CASE("Test ipowmod function", "[Math]")
 {
 	constexpr unsigned int MODULUS = 5;
 	for(unsigned int b = 1; b <= 5; ++b)
@@ -47,20 +45,7 @@ void ipowmodTest()
 			uint64_t exp =
 			        static_cast<uint64_t>(std::pow(b, e)) % MODULUS;
 			uint64_t act = euler::math::ipowmod(b, e, MODULUS);
-			vrfy::assert::assertEquals(exp, act);
+			CHECK(exp == act);
 		}
 	}
-}
-}
-
-namespace euler
-{
-namespace test
-{
-void MathTest::test()
-{
-	ipowTest();
-	ipowmodTest();
-}
-}
 }
