@@ -94,8 +94,7 @@ public:
 	virtual ~EDigitInteger();
 
 	EDigitInteger &operator=(const EDigitInteger &o);
-	EDigitInteger &
-	operator=(const std::string &v) throw(EStringFormatException &);
+	EDigitInteger &operator=(const std::string &v);
 	EDigitInteger &operator=(uint64_t v);
 	EDigitInteger &operator=(const mpz_class &v);
 

@@ -759,12 +759,9 @@ EDigitInteger &EDigitInteger::operator=(const EDigitInteger &o)
  * If the format is something else, then an exception will be thrown.
  *
  * \param v A string-representation of the value we will be equal to.
- * \exception EStringFormatException This exception is thrown if the string
- *provided is in an invalid format.
  * \return A reference to this, so the operator can be chained.
  */
-EDigitInteger &EDigitInteger::
-operator=(const std::string &v) throw(EStringFormatException &)
+EDigitInteger &EDigitInteger::operator=(const std::string &v)
 {
 	try
 	{
@@ -792,7 +789,7 @@ operator=(const std::string &v) throw(EStringFormatException &)
 				// positive, unless it has already been set.
 				if(signSet)
 				{
-					throw EStringFormatException(
+					throw EException(
 					        "Invalid input string!");
 				}
 				else
@@ -807,7 +804,7 @@ operator=(const std::string &v) throw(EStringFormatException &)
 				// negative, unless it has already been set.
 				if(signSet)
 				{
-					throw EStringFormatException(
+					throw EException(
 					        "Invalid input string!");
 				}
 				else
@@ -844,8 +841,7 @@ operator=(const std::string &v) throw(EStringFormatException &)
 			}
 			else
 			{
-				throw EStringFormatException(
-				        "Invalid input string!");
+				throw EException("Invalid input string!");
 			}
 
 			i += 1;
@@ -854,7 +850,7 @@ operator=(const std::string &v) throw(EStringFormatException &)
 		// Ditch any leading zeros we may have picked up.
 		removeLeadingZeros();
 	}
-	catch(EStringFormatException &e)
+	catch(EException &e)
 	{
 		setZero();
 		throw e;
