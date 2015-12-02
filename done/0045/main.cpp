@@ -66,7 +66,8 @@ int main(void)
 	}
 
 	std::cout << "The next triangle number that is also pentagonal and "
-	             "hexagonal is: " << triangleNumber << "\n";
+	             "hexagonal is: "
+	          << triangleNumber << "\n";
 
 	assert(triangleNumber == 1533776805);
 	return 0;

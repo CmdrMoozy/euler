@@ -92,7 +92,7 @@ int main(void)
 								for(int twoquid =
 								            200;
 								    twoquid >=
-								            0;
+								    0;
 								    twoquid -=
 								    200)
 								{

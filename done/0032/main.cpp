@@ -130,7 +130,8 @@ int main(void)
 
 	// Print the answer!
 	std::cout << "The sum of the products whose multiplicative identity is "
-	             "1-9 pandigital is: " << total << "\n";
+	             "1-9 pandigital is: "
+	          << total << "\n";
 	assert(total == 45228);
 
 	return 0;

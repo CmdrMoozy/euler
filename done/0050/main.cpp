@@ -87,8 +87,9 @@ int main(void)
 			{
 				std::cout << "The prime < 1,000,000 which is "
 				             "the sum of the most consecutive "
-				             "primes (" << length
-				          << ") is: " << result << "\n";
+				             "primes ("
+				          << length << ") is: " << result
+				          << "\n";
 				assert(result == 997651);
 
 				return 0;

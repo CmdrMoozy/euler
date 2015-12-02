@@ -122,7 +122,8 @@ int main(void)
 	delete[] abundantNumbers;
 
 	std::cout << "The sum of the numbers that CANNOT be written as the sum "
-	             "of two abundant numbers is: " << total << "\n";
+	             "of two abundant numbers is: "
+	          << total << "\n";
 
 	assert(total == 4179871);
 	return 0;

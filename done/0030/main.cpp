@@ -107,7 +107,8 @@ int main(void)
 	}
 
 	std::cout << "The sum of all numbers that are the sum of the fifth "
-	             "powers of its digit is: " << result << "\n";
+	             "powers of its digit is: "
+	          << result << "\n";
 
 	assert(result == 443839);
 	return 0;

@@ -116,7 +116,8 @@ int main(void)
 	}
 
 	std::cout << "The product of the coefficients on the longest "
-	             "prime-generating polynomial is: " << (a * b) << "\n";
+	             "prime-generating polynomial is: "
+	          << (a * b) << "\n";
 
 	assert((a * b) == -59231);
 	return 0;

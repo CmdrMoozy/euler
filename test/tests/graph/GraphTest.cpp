@@ -139,9 +139,9 @@ void testAStarConsistent()
 {
 	TestGraph test = createTestGraph();
 
-	euler::graph::AStarHeuristicFunction_t heuristicFn =
-	        [&test](const euler::graph::Vertex &a,
-	                const euler::graph::Vertex &b) -> int64_t
+	euler::graph::AStarHeuristicFunction_t heuristicFn = [&test](
+	        const euler::graph::Vertex &a,
+	        const euler::graph::Vertex &b) -> int64_t
 	{
 		auto aposit = test.positionMap.find(&a);
 		auto bposit = test.positionMap.find(&b);

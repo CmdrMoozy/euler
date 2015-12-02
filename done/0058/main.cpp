@@ -78,7 +78,8 @@ int main(void)
 
 	result = sp.getSizeFor(o);
 	std::cout << "The size of spiral whose diagonal prime ratio first "
-	             "falls below 10% is: " << result << "\n";
+	             "falls below 10% is: "
+	          << result << "\n";
 
 	assert(result == 26241);
 	return 0;

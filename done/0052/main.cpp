@@ -89,7 +89,8 @@ int main(void)
 	}
 
 	std::cout << "The smallest positive integer such that its multiples "
-	             "contain the same digits is: " << x << "\n";
+	             "contain the same digits is: "
+	          << x << "\n";
 
 	assert(x == 142857);
 	return 0;

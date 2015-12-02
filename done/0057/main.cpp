@@ -77,7 +77,8 @@ int main(void)
 	}
 
 	std::cout << "The number of expansions where log10(numerator) > "
-	             "log10(denominator) is: " << total << "\n";
+	             "log10(denominator) is: "
+	          << total << "\n";
 	assert(total == 153);
 
 	return 0;

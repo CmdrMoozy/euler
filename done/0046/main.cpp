@@ -106,7 +106,8 @@ int main(void)
 	}
 
 	std::cout << "The smallest odd composite that doesn't fit Goldbach's "
-	             "conjecture is: " << n << "\n";
+	             "conjecture is: "
+	          << n << "\n";
 
 	assert(n == 5777);
 	return 0;

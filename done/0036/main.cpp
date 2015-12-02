@@ -56,7 +56,8 @@ int main(void)
 	}
 
 	std::cout << "The sum of the numbers below 1,000,000 that are "
-	             "palindromic in base 10 and 2 is: " << result << "\n";
+	             "palindromic in base 10 and 2 is: "
+	          << result << "\n";
 
 	assert(result == 872187);
 	return 0;

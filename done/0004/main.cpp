@@ -51,8 +51,8 @@ int main(void)
 		if(eda.isPalindrome())
 		{
 			std::cout << "The largest palindrome that is a product "
-			             "of two 3-digit numbers is: " << (*rit)
-			          << "\n";
+			             "of two 3-digit numbers is: "
+			          << (*rit) << "\n";
 
 			assert((*rit) == 906609);
 			return 0;

@@ -29,32 +29,19 @@
  * \brief This maps a numeral to its value. These are used for parsing roman
  * numerals.
  */
-const std::map<char, uint64_t> ERomanNumeral::VALUES = {{'I', 1},
-                                                        {'V', 5},
-                                                        {'X', 10},
-                                                        {'L', 50},
-                                                        {'C', 100},
-                                                        {'D', 500},
-                                                        {'M', 1000}};
+const std::map<char, uint64_t> ERomanNumeral::VALUES = {
+        {'I', 1},   {'V', 5},   {'X', 10},  {'L', 50},
+        {'C', 100}, {'D', 500}, {'M', 1000}};
 
 /*!
  * \brief This is a set of strings and their values, for turning values into
  * numerals.
  */
 const std::set<OVPair, ERomanNumeral::OVPairComparator>
-        ERomanNumeral::OUT_VALUES = {{"M", 1000},
-                                     {"CM", 900},
-                                     {"D", 500},
-                                     {"CD", 400},
-                                     {"C", 100},
-                                     {"XC", 90},
-                                     {"L", 50},
-                                     {"XL", 40},
-                                     {"X", 10},
-                                     {"IX", 9},
-                                     {"V", 5},
-                                     {"IV", 4},
-                                     {"I", 1}};
+        ERomanNumeral::OUT_VALUES = {
+                {"M", 1000}, {"CM", 900}, {"D", 500}, {"CD", 400}, {"C", 100},
+                {"XC", 90},  {"L", 50},   {"XL", 40}, {"X", 10},   {"IX", 9},
+                {"V", 5},    {"IV", 4},   {"I", 1}};
 
 /*!
  * This is our default constructor, which creates a new roman numeral object

@@ -114,7 +114,8 @@ int main(void)
 		delete[] list;
 
 	std::cout << "The first of four consecutive integers to have four "
-	             "distinct prime factors is: " << result << "\n";
+	             "distinct prime factors is: "
+	          << result << "\n";
 
 	assert(result == 134043);
 	return 0;

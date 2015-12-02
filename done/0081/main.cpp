@@ -73,9 +73,9 @@ int main(void)
 
 	// Find the shortest path, and we're done!
 
-	euler::graph::AStarHeuristicFunction_t heuristicFn =
-	        [&weights, &graph](const euler::graph::Vertex &a,
-	                           const euler::graph::Vertex &b) -> int64_t
+	euler::graph::AStarHeuristicFunction_t heuristicFn = [&weights, &graph](
+	        const euler::graph::Vertex &a,
+	        const euler::graph::Vertex &b) -> int64_t
 	{
 		auto apos =
 		        euler::grid_graph_utils::getVertexPosition(graph, a);

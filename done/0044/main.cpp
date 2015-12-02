@@ -157,7 +157,7 @@ void *consumer(void *c)
 
 		for(int64_t a = 1;
 		    static_cast<uint64_t>(a) <=
-		            EMath::isqrt(static_cast<uint64_t>(factor * -1));
+		    EMath::isqrt(static_cast<uint64_t>(factor * -1));
 		    ++a)
 		{
 			// See if we can stop.
@@ -314,7 +314,7 @@ int main(void)
 
 		for(int64_t a = 1;
 		    static_cast<uint64_t>(a) <=
-		            QMath::isqrt(static_cast<uint64_t>(factor * -1));
+		    QMath::isqrt(static_cast<uint64_t>(factor * -1));
 		    ++a)
 		{
 			// See if this is a factor...
