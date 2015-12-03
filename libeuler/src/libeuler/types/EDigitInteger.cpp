@@ -22,9 +22,13 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+#include <functional>
 #include <iostream>
+#include <iterator>
 #include <sstream>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "libeuler/EDefines.h"
 
@@ -439,9 +443,8 @@ void EDigitInteger::doTestSuite()
 			                          "EDivideByZeroException to "
 			                          "be thrown!");
 		}
-		catch(EDivideByZeroException &e)
+		catch(EDivideByZeroException &)
 		{
-			ELUNUSED(e)
 		}
 
 		a = 31278;
@@ -476,9 +479,8 @@ void EDigitInteger::doTestSuite()
 			                          "EDivideByZeroException to "
 			                          "be thrown!");
 		}
-		catch(EDivideByZeroException &e)
+		catch(EDivideByZeroException &)
 		{
-			ELUNUSED(e)
 		}
 
 		a = 27823;
@@ -589,10 +591,9 @@ void EDigitInteger::doTestSuite()
 
 		do
 		{
-			for(i = 0; static_cast<int>(i) < a.digitCount(); ++i)
+			for(i = 0; i < a.digitCount(); ++i)
 			{
-				EASSERT(a.get(static_cast<int>(i)) ==
-				        array.at(static_cast<std::size_t>(i)))
+				EASSERT(a.get(i) == array.at(i))
 			}
 		} while(array.permutate() && a.permutateDigits());
 
@@ -611,10 +612,9 @@ void EDigitInteger::doTestSuite()
 
 		do
 		{
-			for(i = 0; static_cast<int>(i) < a.digitCount(); ++i)
+			for(i = 0; i < a.digitCount(); ++i)
 			{
-				EASSERT(a.get(static_cast<int>(i)) ==
-				        array.at(static_cast<std::size_t>(i)))
+				EASSERT(a.get(i) == array.at(i))
 			}
 		} while(array.reversePermutate() && a.reversePermutateDigits());
 
@@ -623,18 +623,16 @@ void EDigitInteger::doTestSuite()
 		a = 219287365939;
 		a.sortDigitsAscending();
 
-		for(i = 0; static_cast<int>(i) < (a.digitCount() - 1); ++i)
-			EASSERT(a.get(static_cast<int>(i)) <=
-			        a.get(static_cast<int>(i + 1)))
+		for(i = 0; i < (a.digitCount() - 1); ++i)
+			EASSERT(a.get(i) <= a.get(i + 1))
 
 		// sortDigitsDescending
 
 		a = 219287365939;
 		a.sortDigitsDescending();
 
-		for(i = 0; static_cast<int>(i) < (a.digitCount() - 1); ++i)
-			EASSERT(a.get(static_cast<int>(i)) >=
-			        a.get(static_cast<int>(i + 1)))
+		for(i = 0; i < (a.digitCount() - 1); ++i)
+			EASSERT(a.get(i) >= a.get(i + 1))
 	}
 	catch(EAssertionException &)
 	{
@@ -714,7 +712,7 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 		bool signSet;
 		char buf[2];
 		size_t i;
-		int digit;
+		std::size_t digit;
 
 		buf[1] = '\0';
 
@@ -855,7 +853,7 @@ EDigitInteger &EDigitInteger::operator=(uint64_t v)
 EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 {
 	mpz_class vc = v, m;
-	int i;
+	std::size_t i;
 
 	// Zero-out our value initially.
 	setZero();
@@ -867,7 +865,7 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 		while(vc > 0)
 		{
 			m = (vc % 10);
-			volatileSetDigitAt(i++, m.get_ui());
+			volatileSetDigitAt(i++, static_cast<int>(m.get_ui()));
 			vc /= 10;
 		}
 
@@ -1465,7 +1463,7 @@ void EDigitInteger::setPositive(bool p)
 /*!
  * \return The nubmer of digits in our number.
  */
-int EDigitInteger::digitCount() const
+std::size_t EDigitInteger::digitCount() const
 {
 	return digits.size();
 }
@@ -1477,12 +1475,12 @@ int EDigitInteger::digitCount() const
  * \param i The 0-indexed digit position.
  * \return Whether or not this integer has an nth digit.
  */
-bool EDigitInteger::hasNthDigit(int i) const
+bool EDigitInteger::hasNthDigit(std::size_t i) const
 {
 	return digitCount() > i;
 }
 
-int EDigitInteger::get(int i) const
+int EDigitInteger::get(std::size_t i) const
 {
 	return digits.at(i);
 }
@@ -1496,12 +1494,11 @@ int EDigitInteger::get(int i) const
  */
 int EDigitInteger::sumOfDigits() const
 {
-	int i;
 	int total = 0;
 
 	try
 	{
-		for(i = total = 0; i < digitCount(); ++i)
+		for(std::size_t i = 0; i < digitCount(); ++i)
 			total += get(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -1527,13 +1524,16 @@ int EDigitInteger::sumOfDigits() const
  */
 bool EDigitInteger::isPalindrome() const
 {
-	int a, b;
+	if(digitCount() <= 1)
+		return true;
 
 	try
 	{
-		for(a = 0, b = (digitCount() - 1); a < b; ++a, --b)
+		for(std::size_t a = 0, b = (digitCount() - 1); a < b; ++a, --b)
+		{
 			if(get(a) != get(b))
 				return false;
+		}
 	}
 	catch(EOutOfBoundsException &e)
 	{
@@ -1572,7 +1572,7 @@ bool EDigitInteger::isPandigital() const
 
 	try
 	{
-		for(int i = 0; i < digitCount(); ++i)
+		for(std::size_t i = 0; i < digitCount(); ++i)
 			++digitCounts[get(i)];
 	}
 	catch(EOutOfBoundsException &e)
@@ -1590,13 +1590,13 @@ bool EDigitInteger::isPandigital() const
 	if(digitCounts[0] != 0)
 		return false;
 
-	for(int i = 1; i <= digitCount(); ++i)
+	for(std::size_t i = 1; i <= digitCount(); ++i)
 	{
 		if(digitCounts[i] != 1)
 			return false;
 	}
 
-	for(int i = digitCount() + 1; i < 10; ++i)
+	for(std::size_t i = digitCount() + 1; i < 10; ++i)
 	{
 		if(digitCounts[i] != 0)
 			return false;
@@ -1621,7 +1621,6 @@ bool EDigitInteger::isPandigital() const
  */
 bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 {
-	int i;
 	int digitCounts[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	// If we have a different number of digits, return false immediately.
@@ -1631,7 +1630,7 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 	try
 	{
 		// Add both of our numbers' digits to our cache.
-		for(i = 0; i < digitCount(); ++i)
+		for(std::size_t i = 0; i < digitCount(); ++i)
 		{
 			digitCounts[get(i)]++;
 			digitCounts[o.get(i)]--;
@@ -1639,7 +1638,7 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 
 		// Loop through the counter and if we find an inconsistency,
 		// return false.
-		for(i = 0; i < 10; ++i)
+		for(std::size_t i = 0; i < 10; ++i)
 			if(digitCounts[i] != 0)
 				return false;
 	}
@@ -1662,11 +1661,11 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
  *end of our number, then zeros
  * are automatically filled in between the end of our number and your new digit.
  *
- * \param k The position to insert the new digit at.
+ * \param i The position to insert the new digit at.
  * \param v The value of the digit to insert.
  * \return True if a new digit was inserted, or false if a digit was replaced.
  */
-bool EDigitInteger::put(const int &k, const int &v)
+bool EDigitInteger::put(std::size_t i, int v)
 {
 	bool r;
 
@@ -1677,7 +1676,7 @@ bool EDigitInteger::put(const int &k, const int &v)
 		        "The specified digit value was out of range!");
 
 	// Set our digit.
-	r = volatileSetDigitAt(k, v);
+	r = volatileSetDigitAt(i, v);
 	removeLeadingZeros();
 	return r;
 }
@@ -1690,21 +1689,21 @@ bool EDigitInteger::put(const int &k, const int &v)
  * else down so as to maintain number continuity (a number with a hole in it
  *doesn't make much sense).
  *
- * \param k The position of the digit that is to be removed.
+ * \param i The position of the digit that is to be removed.
  * \return True if a digit was removed, or false otherwise.
  */
-bool EDigitInteger::erase(const int &k)
+bool EDigitInteger::erase(std::size_t i)
 {
-	int i;
+	std::size_t idx;
 	bool r;
 
 	// If the position is out-of-range or if it is the last digit in our
 	// number, just remove it and return.
-	if(k >= digitCount())
+	if(i >= digitCount())
 		return false;
-	else if(k == (digitCount() - 1))
+	else if(i == (digitCount() - 1))
 	{
-		r = digits.erase(k) > 0;
+		r = digits.erase(i) > 0;
 
 		if(digitCount() < 1)
 			put(0, 0);
@@ -1720,8 +1719,8 @@ bool EDigitInteger::erase(const int &k)
 	try
 	{
 		// Otherwise, shift everything down and then pop the top digit.
-		for(i = k; i < (digitCount() - 1); ++i)
-			put(i, get(i + 1));
+		for(idx = i; idx < (digitCount() - 1); ++idx)
+			put(idx, get(idx + 1));
 
 		r = digits.erase(digitCount() - 1) > 0;
 
@@ -1762,17 +1761,15 @@ bool EDigitInteger::erase(const int &k)
 
 /*!
  * This function shifts our digits the given number of places to the right,
- *discarding digits
- * that are shifted off the end. A call of rightDigitalShift(1) is equivalent to
- *DIVIDING our
- * number by 10 and discarding the remainder.
+ * discarding digits that are shifted off the end. A call of
+ * rightDigitalShift(1) is equivalent to DIVIDING our number by 10 and
+ * discarding the remainder.
  *
  * \param p The number of places to shift our number.
  */
 void EDigitInteger::rightDigitalShift(int p)
 {
-	int i;
-	int d = digitCount();
+	std::size_t d = digitCount();
 
 	// A shift of 0 places has no effect.
 	if(p == 0)
@@ -1787,7 +1784,7 @@ void EDigitInteger::rightDigitalShift(int p)
 
 	// If we're shifting all the way off the end of our number, just return
 	// now.
-	if(p > d)
+	if(static_cast<std::size_t>(p) > d)
 	{
 		setZero();
 		return;
@@ -1796,13 +1793,15 @@ void EDigitInteger::rightDigitalShift(int p)
 	try
 	{
 		// Shift everything.
-		for(i = 0; i < d; ++i)
-			if(p <= i)
-				put(i - p, get(i));
+		for(std::size_t i = 0; i < d; ++i)
+		{
+			if(static_cast<std::size_t>(p) <= i)
+				put(i - static_cast<std::size_t>(p), get(i));
+		}
 
 		// Get rid of the remaining digits at the high end of our
 		// number.
-		i = digitCount() - p;
+		std::size_t i = digitCount() - static_cast<std::size_t>(p);
 		while(digits.erase(i++) > 0)
 			;
 	}
@@ -1843,7 +1842,6 @@ void EDigitInteger::rightDigitalShift(int p)
  */
 bool EDigitInteger::rightDigitalRotate(int p)
 {
-	int i, d;
 	int *hold;
 	bool r;
 
@@ -1859,22 +1857,22 @@ bool EDigitInteger::rightDigitalRotate(int p)
 		return true;
 
 	// Allocate some buffer memory for our rotation.
-	hold = new int[p];
+	hold = new int[static_cast<std::size_t>(p)];
 
 	try
 	{
 		// Add the p low digits to our buffer.
-		for(i = 0; i < p; ++i)
-			hold[p - i - 1] = get(i);
+		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
+			hold[static_cast<std::size_t>(p) - i - 1] = get(i);
 
 		// Shift right p places.
 		rightDigitalShift(p);
 
 		// Place the digits from our buffer back onto the top of our
 		// number.
-		d = digitCount();
-		for(i = 0; i < p; ++i)
-			put(d + (p - i - 1), hold[i]);
+		std::size_t d = digitCount();
+		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
+			put(d + (static_cast<std::size_t>(p) - i - 1), hold[i]);
 	}
 	catch(EValueRangeException &e)
 	{
@@ -1917,8 +1915,7 @@ bool EDigitInteger::rightDigitalRotate(int p)
  */
 void EDigitInteger::leftDigitalShift(int p)
 {
-	int i;
-	int d = digitCount();
+	std::size_t d = digitCount();
 
 	// A shift of 0 places has no effect.
 	if(p == 0)
@@ -1934,11 +1931,11 @@ void EDigitInteger::leftDigitalShift(int p)
 	try
 	{
 		// Shift everything.
-		for(i = d; i > 0; --i)
-			put((i - 1) + p, get(i - 1));
+		for(std::size_t i = d; i > 0; --i)
+			put((i - 1) + static_cast<std::size_t>(p), get(i - 1));
 
 		// Fill in the new, empty space at the front with 0's.
-		for(i = 0; i < p; ++i)
+		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
 			put(i, 0);
 	}
 	catch(EValueRangeException &e)
@@ -1978,8 +1975,6 @@ void EDigitInteger::leftDigitalShift(int p)
  */
 bool EDigitInteger::leftDigitalRotate(int p)
 {
-	int i;
-	int d;
 	int *hold;
 	bool r;
 
@@ -1995,13 +1990,13 @@ bool EDigitInteger::leftDigitalRotate(int p)
 		return true;
 
 	// Allocate some buffer memory for our rotation.
-	hold = new int[p];
+	hold = new int[static_cast<std::size_t>(p)];
 
 	try
 	{
 		// Add the p high digits to our buffer.
-		d = digitCount();
-		for(i = 0; i < p; ++i)
+		std::size_t d = digitCount();
+		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
 		{
 			hold[i] = get(d - 1 - i);
 			erase(d - 1 - i);
@@ -2012,8 +2007,8 @@ bool EDigitInteger::leftDigitalRotate(int p)
 
 		// Place the digits from our buffer back onto the bottom of our
 		// number.
-		for(i = 0; i < p; ++i)
-			put(i, hold[p - 1 - i]);
+		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
+			put(i, hold[static_cast<std::size_t>(p) - 1 - i]);
 	}
 	catch(EValueRangeException &e)
 	{
@@ -2045,50 +2040,69 @@ bool EDigitInteger::leftDigitalRotate(int p)
 	return r;
 }
 
+namespace
+{
+template <typename Comparator>
+std::vector<int>
+getSortedDigits(std::unordered_map<std::size_t, int> const &digits,
+                Comparator comp)
+{
+	using value_type = std::decay<decltype(digits)>::type::value_type;
+
+	std::vector<int> sortedDigits;
+	std::transform(digits.begin(), digits.end(),
+	               std::back_inserter(sortedDigits),
+	               [](value_type const &v) -> int
+	               {
+		               return v.second;
+		       });
+	std::sort(sortedDigits.begin(), sortedDigits.end(), comp);
+	return sortedDigits;
+}
+}
+
 /*!
  * This function sorts the digits of our integer in ascending order. It should
- * be noted that
- * this function will NEVER have to remove leading zeros, since they will be at
- * the low digits of
- * our number.
+ * be noted that this function will NEVER have to remove leading zeros, since
+ * they will be at the low digits of our number.
  */
 void EDigitInteger::sortDigitsAscending()
 {
-	quicksortAsc(0, digitCount() - 1);
+	auto sortedDigits = getSortedDigits(digits, std::less<int>());
+	for(std::size_t i = 0; i < sortedDigits.size(); ++i)
+		put(i, sortedDigits[i]);
 }
 
 /*!
  * This function sorts the digits of our integer in descending order. This
- *function will also
- * remove any resulting leading zeros.
+ * function will also remove any resulting leading zeros.
  *
  * \return True if no leading zeros were removed, or false otherwise.
  */
 bool EDigitInteger::sortDigitsDescending()
 {
-	quicksortDesc(0, digitCount() - 1);
+	auto sortedDigits = getSortedDigits(digits, std::greater<int>());
+	for(std::size_t i = 0; i < sortedDigits.size(); ++i)
+		put(i, sortedDigits[i]);
 	return removeLeadingZeros();
 }
 
 /*!
  * This is an implementation of Knuth's "Algorithm L," which permutates a given
- *array of elements
- * in lexicographic order. Note that because they are in lexicographic order, an
- *array sorted in
- * ascending order is the "first" permutation.
+ * array of elements in lexicographic order. Note that because they are in
+ * lexicographic order, an array sorted in ascending order is the "first"
+ * permutation.
  *
  * More information:
  *     http://en.wikipedia.org/wiki/Permutation#Systematic_generation_of_all_permutations
  *     http://blog.bjrn.se/2008/04/lexicographic-permutations-using.html
  *
  * Note that this function removes leading zeros after the permutation is
- *performed, so it may not
- * work as expected with numbers that contain zero digits. If you just want to
- *permutate numbers,
- * EArrayUtilities::permutate() may work better.
+ * performed, so it may not work as expected with numbers that contain zero
+ * digits. If you just want to permutate numbers, EArrayUtilities::permutate()
+ * may work better.
  *
- * \return True if there are more permutations, or false if this is the last
- *one.
+ * \return True if there are more permutations, or false otherwise.
  */
 bool EDigitInteger::permutateDigits()
 {
@@ -2104,9 +2118,10 @@ bool EDigitInteger::permutateDigits()
 		 */
 
 		k = -1;
-		for(i = (digitCount() - 2); i >= 0; --i)
+		for(i = (static_cast<int>(digitCount()) - 2); i >= 0; --i)
 		{
-			if(get(i) < get(i + 1))
+			if(get(static_cast<std::size_t>(i)) <
+			   get(static_cast<std::size_t>(i + 1)))
 			{
 				k = i;
 				break;
@@ -2123,9 +2138,10 @@ bool EDigitInteger::permutateDigits()
 		 */
 
 		l = -1;
-		for(i = (digitCount() - 1); k < i; --i)
+		for(i = (static_cast<int>(digitCount()) - 1); k < i; --i)
 		{
-			if(get(k) < get(i))
+			if(get(static_cast<std::size_t>(k)) <
+			   get(static_cast<std::size_t>(i)))
 			{
 				l = i;
 				break;
@@ -2139,16 +2155,18 @@ bool EDigitInteger::permutateDigits()
 		 * Step 3: Swap a[k] and a[l].
 		 */
 
-		hold = get(k);
-		volatileSetDigitAt(k, get(l));
-		volatileSetDigitAt(l, hold);
+		hold = get(static_cast<std::size_t>(k));
+		volatileSetDigitAt(static_cast<std::size_t>(k),
+		                   get(static_cast<std::size_t>(l)));
+		volatileSetDigitAt(static_cast<std::size_t>(l), hold);
 
 		/*
 		 * Step 4: Reverse the sequence from a[k + 1] up to and
 		 * including the final element a[n].
 		 */
 
-		reverseDigits(k + 1, digitCount() - 1);
+		reverseDigits(static_cast<std::size_t>(k + 1),
+		              digitCount() - 1);
 	}
 	catch(EException &e)
 	{
@@ -2193,9 +2211,10 @@ bool EDigitInteger::reversePermutateDigits()
 		 */
 
 		k = -1;
-		for(i = (digitCount() - 2); i >= 0; --i)
+		for(i = (static_cast<int>(digitCount()) - 2); i >= 0; --i)
 		{
-			if(get(i) > get(i + 1))
+			if(get(static_cast<std::size_t>(i)) >
+			   get(static_cast<std::size_t>(i + 1)))
 			{
 				k = i;
 				break;
@@ -2212,9 +2231,10 @@ bool EDigitInteger::reversePermutateDigits()
 		 */
 
 		l = -1;
-		for(i = (digitCount() - 1); k < i; --i)
+		for(i = (static_cast<int>(digitCount()) - 1); k < i; --i)
 		{
-			if(get(k) > get(i))
+			if(get(static_cast<std::size_t>(k)) >
+			   get(static_cast<std::size_t>(i)))
 			{
 				l = i;
 				break;
@@ -2228,16 +2248,18 @@ bool EDigitInteger::reversePermutateDigits()
 		 * Step 3: Swap a[k] and a[l].
 		 */
 
-		hold = get(k);
-		volatileSetDigitAt(k, get(l));
-		volatileSetDigitAt(l, hold);
+		hold = get(static_cast<std::size_t>(k));
+		volatileSetDigitAt(static_cast<std::size_t>(k),
+		                   get(static_cast<std::size_t>(l)));
+		volatileSetDigitAt(static_cast<std::size_t>(l), hold);
 
 		/*
 		 * Step 4: Reverse the sequence from a[k + 1] up to and
 		 * including the final element a[n].
 		 */
 
-		reverseDigits(k + 1, digitCount() - 1);
+		reverseDigits(static_cast<std::size_t>(k + 1),
+		              digitCount() - 1);
 	}
 	catch(EException &e)
 	{
@@ -2254,30 +2276,29 @@ bool EDigitInteger::reversePermutateDigits()
 
 /*!
  * This function reverses the order of the digits in our number. Note that the
- *return value's definition of
- * "losing data" is if our result has leading zeros. These are removed (since
- *they do not change the value of
- * our number) and the appropriate value is returned.
+ * return value's definition of "losing data" is if our result has leading
+ * zeros. These are removed (since they do not change the value of our number)
+ * and the appropriate value is returned.
  *
- * \return True if the operation was done without losing data, or false
- *otherwise.
+ * \param l The left-most digit index to include in the reversal.
+ * \param r The right-most digit index to include in the reversal.
+ * \return True if the reversal lost no data, or false otherwise.
  */
-bool EDigitInteger::reverseDigits(int l, int r)
+bool EDigitInteger::reverseDigits(std::size_t l, std::size_t r)
 {
-	int hold;
-	int a, b;
 	bool ret;
 
-	l = (l < 0) ? 0 : l;
-	r = (r == -1) ? (digitCount() - 1) : r;
+	if(digitCount() <= 1)
+		return true;
+
 	r = (r <= l) ? (digitCount() - 1) : r;
 	r = (r >= digitCount()) ? (digitCount() - 1) : r;
 
 	try
 	{
-		for(a = l, b = r; a < b; ++a, --b)
+		for(std::size_t a = l, b = r; a < b; ++a, --b)
 		{
-			hold = get(a);
+			int hold = get(a);
 			volatileSetDigitAt(a, get(b));
 			volatileSetDigitAt(b, hold);
 		}
@@ -2318,18 +2339,20 @@ bool EDigitInteger::reverseDigits(int l, int r)
  * \param r The right-most bound (inclusive).
  * \return The specified range as a 64-bit unsigned integer.
  */
-uint64_t EDigitInteger::rangeToInteger(int l, int r) const
+uint64_t EDigitInteger::rangeToInteger(std::size_t l, std::size_t r) const
 {
-	int i;
 	uint64_t ret = 0;
 
-	if((l < 0) || (r >= digitCount()))
+	if(r < l)
+		std::swap(l, r);
+	if(r >= digitCount())
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
-	for(i = r; i >= l; --i)
+	for(std::size_t offFromEnd = 0; offFromEnd <= (r - l); ++offFromEnd)
 	{
+		std::size_t idx = r - offFromEnd;
 		ret *= 10;
-		ret += static_cast<uint64_t>(get(i));
+		ret += static_cast<uint64_t>(get(idx));
 	}
 
 	return ret;
@@ -2356,18 +2379,20 @@ uint64_t EDigitInteger::toInteger() const
  * \param r The right-most bound (inclusive).
  * \return The specified range as a GMP big integer.
  */
-mpz_class EDigitInteger::rangeToBigInteger(int l, int r) const
+mpz_class EDigitInteger::rangeToBigInteger(std::size_t l, std::size_t r) const
 {
-	int i;
 	mpz_class ret = 0;
 
-	if((l < 0) || (r >= digitCount()))
+	if(r < l)
+		std::swap(l, r);
+	if(r >= digitCount())
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
-	for(i = r; i >= l; --i)
+	for(std::size_t offFromEnd = 0; offFromEnd <= (r - l); ++offFromEnd)
 	{
+		std::size_t idx = r - offFromEnd;
 		ret *= 10;
-		ret += get(i);
+		ret += get(idx);
 	}
 
 	return ret;
@@ -2398,16 +2423,17 @@ mpz_class EDigitInteger::toBigInteger() const
  * \param r The right-most bound (inclusive).
  * \return The specified range as a std::string.
  */
-std::string EDigitInteger::rangeToString(int l, int r) const
+std::string EDigitInteger::rangeToString(std::size_t l, std::size_t r) const
 {
-	int i;
 	std::ostringstream oss;
 
-	if((l < 0) || (r >= digitCount()))
+	if(r < l)
+		std::swap(l, r);
+	if(r >= digitCount())
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
-	for(i = r; i >= l; --i)
-		oss << get(i);
+	for(std::size_t offFromEnd = 0; offFromEnd <= (r - l); ++offFromEnd)
+		oss << get(r - offFromEnd);
 
 	return oss.str();
 }
@@ -2437,21 +2463,19 @@ std::string EDigitInteger::toString() const
  * store intermediate values while performing an addition or subtraction
  * operation.
  *
- * \param k The position of the digit to set.
+ * \param i The position of the digit to set.
  * \param v The value of the new digit.
  * \return True if a new digit was inserted, or false if a digit was updated.
  */
-bool EDigitInteger::volatileSetDigitAt(int k, int v)
+bool EDigitInteger::volatileSetDigitAt(std::size_t i, int v)
 {
-	int i;
-
 	// Fill in digits between the previous end of our number and the
 	// specified digit with 0's.
-	for(i = digitCount(); i < k; ++i)
-		digits.insert(std::make_pair(i, 0));
+	for(std::size_t idx = digitCount(); idx < i; ++idx)
+		digits.insert(std::make_pair(idx, 0));
 
 	// Actually insert the new value.
-	return digits.insert(std::make_pair(k, v)).second;
+	return digits.insert(std::make_pair(i, v)).second;
 }
 
 /*!
@@ -2464,7 +2488,6 @@ bool EDigitInteger::volatileSetDigitAt(int k, int v)
 bool EDigitInteger::removeLeadingZeros()
 {
 	bool r;
-	int i;
 
 	// Don't operate on numbers with 1 or fewer digits.
 	if(digitCount() <= 1)
@@ -2474,12 +2497,14 @@ bool EDigitInteger::removeLeadingZeros()
 	r = false;
 	try
 	{
-		for(i = (digitCount() - 1); i > 0; --i)
+		for(std::size_t offFromEnd = 0; offFromEnd < digitCount();
+		    ++offFromEnd)
 		{
-			if(get(i) == 0)
+			std::size_t idx = digitCount() - 1 - offFromEnd;
+			if(get(idx) == 0)
 			{
 				r = true;
-				erase(i);
+				erase(idx);
 			}
 			else
 				break;
@@ -2505,7 +2530,7 @@ bool EDigitInteger::removeLeadingZeros()
  */
 void EDigitInteger::carry()
 {
-	for(int j = 0; hasNthDigit(j); ++j)
+	for(std::size_t j = 0; hasNthDigit(j); ++j)
 	{
 		while(get(j) > 9)
 		{
@@ -2523,7 +2548,7 @@ void EDigitInteger::carry()
 	}
 
 #ifdef LIBEULER_DEBUG
-	for(int j = 0; j < static_cast<int>(digitCount()); ++j)
+	for(std::size_t j = 0; j < digitCount(); ++j)
 		EASSERT((0 <= get(j)) && (get(j) <= 9))
 #endif
 }
@@ -2535,9 +2560,7 @@ void EDigitInteger::carry()
  */
 void EDigitInteger::borrow()
 {
-	int j;
-
-	for(j = 0; hasNthDigit(j + 1); ++j)
+	for(std::size_t j = 0; hasNthDigit(j + 1); ++j)
 	{
 		while(get(j) < 0)
 		{
@@ -2555,7 +2578,7 @@ void EDigitInteger::borrow()
 		throw EUnderflowException("No more digits to borrow from!");
 
 #ifdef LIBEULER_DEBUG
-	for(j = 0; j < digitCount(); ++j)
+	for(std::size_t j = 0; j < digitCount(); ++j)
 		EASSERT((0 <= get(j)) && (get(j) <= 9))
 #endif
 }
@@ -2582,8 +2605,6 @@ void EDigitInteger::setZero()
  */
 bool EDigitInteger::unsignedEqualTo(const EDigitInteger &o) const
 {
-	int i;
-
 	// If our numbers contain varying numbers of digits, return immediately.
 	if(digitCount() != o.digitCount())
 		return false;
@@ -2591,7 +2612,7 @@ bool EDigitInteger::unsignedEqualTo(const EDigitInteger &o) const
 	try
 	{
 		// Test each digit until we find something that doesn't match.
-		for(i = 0; i < digitCount(); ++i)
+		for(std::size_t i = 0; i < digitCount(); ++i)
 			if(get(i) != o.get(i))
 				return false;
 	}
@@ -2629,8 +2650,6 @@ bool EDigitInteger::unsignedNotEqualTo(const EDigitInteger &o) const
  */
 bool EDigitInteger::unsignedLessThan(const EDigitInteger &o) const
 {
-	int i;
-
 	// See if we can determine a return value based purely on the number of
 	// digits.
 	if(digitCount() > o.digitCount())
@@ -2641,13 +2660,17 @@ bool EDigitInteger::unsignedLessThan(const EDigitInteger &o) const
 	try
 	{
 		// Test each of our digits to try and find an answer.
-		for(i = (digitCount() - 1); i >= 0; --i)
-			if(get(i) > o.get(i))
+		for(std::size_t offFromEnd = 0; offFromEnd < digitCount();
+		    ++offFromEnd)
+		{
+			std::size_t idx = (digitCount() - 1) - offFromEnd;
+			if(get(idx) > o.get(idx))
 				return false; // Our digit is greater, so our
 			                      // number is greater.
-			else if(get(i) < o.get(i))
+			else if(get(idx) < o.get(idx))
 				return true; // Our digit is less, so our number
-		                             // is less.
+			                     // is less.
+		}
 	}
 	catch(EOutOfBoundsException &e)
 	{
@@ -2711,8 +2734,6 @@ bool EDigitInteger::unsignedGreaterThanEqualTo(const EDigitInteger &o) const
  */
 void EDigitInteger::unsignedAdd(const EDigitInteger &i)
 {
-	int j;
-
 	try
 	{
 		// Insert zeros at the front of our number until we are at least
@@ -2721,7 +2742,7 @@ void EDigitInteger::unsignedAdd(const EDigitInteger &i)
 			volatileSetDigitAt(i.digitCount(), 0);
 
 		// Do a digit-by-digit add, carrying as we go...
-		for(j = 0; j < i.digitCount(); ++j)
+		for(std::size_t j = 0; j < i.digitCount(); ++j)
 			volatileSetDigitAt(j, get(j) + i.get(j));
 
 		carry();
@@ -2747,8 +2768,6 @@ void EDigitInteger::unsignedAdd(const EDigitInteger &i)
  */
 void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 {
-	int j;
-
 #ifdef LIBEULER_DEBUG
 	EASSERT(unsignedGreaterThanEqualTo(i))
 #endif
@@ -2763,7 +2782,7 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 	try
 	{
 		// Do a digit-by-digit subtract, carrying as we go...
-		for(j = 0; j < digitCount(); ++j)
+		for(std::size_t j = 0; j < digitCount(); ++j)
 		{
 			// Only subtract if we are in-bounds on the other
 			// number.
@@ -2802,7 +2821,6 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
  */
 void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 {
-	int a, b;
 	EDigitInteger result;
 
 	// Try to eliminate some easy possibilities.
@@ -2822,10 +2840,10 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 		result.setZero();
 
 		// Loop through each digit in both numbers...
-		for(b = 0; b < i.digitCount(); ++b)
+		for(std::size_t b = 0; b < i.digitCount(); ++b)
 		{ // "b" represents the digit in the number we're multiplying
 			// by.
-			for(a = 0; a < digitCount(); ++a)
+			for(std::size_t a = 0; a < digitCount(); ++a)
 			{ // "a" represents the digit in our current number.
 				if((b + a) >= result.digitCount())
 					result.volatileSetDigitAt(b + a, 0);
@@ -2875,7 +2893,6 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 {
 	EDigitInteger a, b, result;
-	int aDigits, bDigits, j;
 	bool sign = isPositive();
 
 	if(i == EDigitInteger(0))
@@ -2885,6 +2902,12 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 	{
 		// Try to eliminate some easy possibilities before we attempt an
 		// actual divide.
+
+		if(unsignedEqualTo(EDigitInteger(0)))
+		{
+			setZero();
+			return;
+		}
 
 		if(unsignedLessThan(i))
 		{
@@ -2928,24 +2951,20 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 
 		/*
 		 * An easy way to implement division is just to subtract the
-		 *divisor from the dividend
-		 * over and over again until the dividend is less than the
-		 *divisor, and return the number
+		 * divisor from the dividend over and over again until the
+		 * dividend is less than the divisor, and return the number
 		 * of subtractions performed.
 		 *
 		 * This is very inefficient, however, for example in the case of
-		 *a very large number divided
-		 * by one - that would require O(n) divisions, where n is the
-		 *dividend, and would go very
+		 * a very large number divided by one - that would require O(n)
+		 * subtractions, where n is the dividend, and would go very
 		 * slowly.
 		 *
 		 * Instead, we're going to right-shift (i.e., multiply by 10)
-		 *our divisor until it is close
-		 * to the dividend, and then multiply the divisor by a number
-		 *such that the leading digits
-		 * will be as close as possible, to eliminate a lot of the
-		 *subtraction operations that will
-		 * be performed.
+		 * our divisor until it is close to the dividend, and then
+		 * multiply the divisor by a number such that the leading
+		 * digits will be as close as possible, to eliminate a lot of
+		 * the subtraction operations that will be performed.
 		 */
 
 		// Initialize a and b.
@@ -2956,8 +2975,8 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 		b = i;
 		b.setPositive(true);
 
-		aDigits = a.digitCount();
-		bDigits = b.digitCount();
+		std::size_t aDigits = a.digitCount();
+		std::size_t bDigits = b.digitCount();
 
 		// Initialize this - which will ultimately be our result.
 		setZero();
@@ -2971,30 +2990,41 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 			// leading digit, break out of the loop.
 			if((bDigits == (aDigits - 1)) &&
 			   (b.get(bDigits - 1) >= a.get(aDigits - 1)))
+			{
 				break;
+			}
 
 #ifdef LIBEULER_DEBUG
+			assert(aDigits > 0);
+			assert(bDigits > 0);
+
 			// Make sure we aren't left-shifting by a negative value
 			// (i.e., right shifting).
-			assert((aDigits - bDigits) >= 0);
+			assert(aDigits >= bDigits);
 #endif
 
 			// Shift our number (multiply by power of 10) so it has
 			// a smaller number of digits.
 			if(a.get(aDigits - 1) >= b.get(bDigits - 1))
 			{
-				b.leftDigitalShift(aDigits - bDigits);
-				result.leftDigitalShift(aDigits - bDigits);
+				b.leftDigitalShift(
+				        static_cast<int>(aDigits - bDigits));
+				result.leftDigitalShift(
+				        static_cast<int>(aDigits - bDigits));
 			}
 			else
 			{
-				b.leftDigitalShift(aDigits - bDigits - 1);
-				result.leftDigitalShift(aDigits - bDigits - 1);
+				b.leftDigitalShift(
+				        static_cast<int>(aDigits - bDigits) -
+				        1);
+				result.leftDigitalShift(
+				        static_cast<int>(aDigits - bDigits) -
+				        1);
 			}
 
 			// Try multiplying by the largest possible number to
 			// optimize even more.
-			for(j = 9; j > 0; --j)
+			for(int j = 9; j > 0; --j)
 			{
 				uint64_t value = static_cast<uint64_t>(j);
 				if((b * EDigitInteger(value)) <= a)
@@ -3038,154 +3068,6 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 		setPositive(sign);
 	}
 	catch(EOutOfBoundsException &e)
-	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
-	}
-}
-
-/*!
- * This is our behind-the-scenes ascending quicksort function.
- *
- * \param l The left index.
- * \param r The right index.
- */
-void EDigitInteger::quicksortAsc(int l, int r)
-{
-	int pivot, hold;
-	int i, j;
-
-	try
-	{
-		/*
-		 * Choose a pivot value. In this case, we just select the value
-		 * in the center-ish of our
-		 * array, but this could in theory be chosen a bit more
-		 * intelligently.
-		 */
-		pivot = get((l + r) / 2);
-
-		// Initialize our loop indices...
-		i = l;
-		j = r;
-
-		// Keep looping until we have swapped all of the values to the
-		// correct side of the pivot.
-		while(i <= j)
-		{
-			// Move right until we find a value that is >= our
-			// pivot.
-			while(get(i) < pivot)
-				++i;
-
-			// Move left until we find a value that is <= our pivot.
-			while(get(j) > pivot)
-				--j;
-
-			// If our left index is still left of our right index,
-			// then swap the two nodes.
-			if(i < j)
-			{
-				hold = get(i);
-				volatileSetDigitAt(i, get(j));
-				volatileSetDigitAt(j, hold);
-			}
-
-			// Move our indices one more place for the next
-			// iteration of the loop.
-			if(i <= j)
-			{
-				++i;
-				--j;
-			}
-		}
-
-		// If our left-most chunk is of size >= 1, then recurse on it.
-		if(l < j)
-			quicksortAsc(l, j);
-
-		// If our right-most chunk is of size <= 1, then recurse on it.
-		if(i < r)
-			quicksortAsc(i, r);
-	}
-	catch(EException &e)
-	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
-	}
-}
-
-/*!
- * This is our behind-the-scenes descending quicksort function.
- *
- * \param l The left index.
- * \param r The right index.
- */
-void EDigitInteger::quicksortDesc(int l, int r)
-{
-	int pivot, hold;
-	int i, j;
-
-	try
-	{
-		/*
-		 * Choose a pivot value. In this case, we just select the value
-		 * in the center-ish of our
-		 * array, but this could in theory be chosen a bit more
-		 * intelligently.
-		 */
-		pivot = get((l + r) / 2);
-
-		// Initialize our loop indices...
-		i = l;
-		j = r;
-
-		// Keep looping until we have swapped all of the values to the
-		// correct side of the pivot.
-		while(i <= j)
-		{
-			// Move right until we find a value that is <= our
-			// pivot.
-			while(get(i) > pivot)
-				++i;
-
-			// Move left until we find a value that is >= our pivot.
-			while(get(j) < pivot)
-				--j;
-
-			// If our left index is still left of our right index,
-			// then swap the two nodes.
-			if(i < j)
-			{
-				hold = get(i);
-				volatileSetDigitAt(i, get(j));
-				volatileSetDigitAt(j, hold);
-			}
-
-			// Move our indices one more place for the next
-			// iteration of the loop.
-			if(i <= j)
-			{
-				++i;
-				--j;
-			}
-		}
-
-		// If our left-most chunk is of size >= 1, then recurse on it.
-		if(l < j)
-			quicksortDesc(l, j);
-
-		// If our right-most chunk is of size >= 1, then recurse on it.
-		if(i < r)
-			quicksortDesc(i, r);
-	}
-	catch(EException &e)
 	{
 #ifdef LIBEULER_DEBUG
 		EDIE_LOGIC(e)

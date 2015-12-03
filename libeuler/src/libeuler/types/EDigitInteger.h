@@ -21,8 +21,9 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <string>
 #include <iostream>
+#include <limits>
+#include <string>
 #include <unordered_map>
 
 #ifdef _WIN32
@@ -110,10 +111,10 @@ public:
 
 	bool isPositive() const;
 	void setPositive(bool p);
-	int digitCount() const;
+	std::size_t digitCount() const;
 
-	bool hasNthDigit(int i) const;
-	int get(int i) const;
+	bool hasNthDigit(std::size_t i) const;
+	int get(std::size_t i) const;
 
 	int sumOfDigits() const;
 
@@ -122,8 +123,8 @@ public:
 
 	bool isDigitallyEquivalent(const EDigitInteger &o) const;
 
-	virtual bool put(const int &k, const int &v);
-	virtual bool erase(const int &k);
+	bool put(std::size_t i, int v);
+	bool erase(std::size_t i);
 
 	void rightDigitalShift(int p);
 	bool rightDigitalRotate(int p);
@@ -135,20 +136,22 @@ public:
 	bool permutateDigits();
 	bool reversePermutateDigits();
 
-	bool reverseDigits(int l = 0, int r = -1);
+	bool
+	reverseDigits(std::size_t l = 0,
+	              std::size_t r = std::numeric_limits<std::size_t>::max());
 
-	uint64_t rangeToInteger(int l, int r) const;
+	uint64_t rangeToInteger(std::size_t l, std::size_t r) const;
 	uint64_t toInteger() const;
-	mpz_class rangeToBigInteger(int l, int r) const;
+	mpz_class rangeToBigInteger(std::size_t l, std::size_t r) const;
 	mpz_class toBigInteger() const;
-	std::string rangeToString(int l, int r) const;
+	std::string rangeToString(std::size_t l, std::size_t r) const;
 	std::string toString() const;
 
 private:
-	std::unordered_map<int, int> digits;
+	std::unordered_map<std::size_t, int> digits;
 	bool positive;
 
-	bool volatileSetDigitAt(int k, int v);
+	bool volatileSetDigitAt(std::size_t i, int v);
 	bool removeLeadingZeros();
 
 	void carry();
@@ -167,9 +170,6 @@ private:
 	void unsignedSubtract(const EDigitInteger &i);
 	void unsignedMultiply(const EDigitInteger &i);
 	void unsignedDivide(const EDigitInteger &i, bool m = false);
-
-	void quicksortAsc(int l, int r);
-	void quicksortDesc(int l, int r);
 };
 
 #endif
