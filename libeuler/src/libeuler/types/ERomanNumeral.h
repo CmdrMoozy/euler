@@ -62,7 +62,6 @@ private:
 	};
 
 	static const std::map<char, uint64_t> VALUES;
-	static const std::set<OVPair, OVPairComparator> OUT_VALUES;
 
 	static bool getAdditiveStringValue(const std::string &s, uint64_t *v);
 	static bool getSubtractiveStringValue(const std::string &s,

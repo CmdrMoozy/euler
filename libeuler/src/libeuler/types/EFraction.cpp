@@ -18,12 +18,18 @@
 
 #include "EFraction.h"
 
+#include <cmath>
 #include <iostream>
 
 #include "libeuler/EDefines.h"
 #include "libeuler/math/EMath.h"
 
-#ifdef LIBEULER_DEBUG
+namespace
+{
+constexpr double DOUBLE_COMPARE_EPSILON = 0.00001;
+}
+
+#ifdef LIBEULER_DEBUGi
 /*!
  * This function implements our test suite for this class. It uses
  * non-abort()'ing
@@ -57,14 +63,14 @@ void EFraction::doTestSuite()
 
 					v = f.toDouble();
 					f.reduce();
-					EASSERT(f.toDouble() == v)
+					EASSERT(std::abs(f.toDouble() - v) <
+					        DOUBLE_COMPARE_EPSILON)
 				}
 			}
 		}
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EValueRangeException &e)
@@ -91,7 +97,8 @@ void EFraction::doTestSuite()
  */
 bool EFraction::isReducedProperFraction(uint64_t n, uint64_t d)
 {
-	return EMath::areCoprime(n, d);
+	return EMath::areCoprime(static_cast<uint32_t>(n),
+	                         static_cast<uint32_t>(d));
 }
 
 /*!
@@ -103,7 +110,7 @@ bool EFraction::isReducedProperFraction(uint64_t n, uint64_t d)
  * \exception QValueRangeException This exception is thrown if you try to divide
  *by zero.
  */
-EFraction::EFraction(uint64_t n, uint64_t d) throw(EValueRangeException &)
+EFraction::EFraction(uint64_t n, uint64_t d)
 {
 	setNumerator(n);
 	setDenominator(d);
@@ -165,7 +172,7 @@ EFraction &EFraction::operator=(const EFraction &o)
  */
 bool EFraction::operator==(const EFraction &o) const
 {
-	return (toDouble() == o.toDouble());
+	return std::abs(toDouble() - o.toDouble()) < DOUBLE_COMPARE_EPSILON;
 }
 
 /*!
@@ -342,7 +349,7 @@ uint64_t EFraction::getDenominator() const
  * \exception EValueRangeException This exception is thrown if you try to divide
  *by zero.
  */
-void EFraction::setDenominator(uint64_t d) throw(EValueRangeException &)
+void EFraction::setDenominator(uint64_t d)
 {
 	if(d == 0)
 		throw EValueRangeException(
@@ -418,13 +425,11 @@ bool EFraction::reduce()
 	case 0:
 	case 1:
 		return false;
-		break;
 
 	default:
 		setNumerator(getNumerator() / gcd);
 		setDenominator(getDenominator() / gcd);
 		return true;
-		break;
 	}
 }
 
@@ -477,7 +482,7 @@ mpf_class EFraction::toBigDouble(uint32_t p) const
  * a standard C++ ostream object. The value printed will be in the format "n/d."
  *
  * \param out The output stream to which we will write.
- * \param i The QFraction object we will be writing.
+ * \param f The QFraction object we will be writing.
  * \return A reference to the output stream, so the operator can be chained.
  */
 std::ostream &operator<<(std::ostream &out, const EFraction &f)

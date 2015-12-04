@@ -25,23 +25,16 @@
 
 #include "libeuler/util/EString.h"
 
-/*!
- * \brief This maps a numeral to its value. These are used for parsing roman
- * numerals.
- */
-const std::map<char, uint64_t> ERomanNumeral::VALUES = {
-        {'I', 1},   {'V', 5},   {'X', 10},  {'L', 50},
-        {'C', 100}, {'D', 500}, {'M', 1000}};
-
-/*!
- * \brief This is a set of strings and their values, for turning values into
- * numerals.
- */
-const std::set<OVPair, ERomanNumeral::OVPairComparator>
-        ERomanNumeral::OUT_VALUES = {
-                {"M", 1000}, {"CM", 900}, {"D", 500}, {"CD", 400}, {"C", 100},
-                {"XC", 90},  {"L", 50},   {"XL", 40}, {"X", 10},   {"IX", 9},
-                {"V", 5},    {"IV", 4},   {"I", 1}};
+namespace
+{
+std::map<char, uint64_t> const &getRomanNumeralValuesMap()
+{
+	static const std::map<char, uint64_t> VALUES = {
+	        {'I', 1},   {'V', 5},   {'X', 10},  {'L', 50},
+	        {'C', 100}, {'D', 500}, {'M', 1000}};
+	return VALUES;
+}
+}
 
 /*!
  * This is our default constructor, which creates a new roman numeral object
@@ -199,13 +192,17 @@ uint64_t ERomanNumeral::getValue() const
  */
 std::string ERomanNumeral::getStringValue() const
 {
+	static const std::set<OVPair, ERomanNumeral::OVPairComparator>
+	        OUT_VALUES = {{"M", 1000}, {"CM", 900}, {"D", 500}, {"CD", 400},
+	                      {"C", 100},  {"XC", 90},  {"L", 50},  {"XL", 40},
+	                      {"X", 10},   {"IX", 9},   {"V", 5},   {"IV", 4},
+	                      {"I", 1}};
+
 	std::stringstream ss;
 
 	uint64_t v = getValue();
 
-	for(std::set<OVPair>::const_iterator it =
-	            ERomanNumeral::OUT_VALUES.cbegin();
-	    it != ERomanNumeral::OUT_VALUES.cend(); ++it)
+	for(auto it = OUT_VALUES.cbegin(); it != OUT_VALUES.cend(); ++it)
 	{
 		while(v >= it->second)
 		{
@@ -304,8 +301,9 @@ bool ERomanNumeral::parse(const std::string &v)
 
 		// Get this group as a std::string.
 
-		int off = ovector[2 * i];
-		int len = ovector[2 * i + 1] - ovector[2 * i];
+		std::size_t off = static_cast<std::size_t>(ovector[2 * i]);
+		std::size_t len = static_cast<std::size_t>(ovector[2 * i + 1] -
+		                                           ovector[2 * i]);
 
 		std::string group = "";
 
@@ -405,9 +403,9 @@ bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
 	for(size_t i = 0; i < s.length(); ++i)
 	{
 		std::map<char, uint64_t>::const_iterator it =
-		        ERomanNumeral::VALUES.find(s.at(i));
+		        getRomanNumeralValuesMap().find(s.at(i));
 
-		if(it == ERomanNumeral::VALUES.cend())
+		if(it == getRomanNumeralValuesMap().cend())
 			return false;
 
 		total += it->second;
@@ -451,15 +449,15 @@ bool ERomanNumeral::getSubtractiveStringValue(const std::string &s, uint64_t *v)
 		return false;
 
 	std::map<char, uint64_t>::const_iterator subit =
-	        ERomanNumeral::VALUES.find(s.at(0));
+	        getRomanNumeralValuesMap().find(s.at(0));
 
 	std::map<char, uint64_t>::const_iterator valit =
-	        ERomanNumeral::VALUES.find(s.at(1));
+	        getRomanNumeralValuesMap().find(s.at(1));
 
 	// Make sure both characters were valid.
 
 	std::map<char, uint64_t>::const_iterator end =
-	        ERomanNumeral::VALUES.cend();
+	        getRomanNumeralValuesMap().cend();
 
 	if((subit == end) || (valit == end))
 		return false;

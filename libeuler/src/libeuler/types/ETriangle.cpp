@@ -77,9 +77,8 @@ void ETriangle::doTestSuite()
 
 		EASSERT(t.isValidTriangle())
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -254,7 +253,7 @@ uint32_t ETriangle::getB() const
 /*!
  * This function sets the value of our "B" side.
  *
- * \param a The new legnth of side B.
+ * \param b The new legnth of side B.
  */
 void ETriangle::setB(uint32_t b)
 {
@@ -274,7 +273,7 @@ uint32_t ETriangle::getC() const
 /*!
  * This function sets the value of our "C" side.
  *
- * \param a The new legnth of side C.
+ * \param c The new legnth of side C.
  */
 void ETriangle::setC(uint32_t c)
 {
@@ -288,8 +287,8 @@ void ETriangle::setC(uint32_t c)
  *lengths are set to 0).
  *
  * \param a The new length of side A.
- * \param a The new length of side B.
- * \param a The new length of side C.
+ * \param b The new length of side B.
+ * \param c The new length of side C.
  */
 void ETriangle::set(uint32_t a, uint32_t b, uint32_t c)
 {

@@ -47,8 +47,7 @@ std::ostream &operator<<(std::ostream &out, const EFraction &f);
  * \brief This class represents a numerator/denominator fraction.
  *
  * It is more accurate than doing everything with floating-point numbers, and
- *provides
- * extra functionality like reducing and whatnot.
+ * provides extra functionality like reducing and whatnot.
  */
 class EFraction
 {
@@ -59,7 +58,7 @@ public:
 
 	static bool isReducedProperFraction(uint64_t n, uint64_t d);
 
-	EFraction(uint64_t n = 0, uint64_t d = 1) throw(EValueRangeException &);
+	EFraction(uint64_t n = 0, uint64_t d = 1);
 	EFraction(const EFraction &o);
 	virtual ~EFraction();
 
@@ -77,7 +76,7 @@ public:
 	uint64_t getNumerator() const;
 	void setNumerator(uint64_t n);
 	uint64_t getDenominator() const;
-	void setDenominator(uint64_t d) throw(EValueRangeException &);
+	void setDenominator(uint64_t d);
 
 	void mediant(const EFraction &o);
 

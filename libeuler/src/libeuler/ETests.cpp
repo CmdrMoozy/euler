@@ -35,7 +35,6 @@
 #include "libeuler/structs/EGrid.h"
 #include "libeuler/types/EBigInteger.h"
 #include "libeuler/types/EDigitInteger.h"
-#include "libeuler/types/EFraction.h"
 #include "libeuler/types/ERightTriangle.h"
 #include "libeuler/types/ETriangle.h"
 
@@ -64,7 +63,6 @@ int main(void)
 	EGrid<int>::doTestSuite();
 	EBigInteger::doTestSuite();
 	EDigitInteger::doTestSuite();
-	EFraction::doTestSuite();
 	ERightTriangle::doTestSuite();
 	ETriangle::doTestSuite();
 }

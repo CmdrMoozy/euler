@@ -97,9 +97,8 @@ void ERightTriangle::doTestSuite()
 		t.set(9, 33, 41);
 		EASSERT(!t.isValidTriangle())
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -160,7 +159,7 @@ void ERightTriangle::setA(uint32_t a)
 /*!
  * This function sets the value of our "B" side.
  *
- * \param a The new legnth of side B.
+ * \param b The new legnth of side B.
  */
 void ERightTriangle::setB(uint32_t b)
 {
@@ -171,7 +170,7 @@ void ERightTriangle::setB(uint32_t b)
 /*!
  * This function sets the value of our "C" side.
  *
- * \param a The new legnth of side C.
+ * \param c The new legnth of side C.
  */
 void ERightTriangle::setC(uint32_t c)
 {
@@ -181,13 +180,12 @@ void ERightTriangle::setC(uint32_t c)
 
 /*!
  * This function sets the side lengths of our triangle. Note that if the lengths
- *provided do not
- * constitute a valid triangle, then our triangle is cleared (i.e., all side
- *lengths are set to 0).
+ * provided do not constitute a valid triangle, then our triangle is cleared
+ * (i.e., all side lengths are set to 0).
  *
  * \param a The new length of side A.
- * \param a The new length of side B.
- * \param a The new length of side C.
+ * \param b The new length of side B.
+ * \param c The new length of side C.
  */
 void ERightTriangle::set(uint32_t a, uint32_t b, uint32_t c)
 {
