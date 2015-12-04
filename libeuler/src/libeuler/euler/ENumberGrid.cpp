@@ -213,12 +213,11 @@ int ENumberGrid::greatestConsecutiveProduct(int n) const
 
 		return greatest;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
 #ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
+		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #else
-		ELUNUSED(e)
 		return -1;
 #endif
 	}

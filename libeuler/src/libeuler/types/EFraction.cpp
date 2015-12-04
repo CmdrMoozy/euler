@@ -18,6 +18,7 @@
 
 #include "EFraction.h"
 
+#include <cassert>
 #include <cmath>
 #include <iostream>
 
@@ -148,13 +149,9 @@ EFraction &EFraction::operator=(const EFraction &o)
 		setNumerator(o.getNumerator());
 		setDenominator(o.getDenominator());
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -257,13 +254,9 @@ EFraction &EFraction::operator+=(const EFraction &o)
 		setDenominator(dA * dB);
 		setNumerator((nA * dB) + (nB * dA));
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -300,13 +293,9 @@ EFraction &EFraction::operator-=(const EFraction &o)
 		setDenominator(dA * dB);
 		setNumerator((nA * dB) - (nB * dA));
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);

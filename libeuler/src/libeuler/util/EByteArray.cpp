@@ -21,6 +21,8 @@
 #include "libeuler/EDefines.h"
 #include "libeuler/util/EBitwise.h"
 
+#include <cassert>
+
 #ifdef LIBEULER_DEBUG
 #include <iostream>
 #endif
@@ -429,13 +431,9 @@ void EByteArray::resize(std::size_t n, EByteArray::FillPolicy p)
 			}
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -498,13 +496,9 @@ void EByteArray::clearBits()
 		for(std::size_t i = 0; i < getSize(); ++i)
 			at(i) = 0;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -520,13 +514,9 @@ void EByteArray::setBits()
 		for(std::size_t i = 0; i < getSize(); i++)
 			at(i) = 0xFF;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -545,13 +535,9 @@ std::size_t EByteArray::population() const
 		for(std::size_t i = 0; i < getSize(); ++i)
 			pop += static_cast<std::size_t>(EBitwise::opop(at(i)));
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return pop;
@@ -607,13 +593,9 @@ void EByteArray::leftShift(std::size_t n)
 			}
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -691,13 +673,9 @@ void EByteArray::rightShift(std::size_t n)
 			}
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -735,13 +713,9 @@ void EByteArray::bitwiseComplement()
 		for(std::size_t i = 0; i < getSize(); ++i)
 			at(i) = ~at(i);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -765,13 +739,9 @@ void EByteArray::bitwiseAnd(const EByteArray &o)
 		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) &= o.at(i);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -795,13 +765,9 @@ void EByteArray::bitwiseOr(const EByteArray &o)
 		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) |= o.at(i);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -825,13 +791,9 @@ void EByteArray::bitwiseXor(const EByteArray &o)
 		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) ^= o.at(i);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -854,13 +816,9 @@ void EByteArray::bitwiseAnd(uint32_t v, std::size_t lS)
 			v >>= 8;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -883,13 +841,9 @@ void EByteArray::bitwiseOr(uint32_t v, std::size_t lS)
 			v >>= 8;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -912,13 +866,9 @@ void EByteArray::bitwiseXor(uint32_t v, std::size_t lS)
 			v >>= 8;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -942,13 +892,9 @@ int EByteArray::compare(const EByteArray &o) const
 				return 1;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return 0;
@@ -1006,13 +952,9 @@ bool EByteArray::hasBitsSet() const
 			if(at(i) > 0)
 				return true;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return false;

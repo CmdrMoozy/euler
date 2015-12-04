@@ -19,6 +19,7 @@
 #include "EDigitInteger.h"
 
 #include <algorithm>
+#include <cassert>
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
@@ -772,14 +773,10 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 					buf[0] = cv[i];
 					volatileSetDigitAt(digit++, atoi(buf));
 				}
-				catch(EValueRangeException &e)
+				catch(EValueRangeException &)
 				{ // This should never be thrown, since our
-                                  // buffer is only 2 characters long.
-#ifdef LIBEULER_DEBUG
-					EDIE_LOGIC(e)
-#else
-					ELUNUSED(e)
-#endif
+					// buffer is only 2 characters long.
+					assert(false);
 				}
 			}
 			else
@@ -811,13 +808,9 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -872,14 +865,10 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 		// Ditch any leading zeros we may have picked up.
 		removeLeadingZeros();
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{ // The digits in another Int50 should not be out-of-range, because by
-          // design our class will not allow it.
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		// design our class will not allow it.
+		assert(false);
 	}
 
 #ifdef LIBEULER_DEBUG
@@ -894,13 +883,9 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1122,13 +1107,9 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1162,13 +1143,9 @@ EDigitInteger &EDigitInteger::operator-=(const EDigitInteger &o)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1205,13 +1182,9 @@ EDigitInteger &EDigitInteger::operator*=(const EDigitInteger &o)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1248,13 +1221,9 @@ EDigitInteger &EDigitInteger::operator/=(const EDigitInteger &o)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1291,13 +1260,9 @@ EDigitInteger &EDigitInteger::operator%=(const EDigitInteger &o)
 			if(get(0) == 0)
 				setPositive(true);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return (*this);
@@ -1501,13 +1466,9 @@ int EDigitInteger::sumOfDigits() const
 		for(std::size_t i = 0; i < digitCount(); ++i)
 			total += get(i);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return total;
@@ -1535,13 +1496,9 @@ bool EDigitInteger::isPalindrome() const
 				return false;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return true;
@@ -1575,13 +1532,9 @@ bool EDigitInteger::isPandigital() const
 		for(std::size_t i = 0; i < digitCount(); ++i)
 			++digitCounts[get(i)];
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	// Ensure that the digits we SHOULD contain are exactly one, and the
@@ -1642,13 +1595,9 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 			if(digitCounts[i] != 0)
 				return false;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return true;
@@ -1734,21 +1683,13 @@ bool EDigitInteger::erase(std::size_t i)
 
 		return r;
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 #ifdef LIBEULER_DEBUG
@@ -1805,21 +1746,13 @@ void EDigitInteger::rightDigitalShift(int p)
 		while(digits.erase(i++) > 0)
 			;
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 #ifdef LIBEULER_DEBUG
@@ -1874,21 +1807,13 @@ bool EDigitInteger::rightDigitalRotate(int p)
 		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
 			put(d + (static_cast<std::size_t>(p) - i - 1), hold[i]);
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	// Clean up our buffer.
@@ -1938,21 +1863,13 @@ void EDigitInteger::leftDigitalShift(int p)
 		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
 			put(i, 0);
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 #ifdef LIBEULER_DEBUG
@@ -2010,21 +1927,13 @@ bool EDigitInteger::leftDigitalRotate(int p)
 		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
 			put(i, hold[static_cast<std::size_t>(p) - 1 - i]);
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	// Clean up our buffer.
@@ -2168,13 +2077,9 @@ bool EDigitInteger::permutateDigits()
 		reverseDigits(static_cast<std::size_t>(k + 1),
 		              digitCount() - 1);
 	}
-	catch(EException &e)
+	catch(EException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	removeLeadingZeros();
@@ -2261,13 +2166,9 @@ bool EDigitInteger::reversePermutateDigits()
 		reverseDigits(static_cast<std::size_t>(k + 1),
 		              digitCount() - 1);
 	}
-	catch(EException &e)
+	catch(EException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	removeLeadingZeros();
@@ -2303,21 +2204,13 @@ bool EDigitInteger::reverseDigits(std::size_t l, std::size_t r)
 			volatileSetDigitAt(b, hold);
 		}
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	ret = removeLeadingZeros();
@@ -2510,13 +2403,9 @@ bool EDigitInteger::removeLeadingZeros()
 				break;
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return r;
@@ -2616,13 +2505,9 @@ bool EDigitInteger::unsignedEqualTo(const EDigitInteger &o) const
 			if(get(i) != o.get(i))
 				return false;
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	return true;
@@ -2672,13 +2557,9 @@ bool EDigitInteger::unsignedLessThan(const EDigitInteger &o) const
 			                     // is less.
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 
 	// We must be equal.
@@ -2749,9 +2630,7 @@ void EDigitInteger::unsignedAdd(const EDigitInteger &i)
 	}
 	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBULER_DEBUG
-		EDIE_LOGIC(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -2792,21 +2671,13 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 
 		borrow();
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EUnderflowException &e)
+	catch(EUnderflowException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -2860,21 +2731,13 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 		result.carry();
 		(*this) = result;
 	}
-	catch(EValueRangeException &e)
+	catch(EValueRangeException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 
@@ -3067,13 +2930,9 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 		// original value.
 		setPositive(sign);
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
-#endif
+		assert(false);
 	}
 }
 

@@ -325,12 +325,10 @@ void EPrimeSieve::generatePrimes()
 				primes.insert(n);
 		}
 	}
-	catch(EOutOfBoundsException &e)
+	catch(EOutOfBoundsException &)
 	{
 #ifdef LIBEULER_DEBUG
-		EDIE_LOGIC(e)
-#else
-		ELUNUSED(e)
+		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #endif
 	}
 }
