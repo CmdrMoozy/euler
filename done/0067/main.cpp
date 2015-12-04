@@ -27,7 +27,6 @@
 int main(void)
 {
 	int result;
-	int i, j;
 	int rowValues[100];
 	std::string buf;
 	ETriangleStructure t(100);
@@ -39,7 +38,7 @@ int main(void)
 		return 1;
 	}
 
-	i = 0;
+	std::size_t i = 0;
 	while(in.good())
 	{
 		getline(in, buf);
@@ -48,7 +47,7 @@ int main(void)
 
 		std::istringstream iss(buf, std::istringstream::in);
 
-		for(j = 0; j < (i + 1); j++)
+		for(std::size_t j = 0; j < (i + 1); j++)
 			iss >> rowValues[j];
 
 		t.setRowAt(i, rowValues);

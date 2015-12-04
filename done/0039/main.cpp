@@ -33,13 +33,18 @@
  * For which value of p <= 1000, is the number of solutions maximised?
  */
 
-#define PERIMETER_MIN 3
 #define PERIMETER_MAX 1000
+
+namespace
+{
+constexpr double DOUBLE_COMPARE_EPSILON = 0.000001;
+}
 
 int main(void)
 {
 	std::set<ERightTriangle> *count;
-	uint32_t a, b, ic, mp, mv;
+	uint32_t a, b, ic, mp;
+	std::size_t mv;
 	double c;
 
 	count = new std::set<ERightTriangle>[PERIMETER_MAX + 1];
@@ -52,8 +57,11 @@ int main(void)
 			         static_cast<double>(b * b));
 			ic = static_cast<uint32_t>(floor(c));
 
-			if(static_cast<double>(ic) != c)
+			if(std::abs(static_cast<double>(ic) - c) <
+			   DOUBLE_COMPARE_EPSILON)
+			{
 				continue;
+			}
 
 			if((a + b + ic) > PERIMETER_MAX)
 				continue;

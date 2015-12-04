@@ -39,20 +39,19 @@
 
 namespace
 {
-const std::string LITERAL_DIGITS[10] = {"Zero",  "One",  "Two", "Three",
-                                        "Four",  "Five", "Six", "Seven",
-                                        "Eight", "Nine"};
+char const *LITERAL_DIGITS[] = {"Zero", "One", "Two",   "Three", "Four",
+                                "Five", "Six", "Seven", "Eight", "Nine"};
 
-const std::string LITERAL_SPECIAL[10] = {
-        "",        "Eleven",  "Twelve",    "Thirteen", "Fourteen",
-        "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+char const *LITERAL_SPECIAL[] = {"",         "Eleven",  "Twelve",  "Thirteen",
+                                 "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+                                 "Eighteen", "Nineteen"};
 
-const std::string LITERAL_TEN_MULTIPLES[10] = {
-        "",      "Ten",   "Twenty",  "Thirty", "Forty",
-        "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+char const *LITERAL_TEN_MULTIPLES[] = {"",       "Ten",   "Twenty", "Thirty",
+                                       "Forty",  "Fifty", "Sixty",  "Seventy",
+                                       "Eighty", "Ninety"};
 
-const std::string LITERAL_PLACES[10] = {
-        "", "", "", "Hundred", "Thousand", "", "Million", "", "", "Billion"};
+char const *LITERAL_PLACES[] = {"", "",        "", "Hundred", "Thousand",
+                                "", "Million", "", "",        "Billion"};
 
 /*
  * This function will spell-out an input number -- i.e., "123" becomes "one
@@ -73,12 +72,13 @@ std::string numberToLiteral(uint32_t n)
 {
 	EDigitInteger edi;
 	std::ostringstream oss;
-	int i, place;
 
 	edi = n;
-	for(i = (edi.digitCount() - 1); i >= 0; --i)
-	{ // Loop through each digit in our number.
-		place = i + 1;
+	for(std::size_t offFromEnd = 0; offFromEnd < edi.digitCount();
+	    ++offFromEnd)
+	{ // Loop through each digit in our number, in reverse.
+		std::size_t i = edi.digitCount() - 1 - offFromEnd;
+		std::size_t place = i + 1;
 
 		switch(place)
 		{

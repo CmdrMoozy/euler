@@ -39,9 +39,9 @@
 
 int main(void)
 {
-	uint32_t i, j, on, n, result, log;
-	short *digits;
-	digits = new short[1000000];
+	uint32_t i, j, on, n, log;
+	int *digits;
+	digits = new int[1000000];
 
 	// Populate our digits list.
 	i = 0;
@@ -66,8 +66,8 @@ int main(void)
 
 	// Get our result.
 
-	result = digits[0] * digits[9] * digits[99] * digits[999] *
-	         digits[9999] * digits[99999] * digits[999999];
+	int result = digits[0] * digits[9] * digits[99] * digits[999] *
+	             digits[9999] * digits[99999] * digits[999999];
 
 	delete[] digits;
 

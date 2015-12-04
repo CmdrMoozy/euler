@@ -53,6 +53,8 @@
  * of x is obtained.
  */
 
+namespace
+{
 /*!
  * This function will return the periodic continued fraction notation of
  *sqrt(D). E.g.,
@@ -79,24 +81,23 @@
  * \param D the number to compute the continued fraction representation of.
  * \return The continued fraction representation of D.
  */
-std::vector<uint64_t> getContinuedFraction(int64_t D)
+std::vector<uint64_t> getContinuedFraction(uint64_t D)
 {
 	std::vector<uint64_t> v;
-	int64_t iroot = EMath::isqrt(D);
+	uint64_t iroot = EMath::isqrt(D);
 
 	if(iroot * iroot == D)
 	{
-		v.push_back(static_cast<uint64_t>(iroot));
+		v.push_back(iroot);
 		return v;
 	}
 
-	int64_t num = 0, den = 1;
-
+	uint64_t num = 0, den = 1;
 	while(true)
 	{
-		int64_t hold;
-		int64_t nextn = static_cast<int64_t>((iroot + num) / den);
-		v.push_back(static_cast<uint64_t>(nextn));
+		uint64_t hold;
+		uint64_t nextn = (iroot + num) / den;
+		v.push_back(nextn);
 
 		hold = den;
 		den = num - (den * nextn);
@@ -108,12 +109,13 @@ std::vector<uint64_t> getContinuedFraction(int64_t D)
 
 		if(den == 1)
 		{
-			v.push_back(static_cast<uint64_t>(iroot << 1));
+			v.push_back(iroot << 1);
 			break;
 		}
 	}
 
 	return v;
+}
 }
 
 int main(void)
@@ -234,7 +236,7 @@ int main(void)
 
 			// Since this isn't the solution, compute the next one.
 
-			int64_t cfidx = ((cfn - 1) % (cf.size() - 1)) + 1;
+			uint64_t cfidx = ((cfn - 1) % (cf.size() - 1)) + 1;
 
 			mpz_mul_ui(tmpA, Am1, cf[cfidx]);
 			mpz_add(tmpA, tmpA, Am2);

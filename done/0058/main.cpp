@@ -56,7 +56,7 @@
 
 int main(void)
 {
-	uint32_t primes, o, result;
+	uint32_t primes, o;
 	ESpiral sp;
 
 	primes = 0;
@@ -76,7 +76,7 @@ int main(void)
 		sp.next();
 	} while((primes * 10) > ((o * 4) + 1));
 
-	result = sp.getSizeFor(o);
+	std::size_t result = sp.getSizeFor(o);
 	std::cout << "The size of spiral whose diagonal prime ratio first "
 	             "falls below 10% is: "
 	          << result << "\n";

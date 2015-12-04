@@ -50,7 +50,8 @@
 int main(void)
 {
 	uint32_t *lenlist;
-	uint64_t n, p;
+	uint32_t n;
+	uint64_t p;
 	uint32_t l, length, number;
 
 	lenlist = new uint32_t[MAX_NUMBER + 1];

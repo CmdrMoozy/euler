@@ -41,9 +41,9 @@
 
 int main(void)
 {
-	std::set<uint32_t> bset;
-	uint32_t a, b;
-	uint32_t sum;
+	std::set<uint64_t> bset;
+	uint64_t a, b;
+	uint64_t sum;
 
 	for(sum = 0, a = 0; a <= LIMIT; a++)
 	{

@@ -66,7 +66,7 @@ int main(void)
 {
 	try
 	{
-		uint32_t a, b, c, d, i, j, k, count;
+		uint64_t a, b, c, d, i, j, k, count;
 		EFraction lower, hold(LOWER_TARGET_N, LOWER_TARGET_D),
 		        upper(UPPER_TARGET_N, UPPER_TARGET_D);
 

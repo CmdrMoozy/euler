@@ -33,7 +33,6 @@
  */
 
 #define PRIME_VALUE_MAX 2000000
-#define PRIME_PRECISION 100
 
 int main(void)
 {

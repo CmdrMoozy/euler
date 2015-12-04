@@ -65,6 +65,8 @@
  *continued fraction for e.
  */
 
+namespace
+{
 /*
  * This function returns the nth continued fraction denominator for the
  *continued fraction representation
@@ -85,6 +87,7 @@ uint64_t getDenominator(uint32_t n)
 	{
 		return 2;
 	}
+}
 }
 
 int main(void)

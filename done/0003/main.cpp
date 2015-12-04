@@ -33,7 +33,6 @@
  */
 
 #define VALUE_TO_FACTOR 600851475143
-#define PRIME_PRECISION 10
 
 int main(void)
 {

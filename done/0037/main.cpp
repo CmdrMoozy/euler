@@ -45,8 +45,8 @@ int main(void)
 {
 	EPrimeSieve sieve;
 	std::set<uint32_t>::iterator it;
-	uint32_t h, sum = 0;
-	int count = 0, i;
+	uint64_t h, sum = 0;
+	int count = 0;
 
 	EDigitInteger number;
 	bool trunc;
@@ -67,10 +67,10 @@ int main(void)
 
 		// Test if our number is truncatable from left to right.
 		trunc = true;
-		for(i = 1; i < number.digitCount(); i++)
+		for(std::size_t i = 1; i < number.digitCount(); i++)
 		{
 			h = number.rangeToInteger(i, number.digitCount() - 1);
-			if(sieve.find(h) == sieve.end())
+			if(sieve.find(static_cast<uint32_t>(h)) == sieve.end())
 			{
 				trunc = false;
 				break;
@@ -81,11 +81,12 @@ int main(void)
 		// number is from right to left.
 		if(trunc)
 		{
-			for(i = 1; i < number.digitCount(); i++)
+			for(std::size_t i = 1; i < number.digitCount(); i++)
 			{
 				h = number.rangeToInteger(
 				        0, (number.digitCount() - 1) - i);
-				if(sieve.find(h) == sieve.end())
+				if(sieve.find(static_cast<uint32_t>(h)) ==
+				   sieve.end())
 				{
 					trunc = false;
 					break;
@@ -108,7 +109,7 @@ int main(void)
 			// If we've reached the end of our current sieve, resize
 			// it and reset our iterator.
 			sieve.setLimit(sieve.getLimit() * SIEVE_STEPPING);
-			it = sieve.find(h);
+			it = sieve.find(static_cast<uint32_t>(h));
 			it++;
 
 			// If we are still at the end of the sieve (for some

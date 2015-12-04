@@ -35,7 +35,7 @@
 
 int main(void)
 {
-	uint32_t x, a, b, c;
+	uint64_t x, a, b, c;
 	EDigitInteger dx, db;
 
 	// For each positive integer...
@@ -46,7 +46,8 @@ int main(void)
 		c = EMath::logBaseTen(x);
 		if(EMath::logBaseTen(6 * x) > EMath::logBaseTen(x))
 		{
-			x = euler::math::ipow(10, (c + 1)) - 1;
+			x = euler::math::ipow(10, static_cast<uint8_t>(c + 1)) -
+			    1;
 			continue;
 		}
 

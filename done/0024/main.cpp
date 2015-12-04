@@ -44,7 +44,7 @@ int main(void)
 	 * to permutate the given starting string 1,000,000 times.
 	 */
 
-	int c;
+	std::size_t c;
 	char digits[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	EArray<char> permutator(10, digits);
 	char solution[10] = {'2', '7', '8', '3', '9', '1', '5', '4', '6', '0'};

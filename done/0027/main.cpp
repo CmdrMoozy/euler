@@ -89,15 +89,17 @@ int main(void)
 				if(v < SIEVE_LIMIT)
 				{ // If our value is inside our sieve limit,
 					// test it for primality that way.
-					if(sieve.find(v) != sieve.end())
+					if(sieve.find(static_cast<uint32_t>(
+					           v)) != sieve.end())
 						cc++;
 					else
 						break;
 				}
 				else
 				{ // Otherwise, do a probabalistic test.
-					if(EMath::isPrime_UI(v,
-					                     PRIME_PRECISION))
+					if(EMath::isPrime_UI(
+					           static_cast<uint64_t>(v),
+					           PRIME_PRECISION))
 						cc++;
 					else
 						break;

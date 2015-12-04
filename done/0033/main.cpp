@@ -42,6 +42,10 @@
  * denominator.
  */
 
+namespace
+{
+constexpr double DOUBLE_COMPARE_EPSILON = 0.000001;
+
 /*
  * This class represents our fraction that does digit-wise cancelling for this
  * particular problem.
@@ -56,14 +60,6 @@ public:
 	DigitalFraction()
 	{
 		clear();
-	}
-
-	/*
-	 * This constructor initializes a new DigitalFraction with the given
-	 * numerator/denominator.
-	 */
-	DigitalFraction(uint32_t n, uint32_t d) : numerator(n), denominator(d)
-	{
 	}
 
 	/*
@@ -121,7 +117,7 @@ public:
 	/*
 	 * This function returns our numerator.
 	 */
-	uint32_t getNumerator() const
+	uint64_t getNumerator() const
 	{
 		return numerator.toInteger();
 	}
@@ -129,7 +125,7 @@ public:
 	/*
 	 * This function sets our numerator.
 	 */
-	void setNumerator(uint32_t n)
+	void setNumerator(uint64_t n)
 	{
 		numerator = n;
 	}
@@ -137,7 +133,7 @@ public:
 	/*
 	 * This function returns our denominator.
 	 */
-	uint32_t getDenominator() const
+	uint64_t getDenominator() const
 	{
 		return denominator.toInteger();
 	}
@@ -145,7 +141,7 @@ public:
 	/*
 	 * This function sets our denominator.
 	 */
-	void setDenominator(uint32_t d)
+	void setDenominator(uint64_t d)
 	{
 		denominator = d;
 	}
@@ -172,16 +168,15 @@ public:
 	{
 		std::string n = numerator.toString(),
 		            d = denominator.toString();
-		int i, j;
 		bool reduced;
 
 		do
 		{
 			reduced = false;
 
-			for(i = 0; i < static_cast<int>(n.size()); i++)
+			for(std::size_t i = 0; i < n.size(); i++)
 			{
-				for(j = 0; j < static_cast<int>(d.size()); j++)
+				for(std::size_t j = 0; j < d.size(); j++)
 				{
 					if(n[i] == d[j])
 					{
@@ -215,6 +210,7 @@ private:
 	EDigitInteger numerator;
 	EDigitInteger denominator;
 };
+}
 
 int main(void)
 {
@@ -222,7 +218,7 @@ int main(void)
 	uint32_t n, d;
 	DigitalFraction a, b;
 	EFraction f(1, 1);
-	uint32_t result;
+	uint64_t result;
 
 	for(d = 10; d <= 99; d++)
 	{
@@ -237,8 +233,12 @@ int main(void)
 			b = a;
 			b.cancelAll();
 
-			if((a.toDecimal() == b.toDecimal()) && !(a == b))
+			if((std::abs(a.toDecimal() - b.toDecimal()) <
+			    DOUBLE_COMPARE_EPSILON) &&
+			   !(a == b))
+			{
 				fractions.push_back(a);
+			}
 		}
 	}
 

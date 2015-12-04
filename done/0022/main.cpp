@@ -51,7 +51,6 @@ int main(void)
 	 */
 
 	unsigned long int total, name;
-	int i;
 	std::string buf;
 	std::vector<std::string> names;
 	std::vector<std::string>::iterator it;
@@ -78,9 +77,11 @@ int main(void)
 	{
 		name = 0;
 
-		for(i = 0; i < static_cast<int>((*it).length()); i++)
+		for(std::size_t i = 0; i < it->length(); i++)
+		{
 			name += static_cast<unsigned long int>(
-			        (*it).at(i) - 'A' + static_cast<char>(1));
+			        it->at(i) - 'A' + static_cast<char>(1));
+		}
 
 		name *= static_cast<unsigned long int>(it - names.begin() + 1);
 		total += name;

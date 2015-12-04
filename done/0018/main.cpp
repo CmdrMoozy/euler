@@ -60,7 +60,6 @@
 
 int main(void)
 {
-	int i;
 	int sum;
 	ETriangleStructure t(15);
 
@@ -81,7 +80,7 @@ int main(void)
 	        {63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31, 0},
 	        {4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23}};
 
-	for(i = 0; i < 15; i++)
+	for(std::size_t i = 0; i < 15; i++)
 		t.setRowAt(i, values[i]);
 
 	sum = t.getLargestPathSum();

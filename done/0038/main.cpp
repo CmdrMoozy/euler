@@ -50,7 +50,8 @@
 
 inline void concatenate(uint64_t &d, uint64_t o)
 {
-	d *= euler::math::ipow(10, EMath::logBaseTen(o) + 1);
+	d *= euler::math::ipow(10,
+	                       static_cast<uint8_t>(EMath::logBaseTen(o) + 1));
 	d += o;
 }
 
@@ -92,11 +93,11 @@ int main(void)
 		 */
 
 		lbound = euler::math::ipow(
-		        10, static_cast<uint32_t>(
+		        10, static_cast<uint8_t>(
 		                    floor(9.0 / static_cast<double>(n))) -
 		                    1);
 		ubound = euler::math::ipow(
-		        10, static_cast<uint32_t>(
+		        10, static_cast<uint8_t>(
 		                    floor(9.0 / static_cast<double>(n))));
 
 		for(uint64_t base = lbound; base < ubound; ++base)
@@ -111,7 +112,9 @@ int main(void)
 			 */
 
 			if(base / (euler::math::ipow(
-			                  10, EMath::logBaseTen(base))) !=
+			                  10,
+			                  static_cast<uint8_t>(
+			                          EMath::logBaseTen(base)))) !=
 			   9)
 				continue;
 

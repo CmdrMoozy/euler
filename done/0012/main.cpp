@@ -53,12 +53,12 @@
 
 int main(void)
 {
-	uint32_t i = 0, n = 0;
+	uint64_t i = 0, n = 0;
 
 	while(n < MINIMUM_NUMBER)
 		n = EMath::getTriangleNumberN(++i);
 
-	while(EMath::aliquotNumberDivisors(n) <= 500)
+	while(EMath::aliquotNumberDivisors(static_cast<uint32_t>(n)) <= 500)
 		n = EMath::getTriangleNumberN(++i);
 
 	std::cout << "The first triangle number with over 500 factors is: " << n

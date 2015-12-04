@@ -53,9 +53,11 @@ int main(void)
 		// count.
 
 		std::vector<uint64_t> bases;
-		uint64_t min =
-		        EMath::icbrt(euler::math::ipow(10, digits - 1)) + 1;
-		uint64_t max = EMath::icbrt(euler::math::ipow(10, digits));
+		uint64_t min = EMath::icbrt(euler::math::ipow(
+		                       10, static_cast<uint8_t>(digits - 1))) +
+		               1;
+		uint64_t max = EMath::icbrt(
+		        euler::math::ipow(10, static_cast<uint8_t>(digits)));
 
 		for(uint64_t i = min; i <= max; ++i)
 			bases.push_back(i);

@@ -35,7 +35,8 @@
 
 int main(void)
 {
-	uint32_t total, fib, n;
+	uint64_t fib;
+	uint32_t total, n;
 
 	total = 0;
 	n = 0;

@@ -40,6 +40,8 @@
  * the first of these numbers?
  */
 
+namespace
+{
 void sieve(uint32_t *li, uint32_t le)
 {
 	uint32_t i, j;
@@ -55,6 +57,7 @@ void sieve(uint32_t *li, uint32_t le)
 		for(j = i; j < le; j += i)
 			li[j]++;
 	}
+}
 }
 
 int main(void)

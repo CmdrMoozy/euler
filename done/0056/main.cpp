@@ -56,7 +56,7 @@ int main(void)
 			mpz_ui_pow_ui(number.get_mpz_t(), a, b);
 			d = number;
 
-			s = d.sumOfDigits();
+			s = static_cast<uint32_t>(d.sumOfDigits());
 			if(s > result)
 				result = s;
 		}

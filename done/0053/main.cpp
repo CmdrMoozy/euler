@@ -49,7 +49,8 @@ int main(void)
 	{
 		for(r = 1; r <= n; r++)
 		{
-			v = EMath::combinations(n, r);
+			v = EMath::combinations(static_cast<int>(n),
+			                        static_cast<int>(r));
 
 			if(v > 1000000)
 				c++;

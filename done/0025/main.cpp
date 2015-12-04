@@ -53,7 +53,7 @@
 int main(void)
 {
 	mpz_class target;
-	uint32_t result;
+	uint64_t result;
 
 	// The limit we are searching for is 10^999.
 	target = 10;

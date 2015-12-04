@@ -48,10 +48,10 @@ int main(void)
 {
 	std::string word;
 	std::ifstream fin;
-	uint32_t *triangleNumbers;
-	std::multiset<uint32_t> scores;
-	std::multiset<uint32_t>::iterator it;
-	uint32_t i, v, maxScore, result;
+	uint64_t *triangleNumbers;
+	std::multiset<uint64_t> scores;
+	std::multiset<uint64_t>::iterator it;
+	uint64_t i, v, maxScore, result;
 
 	// Read in and score all of our words.
 
@@ -77,7 +77,7 @@ int main(void)
 	// Build a list of triangle numbers.
 
 	maxScore = (*scores.rbegin());
-	triangleNumbers = new uint32_t[maxScore + 1];
+	triangleNumbers = new uint64_t[maxScore + 1];
 
 	i = 0;
 	v = EMath::getTriangleNumberN(i);

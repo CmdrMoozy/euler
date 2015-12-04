@@ -29,7 +29,7 @@ int main(void)
 	// Range is 1 < n < 10^7 as given in the problem description.
 	EPrimeSieve sieve(10000000);
 
-	uint32_t t, result;
+	uint32_t t, result = 0;
 
 	for(std::set<uint32_t>::reverse_iterator it = sieve.rbegin();
 	    it != sieve.rend(); ++it)

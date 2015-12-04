@@ -51,6 +51,8 @@
  * Find the value of n <= 1,000,000 for which n / phi(n) is a maximum.
  */
 
+namespace
+{
 /*!
  * This function generates a list of all numbers less than or equal to n,
  *excluding 1. The result is
@@ -108,7 +110,7 @@ std::vector<std::vector<uint32_t>> composites(EPrimeSieve &p, uint32_t n,
 uint32_t totient(const std::vector<uint32_t> &n)
 {
 	uint32_t t = 0, h, p, e;
-	size_t i = 0, j;
+	std::size_t i = 0, j;
 
 	while(i < n.size())
 	{
@@ -125,16 +127,19 @@ uint32_t totient(const std::vector<uint32_t> &n)
 				break;
 		}
 
-		e = j - i;
+		e = static_cast<uint32_t>(j - i);
 		i = j;
 
 		// Calculate the totient!
 
-		h = euler::math::ipow(p, e - 1) * (p - 1);
+		h = static_cast<uint32_t>(
+		        euler::math::ipow(p, static_cast<uint8_t>(e - 1)) *
+		        (p - 1));
 		t = (t == 0) ? h : t * h;
 	}
 
 	return t;
+}
 }
 
 int main(void)

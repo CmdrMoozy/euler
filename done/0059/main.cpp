@@ -64,6 +64,8 @@
  * the message and find the sum of the ASCII values in the original text.
  */
 
+namespace
+{
 /*
  * This function tests if the given character is punctuation. This function, as
  *opposed to
@@ -80,6 +82,7 @@ bool isPunctuation(char c)
 			return true;
 
 	return false;
+}
 }
 
 int main(void)

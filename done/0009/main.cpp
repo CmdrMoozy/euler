@@ -38,7 +38,7 @@ int main(void)
 {
 	uint32_t rangeMax;
 	uint32_t i, j, k;
-	uint32_t a, b, c;
+	uint64_t a, b, c;
 
 	rangeMax = 5;
 	while(1)
@@ -85,6 +85,4 @@ int main(void)
 
 		rangeMax += 5;
 	}
-
-	return 0;
 }

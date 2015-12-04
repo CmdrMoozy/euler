@@ -86,7 +86,8 @@ int main(void)
 		uint64_t e = MINIMUM_EXP;
 		while(true)
 		{
-			uint64_t n = euler::math::ipow(b, e);
+			uint64_t n =
+			        euler::math::ipow(b, static_cast<uint8_t>(e));
 			uint64_t digits =
 			        static_cast<uint64_t>(std::floor(std::log10(
 			                static_cast<long double>(n)))) +

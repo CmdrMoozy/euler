@@ -45,14 +45,14 @@
 int main(void)
 {
 	uint64_t sum = 0, n;
-	int test;
+	uint64_t test;
 
 	/*
 	 * We start with the number 1023456789 because numbers with leading
 	 * zeros are actually NOT 0-9 pandigital,
 	 * and this is the smallest number which doesn't have a leading zero.
 	 */
-	int digits[10] = {1, 0, 2, 3, 4, 5, 6, 7, 8, 9};
+	uint64_t digits[10] = {1, 0, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	// Loop through all 0-9 pandigitals.
 
@@ -102,7 +102,7 @@ int main(void)
 		n = (n * 10) + digits[9];
 		sum += n;
 
-	} while(EArrayUtilities::permutate<int>(digits, 10));
+	} while(EArrayUtilities::permutate<uint64_t>(digits, 10));
 
 	// Return the answer.
 

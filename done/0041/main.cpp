@@ -37,7 +37,7 @@ int main(void)
 {
 	uint32_t digits[] = {987654321, 87654321, 7654321, 654321, 54321,
 	                     4321,      321,      21,      1};
-	uint32_t result = 0, i, j;
+	uint64_t result = 0, i, j;
 	EDigitInteger d;
 
 	for(i = 0; i < 9; i++)

@@ -56,13 +56,13 @@
 
 int main(void)
 {
-	uint32_t *abundantNumbers;
-	uint32_t i, j, k;
+	uint64_t *abundantNumbers;
+	uint64_t i, j, k;
 	uint32_t total;
 	bool sum;
 
-	abundantNumbers = new uint32_t[LIMIT + 1];
-	memset(abundantNumbers, 0, sizeof(uint32_t) * (LIMIT + 1));
+	abundantNumbers = new uint64_t[LIMIT + 1];
+	memset(abundantNumbers, 0, sizeof(uint64_t) * (LIMIT + 1));
 
 	// Formulate a list of all of the abundant numbers.
 	for(i = 12; i <= LIMIT;

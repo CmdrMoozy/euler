@@ -44,6 +44,8 @@
  *given above.
  */
 
+namespace
+{
 /*!
  * This function compares two b^e values. We take advantage of the fact that
  *deciding if:
@@ -97,6 +99,7 @@ int compare(uint64_t ba, uint64_t ea, uint64_t bb, uint64_t be)
 	mpfr_clear(tmp);
 
 	return ret;
+}
 }
 
 int main(void)
