@@ -88,7 +88,6 @@ void ECircularPrimeSieve::generatePrimes()
 	std::map<uint32_t, PrimeCategory> resultsMap;
 	std::set<uint32_t>::iterator sit;
 	std::map<uint32_t, PrimeCategory>::iterator mit, tmit;
-	int i;
 	int digit;
 
 	// Generate our initial list of primes.
@@ -117,7 +116,7 @@ void ECircularPrimeSieve::generatePrimes()
 		// Our number cannot contain 0, 2, 4, 5, 6 or 8, or it is
 		// definitely not a circular prime.
 		number = mit->first;
-		for(i = 0; i < number.digitCount(); i++)
+		for(std::size_t i = 0; i < number.digitCount(); i++)
 		{
 			digit = number.get(i);
 			if((digit == 0) || (digit == 2) || (digit == 4) ||
@@ -137,7 +136,7 @@ void ECircularPrimeSieve::generatePrimes()
 		// Take the current number, and go through all its rotations. If
 		// we find one that isn't prime, mark the original not circular.
 		tnumber = number;
-		for(i = 0; i < (tnumber.digitCount() - 1); i++)
+		for(std::size_t i = 0; i < (tnumber.digitCount() - 1); i++)
 		{
 			tnumber.leftDigitalRotate(1);
 			tmit = resultsMap.find(
@@ -154,7 +153,8 @@ void ECircularPrimeSieve::generatePrimes()
 		if(mit->second == NotCircular)
 		{ // If our number was marked not circular, we need to mark ALL
 			// of its rotations not circular.
-			for(i = 0; i < (number.digitCount() - 1); i++)
+			for(std::size_t i = 0; i < (number.digitCount() - 1);
+			    i++)
 			{
 				number.leftDigitalRotate(1);
 				tmit = resultsMap.find(static_cast<uint32_t>(
@@ -168,7 +168,8 @@ void ECircularPrimeSieve::generatePrimes()
 		else
 		{ // Otherwise, mark ALL rotations as BEING CIRCULAR.
 			mit->second = Circular;
-			for(i = 0; i < (number.digitCount() - 1); i++)
+			for(std::size_t i = 0; i < (number.digitCount() - 1);
+			    i++)
 			{
 				number.leftDigitalRotate(1);
 				tmit = resultsMap.find(static_cast<uint32_t>(

@@ -219,8 +219,7 @@ int ENumberGrid::greatestConsecutiveProduct(int n) const
 		EDIE_LOGIC(e)
 #else
 		ELUNUSED(e)
+		return -1;
 #endif
 	}
-
-	return -1;
 }

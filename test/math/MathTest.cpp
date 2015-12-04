@@ -18,6 +18,7 @@
 
 #include <catch/catch.hpp>
 
+#include <cstdint>
 #include <cmath>
 
 #include "libeuler/math/Math.h"
@@ -26,7 +27,7 @@ TEST_CASE("Test ipow function", "[Math]")
 {
 	for(unsigned int b = 0; b <= 10; ++b)
 	{
-		for(unsigned int e = 0; e <= 10; ++e)
+		for(uint8_t e = 0; e <= 10; ++e)
 		{
 			uint64_t exp = static_cast<uint64_t>(std::pow(b, e));
 			uint64_t act = euler::math::ipow(b, e);
