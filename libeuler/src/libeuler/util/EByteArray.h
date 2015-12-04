@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +19,7 @@
 #ifndef INCLUDE_LIBEULER_UTIL_BYTE_ARRAY_H
 #define INCLUDE_LIBEULER_UTIL_BYTE_ARRAY_H
 
+#include <cstddef>
 #include <cstdint>
 
 #include "libeuler/util/EArray.h"
@@ -61,10 +61,18 @@ public:
 	static void doTestSuite();
 #endif
 
-	static int getMinimumByteLength(int b);
+	static std::size_t getMinimumByteLength(std::size_t b);
 
-	EByteArray(int l = 0, EByteArray::FillPolicy p = EByteArray::Clear);
+	EByteArray(std::size_t l = 0,
+	           EByteArray::FillPolicy p = EByteArray::Clear);
+
+	EByteArray(EByteArray const &) = default;
+	EByteArray(EByteArray &&) = default;
+
 	virtual ~EByteArray();
+
+	EByteArray &operator=(EByteArray const &) = default;
+	EByteArray &operator=(EByteArray &&) = default;
 
 	bool operator==(const EByteArray &o) const;
 	bool operator<(const EByteArray &o) const;
@@ -72,22 +80,22 @@ public:
 	bool operator>(const EByteArray &o) const;
 	bool operator>=(const EByteArray &o) const;
 
-	int bitSize() const;
-	void resize(int n, EByteArray::FillPolicy p);
+	std::size_t bitSize() const;
+	void resize(std::size_t n, EByteArray::FillPolicy p);
 
-	bool bitAt(int i) const throw(EOutOfBoundsException &);
-	void setBitAt(int i, bool v) throw(EOutOfBoundsException &);
+	bool bitAt(std::size_t i) const;
+	void setBitAt(std::size_t i, bool v);
 
-	void flipBitAt(int i) throw(EOutOfBoundsException &);
+	void flipBitAt(std::size_t i);
 
 	void clearBits();
 	void setBits();
-	int population() const;
+	std::size_t population() const;
 
-	void leftShift(int n);
-	void leftRotate(int n);
-	void rightShift(int n);
-	void rightRotate(int n);
+	void leftShift(std::size_t n);
+	void leftRotate(std::size_t n);
+	void rightShift(std::size_t n);
+	void rightRotate(std::size_t n);
 
 	void bitwiseComplement();
 
@@ -95,16 +103,16 @@ public:
 	void bitwiseOr(const EByteArray &o);
 	void bitwiseXor(const EByteArray &o);
 
-	void bitwiseAnd(uint32_t v, int lS = 0);
-	void bitwiseOr(uint32_t v, int lS = 0);
-	void bitwiseXor(uint32_t v, int lS = 0);
+	void bitwiseAnd(uint32_t v, std::size_t lS = 0);
+	void bitwiseOr(uint32_t v, std::size_t lS = 0);
+	void bitwiseXor(uint32_t v, std::size_t lS = 0);
 
 private:
 	int compare(const EByteArray &o) const;
 
-	int bitOffset(int by, int bi) const;
-	int byteOffset(int i) const;
-	int relativeBitOffset(int i) const;
+	std::size_t bitOffset(std::size_t by, std::size_t bi) const;
+	std::size_t byteOffset(std::size_t i) const;
+	std::size_t relativeBitOffset(std::size_t i) const;
 
 	bool hasBitsSet() const;
 };

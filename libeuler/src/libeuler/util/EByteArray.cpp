@@ -34,7 +34,7 @@
 void EByteArray::doTestSuite()
 {
 	bool success;
-	int i;
+	std::size_t i;
 
 	std::cout << "\tTesting 'EByteArray'...\t\t\t";
 	try
@@ -44,8 +44,10 @@ void EByteArray::doTestSuite()
 		// getMinimumByteLength
 
 		for(i = 0; i < 1000; ++i)
+		{
 			EASSERT(EByteArray::getMinimumByteLength(i) ==
 			        ((i - (i % 8)) / 8) + 1)
+		}
 
 		// Default Constructor + bitSize
 
@@ -238,9 +240,8 @@ void EByteArray::doTestSuite()
 		EASSERT(a.at(2) == 0x7C)
 		EASSERT(a.at(3) == 0x62)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 	catch(EOutOfBoundsException &e)
@@ -264,7 +265,7 @@ void EByteArray::doTestSuite()
  * \param b The number of bits we need to accomadate.
  * \return The number of bytes required.
  */
-int EByteArray::getMinimumByteLength(int b)
+std::size_t EByteArray::getMinimumByteLength(std::size_t b)
 {
 	return ((b + (8 - (b % 8))) / 8);
 }
@@ -281,7 +282,7 @@ int EByteArray::getMinimumByteLength(int b)
  * \param l The length of our new bitstring, in BYTES.
  * \param p The policy to use while populating the new bitstring.
  */
-EByteArray::EByteArray(int l, EByteArray::FillPolicy p)
+EByteArray::EByteArray(std::size_t l, EByteArray::FillPolicy p)
 {
 	// Initialize our data list depending on the FillPolicy we were given.
 	switch(p)
@@ -374,7 +375,7 @@ bool EByteArray::operator>=(const EByteArray &o) const
  *
  * \return The size of our bitstring in bits.
  */
-int EByteArray::bitSize() const
+std::size_t EByteArray::bitSize() const
 {
 	return (getSize() * 8);
 }
@@ -391,13 +392,12 @@ int EByteArray::bitSize() const
  *function provides more granularity with
  * the new bits/bytes via our FillPolicy parameter.
  *
- * \param l The new length of our bitstring.
+ * \param n The new length of our bitstring.
  * \param p The policy to use while populating new space.
  */
-void EByteArray::resize(int n, EByteArray::FillPolicy p)
+void EByteArray::resize(std::size_t n, EByteArray::FillPolicy p)
 {
-	int i;
-	EByteArray a((*this));
+	EByteArray a(*this);
 
 	try
 	{
@@ -415,7 +415,7 @@ void EByteArray::resize(int n, EByteArray::FillPolicy p)
 		}
 		else
 		{
-			for(i = 0; i < n; i++)
+			for(std::size_t i = 0; i < n; i++)
 			{
 				if(i < a.getSize())
 					set(i, a.at(i));
@@ -444,11 +444,9 @@ void EByteArray::resize(int n, EByteArray::FillPolicy p)
  *or not.
  *
  * \param i The offset of the desired bit.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset
- *you provide is out-of-bounds.
  * \return True if the specified bit is set, or false otherwise.
  */
-bool EByteArray::bitAt(int i) const throw(EOutOfBoundsException &)
+bool EByteArray::bitAt(std::size_t i) const
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
@@ -461,24 +459,16 @@ bool EByteArray::bitAt(int i) const throw(EOutOfBoundsException &)
  *
  * \param i The offset of the desired bit.
  * \param v Whether or not the specified bit should be set to "1" or not.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset
- *you provide is out-of-bounds.
  */
-void EByteArray::setBitAt(int i, bool v) throw(EOutOfBoundsException &)
+void EByteArray::setBitAt(std::size_t i, bool v)
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
 
-	switch(v)
-	{
-	case true:
+	if(v)
 		at(byteOffset(i)) |= mask;
-		break;
-
-	case false:
+	else
 		at(byteOffset(i)) &= (~mask);
-		break;
-	};
 }
 
 /*!
@@ -487,10 +477,8 @@ void EByteArray::setBitAt(int i, bool v) throw(EOutOfBoundsException &)
  * a "1" bit will become "0," and a "0" bit will become "1."
  *
  * \param i The offset of the desired bit.
- * \exception EOutOfBoundsException This exception is thrown if the bit offset
- *you provide is out-of-bounds.
  */
-void EByteArray::flipBitAt(int i) throw(EOutOfBoundsException &)
+void EByteArray::flipBitAt(std::size_t i)
 {
 	byte mask = 1;
 	mask <<= relativeBitOffset(i);
@@ -505,11 +493,9 @@ void EByteArray::flipBitAt(int i) throw(EOutOfBoundsException &)
  */
 void EByteArray::clearBits()
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < getSize(); ++i)
+		for(std::size_t i = 0; i < getSize(); ++i)
 			at(i) = 0;
 	}
 	catch(EOutOfBoundsException &e)
@@ -529,11 +515,9 @@ void EByteArray::clearBits()
  */
 void EByteArray::setBits()
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < getSize(); i++)
+		for(std::size_t i = 0; i < getSize(); i++)
 			at(i) = 0xFF;
 	}
 	catch(EOutOfBoundsException &e)
@@ -552,14 +536,14 @@ void EByteArray::setBits()
  *
  * \return The number of "1" bits.
  */
-int EByteArray::population() const
+std::size_t EByteArray::population() const
 {
-	int i, pop = 0;
+	std::size_t pop = 0;
 
 	try
 	{
-		for(i = 0; i < getSize(); ++i)
-			pop += EBitwise::opop(at(i));
+		for(std::size_t i = 0; i < getSize(); ++i)
+			pop += static_cast<std::size_t>(EBitwise::opop(at(i)));
 	}
 	catch(EOutOfBoundsException &e)
 	{
@@ -575,16 +559,13 @@ int EByteArray::population() const
 
 /*!
  * This function does a logical left-shift of our bitstring by a specified
- *number of places. Note that,
- * just like the left shift operator on primitive types, new bits shifted in on
- *the right will be set to
- * 0.
+ * number of places. Note that, just like the left shift operator on primitive
+ * types, new bits shifted in on the right will be set to 0.
  *
  * \param n The number of places to left-shift our bitstring.
  */
-void EByteArray::leftShift(int n)
+void EByteArray::leftShift(std::size_t n)
 {
-	int i, j;
 	bool hA = false, hB;
 
 	try
@@ -603,7 +584,7 @@ void EByteArray::leftShift(int n)
 		// Shift whole bytes first, if we can.
 		while(n >= 8)
 		{
-			for(i = (getSize() - 1); i > 0; i--)
+			for(std::size_t i = (getSize() - 1); i > 0; i--)
 				at(i) = at(i - 1);
 
 			at(0) = 0;
@@ -612,9 +593,9 @@ void EByteArray::leftShift(int n)
 		}
 
 		// Shift the remaining distance.
-		for(i = 0; i < n; i++)
+		for(std::size_t i = 0; i < n; i++)
 		{
-			for(j = 0; j < getSize(); j++)
+			for(std::size_t j = 0; j < getSize(); j++)
 			{
 				hB = (at(j) & (1 << 7)) > 0;
 				at(j) <<= 1;
@@ -638,18 +619,17 @@ void EByteArray::leftShift(int n)
 
 /*!
  * This function does a logical left rotation of our bitstring by a specified
- *number of places. This is similar
- * to a logical left shift, except bits that are ejected off the left side of
- *the bitstring are then carried back
- * to the front (at the right).
+ * number of places. This is similar to a logical left shift, except bits that
+ * are ejected off the left side of the bitstring are then carried back to the
+ * front (at the right).
  *
  * \param n The number of places to left-rotate our bitstring.
  */
-void EByteArray::leftRotate(int n)
+void EByteArray::leftRotate(std::size_t n)
 {
 	// v <<< n = (v << n) | (v >> (bits - n))
 
-	EByteArray b((*this));
+	EByteArray b(*this);
 
 	n %= bitSize();
 
@@ -660,16 +640,13 @@ void EByteArray::leftRotate(int n)
 
 /*!
  * This function does a logical right shift of our bitstring by a specified
- *number of places. Note that,
- * just like the right shift operator on primitive types, new bits shifted in on
- *the left will be set to
- * 0.
+ * number of places. Note that, just like the right shift operator on primitive
+ * types, new bits shifted in on the left will be set to 0.
  *
  * \param n The number of places to right-shift our bitstring.
  */
-void EByteArray::rightShift(int n)
+void EByteArray::rightShift(std::size_t n)
 {
-	int i, j;
 	bool hA = false, hB;
 
 	try
@@ -688,7 +665,7 @@ void EByteArray::rightShift(int n)
 		// Shift whole bytes first, if we can.
 		while(n >= 8)
 		{
-			for(i = 0; i < (getSize() - 1); i++)
+			for(std::size_t i = 0; i < (getSize() - 1); i++)
 				at(i) = at(i + 1);
 
 			at(getSize() - 1) = 0;
@@ -697,9 +674,9 @@ void EByteArray::rightShift(int n)
 		}
 
 		// Shift the remaining distance.
-		for(i = 0; i < n; i++)
+		for(std::size_t i = 0; i < n; i++)
 		{
-			for(j = getSize() - 1;; j--)
+			for(std::size_t j = getSize() - 1;; j--)
 			{
 				hB = (at(j) & 1) > 0;
 				at(j) >>= 1;
@@ -733,11 +710,11 @@ void EByteArray::rightShift(int n)
  *
  * \param n The number of places to left-rotate our bitstring.
  */
-void EByteArray::rightRotate(int n)
+void EByteArray::rightRotate(std::size_t n)
 {
 	// v >>> n = (v >> n) | (v << (bits - n))
 
-	EByteArray b((*this));
+	EByteArray b(*this);
 
 	n %= bitSize();
 
@@ -753,11 +730,9 @@ void EByteArray::rightRotate(int n)
  */
 void EByteArray::bitwiseComplement()
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < getSize(); ++i)
+		for(std::size_t i = 0; i < getSize(); ++i)
 			at(i) = ~at(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -783,12 +758,11 @@ void EByteArray::bitwiseComplement()
  */
 void EByteArray::bitwiseAnd(const EByteArray &o)
 {
-	int i;
-	int mSize = o.getSize() > getSize() ? getSize() : o.getSize();
-
 	try
 	{
-		for(i = 0; i < mSize; ++i)
+		std::size_t mSize =
+		        o.getSize() > getSize() ? getSize() : o.getSize();
+		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) &= o.at(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -814,12 +788,11 @@ void EByteArray::bitwiseAnd(const EByteArray &o)
  */
 void EByteArray::bitwiseOr(const EByteArray &o)
 {
-	int i;
-	int mSize = o.getSize() > getSize() ? getSize() : o.getSize();
-
 	try
 	{
-		for(i = 0; i < mSize; ++i)
+		std::size_t mSize =
+		        o.getSize() > getSize() ? getSize() : o.getSize();
+		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) |= o.at(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -845,12 +818,11 @@ void EByteArray::bitwiseOr(const EByteArray &o)
  */
 void EByteArray::bitwiseXor(const EByteArray &o)
 {
-	int i;
-	int mSize = o.getSize() > getSize() ? getSize() : o.getSize();
-
 	try
 	{
-		for(i = 0; i < mSize; ++i)
+		std::size_t mSize =
+		        o.getSize() > getSize() ? getSize() : o.getSize();
+		for(std::size_t i = 0; i < mSize; ++i)
 			at(i) ^= o.at(i);
 	}
 	catch(EOutOfBoundsException &e)
@@ -865,22 +837,18 @@ void EByteArray::bitwiseXor(const EByteArray &o)
 
 /*!
  * This function is similar to the other implementation of bitwiseAnd(), except
- *it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical AND operation,
- *starting with the byte at the given left-shift
- * offset.
+ * it takes a 32-bit unsigned integer instead of a second bitstring. It does
+ * the same byte-by-byte logical AND operation, starting with the byte at the
+ * given left-shift offset.
  *
  * \param v The integer with which we will perform a logical AND.
- * \param lS The number of BYTES to left-shift the value before performing the
- *operation.
+ * \param lS The number of BYTES to left-shift the value before and'ing.
  */
-void EByteArray::bitwiseAnd(uint32_t v, int lS)
+void EByteArray::bitwiseAnd(uint32_t v, std::size_t lS)
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < 4; i++)
+		for(std::size_t i = 0; i < 4; i++)
 		{
 			at(lS++) &= static_cast<byte>(v);
 			v >>= 8;
@@ -898,22 +866,18 @@ void EByteArray::bitwiseAnd(uint32_t v, int lS)
 
 /*!
  * This function is similar to the other implementation of bitwiseOr(), except
- *it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical OR operation,
- *starting with the byte at the given left-shift
- * offset.
+ * it takes a 32-bit unsigned integer instead of a second bitstring. It does
+ * the same byte-by-byte logical OR operation, starting with the byte at the
+ * given left-shift offset.
  *
  * \param v The integer with which we will perform a logical OR.
- * \param lS The number of BYTES to left-shift the value before performing the
- *operation.
+ * \param lS The number of BYTES to left-shift the value before or'ing.
  */
-void EByteArray::bitwiseOr(uint32_t v, int lS)
+void EByteArray::bitwiseOr(uint32_t v, std::size_t lS)
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < 4; i++)
+		for(std::size_t i = 0; i < 4; i++)
 		{
 			at(lS++) |= static_cast<byte>(v);
 			v >>= 8;
@@ -931,22 +895,18 @@ void EByteArray::bitwiseOr(uint32_t v, int lS)
 
 /*!
  * This function is similar to the other implementation of bitwiseXor(), except
- *that it takes a 32-bit unsigned integer instead
- * of a second bitstring. It does the same byte-by-byte logical XOR operation,
- *starting with the byte at the given left-shift
- * offset.
+ * that it takes a 32-bit unsigned integer instead of a second bitstring. It
+ * does the same byte-by-byte logical XOR operation, starting with the byte at
+ * the given left-shift offset.
  *
  * \param v The integer with which we will perform a logical XOR.
- * \param lS The number of BYTES to left-shift the value before performing the
- *operation.
+ * \param lS The number of BYTES to left-shift the value before xor'ing.
  */
-void EByteArray::bitwiseXor(uint32_t v, int lS)
+void EByteArray::bitwiseXor(uint32_t v, std::size_t lS)
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < 4; i++)
+		for(std::size_t i = 0; i < 4; i++)
 		{
 			at(lS++) ^= static_cast<byte>(v);
 			v >>= 8;
@@ -964,18 +924,17 @@ void EByteArray::bitwiseXor(uint32_t v, int lS)
 
 /*!
  * This function provides our class with a three-way-compare function against
- *another byte array.
- * This function returns -1 if this < o, 0 if this == o, and 1 if this > o.
+ * another byte array. This function returns -1 if this < o, 0 if this == o,
+ * and 1 if this > o.
  *
  * \param o The byte array to compare ourself to.
- * \return A number representing the comparison between this array and the
- *other.
+ * \return The comparison between this array and the other.
  */
 int EByteArray::compare(const EByteArray &o) const
 {
 	try
 	{
-		for(int i = 0; i < getSize(); ++i)
+		for(std::size_t i = 0; i < getSize(); ++i)
 		{
 			if(at(i) < o.at(i))
 				return -1;
@@ -1004,49 +963,46 @@ int EByteArray::compare(const EByteArray &o) const
  * \param bi The bit offset of the desired bit, relative to the byte.
  * \return The absolute bit offset of the given byte/bit offset.
  */
-int EByteArray::bitOffset(int by, int bi) const
+std::size_t EByteArray::bitOffset(std::size_t by, std::size_t bi) const
 {
 	return ((by * 8) + bi);
 }
 
 /*!
  * This is a utility function, which returns the BYTE offset the given BIT
- *OFFSET lies in.
+ * OFFSET lies in.
  *
  * \param i The offset of a BIT.
  * \return The offset of the BYTE the specified BIT is in.
  */
-int EByteArray::byteOffset(int i) const
+std::size_t EByteArray::byteOffset(std::size_t i) const
 {
 	return (i / 8);
 }
 
 /*!
  * This is a utility function, which returns the RELATIVE bit offset of the
- *given ABSOLUTE
- * bit offset.
+ * given ABSOLUTE bit offset.
  *
  * \param i The ABSOLUTE offset of a bit.
  * \return The offset of the bit relative to the beginning of the byte it is in.
  */
-int EByteArray::relativeBitOffset(int i) const
+std::size_t EByteArray::relativeBitOffset(std::size_t i) const
 {
 	return (i % 8);
 }
 
 /*!
  * This is a utility function, which checks whether our bitstring has AT LEAST
- *one "1" bit in it.
+ * one "1" bit in it.
  *
  * \return True if we have at least one bit set, or false otherwise.
  */
 bool EByteArray::hasBitsSet() const
 {
-	int i;
-
 	try
 	{
-		for(i = 0; i < getSize(); i++)
+		for(std::size_t i = 0; i < getSize(); i++)
 			if(at(i) > 0)
 				return true;
 	}

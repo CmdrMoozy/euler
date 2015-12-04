@@ -20,11 +20,12 @@
 #ifndef INCLUDE_LIBEULER_UTIL_ARRAY_UTILITIES_H
 #define INCLUDE_LIBEULER_UTIL_ARRAY_UTILITIES_H
 
-#include <set>
 #include <algorithm>
+#include <cstddef>
 #include <cstdlib>
-#include <vector>
 #include <iterator>
+#include <set>
+#include <vector>
 
 #ifdef LIBEULER_DEBUG
 #include <iostream>
@@ -57,7 +58,7 @@ public:
 			success = true;
 
 			bool rVal;
-			int i;
+			std::size_t i;
 
 			// getPowerSet
 
@@ -193,12 +194,14 @@ public:
 				bI = EArrayUtilities::binarySearch<int>(b, 0, 9,
 				                                        b[i]);
 
-				EASSERT(aI == i)
-				EASSERT(bI == i)
+				EASSERT(aI == static_cast<int>(i))
+				EASSERT(bI == static_cast<int>(i))
 
-				aI = EArrayUtilities::search<int>(a, 10, i);
-				bI = EArrayUtilities::binarySearch<int>(b, 0, 9,
-				                                        i);
+				aI = static_cast<int>(
+				        EArrayUtilities::search<int>(
+				                a, 10, static_cast<int>(i)));
+				bI = EArrayUtilities::binarySearch<int>(
+				        b, 0, 9, static_cast<int>(i));
 
 				EASSERT(aI == -1)
 				EASSERT(bI == -1)
@@ -259,10 +262,8 @@ public:
 			delete[] b;
 			a = b = NULL;
 		}
-		catch(EAssertionException &e)
+		catch(EAssertionException &)
 		{
-			ELUNUSED(e)
-
 			if(a != NULL)
 				delete[] a;
 			if(b != NULL)
@@ -407,13 +408,11 @@ public:
 	 * \param l The length of the original array.
 	 * \return Your new, duplicated array.
 	 */
-	template <typename T> static T *copy(const T *a, int l)
+	template <typename T> static T *copy(const T *a, std::size_t l)
 	{
-		int i;
-
 		T *n = new T[l];
 
-		for(i = 0; i < l; ++i)
+		for(std::size_t i = 0; i < l; ++i)
 			n[i] = a[i];
 
 		return n;
@@ -431,10 +430,9 @@ public:
 	 * \param l The length of both arrays.
 	 * \return True if the arrays are equal, or false otherwise.
 	 */
-	template <typename T> static bool equal(const T *a, const T *b, int l)
+	template <typename T>
+	static bool equal(const T *a, const T *b, std::size_t l)
 	{
-		int i;
-
 		// Handle NULL arrays.
 		if((a == NULL) && (b == NULL))
 			return true;
@@ -443,7 +441,7 @@ public:
 
 		// Just check each element in order until we find one that isn't
 		// equal.
-		for(i = 0; i < l; ++i)
+		for(std::size_t i = 0; i < l; ++i)
 			if(a[i] != b[i])
 				return false;
 
@@ -464,7 +462,7 @@ public:
 	 * \param l The length of both arrays.
 	 */
 	template <typename T>
-	static bool equalUnsorted(const T *a, const T *b, int l)
+	static bool equalUnsorted(const T *a, const T *b, std::size_t l)
 	{
 		bool r;
 		T *aC, *bC;
@@ -499,17 +497,16 @@ public:
 	 * \param p Whether or not to preserve existing data.
 	 */
 	template <typename T>
-	static void resize(T *&a, int l, int nL, bool p = true)
+	static void resize(T *&a, std::size_t l, std::size_t nL, bool p = true)
 	{
-		int i;
-
-		nL = (nL < 0) ? 0 : nL;
 		if(l == nL)
+			return;
+		if(nL == 0)
 			return;
 
 		T *n = new T[nL];
 
-		for(i = 0; i < nL; ++i)
+		for(std::size_t i = 0; i < nL; ++i)
 		{
 			if(p && (a != NULL) && (i < l) && (i < nL))
 				n[i] = a[i];
@@ -529,8 +526,10 @@ public:
 	 * \param a The array to sort.
 	 * \param l The length of the array to sort.
 	 */
-	template <typename T> static void sortAscending(T *a, int l)
+	template <typename T> static void sortAscending(T *a, std::size_t l)
 	{
+		if(l == 0)
+			return;
 		quicksortAsc<T>(a, 0, l - 1);
 	}
 
@@ -541,8 +540,10 @@ public:
 	 * \param a The array to sort.
 	 * \param l The length of the array to sort.
 	 */
-	template <typename T> static void sortDescending(T *a, int l)
+	template <typename T> static void sortDescending(T *a, std::size_t l)
 	{
+		if(l == 0)
+			return;
 		quicksortDesc<T>(a, 0, l - 1);
 	}
 
@@ -554,7 +555,8 @@ public:
 	 * \param l The left index.
 	 * \param r The right index.
 	 */
-	template <typename T> static void reverse(T *a, int l, int r)
+	template <typename T>
+	static void reverse(T *a, std::size_t l, std::size_t r)
 	{
 		T hold;
 		while(l < r)
@@ -576,16 +578,15 @@ public:
 	 * \return The index of the first instance of the needle, or -1 if it
 	 *wasn't found.
 	 */
-	template <typename T> static int search(const T *a, int l, const T &n)
+	template <typename T>
+	static int search(const T *a, std::size_t l, const T &n)
 	{
-		int i;
-
 		if(a == NULL)
 			return -1;
 
-		for(i = 0; i < l; ++i)
+		for(std::size_t i = 0; i < l; ++i)
 			if(a[i] == n)
-				return i;
+				return static_cast<int>(i);
 
 		return -1;
 	}
@@ -635,9 +636,8 @@ public:
 	 * \param l The length of the array.
 	 * \return True if the array is totally unique, or false otherwise.
 	 */
-	template <typename T> static bool isUnique(const T *a, int l)
+	template <typename T> static bool isUnique(const T *a, std::size_t l)
 	{
-		int i;
 		T *s;
 
 		if(a == NULL)
@@ -650,7 +650,7 @@ public:
 		s = copy<T>(a, l);
 		sortAscending<T>(s, l);
 
-		for(i = 0; i < (l - 1); ++i)
+		for(std::size_t i = 0; i < (l - 1); ++i)
 		{
 			if(s[i] == s[i + 1])
 			{
@@ -670,9 +670,10 @@ public:
 	 * \param l The length of the array.
 	 * \return The resulting size of our array.
 	 */
-	template <typename T> static int makeUnique(T *&a, int l)
+	template <typename T>
+	static std::size_t makeUnique(T *&a, std::size_t l)
 	{
-		int i, j, n;
+		std::size_t i, j, n;
 		T *tmp;
 
 		if(a == NULL)
@@ -721,8 +722,12 @@ public:
 	 * \return True if there are more permutations, or false if this is the
 	 *last one.
 	 */
-	template <typename T> static bool permutate(T *a, int s)
+	template <typename T> static bool permutate(T *a, std::size_t s)
 	{
+		// Arrays of size 0 or 1 have no permutations.
+		if(s < 2)
+			return false;
+
 		T hold;
 		int k, l, i;
 
@@ -736,9 +741,10 @@ public:
 		 */
 
 		k = -1;
-		for(i = (s - 2); i >= 0; --i)
+		for(i = static_cast<int>(s - 2); i >= 0; --i)
 		{
-			if(a[i] < a[i + 1])
+			if(a[static_cast<std::size_t>(i)] <
+			   a[static_cast<std::size_t>(i + 1)])
 			{
 				k = i;
 				break;
@@ -755,7 +761,7 @@ public:
 		 */
 
 		l = -1;
-		for(i = (s - 1); k < i; --i)
+		for(i = static_cast<int>(s - 1); k < i; --i)
 		{
 			if(a[k] < a[i])
 			{
@@ -780,7 +786,7 @@ public:
 		 * including the final element a[n].
 		 */
 
-		reverse<T>(a, k + 1, s - 1);
+		reverse<T>(a, static_cast<std::size_t>(k + 1), s - 1);
 
 		return true;
 	}
@@ -795,7 +801,7 @@ public:
 	 * \return True if there are more permutations, or false if this is the
 	 *last one.
 	 */
-	template <typename T> static bool reversePermutate(T *a, int s)
+	template <typename T> static bool reversePermutate(T *a, std::size_t s)
 	{
 		T hold;
 		int k, l, i;
@@ -810,7 +816,7 @@ public:
 		 */
 
 		k = -1;
-		for(i = (s - 2); i >= 0; --i)
+		for(i = static_cast<int>(s - 2); i >= 0; --i)
 		{
 			if(a[i] > a[i + 1])
 			{
@@ -829,7 +835,7 @@ public:
 		 */
 
 		l = -1;
-		for(i = (s - 1); k < i; --i)
+		for(i = static_cast<int>(s - 1); k < i; --i)
 		{
 			if(a[k] > a[i])
 			{
@@ -854,7 +860,7 @@ public:
 		 * including the final element a[n].
 		 */
 
-		reverse<T>(a, k + 1, s - 1);
+		reverse<T>(a, static_cast<std::size_t>(k + 1), s - 1);
 
 		return true;
 	}
@@ -867,18 +873,19 @@ private:
 	 * \param l The left index.
 	 * \param r The right index.
 	 */
-	template <typename T> static void quicksortAsc(T *a, int l, int r)
+	template <typename T>
+	static void quicksortAsc(T *a, std::size_t l, std::size_t r)
 	{
 		T pivot, hold;
-		int i, j;
+		std::size_t i, j;
 
 		/*
-		 * Choose a pivot value. In this case, we just select the value
-		 * in the center-ish of our
-		 * array, but this could in theory be chosen a bit more
+		 * Choose a pivot value. In this case, we just use the left-most
+		 * value as a
+		 * pivot, but this could in theory be chosen a bit more
 		 * intelligently.
 		 */
-		pivot = a[(l + r) / 2];
+		pivot = a[l];
 
 		// Initialize our loop indices...
 		i = l;
@@ -894,7 +901,7 @@ private:
 				++i;
 
 			// Move left until we find a value that is <= our pivot.
-			while(a[j] > pivot)
+			while((a[j] > pivot) && (j > 0))
 				--j;
 
 			// If our left index is still left of our right index,
@@ -911,7 +918,8 @@ private:
 			if(i <= j)
 			{
 				++i;
-				--j;
+				if(j > 0)
+					--j;
 			}
 		}
 
@@ -931,10 +939,11 @@ private:
 	 * \param l The left index.
 	 * \param r The right index.
 	 */
-	template <typename T> static void quicksortDesc(T *a, int l, int r)
+	template <typename T>
+	static void quicksortDesc(T *a, std::size_t l, std::size_t r)
 	{
 		T pivot, hold;
-		int i, j;
+		std::size_t i, j;
 
 		/*
 		 * Choose a pivot value. In this case, we just select the value
@@ -942,7 +951,7 @@ private:
 		 * array, but this could in theory be chosen a bit more
 		 * intelligently.
 		 */
-		pivot = a[(l + r) / 2];
+		pivot = a[l];
 
 		// Initialize our loop indices...
 		i = l;
@@ -958,7 +967,7 @@ private:
 				++i;
 
 			// Move left until we find a value that is >= our pivot.
-			while(a[j] < pivot)
+			while((a[j] < pivot) && (j > 0))
 				--j;
 
 			// If our left index is still left of our right index,
@@ -975,7 +984,8 @@ private:
 			if(i <= j)
 			{
 				++i;
-				--j;
+				if(j > 0)
+					--j;
 			}
 		}
 

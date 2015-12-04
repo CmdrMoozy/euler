@@ -18,11 +18,11 @@
 
 #include "EString.h"
 
-#include <sstream>
 #include <algorithm>
 #include <cctype>
 #include <functional>
 #include <locale>
+#include <sstream>
 
 /*!
  * This is a very simple function which splits the given string into a vector of
@@ -107,15 +107,11 @@ std::string &EString::trim(std::string &s)
  */
 std::string &EString::strtolower(std::string &s)
 {
-	struct lower
-	{
-		void operator()(char &c)
-		{
-			c = tolower((unsigned char)c);
-		}
-	};
-
-	std::for_each(s.begin(), s.end(), lower());
+	std::locale locale;
+	std::transform(s.begin(), s.end(), s.begin(), [&](char const &c) -> char
+	               {
+		               return std::tolower(c, locale);
+		       });
 	return s;
 }
 
@@ -131,14 +127,10 @@ std::string &EString::strtolower(std::string &s)
  */
 std::string &EString::strtoupper(std::string &s)
 {
-	struct upper
-	{
-		void operator()(char &c)
-		{
-			c = toupper((unsigned char)c);
-		}
-	};
-
-	std::for_each(s.begin(), s.end(), upper());
+	std::locale locale;
+	std::transform(s.begin(), s.end(), s.begin(), [&](char const &c) -> char
+	               {
+		               return std::toupper(c, locale);
+		       });
 	return s;
 }

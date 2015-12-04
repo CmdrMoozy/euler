@@ -73,9 +73,8 @@ void EDate::doTestSuite()
 
 		EASSERT(s == 171)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -101,31 +100,18 @@ std::string EDate::dayOfWeekToString(EDate::DayOfWeek d)
 	{
 	case EDate::Sunday:
 		return "Sunday";
-		break;
-
 	case EDate::Monday:
 		return "Monday";
-		break;
-
 	case EDate::Tuesday:
 		return "Tuesday";
-		break;
-
 	case EDate::Wednesday:
 		return "Wednesday";
-		break;
-
 	case EDate::Thursday:
 		return "Thursday";
-		break;
-
 	case EDate::Friday:
 		return "Friday";
-		break;
-
 	case EDate::Saturday:
 		return "Saturday";
-		break;
 	};
 
 	return "";
@@ -153,18 +139,15 @@ int EDate::getDaysInMonth(int m, int y)
 	case 9:
 	case 11:
 		return 30;
-		break;
 
 	case 2:
 		switch(EDate::getDaysInYear(y))
 		{
 		case 365:
 			return 28;
-			break;
 
 		case 366:
 			return 29;
-			break;
 		};
 		break;
 	};

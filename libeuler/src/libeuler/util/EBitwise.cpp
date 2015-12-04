@@ -93,7 +93,8 @@ void EBitwise::doTestSuite()
 			for(s = 1; s < 32; ++s)
 			{
 				d = (1 << s);
-				m = EBitwise::modPowTwo(n, s);
+				m = EBitwise::modPowTwo(
+				        n, static_cast<unsigned int>(s));
 
 				EASSERT(m == (n % d))
 			}
@@ -106,7 +107,8 @@ void EBitwise::doTestSuite()
 			for(s = 1; s < 32; ++s)
 			{
 				d = (static_cast<uint64_t>(1) << s) - 1;
-				m = EBitwise::modPowTwoLessOne(n, s);
+				m = EBitwise::modPowTwoLessOne(
+				        n, static_cast<unsigned int>(s));
 
 				EASSERT(m == (n % d))
 			}
@@ -140,9 +142,8 @@ void EBitwise::doTestSuite()
 		EASSERT(EBitwise::opop(0xdb429b79d2202490) == 27)
 		EASSERT(EBitwise::opop(0xef557b1deeec95c3) == 40)
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
-		ELUNUSED(e)
 		success = false;
 	}
 
@@ -195,12 +196,12 @@ uint32_t EBitwise::lg(uint32_t v)
 
 uint32_t EBitwise::lg32(uint32_t v)
 {
-	return 31 - EBitwise::nlz32(v);
+	return 31 - static_cast<uint32_t>(EBitwise::nlz32(v));
 }
 
 uint32_t EBitwise::lg64(uint64_t v)
 {
-	return 63 - EBitwise::nlz64(v);
+	return 63 - static_cast<uint32_t>(EBitwise::nlz64(v));
 }
 
 /*!
@@ -561,7 +562,7 @@ int EBitwise::opop(uint64_t x)
 	x = (x & 0x00FF00FF00FF00FF) + ((x >> 8) & 0x00FF00FF00FF00FF);
 	x = (x & 0x0000FFFF0000FFFF) + ((x >> 16) & 0x0000FFFF0000FFFF);
 	x = (x & 0x00000000FFFFFFFF) + ((x >> 32) & 0x00000000FFFFFFFF);
-	return x;
+	return static_cast<int>(x);
 }
 
 /*!
@@ -589,7 +590,7 @@ int EBitwise::nlz32(uint32_t x)
 		c >>= 1;
 	} while(c != 0);
 
-	return static_cast<int>(n - x);
+	return n - static_cast<int>(x);
 }
 
 /*!
@@ -600,7 +601,7 @@ int EBitwise::nlz32(uint32_t x)
  */
 int EBitwise::nlz64(uint64_t x)
 {
-	uint32_t y;
+	uint64_t y;
 	int n, c;
 
 	n = 64;
@@ -617,5 +618,5 @@ int EBitwise::nlz64(uint64_t x)
 		c >>= 1;
 	} while(c != 0);
 
-	return static_cast<int>(n - x);
+	return n - static_cast<int>(x);
 }

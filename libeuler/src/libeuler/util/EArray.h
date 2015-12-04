@@ -48,7 +48,7 @@ public:
 	static void doTestSuite()
 	{
 		bool success;
-		int i;
+		std::size_t i;
 
 		std::cout << "\tTesting 'EArray'...\t\t\t";
 		try
@@ -184,9 +184,8 @@ public:
 			EASSERT(a.at(1) == 3)
 			EASSERT(a.at(2) == 2)
 		}
-		catch(EAssertionException &e)
+		catch(EAssertionException &)
 		{
-			ELUNUSED(e)
 			success = false;
 		}
 		catch(EOutOfBoundsException &e)
@@ -210,7 +209,7 @@ public:
 	 * \param s The initial size of our array.
 	 * \param a The initial data of our array.
 	 */
-	EArray(int s = 0, const T *a = NULL) : array(NULL), size(0)
+	EArray(std::size_t s = 0, const T *a = NULL) : array(NULL), size(0)
 	{
 		if(a != NULL)
 		{
@@ -282,7 +281,7 @@ public:
 	 *
 	 * \return The current size of our object.
 	 */
-	int getSize() const
+	std::size_t getSize() const
 	{
 		return size;
 	}
@@ -294,10 +293,8 @@ public:
 	 * \param s The new size of our object.
 	 * \param p True if you want data preserved, or false otherwise.
 	 */
-	void setSize(int s, bool p = true)
+	void setSize(std::size_t s, bool p = true)
 	{
-		s = (s < 0) ? 0 : s;
-
 		EArrayUtilities::resize<T>(array, getSize(), s, p);
 		size = s;
 	}
@@ -308,15 +305,15 @@ public:
 	 * array.
 	 *
 	 * \param i The index of the desired element.
-	 * \exception EOutOfBoundsException This exception is thrown if the
-	 *given index is out-of-bounds.
 	 * \return A reference to the element at the given index.
 	 */
-	T &at(int i) const throw(EOutOfBoundsException &)
+	T &at(std::size_t i) const
 	{
-		if((i < 0) || (i >= getSize()))
+		if(i >= getSize())
+		{
 			throw EOutOfBoundsException(
 			        "Array index is out-of-bounds.");
+		}
 
 		return array[i];
 	}
@@ -328,10 +325,8 @@ public:
 	 *
 	 * \param i The index of the desired element.
 	 * \param v The new value for the given element.
-	 * \exception EOutOfBoundsException This exception is thrown if the
-	 *given index is out-of-bounds.
 	 */
-	void set(int i, const T &v) throw(EOutOfBoundsException &)
+	void set(std::size_t i, const T &v)
 	{
 		at(i) = v;
 	}
@@ -363,9 +358,14 @@ public:
 	 */
 	int binarySearch(const T &n, int l = 0, int r = -1) const
 	{
+		if(getSize() == 0)
+			return -1;
+
 		l = (l < 0) ? 0 : l;
-		r = (r == -1) ? (getSize() - 1) : r;
-		r = (r >= getSize()) ? (getSize() - 1) : r;
+		r = (r == -1) ? static_cast<int>(getSize() - 1) : r;
+		r = (r >= static_cast<int>(getSize()))
+		            ? static_cast<int>(getSize() - 1)
+		            : r;
 
 		if(r < l)
 		{
@@ -457,12 +457,14 @@ public:
 	 */
 	void reverse(int l = 0, int r = -1)
 	{
-		if((l < 0) || (l >= getSize()))
+		if(getSize() == 0)
+			return;
+		if((l < 0) || (l >= static_cast<int>(getSize())))
 			l = 0;
 		if(r == -1)
-			r = (getSize() - 1);
-		if(r >= getSize())
-			r = (getSize() - 1);
+			r = static_cast<int>(getSize() - 1);
+		if(r >= static_cast<int>(getSize()))
+			r = static_cast<int>(getSize() - 1);
 
 		if(r < l)
 		{
@@ -471,7 +473,8 @@ public:
 			r = hold;
 		}
 
-		EArrayUtilities::reverse<T>(array, l, r);
+		EArrayUtilities::reverse<T>(array, static_cast<std::size_t>(l),
+		                            static_cast<std::size_t>(r));
 	}
 
 	/*!
@@ -510,7 +513,7 @@ public:
 
 private:
 	T *array;
-	int size;
+	std::size_t size;
 };
 
 #endif

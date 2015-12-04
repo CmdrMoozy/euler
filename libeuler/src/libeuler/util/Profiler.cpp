@@ -59,7 +59,7 @@ void Profiler::doTestSuite()
 		double lt = std::abs(10.0 - p.getElapsed());
 		EASSERT(lt < 0.1);
 	}
-	catch(EAssertionException &e)
+	catch(EAssertionException &)
 	{
 		success = false;
 	}
