@@ -6,6 +6,7 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(CMAKE_MODULE_PATH
 
+	${PROJECT_SOURCE_DIR}/3rdparty/cmu/cmake/modules
 	${PROJECT_SOURCE_DIR}/cmake
 	${PROJECT_SOURCE_DIR}/vrfy/CMake
 
@@ -32,8 +33,8 @@ find_package(PCRE REQUIRED)
 
 # Setup our compile flags.
 
-include(${CMAKE_SOURCE_DIR}/cmake/SetFlags.cmake)
-eulerSetCompileFlags()
+include(${CMAKE_SOURCE_DIR}/3rdparty/cmu/cmake/SetFlags.cmake)
+cmuSetCompileFlags()
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_definitions(-DLIBEULER_DEBUG)
