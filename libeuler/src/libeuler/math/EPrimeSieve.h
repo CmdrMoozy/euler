@@ -32,10 +32,6 @@
 class EPrimeSieve
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	EPrimeSieve(uint32_t l = 0);
 	virtual ~EPrimeSieve();
 

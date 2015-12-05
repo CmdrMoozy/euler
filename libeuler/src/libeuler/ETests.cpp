@@ -25,7 +25,6 @@
 #include "libeuler/geodesy/EGeoCoord.h"
 #include "libeuler/math/EFactorization.h"
 #include "libeuler/math/EMath.h"
-#include "libeuler/math/EPrimeSieve.h"
 #include "libeuler/util/EArray.h"
 #include "libeuler/util/EArrayUtilities.h"
 #include "libeuler/util/EBitwise.h"
@@ -53,7 +52,6 @@ int main(void)
 	EGeoCoord::doTestSuite();
 	EFactorization::doTestSuite();
 	EMath::doTestSuite();
-	EPrimeSieve::doTestSuite();
 	EArray<int>::doTestSuite();
 	EArrayUtilities::doTestSuite();
 	EBitwise::doTestSuite();

@@ -4,6 +4,7 @@ set(euler-test_SOURCES
 
 	graph/GraphTest.cpp
 
+	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp
 
 	types/EDigitIntegerTest.cpp

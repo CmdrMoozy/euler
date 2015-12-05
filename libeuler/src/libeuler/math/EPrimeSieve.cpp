@@ -18,58 +18,9 @@
 
 #include "EPrimeSieve.h"
 
+#include "libeuler/EDefines.h"
 #include "libeuler/math/EMath.h"
 #include "libeuler/util/EByteArray.h"
-#include "libeuler/EDefines.h"
-
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-
-#include "libeuler/math/EMath.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EPrimeSieve::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EPrimeSieve'...\t\t";
-	try
-	{
-		success = true;
-
-		EPrimeSieve s(1000000);
-		uint32_t i;
-
-		for(i = 0; i <= 1000000; ++i)
-		{
-			if(EMath::isPrime_UI(i, 50))
-			{
-				EASSERT(s.contains(i))
-			}
-			else
-			{
-				EASSERT(!s.contains(i))
-			}
-		}
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
 
 /*!
  * This is our default constructor, which initializes a new EPrimeSieve object
