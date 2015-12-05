@@ -6,6 +6,8 @@ set(euler-test_SOURCES
 
 	math/MathTest.cpp
 
+	types/EDigitIntegerTest.cpp
+
 )
 
 add_executable(euler-test ${euler-test_SOURCES})
