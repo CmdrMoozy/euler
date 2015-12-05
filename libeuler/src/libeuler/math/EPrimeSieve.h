@@ -43,7 +43,7 @@ public:
 	bool contains(uint32_t i) const;
 	bool erase(uint32_t i);
 
-	std::set<uint32_t>::iterator find(uint32_t n);
+	std::set<uint32_t>::const_iterator find(uint32_t n) const;
 
 	std::set<uint32_t>::iterator begin();
 	std::set<uint32_t>::const_iterator begin() const;

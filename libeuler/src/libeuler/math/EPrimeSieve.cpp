@@ -106,7 +106,7 @@ bool EPrimeSieve::erase(uint32_t i)
  * \return An iterator to the number in the sieve, of set::end if it is not
  *found.
  */
-std::set<uint32_t>::iterator EPrimeSieve::find(uint32_t n)
+std::set<uint32_t>::const_iterator EPrimeSieve::find(uint32_t n) const
 {
 	return primes.find(n);
 }

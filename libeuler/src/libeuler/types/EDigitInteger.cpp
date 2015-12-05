@@ -858,8 +858,10 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 		while(vc > 0)
 		{
 			m = (vc % 10);
-			volatileSetDigitAt(i++, static_cast<int>(m.get_ui()));
+			volatileSetDigitAt(i, static_cast<int>(m.get_ui()));
+			assert(get(i) == static_cast<int>(m.get_ui()));
 			vc /= 10;
+			++i;
 		}
 
 		// Ditch any leading zeros we may have picked up.
@@ -2234,27 +2236,26 @@ bool EDigitInteger::reverseDigits(std::size_t l, std::size_t r)
  */
 uint64_t EDigitInteger::rangeToInteger(std::size_t l, std::size_t r) const
 {
-	uint64_t ret = 0;
-
+	if(digitCount() < 1)
+		return 0;
 	if(r < l)
 		std::swap(l, r);
 	if(r >= digitCount())
 		throw EOutOfBoundsException("Range is out-of-bounds.");
 
+	uint64_t ret = 0;
 	for(std::size_t offFromEnd = 0; offFromEnd <= (r - l); ++offFromEnd)
 	{
 		std::size_t idx = r - offFromEnd;
 		ret *= 10;
 		ret += static_cast<uint64_t>(get(idx));
 	}
-
 	return ret;
 }
 
 /*!
  * This is a convenience function, which is equivalent to running
- *rangeToInteger() on our entire
- * number.
+ * rangeToInteger() on our entire number.
  *
  * \return Our entire number, represented as a 64-bit unsigned integer.
  */
@@ -2265,8 +2266,8 @@ uint64_t EDigitInteger::toInteger() const
 
 /*!
  * This function returns a certain range in our number as a GMP big integer.
- *Note that if the
- * range specified contains leading zeros they will simply be discarded.
+ * Note that if the range specified contains leading zeros they will simply be
+ * discarded.
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
@@ -2293,8 +2294,7 @@ mpz_class EDigitInteger::rangeToBigInteger(std::size_t l, std::size_t r) const
 
 /*!
  * This is a convenience function, which is equivalent to running
- *rangeToBigInteger() on our entire
- * number.
+ * rangeToBigInteger() on our entire number.
  *
  * \return Our entire number, represented as a GMP big integer object.
  */
@@ -2305,12 +2305,10 @@ mpz_class EDigitInteger::toBigInteger() const
 
 /*!
  * This function returns a certain range in our number as a string. Note that if
- *the range specified
- * contains leading zeros they will simply be discarded. Note that since this
- *function is returning just
- * a portion of our string, it doesn't bother prepending a sign character. If
- *you want that, you should
- * call toString() which will, or do it yourself.
+ * the range specified contains leading zeros they will simply be discarded.
+ * Note that since this function is returning just a portion of our string, it
+ * doesn't bother prepending a sign character. If you want that, you should call
+ * toString() which will, or do it yourself.
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
@@ -2368,7 +2366,11 @@ bool EDigitInteger::volatileSetDigitAt(std::size_t i, int v)
 		digits.insert(std::make_pair(idx, 0));
 
 	// Actually insert the new value.
-	return digits.insert(std::make_pair(i, v)).second;
+	auto result = digits.insert(std::make_pair(i, v));
+	if(!result.second)
+		result.first->second = v;
+	assert(get(i) == v);
+	return result.second;
 }
 
 /*!
@@ -2400,7 +2402,9 @@ bool EDigitInteger::removeLeadingZeros()
 				erase(idx);
 			}
 			else
+			{
 				break;
+			}
 		}
 	}
 	catch(EOutOfBoundsException &)
