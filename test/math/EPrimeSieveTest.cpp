@@ -25,7 +25,7 @@
 
 TEST_CASE("Verify prime number sieve functionality", "[EPrimeSieve]")
 {
-	constexpr uint32_t SIEVE_LIMIT = 1000000;
+	constexpr uint32_t SIEVE_LIMIT = 10000;
 	constexpr int PRIME_TEST_PRECISION = 50;
 
 	EPrimeSieve s(SIEVE_LIMIT);
