@@ -66,10 +66,6 @@ std::ostream &operator<<(std::ostream &out, const EDigitInteger &i);
 class EDigitInteger
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	EDigitInteger();
 	EDigitInteger(EDigitInteger const &) = default;
 	EDigitInteger(EDigitInteger &&) = default;

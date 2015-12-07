@@ -33,7 +33,6 @@
 #include "libeuler/util/Profiler.h"
 #include "libeuler/structs/EGrid.h"
 #include "libeuler/types/EBigInteger.h"
-#include "libeuler/types/EDigitInteger.h"
 #include "libeuler/types/ERightTriangle.h"
 #include "libeuler/types/ETriangle.h"
 
@@ -60,7 +59,6 @@ int main(void)
 	euler::Profiler::doTestSuite();
 	EGrid<int>::doTestSuite();
 	EBigInteger::doTestSuite();
-	EDigitInteger::doTestSuite();
 	ERightTriangle::doTestSuite();
 	ETriangle::doTestSuite();
 }

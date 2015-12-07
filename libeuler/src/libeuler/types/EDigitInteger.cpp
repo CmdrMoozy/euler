@@ -38,624 +38,9 @@
 #include "libeuler/math/EMath.h"
 #endif
 
-#ifdef LIBEULER_DEBUG
-#include <cassert>
-
-#include "libeuler/util/EArray.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EDigitInteger::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EDigitInteger'...\t\t";
-	try
-	{
-		success = true;
-
-		uint64_t i;
-		int j, k;
-		EDigitInteger a, b, c;
-
-		// Test our various assignment operators and rangeTo* functions.
-
-		// Test our default constructor.
-		EASSERT(a.toInteger() == 0)
-		EASSERT(a.isPositive())
-		EASSERT(b.toInteger() == 0)
-		EASSERT(b.isPositive())
-		EASSERT(c.toInteger() == 0)
-		EASSERT(c.isPositive())
-
-		// Test our string assignment operator.
-
-		a = "+123456789";
-
-		EASSERT(a.isPositive())
-		EASSERT(a.toInteger() == 123456789)
-		EASSERT(a.toBigInteger() == 123456789)
-		EASSERT(a.toString() == "123456789")
-
-		a = "-12345";
-
-		EASSERT(!a.isPositive())
-		EASSERT(a.toInteger() == 12345)
-		EASSERT(a.toBigInteger() == 12345)
-		EASSERT(a.toString() == "-12345")
-
-		EASSERT(a.rangeToString(0, 3) == "2345")
-
-		a = "12345678910";
-
-		EASSERT(a.isPositive())
-		EASSERT(a.toInteger() == 12345678910)
-
-#ifndef _WIN32
-		EASSERT(a.toBigInteger() == 12345678910)
-#else
-		EASSERT(a.toBigInteger() ==
-		        EMath::int64ToBigInteger(12345678910))
-#endif
-
-		EASSERT(a.toString() == "12345678910")
-
-		// Test rangeTo* functions
-
-		EASSERT(a.rangeToInteger(0, 5) == 678910)
-		EASSERT(a.rangeToBigInteger(0, 5) == 678910)
-		EASSERT(a.rangeToString(0, 5) == "678910")
-
-		EASSERT(a.rangeToInteger(6, 9) == 2345)
-		EASSERT(a.rangeToBigInteger(6, 9) == 2345)
-		EASSERT(a.rangeToString(6, 9) == "2345")
-
-		// Test integer assignment operator.
-		a = static_cast<uint64_t>(1);
-		EASSERT(a.toInteger() == 1)
-
-		a = static_cast<uint64_t>(12345678910);
-		EASSERT(a.toInteger() == 12345678910)
-
-		a = static_cast<uint64_t>(123456);
-		EASSERT(a.toInteger() == 123456)
-
-		// Test big-integer assignment operator.
-		mpz_class bigint = 1278483892;
-		a = bigint;
-		EASSERT(a.toBigInteger() == bigint)
-
-		// Test copy constructor.
-
-		EDigitInteger copy(a);
-		EASSERT(a == copy)
-		EASSERT(a.toInteger() == copy.toInteger())
-
-		// Test unary negation operator.
-
-		b = -a;
-		EASSERT(b != a)
-		a.setPositive(false);
-		EASSERT(b == a)
-
-		// Test copy assignment operator.
-
-		a = "123456";
-		b = a;
-
-		EASSERT(a == b)
-		EASSERT(a.toInteger() == b.toInteger())
-
-		// Test post/pre-fix inc/de-crement operators.
-
-		for(i = 0, a = 0; i < 1000; ++i, ++a)
-			EASSERT(a.toInteger() == i)
-
-		for(i = 0, a = 0; i < 1000; ++i, a++)
-			EASSERT(a.toInteger() == i)
-
-		for(i = 1000, a = 1000; i > 0; --i, --a)
-			EASSERT(a.toInteger() == i)
-
-		for(i = 1000, a = 1000; i > 0; --i, a--)
-			EASSERT(a.toInteger() == i)
-
-		// Test our comparison operators.
-
-		srand(static_cast<unsigned int>(time(NULL)));
-		for(i = 0; i < 1000; ++i)
-		{
-			// Set a.
-			j = rand();
-			a = static_cast<uint64_t>(j);
-			if(j & 1)
-			{
-				j *= -1;
-				a.setPositive(false);
-				EASSERT(!a.isPositive())
-			}
-			else
-			{
-				EASSERT(a.isPositive())
-			}
-
-			// Set b.
-			k = rand();
-			b = static_cast<uint64_t>(k);
-			if(k & 1)
-			{
-				k *= -1;
-				b.setPositive(false);
-				EASSERT(!b.isPositive())
-			}
-			else
-			{
-				EASSERT(b.isPositive())
-			}
-
-			// ==
-			if(j == k)
-			{
-				EASSERT(a == b)
-			}
-			else
-			{
-				EASSERT(!(a == b))
-			}
-
-			// !=
-			if(j != k)
-			{
-				EASSERT(a != b)
-			}
-			else
-			{
-				EASSERT(!(a != b))
-			}
-
-			// <
-			if(j < k)
-			{
-				EASSERT(a < b)
-			}
-			else
-			{
-				EASSERT(!(a < b))
-			}
-
-			// >
-			if(j > k)
-			{
-				EASSERT(a > b)
-			}
-			else
-			{
-				EASSERT(!(a > b))
-			}
-
-			// <=
-			if(j <= k)
-			{
-				EASSERT(a <= b)
-			}
-			else
-			{
-				EASSERT(!(a <= b))
-			}
-
-			// >=
-			if(j >= k)
-			{
-				EASSERT(a >= b)
-			}
-			else
-			{
-				EASSERT(!(a >= b))
-			}
-		}
-
-		// Test our arithmetic operators (+, -, *, / and %).
-
-		// Addition
-
-		a = 123456;
-		a += EDigitInteger(123456);
-		EASSERT(a.toInteger() == 246912)
-		EASSERT(a.isPositive())
-
-		a = 1000;
-		a.setPositive(false);
-		a += EDigitInteger(1000000);
-		EASSERT(a.toInteger() == 999000)
-		EASSERT(a.isPositive())
-
-		a = 999;
-		b = 1999;
-		b.setPositive(false);
-		a += b;
-		EASSERT(a.toInteger() == 1000)
-		EASSERT(!a.isPositive())
-
-		// Subtraction
-
-		a = 12345;
-		a -= EDigitInteger(2345);
-		EASSERT(a.toInteger() == 10000)
-		EASSERT(a.isPositive())
-
-		a = 100;
-		a -= EDigitInteger(1000);
-		EASSERT(a.toInteger() == 900)
-		EASSERT(!a.isPositive())
-
-		a = 100;
-		b = 900;
-		b.setPositive(false);
-		a -= b;
-		EASSERT(a.toInteger() == 1000)
-		EASSERT(a.isPositive())
-
-		// Multiplication
-
-		a = 123;
-		a *= EDigitInteger(456);
-		EASSERT(a.toInteger() == 56088)
-		EASSERT(a.isPositive())
-
-		a = 999;
-		a.setPositive(false);
-		a *= EDigitInteger(0);
-		EASSERT(a.toInteger() == 0)
-		EASSERT(a.isPositive())
-
-		a = 983243;
-		a.setPositive(false);
-		a *= EDigitInteger(5);
-		EASSERT(a.toInteger() == 4916215)
-		EASSERT(!a.isPositive())
-
-		a = 321;
-		a.setPositive(false);
-		b = 987;
-		b.setPositive(false);
-		a *= b;
-		EASSERT(a.toInteger() == 316827)
-		EASSERT(a.isPositive())
-
-		// rightDigitalShift
-
-		a = 726398567;
-		a.rightDigitalShift(3);
-		EASSERT(a.toInteger() == 726398)
-		EASSERT(a.digitCount() == 6)
-		a.rightDigitalShift(1);
-		EASSERT(a.toInteger() == 72639)
-		EASSERT(a.digitCount() == 5)
-		a.rightDigitalShift(-2);
-		EASSERT(a.toInteger() == 7263900)
-		EASSERT(a.digitCount() == 7)
-		a.rightDigitalShift(0);
-		EASSERT(a.toInteger() == 7263900)
-		EASSERT(a.digitCount() == 7)
-		a.rightDigitalShift(10);
-		EASSERT(a.toInteger() == 0)
-		EASSERT(a.digitCount() == 1)
-
-		// rightDigitalRotate
-
-		a = 12437070894;
-		a.rightDigitalRotate(11);
-		EASSERT(a.toInteger() == 12437070894)
-		EASSERT(a.digitCount() == 11)
-		a.rightDigitalRotate(0);
-		EASSERT(a.toInteger() == 12437070894)
-		EASSERT(a.digitCount() == 11)
-		a.rightDigitalRotate(-3);
-		EASSERT(a.toInteger() == 37070894124)
-		EASSERT(a.digitCount() == 11)
-		a.rightDigitalRotate(5);
-		EASSERT(a.toInteger() == 94124370708)
-		EASSERT(a.digitCount() == 11)
-		a.rightDigitalRotate(1);
-		EASSERT(a.toInteger() == 89412437070)
-		EASSERT(a.digitCount() == 11)
-		a.rightDigitalRotate(1);
-		EASSERT(a.toInteger() == 8941243707)
-		EASSERT(a.digitCount() == 10)
-
-		// leftDigitalShift
-
-		a = 82736;
-		a.leftDigitalShift(3);
-		EASSERT(a.toInteger() == 82736000)
-		EASSERT(a.digitCount() == 8)
-		a.leftDigitalShift(-3);
-		EASSERT(a.toInteger() == 82736)
-		EASSERT(a.digitCount() == 5)
-		a.leftDigitalShift(1);
-		EASSERT(a.toInteger() == 827360)
-		EASSERT(a.digitCount() == 6)
-		a.leftDigitalShift(0);
-		EASSERT(a.toInteger() == 827360)
-		EASSERT(a.digitCount() == 6)
-		a.leftDigitalShift(5);
-		EASSERT(a.toInteger() == 82736000000)
-		EASSERT(a.digitCount() == 11)
-
-		// leftDigitalRotate
-
-		a = 17892372809;
-		a.leftDigitalRotate(-5);
-		EASSERT(a.toInteger() == 72809178923)
-		EASSERT(a.digitCount() == 11)
-		a.leftDigitalRotate(11);
-		EASSERT(a.toInteger() == 72809178923)
-		EASSERT(a.digitCount() == 11)
-		a.leftDigitalRotate(1);
-		EASSERT(a.toInteger() == 28091789237)
-		EASSERT(a.digitCount() == 11)
-		a.leftDigitalRotate(0);
-		EASSERT(a.toInteger() == 28091789237)
-		EASSERT(a.digitCount() == 11)
-		a.leftDigitalRotate(5);
-		EASSERT(a.toInteger() == 78923728091)
-		EASSERT(a.digitCount() == 11)
-		a.leftDigitalRotate(8);
-		EASSERT(a.toInteger() == 9178923728)
-		EASSERT(a.digitCount() == 10)
-
-		// Division
-
-		a = 1234;
-		a /= EDigitInteger(123);
-		EASSERT(a.toInteger() == 10)
-		EASSERT(a.isPositive())
-
-		a = 9999;
-		a /= EDigitInteger(1);
-		EASSERT(a.toInteger() == 9999)
-		EASSERT(a.isPositive())
-
-		a = 182374;
-		b = 2829;
-		b.setPositive(false);
-		a /= b;
-		EASSERT(a.toInteger() == 64)
-		EASSERT(!a.isPositive())
-
-		a = 321;
-		a.setPositive(false);
-		b = 123;
-		b.setPositive(false);
-		a /= b;
-		EASSERT(a.toInteger() == 2)
-		EASSERT(a.isPositive())
-
-		try
-		{
-			a = 100;
-			a /= EDigitInteger(0);
-			throw EAssertionException("Expected "
-			                          "EDivideByZeroException to "
-			                          "be thrown!");
-		}
-		catch(EDivideByZeroException &)
-		{
-		}
-
-		a = 31278;
-		a.setPositive(false);
-		b = 27;
-		b.setPositive(false);
-		a /= b;
-		EASSERT(a.toInteger() == 1158)
-		EASSERT(a.isPositive())
-
-		// Modulus Divison
-
-		a = 18937237;
-		b = 23;
-		a %= b;
-		EASSERT(a.toInteger() == 3)
-		EASSERT(a.isPositive())
-
-		a = 18937237;
-		a.setPositive(false);
-		b = 1;
-		a %= b;
-		EASSERT(a.toInteger() == 0)
-		EASSERT(a.isPositive())
-
-		try
-		{
-			a = 2787;
-			b = 0;
-			a %= b;
-			throw EAssertionException("Expected "
-			                          "EDivideByZeroException to "
-			                          "be thrown!");
-		}
-		catch(EDivideByZeroException &)
-		{
-		}
-
-		a = 27823;
-		b = 378;
-		b.setPositive(false);
-		a %= b;
-		EASSERT(a.toInteger() == 229)
-		EASSERT(a.isPositive())
-
-		a = 31278;
-		a.setPositive(false);
-		b = 27;
-		b.setPositive(false);
-		a %= b;
-		EASSERT(a.toInteger() == 12)
-		EASSERT(!a.isPositive())
-
-		// sumOfDigits
-
-		a = 2378274987;
-		EASSERT(a.sumOfDigits() == 57)
-
-		a = 2378274987;
-		a.setPositive(false);
-		EASSERT(a.sumOfDigits() == 57)
-
-		a = 2378274000;
-		EASSERT(a.sumOfDigits() == 33)
-
-		// isPalindrome
-
-		a = 237824782;
-		EASSERT(!a.isPalindrome())
-
-		a = 112232211;
-		EASSERT(a.isPalindrome())
-
-		a = 112232211;
-		a.setPositive(false);
-		EASSERT(a.isPalindrome())
-
-		// isPandigital
-
-		a = 12345;
-		a.setPositive(false);
-		EASSERT(a.isPandigital())
-
-		a = 1;
-		EASSERT(a.isPandigital())
-
-		a = 123456789;
-		EASSERT(a.isPandigital())
-
-		a = 1234567891;
-		EASSERT(!a.isPandigital())
-
-		a = 5;
-		EASSERT(!a.isPandigital())
-
-		// isDigitallyEquivalent
-
-		a = 12345;
-		b = 54312;
-		EASSERT(a.isDigitallyEquivalent(b))
-
-		a = 11;
-		b = 1;
-		EASSERT(!a.isDigitallyEquivalent(b))
-
-		a = 27837;
-		b = 37287;
-		a.setPositive(false);
-		EASSERT(a.isDigitallyEquivalent(b))
-
-		// reverseDigits
-
-		a = 2173843782;
-		a.reverseDigits();
-		EASSERT(a.toInteger() == 2873483712)
-
-		a = 10;
-		a.reverseDigits();
-		EASSERT(a.toInteger() == 1)
-
-		a = 2003;
-		a.setPositive(false);
-		a.reverseDigits();
-		EASSERT(a.toInteger() == 3002)
-		EASSERT(!a.isPositive())
-
-		a = 123456789;
-		a.reverseDigits(1, 7);
-		EASSERT(a.toInteger() == 187654329)
-
-		// permutateDigits
-
-		EArray<int> array(9);
-		a = 987654321;
-		array.at(0) = 1;
-		array.at(1) = 2;
-		array.at(2) = 3;
-		array.at(3) = 4;
-		array.at(4) = 5;
-		array.at(5) = 6;
-		array.at(6) = 7;
-		array.at(7) = 8;
-		array.at(8) = 9;
-
-		do
-		{
-			for(i = 0; i < a.digitCount(); ++i)
-			{
-				EASSERT(a.get(i) == array.at(i))
-			}
-		} while(array.permutate() && a.permutateDigits());
-
-		// reversePermutateDigits
-
-		a = 123456789;
-		array.at(0) = 9;
-		array.at(1) = 8;
-		array.at(2) = 7;
-		array.at(3) = 6;
-		array.at(4) = 5;
-		array.at(5) = 4;
-		array.at(6) = 3;
-		array.at(7) = 2;
-		array.at(8) = 1;
-
-		do
-		{
-			for(i = 0; i < a.digitCount(); ++i)
-			{
-				EASSERT(a.get(i) == array.at(i))
-			}
-		} while(array.reversePermutate() && a.reversePermutateDigits());
-
-		// sortDigitsAscending
-
-		a = 219287365939;
-		a.sortDigitsAscending();
-
-		for(i = 0; i < (a.digitCount() - 1); ++i)
-			EASSERT(a.get(i) <= a.get(i + 1))
-
-		// sortDigitsDescending
-
-		a = 219287365939;
-		a.sortDigitsDescending();
-
-		for(i = 0; i < (a.digitCount() - 1); ++i)
-			EASSERT(a.get(i) >= a.get(i + 1))
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-	catch(EException &e)
-	{
-		EDIE_LOGIC(e)
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our default constructor, which initializes a new object with a
- * default capacity,
- * load factor, value and sign.
+ * default value and sign.
  */
 EDigitInteger::EDigitInteger() : digits(), positive(true)
 {
@@ -669,8 +54,7 @@ EDigitInteger::EDigitInteger() : digits(), positive(true)
 
 /*!
  * This is a convenience constructor, which initializes a new object that has
- *the same value
- * as the given primitive integer type.
+ * the same value as the given primitive integer type.
  *
  * \param v The value we will be equal to.
  */
@@ -681,8 +65,7 @@ EDigitInteger::EDigitInteger(uint64_t v) : digits(), positive(true)
 
 /*!
  * This is a convenience constructor, which initializes a new object that has
- *the same value
- * as the given GMP big integer type.
+ * the same value as the given GMP big integer type.
  *
  * \param v The value we will be equal to.
  */
@@ -693,8 +76,7 @@ EDigitInteger::EDigitInteger(const mpz_class &v) : digits(), positive(true)
 
 /*!
  * This is an assignment operator, which sets our value equal to that of the
- *given string. The
- * expected format for this string is one of:
+ * given string. The expected format for this string is one of:
  *
  *     "1234",
  *     "-1234",
@@ -818,9 +200,8 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 
 /*!
  * This is one of our assignment operators, which sets our value to be equal to
- *that of the given primitive
- * integer type. Since v is an unsigned type, our resulting value will be
- *positive.
+ * that of the given primitive integer type. Since v is an unsigned type, our
+ * resulting value will be positive.
  *
  * \param v The value we will have.
  * \return A reference to this, so the operator can be chained.
@@ -836,9 +217,8 @@ EDigitInteger &EDigitInteger::operator=(uint64_t v)
 
 /*!
  * This is one of our assignment operators, which sets our value to be equal to
- *that of the given GMP
- * big integer object. This treats v as unsigned, so our resulting value will be
- *positive.
+ * that of the given GMP big integer object. This treats v as unsigned, so our
+ * resulting value will be positive.
  *
  * \param v The value we will have.
  * \return A reference to this, so the operator can be chained.
@@ -896,8 +276,7 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 /*!
  * This is one of our comparison operators, which tests if our value is equal to
  * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
  * \return True if our objects are equal, or false otherwise.
@@ -912,10 +291,8 @@ bool EDigitInteger::operator==(const EDigitInteger &o) const
 
 /*!
  * This is one of our comparison operators, which tests if our value is not
- *equal to
- * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * equal to that of the given other object. You can use the explicit
+ * constructors that take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
  * \return True if our objects are not equal, or false otherwise.
@@ -927,10 +304,8 @@ bool EDigitInteger::operator!=(const EDigitInteger &o) const
 
 /*!
  * This is one of our comparison operators, which tests if our value is less
- *than
- * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * than that of the given other object. You can use the explicit constructors
+ * that take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
  * \return True if our object is less than the other, or false otherwise.
@@ -961,10 +336,8 @@ bool EDigitInteger::operator<(const EDigitInteger &o) const
 
 /*!
  * This is one of our comparison operators, which tests if our value is greater
- *than
- * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * than that of the given other object. You can use the explicit constructors
+ * that take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
  * \return True if our object is greater than the other, or false otherwise.
@@ -976,14 +349,11 @@ bool EDigitInteger::operator>(const EDigitInteger &o) const
 
 /*!
  * This is one of our comparison operators, which tests if our value is less
- *than or equal to
- * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * than or equal to that of the given other object. You can use the explicit
+ * constructors that take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
- * \return True if our object is less than or equal to the other, or false
- *otherwise.
+ * \return True if our object is less than or equal to the other, or false.
  */
 bool EDigitInteger::operator<=(const EDigitInteger &o) const
 {
@@ -992,14 +362,11 @@ bool EDigitInteger::operator<=(const EDigitInteger &o) const
 
 /*!
  * This is one of our comparison operators, which tests if our value is greater
- *than or equal to
- * that of the given other object. You can use the explicit constructors that
- *take other types to
- * compare our object to other values.
+ * than or equal to that of the given other object. You can use the explicit
+ * constructors that take other types to compare our object to other values.
  *
  * \param o The other object to compare ourself to.
- * \return True if our object is greater than or equal to the other, or false
- *otherwise.
+ * \return True if our object is greater than or equal to the other, or false.
  */
 bool EDigitInteger::operator>=(const EDigitInteger &o) const
 {
@@ -1008,8 +375,7 @@ bool EDigitInteger::operator>=(const EDigitInteger &o) const
 
 /*!
  * This is our unary minus / additive inverse operator. It returns a copy of our
- *object with the sign
- * reversed.
+ * object with the sign reversed.
  *
  * \return A copy of our object with the opposite sign.
  */
@@ -1022,40 +388,35 @@ EDigitInteger EDigitInteger::operator-() const
 
 /*!
  * This operator adds the value of the given other object to our value, and
- *makes it so our object
- * contains the result.
+ * makes it so our object contains the result.
  *
  * \param o The object to add to ourself.
  * \return A reference to this, so the operator can be chained.
  */
 EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 {
-	bool msign = isPositive(), osign = o.isPositive();
+	bool mySign = isPositive(), otherSign = o.isPositive();
 
 	/*
 	 * If our absolute value INCREASES (i.e., our currently positive number
-	 *becomes MORE positive, or
-	 * our currently negative number becomes MORE negative), we just need to
-	 *do an unsigned add of the
-	 * two numbers, keeping the sign the same.
+	 * becomes MORE positive, or our currently negative number becomes MORE
+	 * negative), we just need to do an unsigned add of the two numbers,
+	 * keeping the sign the same.
 	 *
 	 * If, on the other hand, our absolute value DECREASES (i.e., our
-	 *currently positive number becomes
-	 * LESS positive, or our currently negative number becomes LESS
-	 *negative), we need to do an unsigned
+	 * currently positive number becomes LESS positive, or our currently
+	 * negative number becomes LESS negative), we need to do an unsigned
 	 * subtract of the smaller of our two numbers from the larger one. If
-	 *"this" is the SMALLER one, then
-	 * we also need to flip the sign on the result (because we crossed 0 and
-	 *went back the other way).
+	 * "this" is the SMALLER one, then we also need to flip the sign on
+	 * the result (because we crossed 0 an went back the other way).
 	 */
 
-	if(msign == osign)
+	if(mySign == otherSign)
 	{
 		/*
 		 * If we are doing a negative ADD another negative, or a
-		 * positive ADD another positive,
-		 * then our absolute value is INCREASING. Therefore, as stated
-		 * above, we just need to
+		 * positive ADD another positive, then our absolute value is
+		 * INCREASING. Therefore, as stated above, we just need to
 		 * do an unsigned add, without touching the sign.
 		 */
 		unsignedAdd(o);
@@ -1064,30 +425,28 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 	{
 		/*
 		 * Otherwise, if we are doing a negative ADD a positive, or a
-		 * positive ADD a negative,
-		 * then our absolute value is DECREASING. Therefore, as stated
-		 * above, we need to do an
+		 * positive ADD a negative, then our absolute value is
+		 * DECREASING. Therefore, as stated above, we need to do an
 		 * unsigned subtract of the SMALLER number from the LARGER
-		 * number, and if "this" is the
-		 * SMALLER number, we need to flip the sign of the result.
+		 * number, and if "this" is the SMALLER number, we need to flip
+		 * the sign of the result.
 		 */
 		if(unsignedEqualTo(o))
 		{
 			// If our numbers are the same, then our result is
 			// simply 0.
 			setZero();
-			return (*this);
+			return *this;
 		}
 
 		// Otherwise, make sure we are the larger number, then subtract.
 		if(unsignedLessThan(o))
 		{
-			EDigitInteger tmp(o);
-			std::swap(digits, tmp.digits);
-
-			msign = !msign;
+			EDigitInteger tmp(*this);
+			*this = o;
+			mySign = otherSign;
 			unsignedSubtract(tmp);
-			setPositive(msign);
+			setPositive(mySign);
 		}
 		else
 		{
@@ -1096,31 +455,19 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 	}
 
 	removeLeadingZeros();
-
-#ifdef LIBEULER_DEBUG
-	// Make sure our number still has at least 1 digit.
-	EASSERT(digitCount() >= 1);
-#endif
+	// Make sure our number still has at least one digit.
+	assert(digitCount() >= 1);
 
 	// Make sure that, if our value is 0, we are positive.
-	try
-	{
-		if(digitCount() == 1)
-			if(get(0) == 0)
-				setPositive(true);
-	}
-	catch(EOutOfBoundsException &)
-	{
-		assert(false);
-	}
+	if((digitCount() == 1) && (get(0) == 0))
+		setPositive(true);
 
-	return (*this);
+	return *this;
 }
 
 /*!
  * This operator subtracts the value of the given other object from our value,
- *and makes it so our object
- * contains the result.
+ * and makes it so our object contains the result.
  *
  * \param o The object to subtract from ourself.
  * \return A reference to this, so the operator can be chained.
@@ -1128,35 +475,21 @@ EDigitInteger &EDigitInteger::operator+=(const EDigitInteger &o)
 EDigitInteger &EDigitInteger::operator-=(const EDigitInteger &o)
 {
 	/*
-	  a - b
-	= -( (-a) + b )
-	*/
+	 * We implement subtraction using the following identity:
+	 * a - b = -( (-a) + b )
+	 */
 
-	// Flip our sign and then add.
 	setPositive(!isPositive());
-	this->operator+=(o);
-	removeLeadingZeros();
-	setPositive(!isPositive());
-
-	// Make sure that, if our value is 0, we are positive.
-	try
-	{
-		if(digitCount() == 1)
-			if(get(0) == 0)
-				setPositive(true);
-	}
-	catch(EOutOfBoundsException &)
-	{
-		assert(false);
-	}
+	*this += o;
+	if((digitCount() > 1) || (get(0) != 0))
+		setPositive(!isPositive());
 
 	return (*this);
 }
 
 /*!
  * This operator multiplies our value by the value of the given other object,
- *and makes it so our object
- * contains the result.
+ * and makes it so our object contains the result.
  *
  * \param o The object to multiply ourself by.
  * \return A reference to this, so the operator can be chained.
@@ -1194,8 +527,8 @@ EDigitInteger &EDigitInteger::operator*=(const EDigitInteger &o)
 
 /*!
  * This operator divides our value by the value of the given other object, and
- *makes it so our object
- * contains the result. Note that any remainder encountered is simply discarded.
+ * makes it so our object contains the result. Note that any remainder
+ * encountered is simply discarded.
  *
  * \param o The object to divide ourself by.
  * \return A reference to this, to the operator can be chained.
@@ -1233,12 +566,10 @@ EDigitInteger &EDigitInteger::operator/=(const EDigitInteger &o)
 
 /*!
  * This operator performs a modulo operation of our value by the given other
- *value, and makes it so our
- * object contains the result. That is, the result will be the remainder of our
- *value divided by the given
- * other value. Note that, in accordance with the C99 standard, the result will
- *have the same sign as the
- * dividend (i.e., our sign doesn't change).
+ * value, and makes it so our object contains the result. That is, the result
+ * will be the remainder of our value divided by the given other value. Note
+ * that, in accordance with the C99 standard, the result will have the same
+ * sign as the dividend (i.e., our sign doesn't change).
  *
  * \param o The object to divide ourself by.
  * \return A reference to this, so the operator can be chained.
@@ -1272,8 +603,7 @@ EDigitInteger &EDigitInteger::operator%=(const EDigitInteger &o)
 
 /*!
  * This is our addition operator, which returns by value a new object that has
- *the sum of our value and the
- * value of the given other object.
+ * the sum of our value and the value of the given other object.
  *
  * \param o The other object to add to our value.
  * \return A new object containing the result.
@@ -1287,8 +617,7 @@ EDigitInteger EDigitInteger::operator+(const EDigitInteger &o) const
 
 /*!
  * This is our subtraction operator, which returns by value a new object that
- *has the difference of our value
- * and the value of the given other object.
+ * has the difference of our value and the value of the given other object.
  *
  * \param o The other object to subtract from our value.
  * \return A new object containing the result.
@@ -1302,8 +631,7 @@ EDigitInteger EDigitInteger::operator-(const EDigitInteger &o) const
 
 /*!
  * This is our multiplication operator, which returns by value a new object that
- *has the product of our value
- * and the value of the given other object.
+ * has the product of our value and the value of the given other object.
  *
  * \param o The other object to multiply our value by.
  * \return A new object containing the result.
@@ -1317,9 +645,8 @@ EDigitInteger EDigitInteger::operator*(const EDigitInteger &o) const
 
 /*!
  * This is our division operator, which returns by value a new object that has
- *the quotient of our value and the
- * value of the given other object. Note that any remainder encountered is
- *simply discarded.
+ * the quotient of our value and the value of the given other object. Note that
+ * any remainder encountered is simply discarded.
  *
  * \param o The other object to divide our value by.
  * \return A new object containing the result.
@@ -1333,9 +660,8 @@ EDigitInteger EDigitInteger::operator/(const EDigitInteger &o) const
 
 /*!
  * This is our modulus division operator, which returns by value a new object
- *that has the remainder of our value
- * divided by the given other value. Note that, in accordance with the C99
- *standard, the result will have the same
+ * that has the remainder of our value divided by the given other value. Note
+ * that, in accordance with the C99 standard, the result will have the same
  * sign as the dividend (i.e., the sign of the left-hand operand).
  *
  * \param o The object to divide ourself by.
@@ -1350,7 +676,7 @@ EDigitInteger EDigitInteger::operator%(const EDigitInteger &o) const
 
 /*!
  * This is our prefix increment operator, which will increase our current
- *object's value by 1.
+ * object's value by 1.
  *
  * \return A reference to this.
  */
@@ -1361,12 +687,10 @@ EDigitInteger &EDigitInteger::operator++()
 
 /*!
  * This is our postfix increment operator, which will increase our current
- *object's value by 1.
+ * object's value by 1.
  *
- * \param UNUSED_i This parameter is unused; it is simply there to differentiate
- *between post- versus prefix.
- * \return A copy of our original value, so the change occurs after the
- *expression is evaluated.
+ * \param UNUSED_i Unused; used to differentiate post versus prefix.
+ * \return A copy of this; change occurs after the expression is evaluated.
  */
 EDigitInteger EDigitInteger::operator++(int EUNUSED(i))
 {
@@ -1378,7 +702,7 @@ EDigitInteger EDigitInteger::operator++(int EUNUSED(i))
 
 /*!
  * This is our prefix decrement operator, which will decrease our current
- *object's value by 1.
+ * object's value by 1.
  *
  * \return A reference to this.
  */
@@ -1389,12 +713,10 @@ EDigitInteger &EDigitInteger::operator--()
 
 /*!
  * This is our postfix decrement operator, which will decrease our current
- *object's value by 1.
+ * object's value by 1.
  *
- * \param UNUSED_i This parameter is unused; it is simply there to differentiate
- *between post- versus prefix.
- * \return A copy of our original value, so the change occurs after the
- *expression is evaluated.
+ * \param UNUSED_i Unused; used to differentiate post versus prefix.
+ * \return A copy of this; change occurs after the expression is evaluated.
  */
 EDigitInteger EDigitInteger::operator--(int EUNUSED(i))
 {
@@ -1406,7 +728,7 @@ EDigitInteger EDigitInteger::operator--(int EUNUSED(i))
 
 /*!
  * This functino just returns whether or not our number is currently positive or
- *not.
+ * not.
  *
  * \return True if our number is positive, or false otherwise.
  */
@@ -1417,8 +739,7 @@ bool EDigitInteger::isPositive() const
 
 /*!
  * This function sets whether or not our number is currently positive or not by
- *passing
- * true or false, respectively.
+ * passing true or false, respectively.
  *
  * \param p Our new sign.
  */
@@ -1444,7 +765,7 @@ std::size_t EDigitInteger::digitCount() const
  */
 bool EDigitInteger::hasNthDigit(std::size_t i) const
 {
-	return digitCount() > i;
+	return i < digitCount();
 }
 
 int EDigitInteger::get(std::size_t i) const
@@ -1454,8 +775,7 @@ int EDigitInteger::get(std::size_t i) const
 
 /*!
  * This function returns a sum of all of our digits, ignoring sign. This
- *function operates
- * in O(n) time over our digits.
+ * function operates in O(n) time over our digits.
  *
  * \return The sum of our digits.
  */
@@ -1478,10 +798,8 @@ int EDigitInteger::sumOfDigits() const
 
 /*!
  * This function tests if our number is a palindrome (that is, it is equivalent
- *both forwards
- * and backwards). This function ignores our sign. This function operates in
- *O(n) time over
- * our digits.
+ * both forwards and backwards). This function ignores our sign. This function
+ * operates in O(n) time over our digits.
  *
  * \return True if our number is a palindrome, or false otherwise.
  */
@@ -1508,14 +826,11 @@ bool EDigitInteger::isPalindrome() const
 
 /*!
  * This function tests if our number is pandigital or not. That is, for an
- *n-digit number, to be
- * pandigital it must contain all of the digits from 1 to n. This function
- *operates in O(n) time
- * over our digits, and doesn't need to sort or copy our number. Because numbers
- *with more than 9
- * digits cannot be definition be pandigital (in base 10), we only even have to
- *check very small
- * numbers.
+ * n-digit number, to be pandigital it must contain all of the digits from 1
+ * to n. This function operates in O(n) time over our digits, and doesn't need
+ * to sort or copy our number. Because numbers with more than 9 digits cannot
+ * be definition be pandigital (in base 10), we only even have to check very
+ * small numbers.
  *
  * \return True if our number is pandigital, or false otherwise.
  */
@@ -1564,12 +879,10 @@ bool EDigitInteger::isPandigital() const
 
 /*!
  * This function tests if our number and the given other number are digitally
- *equivalent. That is, this function
- * will test if our numbers contain exactly the same digits (but not necessarily
- *in the same order). Note that this
+ * equivalent. That is, this function will test if our numbers contain exactly
+ * the same digits (but not necessarily in the same order). Note that this
  * function will not even test numbers that contain different numbers of digits,
- *and otherwise will operate in O(n)
- * time across the digits in each number.
+ * and otherwise will operate in O(n) time across the digits in each number.
  *
  * \param o The other object to compare ourself to.
  * \return True if our numbers are digitally equivalent, or false otherwise.
@@ -1607,10 +920,9 @@ bool EDigitInteger::isDigitallyEquivalent(const EDigitInteger &o) const
 
 /*!
  * This function inserts the given digit (v) at the given position in our number
- *(k). If a digit is already
- * present at that position, then it is replaced. If the position is past the
- *end of our number, then zeros
- * are automatically filled in between the end of our number and your new digit.
+ * (k). If a digit is already present at that position, then it is replaced. If
+ * the position is past the end of our number, then zeros are automatically
+ * filled in between the end of our number and your new digit.
  *
  * \param i The position to insert the new digit at.
  * \param v The value of the digit to insert.
@@ -1634,72 +946,31 @@ bool EDigitInteger::put(std::size_t i, int v)
 
 /*!
  * This function reimplements the erase() function on our superclass. It behaves
- *the same way, except if you
- * erase an "interior digit" (i.e., any digit except the highest digit in our
- *number), then it shifts everything
- * else down so as to maintain number continuity (a number with a hole in it
- *doesn't make much sense).
+ * the same way, except if you erase an "interior digit" (i.e., any digit except
+ * the highest digit in our number), then it shifts everything else down so as
+ * to maintain number continuity (a number with a hole in it doesn't make much
+ * sense).
  *
  * \param i The position of the digit that is to be removed.
  * \return True if a digit was removed, or false otherwise.
  */
 bool EDigitInteger::erase(std::size_t i)
 {
-	std::size_t idx;
-	bool r;
-
-	// If the position is out-of-range or if it is the last digit in our
-	// number, just remove it and return.
 	if(i >= digitCount())
 		return false;
-	else if(i == (digitCount() - 1))
-	{
-		r = digits.erase(i) > 0;
 
-		if(digitCount() < 1)
-			put(0, 0);
+	if(digitCount() == 1)
+		return false;
 
-#ifdef LIBEULER_DEBUG
-		// Make sure our number still has at least 1 digit.
-		EASSERT(digitCount() >= 1);
-#endif
+	// Shift any digits higher than the specified digit to the right by
+	// one, overwriting the digit being removed.
+	for(std::size_t idx = i; idx < (digitCount() - 1); ++idx)
+		put(idx, get(idx + 1));
 
-		return r;
-	}
+	// Remove the topmost digit, now that everything has been shifted.
+	digits.erase(digitCount() - 1);
 
-	try
-	{
-		// Otherwise, shift everything down and then pop the top digit.
-		for(idx = i; idx < (digitCount() - 1); ++idx)
-			put(idx, get(idx + 1));
-
-		r = digits.erase(digitCount() - 1) > 0;
-
-		if(digitCount() < 1)
-			put(0, 0);
-
-#ifdef LIBEULER_DEBUG
-		// Make sure our number still has at least 1 digit.
-		EASSERT(digitCount() >= 1);
-#endif
-
-		return r;
-	}
-	catch(EValueRangeException &)
-	{
-		assert(false);
-	}
-	catch(EOutOfBoundsException &)
-	{
-		assert(false);
-	}
-
-#ifdef LIBEULER_DEBUG
-	// Make sure our number still has at least 1 digit.
-	EASSERT(digitCount() >= 1);
-#endif
-
-	return false;
+	return true;
 }
 
 /*!
@@ -1765,15 +1036,12 @@ void EDigitInteger::rightDigitalShift(int p)
 
 /*!
  * This function performs a right digit-wise rotation of our number by a given
- *number of places. Note that
- * the return value's definition of "losing data" is if our result has leading
- *zeros. These are removed (since
- * they do not change the value of the number) and the appropriate value is
- *returned.
+ * number of places. Note that the return value's definition of "losing data"
+ * is if our result has leading zeros. These are removed (since they do not
+ * change the value of the number) and the appropriate value is returned.
  *
  * \param p The number of places to rotate.
- * \return True if our rotation was done without losing data, or false
- *otherwise.
+ * \return True if our rotation was done without losing data, or false.
  */
 bool EDigitInteger::rightDigitalRotate(int p)
 {
@@ -1833,17 +1101,13 @@ bool EDigitInteger::rightDigitalRotate(int p)
 
 /*!
  * This function shifts our digits the given number of places to the left,
- *filling in the new
- * empty spaces at the right with 0's. A call of rightDigitalShift(1) is
- *equivalent to MULTIPLYING
- * our number by 10.
+ * filling in the new empty spaces at the right with 0's. A call of
+ * rightDigitalShift(1) is equivalent to MULTIPLYING our number by 10.
  *
  * \param p The number of places to shift our number.
  */
 void EDigitInteger::leftDigitalShift(int p)
 {
-	std::size_t d = digitCount();
-
 	// A shift of 0 places has no effect.
 	if(p == 0)
 		return;
@@ -1857,12 +1121,19 @@ void EDigitInteger::leftDigitalShift(int p)
 
 	try
 	{
-		// Shift everything.
-		for(std::size_t i = d; i > 0; --i)
-			put((i - 1) + static_cast<std::size_t>(p), get(i - 1));
+		std::size_t places = static_cast<std::size_t>(p);
+		std::size_t oldDigitCount = digitCount();
+		assert(oldDigitCount >= 1);
+
+		// Shift all of the digits.
+		for(std::size_t i = oldDigitCount - 1 + places; i >= places;
+		    --i)
+		{
+			put(i, get(i - places));
+		}
 
 		// Fill in the new, empty space at the front with 0's.
-		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
+		for(std::size_t i = 0; i < places; ++i)
 			put(i, 0);
 	}
 	catch(EValueRangeException &)
@@ -1874,60 +1145,60 @@ void EDigitInteger::leftDigitalShift(int p)
 		assert(false);
 	}
 
-#ifdef LIBEULER_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(digitCount() >= 1);
-#endif
+	assert(digitCount() >= 1);
 }
 
 /*!
  * This function performs a left digit-wise rotation of our number by a given
- *number of places. Note that
- * the return value's definition of "losing data" is if our result has leading
- *zeros. These are removed (since
- * they do not change the value of the number) and the appropriate value is
- *returned.
+ * number of places. Note that the return value's definition of "losing data"
+ * is if our result has leading zeros. These are removed (since they do not
+ * change the value of the number) and the appropriate value is returned.
  *
  * \param p The number of places to rotate.
- * \return True if our rotation was done without losing data, or false
- *otherwise.
+ * \return True if our rotation was done without losing data, or false.
  */
 bool EDigitInteger::leftDigitalRotate(int p)
 {
-	int *hold;
 	bool r;
 
-	// Treat negative right-rotations as positive left-rotations.
+	// Treat negative left-rotations as positive right-rotations.
 	if(p < 0)
 		return rightDigitalRotate(EABS(p));
 
 	// Don't do any full rotations.
 	p %= digitCount();
+	assert(p < static_cast<int>(digitCount()));
 
 	// Rotation 0 places has no effect.
 	if(p == 0)
 		return true;
 
-	// Allocate some buffer memory for our rotation.
-	hold = new int[static_cast<std::size_t>(p)];
-
 	try
 	{
-		// Add the p high digits to our buffer.
-		std::size_t d = digitCount();
-		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
+		std::size_t oldDigitCount = digitCount();
+		std::size_t places = static_cast<std::size_t>(p);
+		std::vector<int> hold(places, 0);
+
+		// Add the 'places' high digits to our buffer.
+		for(std::size_t offFromEnd = 0; offFromEnd < places;
+		    ++offFromEnd)
 		{
-			hold[i] = get(d - 1 - i);
-			erase(d - 1 - i);
+			std::size_t idx = digitCount() - 1 - offFromEnd;
+			std::size_t holdIdx = places - 1 - offFromEnd;
+			hold[holdIdx] = get(idx);
 		}
 
-		// Shift left p places.
+		// Shift left by the specified number of places.
 		leftDigitalShift(p);
 
-		// Place the digits from our buffer back onto the bottom of our
-		// number.
-		for(std::size_t i = 0; i < static_cast<std::size_t>(p); ++i)
-			put(i, hold[static_cast<std::size_t>(p) - 1 - i]);
+		// Place the digits in the buffer at the bottom of the number.
+		for(std::size_t i = 0; i < places; ++i)
+			put(i, hold[i]);
+
+		// Remove any extra high digits from the shift.
+		while(digitCount() > oldDigitCount)
+			erase(digitCount() - 1);
 	}
 	catch(EValueRangeException &)
 	{
@@ -1938,15 +1209,10 @@ bool EDigitInteger::leftDigitalRotate(int p)
 		assert(false);
 	}
 
-	// Clean up our buffer.
-	delete[] hold;
-
 	r = removeLeadingZeros();
 
-#ifdef LIBEUADRA_DEBUG
 	// Make sure our number still has at least 1 digit.
-	EASSERT(digitCount() >= 1);
-#endif
+	assert(digitCount() >= 1);
 
 	return r;
 }
@@ -2024,8 +1290,8 @@ bool EDigitInteger::permutateDigits()
 	{
 		/*
 		 * Step 1: Find the largest index k such that a[k] < a[k + 1].
-		 * If no such index
-		 *         exists, the permutation is the last permutation.
+		 * If no such index exists, the permutation is the last
+		 * permutation.
 		 */
 
 		k = -1;
@@ -2044,8 +1310,8 @@ bool EDigitInteger::permutateDigits()
 
 		/*
 		 * Step 2: Find the largest index l such that a[k] < a[l]. Since
-		 * k + 1 is such
-		 *         an index, l is well defined and satisfies k < l.
+		 * k + 1 is such an index, l is well defined and satisfies k <
+		 * l.
 		 */
 
 		l = -1;
@@ -2090,19 +1356,15 @@ bool EDigitInteger::permutateDigits()
 
 /*!
  * This function is equivalent to permutate(), except it generates permutations
- *in REVERSE lexicographic
- * order, instead of forwards. Accordingly, our "first" permutation is when our
- *list is sorted in
- * descending order.
+ * in REVERSE lexicographic order, instead of forwards. Accordingly, our
+ * "first" permutation is when our list is sorted in descending order.
  *
  * Note that this function removes leading zeros after the permutation is
- *performed, so it may not
- * work as expected with numbers that contain zero digits. If you just want to
- *permutate numbers,
+ * performed, so it may not work as expected with numbers that contain zero
+ * digits. If you just want to permutate numbers,
  * EArrayUtilities::reversePermutate() may work better.
  *
- * \return True if there are more permutations, or false if this is the last
- *one.
+ * \return True if there are more permutations, or false otherwise.
  */
 bool EDigitInteger::reversePermutateDigits()
 {
@@ -2227,8 +1489,8 @@ bool EDigitInteger::reverseDigits(std::size_t l, std::size_t r)
 
 /*!
  * This function returns a certain range in our number as a 64-bit unsigned
- *integer. Note that if
- * the range specified contains leading zeros they will simply be discarded.
+ * integer. Note that if the range specified contains leading zeros they will
+ * simply be discarded.
  *
  * \param l The left-most bound (inclusive).
  * \param r The right-most bound (inclusive).
@@ -2331,10 +1593,9 @@ std::string EDigitInteger::rangeToString(std::size_t l, std::size_t r) const
 
 /*!
  * This is a convenience function, which is equivalent to running
- *rangeToString() on our entire
- * number. Note that this function DOES take the sign into account - if our
- *number is negative, then
- * a '-' is prepended to the output number.
+ * rangeToString() on our entire number. Note that this function DOES take the
+ * sign into account - if our number is negative, then a '-' is prepended to
+ * the output number.
  *
  * \return Our entire number, represented as a string.
  */
@@ -2375,51 +1636,25 @@ bool EDigitInteger::volatileSetDigitAt(std::size_t i, int v)
 
 /*!
  * This is a convenience function that removes the leading zeros from our
- *number. It returns true if
- * leading zeros were removed, or false otherwise.
+ * number. It returns true if leading zeros were removed, or false otherwise.
  *
  * \return True if leading zeros were removed, or false otherwise.
  */
 bool EDigitInteger::removeLeadingZeros()
 {
-	bool r;
-
-	// Don't operate on numbers with 1 or fewer digits.
-	if(digitCount() <= 1)
-		return false;
-
-	// Remove leading 0's from our number.
-	r = false;
-	try
+	bool zerosRemoved = false;
+	while((digitCount() > 1) && (get(digitCount() - 1) == 0))
 	{
-		for(std::size_t offFromEnd = 0; offFromEnd < digitCount();
-		    ++offFromEnd)
-		{
-			std::size_t idx = digitCount() - 1 - offFromEnd;
-			if(get(idx) == 0)
-			{
-				r = true;
-				erase(idx);
-			}
-			else
-			{
-				break;
-			}
-		}
+		zerosRemoved = true;
+		erase(digitCount() - 1);
 	}
-	catch(EOutOfBoundsException &)
-	{
-		assert(false);
-	}
-
-	return r;
+	return zerosRemoved;
 }
 
 /*!
  * This utility function carries all of our digits, starting from the low
- * digits, so it will be
- * "normalized" (that is, 0 <= digit <= 9 is always true), i.e. after an
- * addition operation.
+ * digits, so it will be "normalized" (that is, 0 <= digit <= 9 is always
+ * true), i.e. after an addition operation.
  */
 void EDigitInteger::carry()
 {
@@ -2428,22 +1663,15 @@ void EDigitInteger::carry()
 		while(get(j) > 9)
 		{
 			volatileSetDigitAt(j, get(j) - 10);
-
-			try
-			{
+			if(hasNthDigit(j + 1))
 				volatileSetDigitAt(j + 1, get(j + 1) + 1);
-			}
-			catch(EOutOfBoundsException &)
-			{
+			else
 				volatileSetDigitAt(j + 1, 1);
-			}
 		}
 	}
 
-#ifdef LIBEULER_DEBUG
 	for(std::size_t j = 0; j < digitCount(); ++j)
-		EASSERT((0 <= get(j)) && (get(j) <= 9))
-#endif
+		assert((0 <= get(j)) && (get(j) <= 9));
 }
 
 /*!
@@ -2453,7 +1681,7 @@ void EDigitInteger::carry()
  */
 void EDigitInteger::borrow()
 {
-	for(std::size_t j = 0; hasNthDigit(j + 1); ++j)
+	for(std::size_t j = 0; (j + 1) < digitCount(); ++j)
 	{
 		while(get(j) < 0)
 		{
@@ -2472,7 +1700,7 @@ void EDigitInteger::borrow()
 
 #ifdef LIBEULER_DEBUG
 	for(std::size_t j = 0; j < digitCount(); ++j)
-		EASSERT((0 <= get(j)) && (get(j) <= 9))
+		assert((0 <= get(j)) && (get(j) <= 9));
 #endif
 }
 
@@ -2490,8 +1718,7 @@ void EDigitInteger::setZero()
 
 /*!
  * This function tests if our value is equal to that of the given other object,
- *ignoring the signs on
- * both.
+ * ignoring the signs on both.
  *
  * \param o The object to compare ourself to.
  * \return True if we are equal ignoring sign, or false otherwise.
@@ -2519,8 +1746,7 @@ bool EDigitInteger::unsignedEqualTo(const EDigitInteger &o) const
 
 /*!
  * This function tests if our value is not equal to that of the given other
- *object, ignoring the signs on
- * both.
+ * object, ignoring the signs on both.
  *
  * \param o The object to compare ourself to.
  * \return True if we are not equal ignoring sign, or false otherwise.
@@ -2532,7 +1758,7 @@ bool EDigitInteger::unsignedNotEqualTo(const EDigitInteger &o) const
 
 /*!
  * This function tests if our value is less than the value of the given other
- *object, ignoring signs.
+ * object, ignoring signs.
  *
  * \param o The object to compare ourself to.
  * \return True if we are less than the other object, or false otherwise.
@@ -2572,7 +1798,7 @@ bool EDigitInteger::unsignedLessThan(const EDigitInteger &o) const
 
 /*!
  * This function tests if our value is greater than the value of the given other
- *object, ignoring signs.
+ * object, ignoring signs.
  *
  * \param o The object to compare ourself to.
  * \return True if we are greater than the other object, or false otherwise.
@@ -2584,11 +1810,10 @@ bool EDigitInteger::unsignedGreaterThan(const EDigitInteger &o) const
 
 /*!
  * This function tests if our value is less than or equal to that of the given
- *other object, ignoring signs.
+ * other object, ignoring signs.
  *
  * \param o The object to compare ourself to.
- * \return True if we are less than or equal to the other object, or false
- *otherwise.
+ * \return True if we are less than or equal to the other object, or false.
  */
 bool EDigitInteger::unsignedLessThanEqualTo(const EDigitInteger &o) const
 {
@@ -2597,11 +1822,10 @@ bool EDigitInteger::unsignedLessThanEqualTo(const EDigitInteger &o) const
 
 /*!
  * This function tests if our value is greater than or equal to that of the
- *given other object, ignoring signs.
+ * given other object, ignoring signs.
  *
  * \param o The object to compare ourself to.
- * \return True if we are greater than or equal to the other object, or false
- *otherwise.
+ * \return True if we are greater than or equal to the other object, or false.
  */
 bool EDigitInteger::unsignedGreaterThanEqualTo(const EDigitInteger &o) const
 {
@@ -2610,10 +1834,9 @@ bool EDigitInteger::unsignedGreaterThanEqualTo(const EDigitInteger &o) const
 
 /*!
  * This function does an unsigned add of the given other number to our current
- *number. It doesn't factor
- * in which is positive and which is negative; it just adds magnitudes. It is up
- *to the caller to handle
- * signs correctly. This function operates in O(n) time across our digits.
+ * number. It doesn't factor in which is positive and which is negative; it
+ * just adds magnitudes. It is up to the caller to handle signs correctly.
+ * This function operates in O(n) time across our digits.
  *
  * \param i The other value to add to our value.
  */
@@ -2640,23 +1863,19 @@ void EDigitInteger::unsignedAdd(const EDigitInteger &i)
 
 /*!
  * This function does an unsigned subtract of the given other number from our
- *current number. It doesn't
- * factor in which is positive and which is negative; it just subtracts one
- *magnitude from the other. It
- * is up to the caller to handle signs correctly, and to MAKE SURE WE ARE >= THE
- *OTHER VALUE. This function
- * operates in O(n) time across our digits.
+ * current number. It doesn't factor in which is positive and which is
+ * negative; it just subtracts one magnitude from the other. It is up to the
+ * caller to handle signs correctly, and to MAKE SURE WE ARE >= THE OTHER
+ * VALUE. This function operates in O(n) time across our digits.
  *
  * \param i The other value to subtract from our value.
  */
 void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 {
-#ifdef LIBEULER_DEBUG
-	EASSERT(unsignedGreaterThanEqualTo(i))
-#endif
+	assert(unsignedGreaterThanEqualTo(i));
 
 	// If we are equal, just return now.
-	if(this->unsignedEqualTo(i))
+	if(*this == i)
 	{
 		setZero();
 		return;
@@ -2664,14 +1883,9 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 
 	try
 	{
-		// Do a digit-by-digit subtract, carrying as we go...
-		for(std::size_t j = 0; j < digitCount(); ++j)
-		{
-			// Only subtract if we are in-bounds on the other
-			// number.
-			if(j < i.digitCount())
-				volatileSetDigitAt(j, get(j) - i.get(j));
-		}
+		// Subtract per-digit, maybe leaving some digits negative.
+		for(std::size_t idx = 0; idx < i.digitCount(); ++idx)
+			volatileSetDigitAt(idx, get(idx) - i.get(idx));
 
 		borrow();
 	}
@@ -2687,10 +1901,9 @@ void EDigitInteger::unsignedSubtract(const EDigitInteger &i)
 
 /*!
  * This function does an unsigned multiply of our value by the given other
- *number. It doesn't factor in
- * which is positive and which is negative; it just multiplies the magnitudes.
- *It is up to the caller to
- * handle/set signs correctly.
+ * number. It doesn't factor in which is positive and which is negative; it
+ * just multiplies the magnitudes. It is up to the caller to handle/set signs
+ * correctly.
  *
  * \param i The other value to multiply our value by.
  */
@@ -2747,15 +1960,13 @@ void EDigitInteger::unsignedMultiply(const EDigitInteger &i)
 
 /*!
  * This function performs an unsigned divide of our value by the given other
- *value, optionally returning either
- * the result of the division or the remainder (i.e., modulus division). It
- *doesn't factor in who is positive
+ * value, optionally returning either the result of the division or the
+ * remainder (i.e., modulus division). It doesn't factor in who is positive
  * and who is negative, so it is up to the caller to make sure that signs are
- *set/handled correctly.
+ * set/handled correctly.
  *
  * \param i The other value to divide ourself by.
- * \param m Whether or not to do modulus division - true means we return the
- *remainder, false means we return the division result.
+ * \param m Whether or not to do modulus division.
  */
 void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 {
@@ -2778,42 +1989,25 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 
 		if(unsignedLessThan(i))
 		{
-			if(m)
-			{
-				return;
-			}
-			else
-			{
+			if(!m)
 				setZero();
-				return;
-			}
+			return;
 		}
 
 		if(unsignedEqualTo(i))
 		{
 			if(m)
-			{
 				setZero();
-				return;
-			}
 			else
-			{
-				(*this) = 1;
-				return;
-			}
+				*this = 1;
+			return;
 		}
 
 		if(i.unsignedEqualTo(EDigitInteger(1)))
 		{
 			if(m)
-			{
 				setZero();
-				return;
-			}
-			else
-			{
-				return;
-			}
+			return;
 		}
 
 		/*
@@ -2836,7 +2030,7 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 
 		// Initialize a and b.
 
-		a = (*this);
+		a = *this;
 		a.setPositive(true);
 
 		b = i;
@@ -2942,10 +2136,8 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 
 /*!
  * This is our output stream operator, which allows our objects to be easily
- *printed to
- * a standard C++ ostream object. The value printed is effectively the same as
- *that returned
- * by our class's toString() member function.
+ * printed to a standard C++ ostream object. The value printed is effectively
+ * the same as that returned by our class's toString() member function.
  *
  * \param out The output stream to which we will write.
  * \param i The EDigitInteger object we will be writing.
