@@ -22,56 +22,8 @@
 #include <iostream>
 #include <sstream>
 
-#ifdef LIBEULER_DEBUG
-#include <cmath>
-#include <thread>
-
-#include "libeuler/EDefines.h"
-#include "libeuler/EExceptions.h"
-#endif
-
 namespace euler
 {
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing assertions, and merely prints the result to stdout.
- */
-void Profiler::doTestSuite()
-{
-	bool success = true;
-
-	std::cout << "\tTesting 'Profiler'...\t\t\t";
-	try
-	{
-		// Make sure timing on a one-second sleep is fairly accurate.
-		for(int i = 0; i < 10; ++i)
-		{
-			Profiler p;
-			std::this_thread::sleep_for(std::chrono::seconds(1));
-			double t = std::abs(1.0 - p.getElapsed());
-			EASSERT(t < 0.1);
-		}
-
-		// Check a ten-second sleep as well.
-		Profiler p;
-		std::this_thread::sleep_for(std::chrono::seconds(10));
-		double lt = std::abs(10.0 - p.getElapsed());
-		EASSERT(lt < 0.1);
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our constructor, which records our "starting" time.
  *

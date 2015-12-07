@@ -30,10 +30,6 @@ namespace euler
 class Profiler
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	Profiler(bool p = false, std::string const &pp = "");
 	~Profiler();
 
