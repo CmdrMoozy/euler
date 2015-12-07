@@ -57,10 +57,6 @@ public:
 		PreserveClear
 	};
 
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	static std::size_t getMinimumByteLength(std::size_t b);
 
 	EByteArray(std::size_t l = 0,
