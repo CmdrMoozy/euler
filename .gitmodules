@@ -3,4 +3,4 @@
 	url = https://github.com/philsquared/Catch.git
 [submodule "3rdparty/cmu"]
 	path = 3rdparty/cmu
-	url = git@github.com:CmdrMoozy/cmu.git
+	url = https://github.com/CmdrMoozy/cmu.git
