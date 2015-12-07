@@ -80,16 +80,5 @@ SET(euler_SOURCES
 
 )
 
-SET(eulertest_SOURCES
-
-	src/libeuler/ETests.cpp
-
-)
-
 ADD_LIBRARY(euler SHARED ${euler_SOURCES})
 TARGET_LINK_LIBRARIES(euler ${euler_LIBRARIES})
-
-IF(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
-	ADD_EXECUTABLE(ETests ${eulertest_SOURCES})
-	TARGET_LINK_LIBRARIES(ETests euler)
-ENDIF()
