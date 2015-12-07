@@ -467,17 +467,11 @@ TEST_CASE("Test reverseDigits", "[EDigitInteger]")
 
 TEST_CASE("Test permutateDigits", "[EDigitInteger]")
 {
-	EDigitInteger a(987654321);
-	EArray<int> array(9);
+	EDigitInteger a(321);
+	EArray<int> array(3);
 	array.at(0) = 1;
 	array.at(1) = 2;
 	array.at(2) = 3;
-	array.at(3) = 4;
-	array.at(4) = 5;
-	array.at(5) = 6;
-	array.at(6) = 7;
-	array.at(7) = 8;
-	array.at(8) = 9;
 
 	do
 	{
@@ -490,17 +484,11 @@ TEST_CASE("Test permutateDigits", "[EDigitInteger]")
 
 TEST_CASE("Test reversePermutateDigits", "[EDigitInteger]")
 {
-	EDigitInteger a(123456789);
-	EArray<int> array(9);
+	EDigitInteger a(789);
+	EArray<int> array(3);
 	array.at(0) = 9;
 	array.at(1) = 8;
 	array.at(2) = 7;
-	array.at(3) = 6;
-	array.at(4) = 5;
-	array.at(5) = 4;
-	array.at(6) = 3;
-	array.at(7) = 2;
-	array.at(8) = 1;
 
 	do
 	{
