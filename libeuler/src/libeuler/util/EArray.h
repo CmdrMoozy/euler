@@ -25,10 +25,6 @@
 #include "libeuler/EDefines.h"
 #include "libeuler/util/EArrayUtilities.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-#endif
-
 /*!
  * \brief This class implements the functions in EArrayUtilities.
  *
@@ -39,168 +35,6 @@
 template <typename T> class EArray
 {
 public:
-#ifdef LIBEULER_DEBUG
-	/*!
-	 * This function implements our test suite for this class. It uses
-	 * non-abort()'ing
-	 * assertions, and merely prints the result to stdout.
-	 */
-	static void doTestSuite()
-	{
-		bool success;
-		std::size_t i;
-
-		std::cout << "\tTesting 'EArray'...\t\t\t";
-		try
-		{
-			success = true;
-
-			int *array = new int[5];
-			array[0] = 32;
-			array[1] = 12;
-			array[2] = 237;
-			array[3] = 98;
-			array[4] = 10;
-
-			/*
-			 * Constructor + Copy Constructor + Equivalence Operator
-			 * + Assignment Operator +
-			 *     isEqualTo + isEqualToUnsorted + sortAscending
-			 */
-
-			EArray<int> a(5, array);
-			EArray<int> b(a);
-
-			delete[] array;
-			array = NULL;
-
-			EASSERT(a.at(0) == 32)
-			EASSERT(a.at(1) == 12)
-			EASSERT(a.at(2) == 237)
-			EASSERT(a.at(3) == 98)
-			EASSERT(a.at(4) == 10)
-			EASSERT(b.at(0) == 32)
-			EASSERT(b.at(1) == 12)
-			EASSERT(b.at(2) == 237)
-			EASSERT(b.at(3) == 98)
-			EASSERT(b.at(4) == 10)
-
-			EASSERT(a == b)
-			EASSERT(a.isEqualTo(b))
-
-			b.sortAscending();
-
-			EASSERT(!a.isEqualTo(b))
-			EASSERT(a.isEqualToUnsorted(b))
-
-			b = a;
-
-			EASSERT(a.isEqualTo(b))
-
-			// getSize + setSize
-
-			a.setSize(10, true);
-			b.setSize(0);
-
-			EASSERT(a.at(0) == 32)
-			EASSERT(a.at(1) == 12)
-			EASSERT(a.at(2) == 237)
-			EASSERT(a.at(3) == 98)
-			EASSERT(a.at(4) == 10)
-			for(i = 5; i < 10; ++i)
-				EASSERT(a.at(i) == 0)
-
-			EASSERT(a.getSize() == 10)
-			EASSERT(b.getSize() == 0)
-
-			// at + set
-
-			a.set(9, 100);
-			EASSERT(a.at(9) == 100)
-
-			a.at(8) = 72;
-			EASSERT(a.at(8) == 72)
-
-			// search + binarySearch
-
-			a.at(5) = 278327;
-			a.at(6) = 293;
-			a.at(7) = 18;
-
-			a.sortAscending();
-
-			for(i = 0; i < a.getSize(); ++i)
-				EASSERT(a.search(a.at(i)) ==
-				        a.binarySearch(a.at(i)))
-
-			EASSERT(a.search(-10) == -1)
-			EASSERT(a.binarySearch(-10) == -1)
-
-			// sortAscending + sortDescending + reverse
-
-			a.sortAscending();
-			b = a;
-			b.sortDescending();
-			b.reverse();
-
-			EASSERT(a == b)
-
-			// isUnique + makeUnique
-
-			a.at(0) = -168;
-			a.at(1) = 2345;
-			a.at(2) = 112;
-			a.at(3) = 234;
-			a.at(4) = 8539;
-			a.at(5) = 90123;
-			a.at(6) = 234;
-			a.at(7) = 467;
-			a.at(8) = 168;
-			a.at(9) = 19233;
-
-			EASSERT(!a.isUnique())
-			a.makeUnique();
-			EASSERT(a.isUnique())
-
-			EASSERT(a.getSize() == 9)
-
-			// permutate + reversePermutate
-
-			a.setSize(3, false);
-			a.at(0) = 3;
-			a.at(1) = 1;
-			a.at(2) = 2;
-
-			a.sortAscending();
-			b = a;
-
-			b.permutate();
-			b.reversePermutate();
-
-			EASSERT(b == a)
-
-			a.permutate();
-			EASSERT(a.at(0) == 1)
-			EASSERT(a.at(1) == 3)
-			EASSERT(a.at(2) == 2)
-		}
-		catch(EAssertionException &)
-		{
-			success = false;
-		}
-		catch(EOutOfBoundsException &e)
-		{
-			EDIE_LOGIC(e)
-		}
-
-		// Print out our results.
-		if(success)
-			std::cout << "[ OK ]\n";
-		else
-			std::cout << "[FAIL]\n";
-	}
-#endif
-
 	/*!
 	 * This is our default constructor, which creates a new EArray of the
 	 *given size, and optionally
@@ -274,6 +108,11 @@ public:
 	bool operator==(const EArray<T> &o) const
 	{
 		return isEqualTo(o);
+	}
+
+	bool operator!=(const EArray<T> &o) const
+	{
+		return !(*this == o);
 	}
 
 	/*!

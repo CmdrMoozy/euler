@@ -9,6 +9,7 @@ set(euler-test_SOURCES
 
 	types/EDigitIntegerTest.cpp
 
+	util/EArrayTest.cpp
 	util/EBitwiseTest.cpp
 
 )
