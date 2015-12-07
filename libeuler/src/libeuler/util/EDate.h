@@ -26,14 +26,11 @@
  * \brief This class allows doing math with dates.
  *
  * It implements some basic functionality, most notably the ability to keep
- *track of the
- * day of the week while adding a certain number of days to the current date.
- *Note that since,
- * as of right now, this class is only utilized by a single problem, there is
- *quite a bit
- * of functionality that probably should be but isn't implemented right now. As
- *such, this
- * class is pretty barebones.
+ * track of the day of the week while adding a certain number of days to the
+ * current date. Note that since, as of right now, this class is only utilized
+ * by a single problem, there is quite a bit of functionality that probably
+ * should be but isn't implemented right now. As such, this class is pretty
+ * barebones.
  */
 class EDate
 {
@@ -48,10 +45,6 @@ public:
 		Friday,
 		Saturday
 	};
-
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
 
 	static std::string dayOfWeekToString(EDate::DayOfWeek d);
 	static int getDaysInMonth(int m, int y = 2011);

@@ -18,78 +18,9 @@
 
 #include "EDate.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-
-#include "libeuler/EDefines.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EDate::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EDate'...\t\t\t";
-	try
-	{
-		success = true;
-
-		/*
-		 * It is known that:
-		 *
-		 * January 1, 1900 was a Monday
-		 * There were 171 Sundays that fell on the first of a month
-		 *during the 20th century.
-		 *
-		 * Test that our class gives us the correct answer to this
-		 *problem.
-		 */
-
-		int s;
-		EDate d(1900, 1, 1, EDate::Monday);
-		EDate e(2000, 12, 31);
-
-		// Fast-forward to the start of our interval, 1901/01/01.
-		d.addDays(EDate::getDaysInYear(1900));
-
-		// Progress to our first Sunday.
-		while(d.getDayOfWeek() != EDate::Sunday)
-			d.addDays(1);
-
-		// Keep looping from here until we have found every Sunday!
-		s = 0;
-		do
-		{
-			if(d.getDay() == 1)
-				++s;
-
-			d.addWeeks(1);
-		} while(d < e);
-
-		EASSERT(s == 171)
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This function converts our EDate::DayOfWeek value to a literal string, so it
- *can be
- * (for instance) printed out.
+ * can be (for instance) printed out.
  *
  * \param d The numerical day-of-the-week.
  * \return The literal representation of the given value.
@@ -119,12 +50,9 @@ std::string EDate::dayOfWeekToString(EDate::DayOfWeek d)
 
 /*!
  * This function returns the number of days in the given month of the given
- *year, taking into
- * account leap-years and whatnot. Note that the year only matters for February;
- *the rest of
- * the time, one can just use the randomly-selected default year value by not
- *passing their own
- * value.
+ * year, taking into account leap-years and whatnot. Note that the year only
+ * matters for February; the rest of the time, one can just use the
+ * randomly-selected default year value by not passing their own value.
  *
  * \param m The numeric month.
  * \param y The numeric year.
@@ -157,8 +85,7 @@ int EDate::getDaysInMonth(int m, int y)
 
 /*!
  * This function returns the number of days in a given year, including
- *leap-years and
- * leap-centuries and whatnot.
+ * leap-years and leap-centuries and whatnot.
  *
  * \param y The year.
  * \return The number of days in the given year.
@@ -183,8 +110,8 @@ int EDate::getDaysInYear(int y)
 
 /*!
  * This is our default constructor, which initializes our date to the given
- *year, month and day, and
- * (optionally) accounting for the given day of the week.
+ * year, month and day, and (optionally) accounting for the given day of the
+ * week.
  *
  * \param y The year.
  * \param m The month.
@@ -205,8 +132,7 @@ EDate::~EDate()
 
 /*!
  * This is one of our comparison operators, which tests whether our object is
- *less than the value
- * of the given other object.
+ * less than the value of the given other object.
  *
  * \param o The other date to compare ourself to.
  * \return True if our date is less than the other date, or false otherwise.
@@ -276,9 +202,8 @@ EDate::DayOfWeek EDate::getDayOfWeek() const
 
 /*!
  * This function adds a given number of days to our object's current date,
- *accounting for
- * rollovers in the month and year, as well as keeping track of the correct
- *day-of-the-week.
+ * accounting for rollovers in the month and year, as well as keeping track of
+ * the correct day-of-the-week.
  *
  * \param d The number of days to add.
  */
@@ -336,8 +261,7 @@ void EDate::addDays(int d)
 
 /*!
  * This is a convenience function that adds a given number of weeks to our
- *object's current
- * date. This is equivalent to addDays(w * 7).
+ * object's current date. This is equivalent to addDays(w * 7).
  *
  * \param w The number of weeks to add to our date.
  */
