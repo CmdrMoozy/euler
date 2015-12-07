@@ -9,6 +9,8 @@ set(euler-test_SOURCES
 
 	types/EDigitIntegerTest.cpp
 
+	util/EBitwiseTest.cpp
+
 )
 
 add_executable(euler-test ${euler-test_SOURCES})

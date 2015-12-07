@@ -28,35 +28,6 @@
 class EBitwise
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
-	/*
-	To test:
-
-	rotl64
-	rotr64
-
-	rmoOff
-	rmzOn
-	isPowTwoLessOne
-	rmoIsolate
-	rmzIsolate
-	trailZMask
-	trailOMask
-	trailRMOZMask
-	trailRMZOMask
-	rmoPropR
-	rmzPropR
-	rmosOff
-	rmzsOn
-	nextSNOOB
-
-	nlz32
-	nlz64
-	*/
-
 	static bool isPowerOfTwo(uint32_t v) __attribute__((deprecated));
 	static uint32_t lgPowerOfTwo(uint32_t v) __attribute__((deprecated));
 	static uint32_t lg(uint32_t v) __attribute__((deprecated));
