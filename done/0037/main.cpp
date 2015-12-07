@@ -16,112 +16,107 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <iostream>
 
 #include "libeuler/math/EPrimeSieve.h"
 #include "libeuler/types/EDigitInteger.h"
 
-#define INITIAL_SIEVE_LIMIT 1000000
-#define SIEVE_STEPPING 2
-#define TARGET_COUNT 11
-
 /*
  * The number 3797 has an interesting property. Being prime itself, it is
- *possible to
- * continuously remove digits from left to right, and remain prime at each
- *stage: 3797,
- * 797, 97, and 7. Similarly we can work from right to left: 3797, 379, 37, and
- *3.
+ * possible to continuously remove digits from left to right, and remain prime
+ * at each stage: 3797, 797, 97, and 7. Similarly we can work from right to
+ * left: 3797, 379, 37, and 3.
  *
  * Find the sum of the only eleven primes that are both truncatable from left to
- *right and
- * right to left.
+ * right and right to left.
  *
  * NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
  */
 
+namespace
+{
+constexpr uint32_t INITIAL_SIEVE_LIMIT = 1000000;
+constexpr uint32_t SIEVE_STEPPING = 2;
+constexpr std::size_t TARGET_COUNT = 11;
+
+constexpr uint64_t EXPECTED_RESULT = 748317;
+
+bool numberIsLeftToRightTruncatablePrime(EDigitInteger const &number,
+                                         EPrimeSieve const &sieve)
+{
+	for(std::size_t i = 1; i < number.digitCount(); ++i)
+	{
+		uint32_t truncated = static_cast<uint32_t>(
+		        number.rangeToInteger(0, number.digitCount() - 1 - i));
+		if(sieve.find(truncated) == sieve.end())
+			return false;
+	}
+	return true;
+}
+
+bool numberIsRightToLeftTruncatablePrime(EDigitInteger const &number,
+                                         EPrimeSieve const &sieve)
+{
+	for(std::size_t i = 1; i < number.digitCount(); ++i)
+	{
+		uint32_t truncated = static_cast<uint32_t>(
+		        number.rangeToInteger(i, number.digitCount() - 1));
+		if(sieve.find(truncated) == sieve.end())
+			return false;
+	}
+	return true;
+}
+}
+
 int main(void)
 {
 	EPrimeSieve sieve;
-	std::set<uint32_t>::iterator it;
-	uint64_t h, sum = 0;
-	int count = 0;
-
-	EDigitInteger number;
-	bool trunc;
-
 	sieve.setLimit(INITIAL_SIEVE_LIMIT);
 
-	// Skip past the single-digit primes excluded by the problem
-	// description.
-	it = sieve.begin();
-	while(((*it) < 10) && (it != sieve.end()))
-		it++;
+	assert(sieve.find(3797) != sieve.end());
+	assert(numberIsLeftToRightTruncatablePrime(EDigitInteger(3797), sieve));
+	assert(numberIsRightToLeftTruncatablePrime(EDigitInteger(3797), sieve));
+
+	// Skip past the single-digit primes excluded by the problem desc.
+	auto it = sieve.begin();
+	while((it != sieve.end()) && (*it < 10))
+		++it;
 
 	// Keep going until we hit our target count of primes.
+	std::size_t count = 0;
+	uint64_t sum = 0;
 	while(count < TARGET_COUNT)
 	{
-		// Set our number.
-		number = (*it);
+		assert(*it <= EXPECTED_RESULT);
+		EDigitInteger number(*it);
 
-		// Test if our number is truncatable from left to right.
-		trunc = true;
-		for(std::size_t i = 1; i < number.digitCount(); i++)
+		if(numberIsLeftToRightTruncatablePrime(number, sieve) &&
+		   numberIsRightToLeftTruncatablePrime(number, sieve))
 		{
-			h = number.rangeToInteger(i, number.digitCount() - 1);
-			if(sieve.find(static_cast<uint32_t>(h)) == sieve.end())
-			{
-				trunc = false;
-				break;
-			}
+			++count;
+			sum += *it;
 		}
 
-		// If it hasn't already found to NOT be truncatable, test if our
-		// number is from right to left.
-		if(trunc)
-		{
-			for(std::size_t i = 1; i < number.digitCount(); i++)
-			{
-				h = number.rangeToInteger(
-				        0, (number.digitCount() - 1) - i);
-				if(sieve.find(static_cast<uint32_t>(h)) ==
-				   sieve.end())
-				{
-					trunc = false;
-					break;
-				}
-			}
-		}
-
-		// If we've found a truncatable prime, increment our count.
-		if(trunc)
-		{
-			count++;
-			sum += (*it);
-		}
-
-		// Increment our iterator.
-		h = (*it);
-		it++;
+		uint32_t previous = *it;
+		++it;
 		if(it == sieve.end())
 		{
-			// If we've reached the end of our current sieve, resize
-			// it and reset our iterator.
+			// If we've reached the end of our current sieve,
+			// resize it and reset our iterator.
 			sieve.setLimit(sieve.getLimit() * SIEVE_STEPPING);
-			it = sieve.find(static_cast<uint32_t>(h));
-			it++;
+			it = sieve.find(previous);
+			++it;
 
-			// If we are still at the end of the sieve (for some
-			// reason), break.
-			if(it == sieve.end())
-				break;
+			assert(it != sieve.end());
 		}
 	}
 
 	std::cout << "The sum of the only eleven truncatable primes is: " << sum
 	          << "\n";
 
-	assert(sum == 748317);
+	assert(sum == EXPECTED_RESULT);
 	return 0;
 }
