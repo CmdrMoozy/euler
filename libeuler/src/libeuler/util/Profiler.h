@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,6 +20,7 @@
 #define INCLUDE_LIBEULER_UTIL_PROFILER
 
 #include <chrono>
+#include <string>
 
 namespace euler
 {
@@ -34,7 +34,7 @@ public:
 	static void doTestSuite();
 #endif
 
-	Profiler(bool p = false);
+	Profiler(bool p = false, std::string const &pp = "");
 	~Profiler();
 
 	double getElapsed() const;
@@ -42,6 +42,7 @@ public:
 
 private:
 	bool print;
+	std::string printPrefix;
 	std::chrono::high_resolution_clock::time_point start;
 };
 }

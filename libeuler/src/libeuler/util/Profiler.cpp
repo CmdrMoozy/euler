@@ -76,9 +76,12 @@ void Profiler::doTestSuite()
  * This is our constructor, which records our "starting" time.
  *
  * \param p Whether or not to print the elasped time on destruction.
+ * \param pp The string to prefix when printing profile results.
  */
-Profiler::Profiler(bool p)
-        : print(p), start(std::chrono::high_resolution_clock::now())
+Profiler::Profiler(bool p, std::string const &pp)
+        : print(p),
+          printPrefix(pp),
+          start(std::chrono::high_resolution_clock::now())
 {
 }
 
@@ -111,8 +114,8 @@ void Profiler::printElapsed() const
 {
 	double elapsed = getElapsed();
 	std::ostringstream oss;
-	oss << "Profiler: " << std::fixed << std::setprecision(4) << elapsed
-	    << "s\n";
+	oss << printPrefix << "Profiler: " << std::fixed << std::setprecision(4)
+	    << elapsed << "s\n";
 	std::cout << oss.str();
 }
 }
