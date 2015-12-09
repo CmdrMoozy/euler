@@ -50,6 +50,8 @@ SET(euler_SOURCES
 
 	src/libeuler/structs/EGrid.h
 
+	src/libeuler/types/BigDecimal.cpp
+	src/libeuler/types/BigDecimal.hpp
 	src/libeuler/types/EBigInteger.cpp
 	src/libeuler/types/EBigInteger.h
 	src/libeuler/types/EDigitInteger.cpp
