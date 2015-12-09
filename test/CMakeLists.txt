@@ -2,6 +2,8 @@ set(euler-test_SOURCES
 
 	euler-test.cpp
 
+	geodesy/EGeoCoordTest.cpp
+
 	graph/GraphTest.cpp
 
 	math/EFactorizationTest.cpp

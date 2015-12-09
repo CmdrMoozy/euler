@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,29 +29,25 @@
  * \brief This class represents a geographic coordinate.
  *
  * It denotes a coordinate on the surface of the earth, in latitude/longitude
- *format. It also
- * provides the ability to do some math with these coordiantes, such as finding
- *distance (using
- * the WGS-84 ellipsoid model), and finding midpoints.
+ * format. It also provides the ability to do some math with these coordiantes,
+ * such as finding distance (using the WGS-84 ellipsoid model), and finding
+ * midpoints.
  */
 class EGeoCoord
 {
 public:
 	/*!
-	 * \brief This constant provides the major axis length of our reference
-	 * ellipsoid (WGS-84).
+	 * \brief The major axis length of our reference ellipsoid (WGS-84).
 	 */
 	static constexpr double ELLIPSOID_MAJOR_AXIS = 6378137.0;
 
 	/*!
-	 * \brief This constant provides the reciprocal of the "flattening"
-	 * value of our reference ellipsoid (WGS-84).
+	 * \brief The reciprocal of the flattening of our ellipsoid (WGS-84).
 	 */
 	static constexpr double ELLIPSOID_FLATTENING_REC = 298.257223563;
 
 	/*!
-	 * \brief This is a flags enumerator, which denotes a hemisphere of the
-	 * earth.
+	 * \brief Flags which denote a hemisphere of the earth.
 	 */
 	enum HemisphereFlags
 	{
@@ -61,10 +56,6 @@ public:
 		Northern = 0x04,
 		Southern = 0x08
 	};
-
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
 
 	EGeoCoord();
 	EGeoCoord(const EGeoCoord &o);
