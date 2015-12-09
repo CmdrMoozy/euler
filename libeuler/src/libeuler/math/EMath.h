@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,10 +47,6 @@ class EFactorization;
 class EMath
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 #if(defined _WIN32 || defined __APPLE__)
 	static mpz_class int64ToBigInteger(uint64_t n);
 	static mpf_class int64ToBigFloat(uint64_t n, mp_bitcnt_t p);
