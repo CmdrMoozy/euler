@@ -31,16 +31,11 @@ class EPrimeSieve;
  * \brief This class facilitates the factoring or numbers.
  *
  * It provides a way to get the prime factorization, or the TOTAL factorization,
- *along with some
- * other utility functions.
+ * along with some other utility functions.
  */
 class EFactorization
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	EFactorization(uint32_t n = 0);
 	virtual ~EFactorization();
 

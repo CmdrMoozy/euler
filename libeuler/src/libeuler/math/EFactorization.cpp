@@ -21,112 +21,9 @@
 #include "libeuler/math/EPrimeSieve.h"
 #include "libeuler/util/EArrayUtilities.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-
-#include "libeuler/EDefines.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EFactorization::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EFactorization'...\t\t";
-	try
-	{
-		success = true;
-
-		EFactorization f;
-
-		// 56
-
-		f.setNumber(56);
-		std::map<uint32_t, uint32_t> primes = f.getPrimeFactors();
-		std::set<uint32_t> all = f.getAllFactors();
-
-		// Prime factors
-
-		EASSERT(f.getPrimeFactorsCount() == 2)
-
-		EASSERT(primes.size() == 2)
-		EASSERT(primes.find(2) != primes.end())
-		EASSERT(primes.find(2)->second == 3)
-		EASSERT(primes.find(7) != primes.end())
-		EASSERT(primes.find(7)->second == 1)
-
-		// All factors
-
-		EASSERT(f.getAllFactorsCount() == 8)
-
-		EASSERT(all.size() == 8)
-		EASSERT(all.find(1) != all.end())
-		EASSERT(all.find(2) != all.end())
-		EASSERT(all.find(4) != all.end())
-		EASSERT(all.find(7) != all.end())
-		EASSERT(all.find(8) != all.end())
-		EASSERT(all.find(14) != all.end())
-		EASSERT(all.find(28) != all.end())
-		EASSERT(all.find(56) != all.end())
-
-		// 150
-
-		f.setNumber(150);
-		primes = f.getPrimeFactors();
-		all = f.getAllFactors();
-
-		// Prime factors
-
-		EASSERT(f.getPrimeFactorsCount() == 3)
-
-		EASSERT(primes.size() == 3)
-		EASSERT(primes.find(2) != primes.end())
-		EASSERT(primes.find(2)->second == 1)
-		EASSERT(primes.find(3) != primes.end())
-		EASSERT(primes.find(3)->second == 1)
-		EASSERT(primes.find(5) != primes.end())
-		EASSERT(primes.find(5)->second == 2)
-
-		// All factors
-
-		EASSERT(f.getAllFactorsCount() == 12)
-
-		EASSERT(all.size() == 12)
-		EASSERT(all.find(1) != all.end())
-		EASSERT(all.find(2) != all.end())
-		EASSERT(all.find(3) != all.end())
-		EASSERT(all.find(5) != all.end())
-		EASSERT(all.find(6) != all.end())
-		EASSERT(all.find(10) != all.end())
-		EASSERT(all.find(15) != all.end())
-		EASSERT(all.find(25) != all.end())
-		EASSERT(all.find(30) != all.end())
-		EASSERT(all.find(50) != all.end())
-		EASSERT(all.find(75) != all.end())
-		EASSERT(all.find(150) != all.end())
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our default constructor, which initializes a new EFactorization
- *object
- * to factor the given number.
+ * object to factor the given number.
  *
  * \param n The number this object will be factoring.
  */
@@ -156,8 +53,7 @@ uint32_t EFactorization::getNumber()
 
 /*!
  * This function sets the number our object will be operating on, possibly
- *resizing our
- * object's prime number sieve if need be.
+ * resizing our object's prime number sieve if need be.
  *
  * \param n The new number to be factored.
  */
@@ -188,10 +84,8 @@ std::size_t EFactorization::getPrimeFactorsCount()
 
 /*!
  * This function returns the NUMBER of factors our number has (in total),
- *without actually
- * generating the list of them. This function will, however, generate only the
- *PRIME factors
- * if they have not been generated already.
+ * without actually generating the list of them. This function will, however,
+ * generate only the PRIME factors if they have not been generated already.
  *
  * \return The number of ALL factors our number has.
  */
@@ -222,10 +116,8 @@ std::size_t EFactorization::getAllFactorsCount()
 
 /*!
  * This function generates our list of primes factors if it hasn't already been
- *generated,
- * and then returns a const reference to the list. Note that the map returns
- *maps prime to
- * its exponent.
+ * generated, and then returns a const reference to the list. Note that the map
+ * returns maps prime to its exponent.
  *
  * \return A list of all of our number's prime factors.
  */
@@ -239,8 +131,7 @@ const std::map<uint32_t, uint32_t> &EFactorization::getPrimeFactors()
 
 /*!
  * This function generates our list of all factors if it hasn't already been
- *generated, and
- * then returns a const reference to the list.
+ * generated, and then returns a const reference to the list.
  *
  * \return A list of all of our number's factors.
  */
@@ -301,9 +192,8 @@ void EFactorization::generatePrimeFactors()
 
 /*!
  * This is our behind-the-scenes function that generates all of our factors. If
- * the prime factors have
- * not been generated yet, then they will be generated first, and then expanded
- * into all of the factors.
+ * the prime factors have not been generated yet, then they will be generated
+ * first, and then expanded into all of the factors.
  */
 void EFactorization::generateAllFactors()
 {
