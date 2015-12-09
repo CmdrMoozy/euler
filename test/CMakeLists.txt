@@ -14,6 +14,7 @@ set(euler-test_SOURCES
 	types/EDigitIntegerTest.cpp
 
 	util/EArrayTest.cpp
+	util/EArrayUtilitiesTest.cpp
 	util/EBitwiseTest.cpp
 	util/EByteArrayTest.cpp
 
