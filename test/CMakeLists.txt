@@ -21,6 +21,7 @@ set(euler-test_SOURCES
 	structs/EGridTest.cpp
 
 	types/EDigitIntegerTest.cpp
+	types/ERightTriangleTest.cpp
 	types/ETriangleTest.cpp
 
 	util/EArrayTest.cpp

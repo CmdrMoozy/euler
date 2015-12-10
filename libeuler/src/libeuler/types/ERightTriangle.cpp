@@ -22,94 +22,6 @@
 
 #include "libeuler/math/Math.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-
-#include "libeuler/EDefines.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void ERightTriangle::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'ERightTriangle'...\t\t";
-	try
-	{
-		success = true;
-
-		ERightTriangle t;
-
-		t.set(5, 3, 4);
-
-		// Test normalization.
-		EASSERT((t.getA() < t.getB()) && (t.getB() < t.getC()))
-
-		// Test some right triangles.
-		t.set(3, 4, 5);
-		EASSERT(t.isValidTriangle())
-		t.set(5, 12, 13);
-		EASSERT(t.isValidTriangle())
-		t.set(7, 24, 25);
-		EASSERT(t.isValidTriangle())
-		t.set(8, 15, 17);
-		EASSERT(t.isValidTriangle())
-		t.set(9, 40, 41);
-		EASSERT(t.isValidTriangle())
-		t.set(11, 60, 61);
-		EASSERT(t.isValidTriangle())
-		t.set(12, 35, 37);
-		EASSERT(t.isValidTriangle())
-		t.set(13, 84, 85);
-		EASSERT(t.isValidTriangle())
-		t.set(16, 63, 65);
-		EASSERT(t.isValidTriangle())
-		t.set(20, 21, 29);
-		EASSERT(t.isValidTriangle())
-		t.set(28, 45, 53);
-		EASSERT(t.isValidTriangle())
-		t.set(33, 56, 65);
-		EASSERT(t.isValidTriangle())
-		t.set(36, 77, 85);
-		EASSERT(t.isValidTriangle())
-		t.set(39, 80, 89);
-		EASSERT(t.isValidTriangle())
-		t.set(48, 55, 73);
-		EASSERT(t.isValidTriangle())
-		t.set(65, 72, 97);
-		EASSERT(t.isValidTriangle())
-
-		// Test some non-right-triangles.
-
-		t.set(3, 4, 6);
-		EASSERT(!t.isValidTriangle())
-		t.set(5, 11, 13);
-		EASSERT(!t.isValidTriangle())
-		t.set(8, 24, 25);
-		EASSERT(!t.isValidTriangle())
-		t.set(8, 15, 18);
-		EASSERT(!t.isValidTriangle())
-		t.set(9, 33, 41);
-		EASSERT(!t.isValidTriangle())
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our default constructor, which initializes a new ERightTriangle.
  */
@@ -121,8 +33,7 @@ ERightTriangle::ERightTriangle(uint32_t a, uint32_t b, uint32_t c)
 
 /*!
  * This is our copy constructor, which initializes our triangle to a value equal
- *to that of the given other
- * triangle.
+ * to that of the given other triangle.
  *
  * \param o The other object to make ourself equal to.
  */
@@ -133,7 +44,7 @@ ERightTriangle::ERightTriangle(const ERightTriangle &o) : ETriangle(o)
 
 /*!
  * This is our assignment operator, which makes our value equal to that of the
- *given other triangle.
+ * given other triangle.
  *
  * \param o The other object to make ourself equal to.
  * \return A reference to this, so the operator can be chained.
@@ -198,9 +109,8 @@ void ERightTriangle::set(uint32_t a, uint32_t b, uint32_t c)
 
 /*!
  * This is a reimplemented version of the same function on our parent class. It
- *tests whether or not our triangle
- * is valid (i.e., if the sum of any two sides is greater than the length of the
- *third side), and it additionally
+ * tests whether or not our triangle is valid (i.e., if the sum of any two
+ * sides is greater than the length of the third side), and it additionally
  * makes sure we are a RIGHT triangle (i.e., a^2 + b^2 = c^2 holds true).
  *
  * \return True if our triangle is valid, or false otherwise.
@@ -218,12 +128,10 @@ bool ERightTriangle::isValidTriangle() const
 
 /*!
  * This is our internal function which normalizes our triangle. That is, a
- * triangle with sides {3, 4, 5} will be
- * treated as equal to a triangle with sides {4, 3, 5}, since they are just
- * mirror images of each other. This is
+ * triangle with sides {3, 4, 5} will be treated as equal to a triangle with
+ * sides {4, 3, 5}, since they are just mirror images of each other. This is
  * achieved by ensuring that the GREATER of A and B is always assigned to A, and
- * the other value is always assigned
- * to B.
+ * the other value is always assigned to B.
  */
 void ERightTriangle::normalize()
 {
