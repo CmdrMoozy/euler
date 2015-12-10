@@ -4,6 +4,7 @@ set(euler-test_SOURCES
 
 	euler/ECircularPrimeSieveTest.cpp
 	euler/EFastTotientTest.cpp
+	euler/ENumberGridTest.cpp
 	euler/ETriangleStructureTest.cpp
 
 	geodesy/EGeoCoordTest.cpp
