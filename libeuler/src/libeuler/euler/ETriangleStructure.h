@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,24 +28,20 @@
  * \brief This class represents a triangle-shaped data structure.
  *
  * We store the values, behind-the-scenes, in a two-dimensional array.
- *Addressing works such that
- * the first row in the triangle (i.e., the one with only a single value in it)
- *is row "0." The element
- * in a row furthest to the left is element "0." All functions that take an
- *index parameter will throw
+ * Addressing works such that the first row in the triangle (i.e., the one with
+ * only a single value in it) is row "0." The element in a row furthest to the
+ * left is element "0." All functions that take an index parameter will throw
  * an exception if you give it a value that is out-of-bounds.
  *
  * This class isn't templated because its uses are VERY specific; it isn't
- *really meant to solve a
- * general problem.
+ * really meant to solve a general problem.
  */
 class ETriangleStructure
 {
 public:
 	/*!
 	 * This enum defines what type of fill strategy we will use in cases
-	 * where we are allocating
-	 * new memory (e.g., when resizing a triangle).
+	 * where we are allocating new memory (e.g., when resizing a triangle).
 	 */
 	enum FillMode
 	{
@@ -54,10 +49,6 @@ public:
 		ZeroOut,
 		None
 	};
-
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
 
 	ETriangleStructure(std::size_t h = 0);
 	ETriangleStructure(const ETriangleStructure &o);

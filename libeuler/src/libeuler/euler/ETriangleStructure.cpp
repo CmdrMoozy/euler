@@ -23,80 +23,9 @@
 
 #include "libeuler/EDefines.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void ETriangleStructure::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'ETriangleStructure'...\t\t";
-	try
-	{
-		success = true;
-
-		/*
-		 * This is a relatively simple test; it is known that the
-		 * largest path through
-		 * the given triangle is 1074, so we just test if we get the
-		 * right answer.
-		 */
-
-		ETriangleStructure t(15);
-
-		int data[][15] = {
-		        {75},
-		        {95, 64},
-		        {17, 47, 82},
-		        {18, 35, 87, 10},
-		        {20, 4, 82, 47, 65},
-		        {19, 1, 23, 75, 03, 34},
-		        {88, 2, 77, 73, 7, 63, 67},
-		        {99, 65, 4, 28, 6, 16, 70, 92},
-		        {41, 41, 26, 56, 83, 40, 80, 70, 33},
-		        {41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
-		        {53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
-		        {70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
-		        {91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
-		        {63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
-		        {4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4,
-		         23}};
-
-		for(std::size_t i = 0; i < 15; ++i)
-			t.setRowAt(i, data[i]);
-
-		EASSERT(t.getHeight() == 15)
-		EASSERT(t.getLargestPathSum() == 1074)
-	}
-
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-	catch(EOutOfBoundsException &e)
-	{
-		EDIE_LOGIC(e)
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our default constructor, which initializes a new ETriangleStructure
- *(optionally)
- * of a given height, or an empty one if no height is provided.
+ * (optionally) of a given height, or an empty one if no height is provided.
  *
  * \param h The height (number of rows) of our new triangle.
  */
@@ -107,8 +36,7 @@ ETriangleStructure::ETriangleStructure(std::size_t h) : height(0), data(NULL)
 
 /*!
  * This is our copy-constructor, which initializes a new ETriangleStructure
- *object that is
- * equivalent to the given other object.
+ * object that is equivalent to the given other object.
  *
  * \param o The other ETriangleStructure object to make ourself equal to.
  */
@@ -120,8 +48,7 @@ ETriangleStructure::ETriangleStructure(const ETriangleStructure &o)
 
 /*!
  * This is our default destructor, which deletes all of the memory we've
- * allocated for
- * our triangle's contents.
+ * allocated for our triangle's contents.
  */
 ETriangleStructure::~ETriangleStructure()
 {
@@ -130,8 +57,7 @@ ETriangleStructure::~ETriangleStructure()
 
 /*!
  * This is our assignment operator, which makes our current object equal to that
- *of the given
- * other ETriangleStructure object.
+ * of the given other ETriangleStructure object.
  *
  * \param o The other QTriangleStructure object to make ourself equal to.
  * \return A reference to this, so this operator can be chained.
@@ -157,8 +83,7 @@ ETriangleStructure &ETriangleStructure::operator=(const ETriangleStructure &o)
 
 /*!
  * This function clears our entire triangle, freeing up all of its memory and
- * (effectively) setting
- * its size to 0.
+ * (effectively) setting its size to 0.
  */
 void ETriangleStructure::clear()
 {
@@ -187,10 +112,9 @@ std::size_t ETriangleStructure::getHeight() const
 
 /*!
  * This function sets the height of our triangle. It offers a few different fill
- *mdoes - it can either
- * not fill the new data list at all, or it can try to preserve as much of the
- *old data as it can, or
- * it can write all 0's to the new list.
+ * modes - it can either not fill the new data list at all, or it can try to
+ * preserve as much of the old data as it can, or it can write all 0's to the
+ * new list.
  *
  * \param h The new height of our triangle.
  * \param f The "FillMode" we will be using.
@@ -240,8 +164,6 @@ void ETriangleStructure::setHeight(std::size_t h,
  * \param r The row on which the value is found.
  * \param c The column on which the value is found.
  * \param v The new value the given cell will hold.
- * \exception EOutOfBoundsException This exception is thrown if the given row
- *and/or column are out-of-bounds.
  */
 void ETriangleStructure::setAt(std::size_t r, std::size_t c, int v)
 {
@@ -254,14 +176,11 @@ void ETriangleStructure::setAt(std::size_t r, std::size_t c, int v)
 
 /*!
  * This function sets every value in an entire row in our triangle. Note that it
- *is up to the caller
- * to make sure the given array of values contains an appropriate number of
- *values for the given row.
+ * is up to the caller to make sure the given array of values contains an
+ * appropriate number of values for the given row.
  *
  * \param r The row whose values we will be setting.
  * \param v An array of the values we will be setting.
- * \exception EOutOfBoundsException This exception is thrown if the row is
- *out-of-bounds.
  */
 void ETriangleStructure::setRowAt(std::size_t r, const int *v)
 {
@@ -274,8 +193,6 @@ void ETriangleStructure::setRowAt(std::size_t r, const int *v)
  *
  * \param r The row on which the value is found.
  * \param c The column in which the value is found.
- * \exception EOutOfBoundsException This exception is thrown if the given row
- *and/or column are out-of-bounds.
  * \return The value found at the given index.
  */
 int ETriangleStructure::at(std::size_t r, std::size_t c) const
@@ -289,17 +206,13 @@ int ETriangleStructure::at(std::size_t r, std::size_t c) const
 
 /*!
  * This function returns the largest possible sum of a path through the
- *triangle, from top
- * to bottom. This function copies our existing triangle in memory so it can
- *operate on it
- * without modifying our object. This function operates in O(n^2) time
- *complexity (note that
- * this is only a fairly tight upper-bound; it actually performs fewer
- *operations), where n
- * is the number of rows in the triangle.
+ * triangle, from top to bottom. This function copies our existing triangle in
+ * memory so it can operate on it without modifying our object. This function
+ * operates in O(n^2) time complexity (note that this is only a fairly tight
+ * upper-bound; it actually performs fewer operations), where n is the number
+ * of rows in the triangle.
  *
- * \return The largest possible sum of the elements of a path through the
- *triangle, from top to bottom.
+ * \return The largest sum of path elements through the triangle, top to bottom.
  */
 int ETriangleStructure::getLargestPathSum() const
 {
@@ -356,15 +269,12 @@ int ETriangleStructure::getLargestPathSum() const
 
 /*!
  * This is a convenience function, which returns the value of the "left child"
- *of the cell at the
- * given offset. In this instance, the "left child" is the cell to the bottom
- *left of the given cell,
- * if all of our values were laid out in a triangular shape.
+ * of the cell at the given offset. In this instance, the "left child" is the
+ * cell to the bottom left of the given cell, if all of our values were laid
+ * out in a triangular shape.
  *
  * \param r The row on which the cell is found.
  * \param c The column in which the cell is found.
- * \exception EOutOfBoundsException This exception is thrown if the given index
- *is out-of-bounds, or if it has no valid left child.
  * \return The value of the given cell's left child.
  */
 int ETriangleStructure::leftChildValue(std::size_t r, std::size_t c) const
@@ -374,15 +284,12 @@ int ETriangleStructure::leftChildValue(std::size_t r, std::size_t c) const
 
 /*!
  * This is a convenience function, which returns the value of the "right child"
- *of the cell at the
- * given offset. In this instance, the "right child" is the cell to the bottom
- *right of the given cell,
- * if all of our values were laid out in a triangular shape.
+ * of the cell at the given offset. In this instance, the "right child" is the
+ * cell to the bottom right of the given cell, if all of our values were laid
+ * out in a triangular shape.
  *
  * \param r The row on which the value is found.
  * \param c The column in which the cell is found.
- * \exception EOutOfBoundsException This exception is thrown if the given index
- *is out-of-bounds, or if it has no valid right child.
  * \return The value of the given cell's right child.
  */
 int ETriangleStructure::rightChildValue(std::size_t r, std::size_t c) const
@@ -392,8 +299,7 @@ int ETriangleStructure::rightChildValue(std::size_t r, std::size_t c) const
 
 /*!
  * This is a convenience function, which checks if the given row and column
- *offset is in-bounds in our
- * current triangle.
+ * offset is in-bounds in our current triangle.
  *
  * \param r The row on which the cell is found.
  * \param c The column in which the cell is found.
