@@ -26,43 +26,6 @@
 #include "libeuler/math/QMath.h"
 #endif
 
-#ifdef LIBEULER_DEBUG
-#include "libeuler/EDefines.h"
-#include "libeuler/EExceptions.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EBigInteger::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EBigInteger'...\t\t";
-	try
-	{
-		success = true;
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-	catch(EValueRangeException &e)
-	{
-		EDIE_LOGIC(e)
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*
  * This is our default constructor, which initializes our integer's value to 0.
  */

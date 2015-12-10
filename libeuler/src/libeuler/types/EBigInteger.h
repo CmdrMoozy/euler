@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,16 +34,11 @@ std::ostream &operator<<(std::ostream &o, const EBigInteger &i);
  * \brief This class implements an arbitrary-precision integer using GMP.
  *
  * It provides some functionality that GMP's mpz_class type either doesn't
- *provide, or doesn't
- * make easy to use syntactically.
+ * provide, or doesn't make easy to use syntactically.
  */
 class EBigInteger
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	EBigInteger();
 	EBigInteger(const EBigInteger &o);
 	EBigInteger(const mpz_class &v);
