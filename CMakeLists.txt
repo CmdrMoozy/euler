@@ -61,8 +61,8 @@ set(euler_LIBRARIES
 enable_testing()
 
 add_subdirectory(src/common)
-add_subdirectory(done)
-add_subdirectory(new)
+add_subdirectory(src/done)
+add_subdirectory(src/new)
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_subdirectory(src/test)

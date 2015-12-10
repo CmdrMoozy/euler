@@ -5,7 +5,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-find done/ new/ src/ -type f -iname "*.h" -o -iname "*.hpp" -o -iname "*.cpp" | while read FILE
+find src/ -type f -iname "*.h" -o -iname "*.hpp" -o -iname "*.cpp" | while read FILE
 do
 	clang-format -i "$FILE"
 done
