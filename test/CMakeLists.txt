@@ -12,6 +12,7 @@ set(euler-test_SOURCES
 	math/MathTest.cpp
 
 	types/EDigitIntegerTest.cpp
+	types/ETriangleTest.cpp
 
 	util/EArrayTest.cpp
 	util/EArrayUtilitiesTest.cpp

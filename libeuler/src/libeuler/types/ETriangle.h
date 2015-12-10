@@ -26,18 +26,13 @@
  * \brief This class encapsulates a generic triangle.
  *
  * It just keeps track of the three side lengths - a, b and c, checks to make
- *sure lengths provided are
- * indeed a valid triangle (i.e., any two sides added together is greater than
- *the third side), and allows
- * for various mathematical manipulation of them.
+ * sure lengths provided are indeed a valid triangle (i.e., any two sides added
+ * together is greater than the third side), and allows for various
+ * mathematical manipulation of them.
  */
 class ETriangle
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	ETriangle(uint32_t a = 0, uint32_t b = 0, uint32_t c = 0);
 	ETriangle(const ETriangle &o);
 
