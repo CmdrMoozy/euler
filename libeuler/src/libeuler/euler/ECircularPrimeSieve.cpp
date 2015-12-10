@@ -22,55 +22,9 @@
 
 #include "libeuler/types/EDigitInteger.h"
 
-#ifdef LIBEULER_DEBUG
-#include <iostream>
-
-#include "libeuler/EDefines.h"
-#endif
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void ECircularPrimeSieve::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'ECircularPrimeSieve'...\t";
-	try
-	{
-		success = true;
-
-		/*
-		 * To test this, we solve a known problem. It is known that
-		 * there are 55 circular primes below 1,000,000 -
-		 * make sure our class gets the correct answer.
-		 */
-
-		ECircularPrimeSieve s;
-		s.setLimit(1000000);
-
-		EASSERT(s.getSize() == 55)
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This is our default constructor, which initializes a new
- * EulerCircularPrimeSieve object with
- * a limit of 0.
+ * EulerCircularPrimeSieve object with a limit of 0.
  */
 ECircularPrimeSieve::ECircularPrimeSieve() : EPrimeSieve()
 {
@@ -78,9 +32,8 @@ ECircularPrimeSieve::ECircularPrimeSieve() : EPrimeSieve()
 
 /*!
  * This is a reimplementation of generatePrimes(), which will generate the same
- * list as our parent,
- * but will then remove all of the non-circular primes, leaving us with a
- * functional EulerCircularPrimeSieve.
+ * list as our parent, but will then remove all of the non-circular primes,
+ * leaving us with a functional EulerCircularPrimeSieve.
  */
 void ECircularPrimeSieve::generatePrimes()
 {

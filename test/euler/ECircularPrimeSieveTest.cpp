@@ -16,38 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_LIBEULER_EULER_CIRCULAR_PRIME_SIEVE_H
-#define INCLUDE_LIBEULER_EULER_CIRCULAR_PRIME_SIEVE_H
+#include <catch/catch.hpp>
 
-#include "libeuler/math/EPrimeSieve.h"
+#include "libeuler/euler/ECircularPrimeSieve.h"
 
-/*!
- * \brief Extends our prime sieve by only finding circular primes.
- *
- * It behaves in exactly the same way, except after the primes are generated it
- * proceeds to filter out all non-circular primes.
- */
-class ECircularPrimeSieve : public EPrimeSieve
+TEST_CASE("Test circular prime sieve", "[ECircularPrimeSieve]")
 {
-public:
-	ECircularPrimeSieve();
+	// To test the sieve, solve a known problem: it has been precomputed
+	// that there are 33 circular primes below 10,000. Verify that we
+	// get the right answer.
 
-protected:
-	virtual void generatePrimes();
-
-private:
-	/*!
-	 * This enum represents the category of a given prime, whether it hasn't
-	 * been tested yet,
-	 * is definitely Circular, or definitely NotCircular. It is used only
-	 * internally.
-	 */
-	enum PrimeCategory
-	{
-		Untested,
-		Circular,
-		NotCircular
-	};
-};
-
-#endif
+	ECircularPrimeSieve s;
+	s.setLimit(10000);
+	CHECK(s.getSize() == 33);
+}

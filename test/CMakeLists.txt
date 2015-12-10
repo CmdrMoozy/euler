@@ -2,6 +2,7 @@ set(euler-test_SOURCES
 
 	euler-test.cpp
 
+	euler/ECircularPrimeSieveTest.cpp
 	euler/ETriangleStructureTest.cpp
 
 	geodesy/EGeoCoordTest.cpp
