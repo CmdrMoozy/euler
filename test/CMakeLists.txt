@@ -11,6 +11,8 @@ set(euler-test_SOURCES
 	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp
 
+	structs/EGridTest.cpp
+
 	types/EDigitIntegerTest.cpp
 	types/ETriangleTest.cpp
 
