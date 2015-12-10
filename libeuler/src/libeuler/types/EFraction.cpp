@@ -30,67 +30,9 @@ namespace
 constexpr double DOUBLE_COMPARE_EPSILON = 0.00001;
 }
 
-#ifdef LIBEULER_DEBUGi
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void EFraction::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'EFraction'...\t\t\t";
-	try
-	{
-		success = true;
-
-		// Test reducing on a bunch of generated fractions.
-		EFraction f;
-		uint64_t n, d, m;
-		double v;
-
-		for(m = 3; m <= 5; ++m)
-		{
-			for(n = 0; n <= 10; ++n)
-			{
-				for(d = 1; d <= 10; ++d)
-				{
-					f.setNumerator(n * m);
-					f.setDenominator(d * m);
-
-					EASSERT(f.getNumerator() == (n * m))
-					EASSERT(f.getDenominator() == (d * m))
-
-					v = f.toDouble();
-					f.reduce();
-					EASSERT(std::abs(f.toDouble() - v) <
-					        DOUBLE_COMPARE_EPSILON)
-				}
-			}
-		}
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-	catch(EValueRangeException &e)
-	{
-		EDIE_LOGIC(e)
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
-
 /*!
  * This function tests if the given numerator and denominator are a reduced
- *proper fraction. That is, we
- * test if a fraction n/d could be reduced or not.
+ * proper fraction. That is, we test if a fraction n/d could be reduced or not.
  *
  * \param n The numerator.
  * \param d The denominator.
@@ -104,12 +46,10 @@ bool EFraction::isReducedProperFraction(uint64_t n, uint64_t d)
 
 /*!
  * This constructor initializes a new fraction with the given numerator and
- *denominator values.
+ * denominator values.
  *
  * \param n The numerator.
  * \param d The denominator.
- * \exception QValueRangeException This exception is thrown if you try to divide
- *by zero.
  */
 EFraction::EFraction(uint64_t n, uint64_t d)
 {
@@ -119,7 +59,7 @@ EFraction::EFraction(uint64_t n, uint64_t d)
 
 /*!
  * This is our copy constructor, which sets our value equal to that of the given
- *other object.
+ * other object.
  *
  * \param o The object to make ourself equal to.
  */
@@ -137,7 +77,7 @@ EFraction::~EFraction()
 
 /*!
  * This is our assignment operator, which sets our value equal to that of the
- *given other object.
+ * given other object.
  *
  * \param o The object to make ourself equal to.
  * \return A reference to this, so this operator can be chained.
@@ -159,10 +99,8 @@ EFraction &EFraction::operator=(const EFraction &o)
 
 /*!
  * This operator tests if our value is equal to the value of the given other
- *object.
- * Note that these operators use only double precision; if you need more
- *precision, you should use
- * toBigDouble() to compare instead.
+ * object. Note that these operators use only double precision; if you need
+ * more precision, you should use toBigDouble() to compare instead.
  *
  * \param o The other object to compare ourself to.
  * \return True if we are equal to the other object, or false otherwise.
@@ -174,10 +112,8 @@ bool EFraction::operator==(const EFraction &o) const
 
 /*!
  * This operator tests if our value is greater than the value of the given other
- *object.
- * Note that these operators use only double precision; if you need more
- *precision, you should use
- * toBigDouble() to compare instead.
+ * object. Note that these operators use only double precision; if you need more
+ * precision, you should use toBigDouble() to compare instead.
  *
  * \param o The other object to compare ourself to.
  * \return True if we are greater than the other object, or false otherwise.
@@ -189,10 +125,8 @@ bool EFraction::operator>(const EFraction &o) const
 
 /*!
  * This operator tests if our value is less than the value of the given other
- *object.
- * Note that these operators use only double precision; if you need more
- *precision, you should use
- * toBigDouble() to compare instead.
+ * object. Note that these operators use only double precision; if you need
+ * more precision, you should use toBigDouble() to compare instead.
  *
  * \param o The other object to compare ourself to.
  * \return True if we are less than the other object, or false otherwise.
@@ -204,14 +138,11 @@ bool EFraction::operator<(const EFraction &o) const
 
 /*!
  * This operator tests if our value is greater than or equal to the value of the
- *given other object.
- * Note that these operators use only double precision; if you need more
- *precision, you should use
- * toBigDouble() to compare instead.
+ * given other object. Note that these operators use only double precision; if
+ * you need more precision, you should use toBigDouble() to compare instead.
  *
  * \param o The other object to compare ourself to.
- * \return True if we are greater than or equal to the other object, or false
- *otherwise.
+ * \return True if we are greater than or equal to the other object, or false.
  */
 bool EFraction::operator>=(const EFraction &o) const
 {
@@ -220,14 +151,11 @@ bool EFraction::operator>=(const EFraction &o) const
 
 /*!
  * This operator tests if our value is less than or equal to the value of the
- *given other object.
- * Note that these operators use only double precision; if you need more
- *precision, you should use
- * toBigDouble() to compare instead.
+ * given other object. Note that these operators use only double precision; if
+ * you need more precision, you should use toBigDouble() to compare instead.
  *
  * \param o The other object to compare ourself to.
- * \return True if we are less than or equal to the other object, or false
- *otherwise.
+ * \return True if we are less than or equal to the other object, or false.
  */
 bool EFraction::operator<=(const EFraction &o) const
 {
@@ -236,10 +164,9 @@ bool EFraction::operator<=(const EFraction &o) const
 
 /*!
  * This function adds the given other value to our value, getting a common
- *multiple for both denominators.
- * Note that reduction of the resulting fraction is not done automatically; it
- *is up to the user to perform
- * that action if they want to.
+ * multiple for both denominators. Note that reduction of the resulting
+ * fraction is not done automatically; it is up to the user to perform that
+ * action if they want to.
  *
  * \param o The value to add to our value.
  * \return A reference to this, so this operator can be chained.
@@ -264,11 +191,9 @@ EFraction &EFraction::operator+=(const EFraction &o)
 
 /*!
  * This function subtracts the given other value from our value, getting a
- *common multiple for both
- * denominators. Note that reduction of the resulting fraction is not done
- *automatically; it is up to
- * the user to perform that action if they want to. Also note that if the result
- *of this operation would
+ * common multiple for both denominators. Note that reduction of the resulting
+ * fraction is not done automatically; it is up to the user to perform that
+ * action if they want to. Also note that if the result of this operation would
  * be negative, our value is simply set to zero (since our types are unsigned).
  *
  * \param o The value to subtract from our value.
@@ -335,8 +260,6 @@ uint64_t EFraction::getDenominator() const
  * This function sets a new denominator for our fraction.
  *
  * \param d The new denominator value.
- * \exception EValueRangeException This exception is thrown if you try to divide
- *by zero.
  */
 void EFraction::setDenominator(uint64_t d)
 {
@@ -348,12 +271,11 @@ void EFraction::setDenominator(uint64_t d)
 
 /*!
  * This function will set our value to the mediant of our current value and the
- *given other value.
- * More information: http://en.wikipedia.org/wiki/Mediant_(mathematics)
+ * given other value. More information:
+ * http://en.wikipedia.org/wiki/Mediant_(mathematics)
  *
  * Note that the result may not be reduced; it is up to the caller to reduce the
- *resulting fraction
- * if that is indeed what is desired.
+ * resulting fraction if that is indeed what is desired.
  *
  * \param o The other value used in the computation.
  */
@@ -385,10 +307,8 @@ void EFraction::mediant(const EFraction &o)
 
 /*!
  * This function tests whether or not our fraction could be reduced or not. Note
- *that this is
- * computationally almost equivalent to reduce(), so you might consider just
- *using that function
- * instead.
+ * that this is computationally almost equivalent to reduce(), so you might
+ * consider just using that function instead.
  *
  * \return True if our fraction could be reduced, or false otherwise.
  */
@@ -401,8 +321,7 @@ bool EFraction::canReduce() const
 /*!
  * This function completely reduces our numerator and denominator.
  *
- * \return True if the fraction was reduced, or false if it was already in
- *lowest terms.
+ * \return True if fraction was reduced, or false if already in lowest terms.
  */
 bool EFraction::reduce()
 {
@@ -424,7 +343,7 @@ bool EFraction::reduce()
 
 /*!
  * This function returns the decimal value of our fraction as a primitive
- *double.
+ * double.
  *
  * \return Our numerator divided by our denominator.
  */
@@ -435,7 +354,7 @@ double EFraction::getDecimalValue() const
 
 /*!
  * This function returns the decimal value of our fraction as a primitive
- *double.
+ * double.
  *
  * \return Our numerator divided by our denominator.
  */
@@ -447,8 +366,7 @@ double EFraction::toDouble() const
 
 /*!
  * This function is similar to toDouble(), but it returns our value as a
- *high-precision GMP floating
- * point value.
+ * high-precision GMP floating point value.
  *
  * \return Our numerator divided by our denominator.
  */
@@ -467,8 +385,8 @@ mpf_class EFraction::toBigDouble(uint32_t p) const
 
 /*!
  * This is our output stream operator, which allows our objects to be easily
- *printed to
- * a standard C++ ostream object. The value printed will be in the format "n/d."
+ * printed to a standard C++ ostream object. The value printed will be in the
+ * format "n/d."
  *
  * \param out The output stream to which we will write.
  * \param f The QFraction object we will be writing.

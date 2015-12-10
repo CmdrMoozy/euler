@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - A collection of ProjectEuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,10 +51,6 @@ std::ostream &operator<<(std::ostream &out, const EFraction &f);
 class EFraction
 {
 public:
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	static bool isReducedProperFraction(uint64_t n, uint64_t d);
 
 	EFraction(uint64_t n = 0, uint64_t d = 1);
