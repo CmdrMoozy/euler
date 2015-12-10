@@ -50,10 +50,6 @@ public:
 		IV = 3
 	};
 
-#ifdef LIBEULER_DEBUG
-	static void doTestSuite();
-#endif
-
 	ESpiral();
 	virtual ~ESpiral();
 

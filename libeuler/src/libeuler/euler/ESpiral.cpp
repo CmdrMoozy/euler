@@ -22,69 +22,11 @@
 
 #include "libeuler/util/AbsoluteValue.h"
 
-#ifdef LIBEULER_DEBUG
-#include "libeuler/EDefines.h"
-
-#include <iostream>
-#endif
-
 // Initialize our static class constants.
 const ESpiral::Quadrant ESpiral::fsmNext[4] = {ESpiral::IV, ESpiral::I,
                                                ESpiral::II, ESpiral::III};
 const ESpiral::Quadrant ESpiral::fsmPrevious[4] = {ESpiral::II, ESpiral::III,
                                                    ESpiral::IV, ESpiral::I};
-
-#ifdef LIBEULER_DEBUG
-/*!
- * This function implements our test suite for this class. It uses
- * non-abort()'ing
- * assertions, and merely prints the result to stdout.
- */
-void ESpiral::doTestSuite()
-{
-	bool success;
-
-	std::cout << "\tTesting 'ESpiral'...\t\t\t";
-	try
-	{
-		success = true;
-
-		/*
-		 * We test that our class generates correct numbers by solving a
-		 * known problem. It is known that the sum
-		 * of the numbers on the diagonals (the ones our class
-		 * generates) in a spiral grid of 1001 x 1001 elements
-		 * is 669171001.
-		 */
-
-		ESpiral s;
-		uint64_t result = 1;
-
-		uint32_t i = 1;
-		while(s.getSizeFor(i) <= 1001)
-		{
-			result += s.diagonalValueAt(i, ESpiral::I);
-			result += s.diagonalValueAt(i, ESpiral::II);
-			result += s.diagonalValueAt(i, ESpiral::III);
-			result += s.diagonalValueAt(i, ESpiral::IV);
-
-			++i;
-		}
-
-		EASSERT(result == 669171001)
-	}
-	catch(EAssertionException &)
-	{
-		success = false;
-	}
-
-	// Print out our results.
-	if(success)
-		std::cout << "[ OK ]\n";
-	else
-		std::cout << "[FAIL]\n";
-}
-#endif
 
 /*!
  * This is our default constructor, which creates a new ESpiral object.
