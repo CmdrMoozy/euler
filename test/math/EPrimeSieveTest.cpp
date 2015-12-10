@@ -20,8 +20,8 @@
 
 #include <cstdint>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
 
 TEST_CASE("Verify prime number sieve functionality", "[EPrimeSieve]")
 {

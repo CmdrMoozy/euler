@@ -20,7 +20,7 @@
 
 #include <cstdint>
 
-#include "libeuler/util/EBitwise.h"
+#include "common/util/EBitwise.h"
 
 TEST_CASE("Test isPowerOfTwo", "[EBitwise]")
 {

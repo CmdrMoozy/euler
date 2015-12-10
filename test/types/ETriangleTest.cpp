@@ -18,7 +18,7 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/types/ETriangle.h"
+#include "common/types/ETriangle.h"
 
 TEST_CASE("Test triangle constructors and equality operator", "[ETriangle]")
 {

@@ -21,7 +21,7 @@
 #include <string>
 #include <fstream>
 
-#include "libeuler/euler/EPoker.h"
+#include "common/euler/EPoker.h"
 
 int main(void)
 {

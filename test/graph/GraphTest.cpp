@@ -25,10 +25,10 @@
 #include <unordered_map>
 #include <utility>
 
-#include "libeuler/graph/astar.h"
-#include "libeuler/graph/dijkstra.h"
-#include "libeuler/graph/Graph.h"
-#include "libeuler/graph/Vertex.h"
+#include "common/graph/astar.h"
+#include "common/graph/dijkstra.h"
+#include "common/graph/Graph.h"
+#include "common/graph/Vertex.h"
 
 namespace
 {

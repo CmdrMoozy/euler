@@ -27,9 +27,9 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/math/EFactorization.h"
-#include "libeuler/math/EMath.cpp"
-#include "libeuler/math/Math.h"
+#include "common/math/EFactorization.h"
+#include "common/math/EMath.cpp"
+#include "common/math/Math.h"
 
 TEST_CASE("Test getTriangleNumberN", "[EMath]")
 {

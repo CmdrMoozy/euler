@@ -18,7 +18,7 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/euler/ENumberGrid.h"
+#include "common/euler/ENumberGrid.h"
 
 TEST_CASE("Test ENumberGrid", "[ENumberGrid]")
 {

@@ -19,9 +19,9 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/types/EDigitInteger.h"
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/Math.h"
+#include "common/types/EDigitInteger.h"
+#include "common/math/EMath.h"
+#include "common/math/Math.h"
 
 /*
  * It can be seen that the number, 125874, and its double, 251748, contain

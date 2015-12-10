@@ -33,5 +33,5 @@ set(euler-test_SOURCES
 )
 
 add_executable(euler-test ${euler-test_SOURCES})
-target_link_libraries(euler-test ${euler_LIBRARIES} euler)
+target_link_libraries(euler-test ${euler_LIBRARIES} euler-common)
 add_test(euler-test euler-test)

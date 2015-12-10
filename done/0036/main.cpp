@@ -20,8 +20,8 @@
 #include <climits>
 #include <cassert>
 
-#include "libeuler/types/EDigitInteger.h"
-#include "libeuler/util/EBitwise.h"
+#include "common/types/EDigitInteger.h"
+#include "common/util/EBitwise.h"
 
 /*
  * The decimal number, 585 = 1001001001 (binary), is palindromic in both bases.

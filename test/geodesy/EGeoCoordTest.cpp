@@ -18,9 +18,9 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/geodesy/EGeoCoord.h"
-#include "libeuler/geodesy/ELatLonValue.h"
-#include "libeuler/types/BigDecimal.hpp"
+#include "common/geodesy/EGeoCoord.h"
+#include "common/geodesy/ELatLonValue.h"
+#include "common/types/BigDecimal.hpp"
 
 TEST_CASE("Test EGeoCoord", "[EGeoCoord]")
 {

@@ -20,7 +20,7 @@
 #include <set>
 #include <cassert>
 
-#include "libeuler/types/EDigitInteger.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * A paldinromic number reads the same both ways. The largest palindrome made

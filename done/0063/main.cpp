@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "libeuler/math/Math.h"
+#include "common/math/Math.h"
 
 /*
  * The 5-digit number, 16807 = 7^5, is also a fifth power. Similarly, the

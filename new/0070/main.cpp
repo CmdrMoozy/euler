@@ -21,8 +21,8 @@
 #include <cstdint>
 #include <set>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
 
 int main(void)
 {

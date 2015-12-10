@@ -23,9 +23,9 @@
 #include <algorithm>
 #include <cmath>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/Math.h"
-#include "libeuler/types/EDigitInteger.h"
+#include "common/math/EMath.h"
+#include "common/math/Math.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * Take the number 192 and multiply it by each of 1, 2, and 3:

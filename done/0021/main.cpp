@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <cassert>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * Let d(n) be defined as the sum of proper divisors of n (numbers less than n

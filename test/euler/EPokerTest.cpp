@@ -22,7 +22,7 @@
 #include <utility>
 #include <vector>
 
-#include "libeuler/euler/EPoker.h"
+#include "common/euler/EPoker.h"
 
 TEST_CASE("Test EPoker parsing and comparison", "[EPoker]")
 {

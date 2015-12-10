@@ -27,8 +27,8 @@
 #include <set>
 #include <vector>
 
-#include "libeuler/util/EArrayUtilities.h"
-#include "libeuler/util/ScopeExit.h"
+#include "common/util/EArrayUtilities.h"
+#include "common/util/ScopeExit.h"
 
 namespace
 {

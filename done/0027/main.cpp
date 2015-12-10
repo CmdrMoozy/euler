@@ -19,8 +19,8 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/math/EPrimeSieve.h"
-#include "libeuler/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
+#include "common/math/EMath.h"
 
 /*
  * Euler published the remarkable quadratic formula:

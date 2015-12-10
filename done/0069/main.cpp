@@ -22,8 +22,8 @@
 #include <vector>
 #include <algorithm>
 
-#include "libeuler/math/Math.h"
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/Math.h"
+#include "common/math/EPrimeSieve.h"
 
 /*
  * Euler's Totient function, phi(n), is used to determine the number of numbers

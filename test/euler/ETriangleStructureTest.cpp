@@ -18,7 +18,7 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/euler/ETriangleStructure.h"
+#include "common/euler/ETriangleStructure.h"
 
 TEST_CASE("Test ETriangleStructure path finding", "[ETriangleStructure]")
 {

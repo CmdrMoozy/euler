@@ -23,7 +23,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * The Fibonacci sequence is defiend by the recurrence relation:

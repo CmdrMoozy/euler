@@ -18,7 +18,7 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/euler/ECircularPrimeSieve.h"
+#include "common/euler/ECircularPrimeSieve.h"
 
 TEST_CASE("Test circular prime sieve", "[ECircularPrimeSieve]")
 {

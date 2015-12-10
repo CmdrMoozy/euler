@@ -21,8 +21,8 @@
 #include <vector>
 #include <cstdint>
 
-#include "libeuler/types/EDigitInteger.h"
-#include "libeuler/types/EFraction.h"
+#include "common/types/EDigitInteger.h"
+#include "common/types/EFraction.h"
 
 /*
  * The fraction 49/98 is a curious fraction, as an inexperienced mathematician

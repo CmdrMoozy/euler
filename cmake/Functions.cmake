@@ -24,7 +24,7 @@ function(eulerAddProblem)
 
 	# Add a target to build the executable.
 	add_executable(${problem} ${problem_SOURCES})
-	target_link_libraries(${PROBLEM} ${euler_LIBRARIES} euler)
+	target_link_libraries(${PROBLEM} ${euler_LIBRARIES} euler-common)
 
 	# Copy any supporting files to the build output directory.
 	file(GLOB problem_DATA ${CMAKE_CURRENT_SOURCE_DIR}/*.txt)

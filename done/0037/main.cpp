@@ -21,8 +21,8 @@
 #include <cstdint>
 #include <iostream>
 
-#include "libeuler/math/EPrimeSieve.h"
-#include "libeuler/types/EDigitInteger.h"
+#include "common/math/EPrimeSieve.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * The number 3797 has an interesting property. Being prime itself, it is

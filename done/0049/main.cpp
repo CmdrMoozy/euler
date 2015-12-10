@@ -21,8 +21,8 @@
 #include <set>
 #include <cstdint>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
 
 /*
  * The arithmetic sequence, 1487, 4817, 8147, in which each of the terms

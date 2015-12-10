@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * There are exactly ten ways of selecting three from five, 12345:

@@ -40,7 +40,7 @@ if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_definitions(-DLIBEULER_DEBUG)
 endif()
 
-include_directories(3rdparty/include libeuler/src)
+include_directories(3rdparty/include src)
 
 # Set the libraries we'll use.
 
@@ -60,7 +60,8 @@ set(euler_LIBRARIES
 
 enable_testing()
 
-add_subdirectory(libeuler)
+add_subdirectory(src/common)
+
 add_subdirectory(done)
 add_subdirectory(new)
 

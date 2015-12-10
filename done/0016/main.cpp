@@ -22,7 +22,7 @@
 
 #include <gmp.h>
 
-#include "libeuler/types/EDigitInteger.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * 2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.

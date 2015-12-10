@@ -21,7 +21,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "libeuler/euler/ESpiral.h"
+#include "common/euler/ESpiral.h"
 
 TEST_CASE("Test ESpiral", "[ESpiral]")
 {

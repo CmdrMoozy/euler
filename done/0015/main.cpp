@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * Starting in the top left corner of a 2x2 grid, there are 6 routes (without

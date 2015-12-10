@@ -20,7 +20,7 @@
 
 #include <cstddef>
 
-#include "libeuler/util/EByteArray.h"
+#include "common/util/EByteArray.h"
 
 TEST_CASE("Test getMinimumByteLength", "[EByteArray]")
 {

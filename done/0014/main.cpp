@@ -20,7 +20,7 @@
 #include <cassert>
 #include <vector>
 
-#include "libeuler/util/EBitwise.h"
+#include "common/util/EBitwise.h"
 
 #define MIN_NUMBER 2
 #define MAX_NUMBER 1000000

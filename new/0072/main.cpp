@@ -20,8 +20,8 @@
 #include <cassert>
 #include <set>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/types/EFraction.h"
+#include "common/math/EMath.h"
+#include "common/types/EFraction.h"
 
 /*
  * Consider the fraction, n/d, where n and d are positive integers. If n<d and

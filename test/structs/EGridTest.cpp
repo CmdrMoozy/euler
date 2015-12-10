@@ -18,7 +18,7 @@
 
 #include <catch/catch.hpp>
 
-#include "libeuler/structs/EGrid.h"
+#include "common/structs/EGrid.h"
 
 TEST_CASE("Test grid construction", "[EGrid]")
 {

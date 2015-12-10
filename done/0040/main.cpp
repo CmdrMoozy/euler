@@ -20,7 +20,7 @@
 #include <cassert>
 #include <cstdint>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * An irrational decimal fraction is created by concatenating the positive

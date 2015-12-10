@@ -20,9 +20,9 @@
 #include <cassert>
 #include <cmath>
 
-#include "libeuler/types/EFraction.h"
-#include "libeuler/EExceptions.h"
-#include "libeuler/EDefines.h"
+#include "common/types/EFraction.h"
+#include "common/EExceptions.h"
+#include "common/EDefines.h"
 
 /*
  * Consider the fraction, n/d, where n and d are positive integers. If n<d and

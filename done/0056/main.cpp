@@ -23,7 +23,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/types/EDigitInteger.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * A googol (10^100) is a massive number: one followed by one-hundred zeros;

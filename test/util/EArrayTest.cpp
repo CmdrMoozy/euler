@@ -21,7 +21,7 @@
 #include <array>
 #include <cstddef>
 
-#include "libeuler/util/EArray.h"
+#include "common/util/EArray.h"
 
 namespace
 {

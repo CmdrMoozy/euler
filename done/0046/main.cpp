@@ -21,7 +21,7 @@
 #include <cmath>
 #include <set>
 
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/EPrimeSieve.h"
 
 #define INITIAL_SIEVE_LIMIT 1000000
 #define SIEVE_LIMIT_MULTIPLIER 2

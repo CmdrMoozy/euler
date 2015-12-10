@@ -20,7 +20,7 @@
 #include <cassert>
 #include <cstdint>
 
-#include "libeuler/euler/ESpiral.h"
+#include "common/euler/ESpiral.h"
 
 /*
  * Starting with the number 1 and moving to the right in a clockwise direction a

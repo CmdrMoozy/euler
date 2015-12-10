@@ -25,7 +25,7 @@ extern "C" {
 #include <unistd.h>
 }
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 // Utilize (# processors) + 1 threads.
 #define THREADS

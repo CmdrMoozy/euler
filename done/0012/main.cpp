@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <cassert>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * This is the smallest number that has exactly 500 factors -- we use this as

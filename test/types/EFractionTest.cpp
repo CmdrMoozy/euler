@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include "libeuler/types/EFraction.h"
+#include "common/types/EFraction.h"
 
 TEST_CASE("Test fraction reducing", "[EFraction]")
 {

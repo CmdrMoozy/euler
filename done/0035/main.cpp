@@ -25,7 +25,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/euler/ECircularPrimeSieve.h"
+#include "common/euler/ECircularPrimeSieve.h"
 
 #define PRIME_LIMIT 1000000
 

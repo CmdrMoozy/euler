@@ -22,7 +22,7 @@
 #include <map>
 #include <set>
 
-#include "libeuler/math/EFactorization.h"
+#include "common/math/EFactorization.h"
 
 TEST_CASE("Test prime factors and all factors for 56", "[EFactorization]")
 {

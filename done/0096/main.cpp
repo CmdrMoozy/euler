@@ -28,7 +28,7 @@
 #include <thread>
 #include <vector>
 
-#include "libeuler/euler/ESudoku.h"
+#include "common/euler/ESudoku.h"
 
 namespace
 {

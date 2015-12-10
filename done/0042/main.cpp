@@ -23,7 +23,7 @@
 #include <string>
 #include <cstdint>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * The nth term of the sequence of triangle numbers is given by, tn = 1/2 * n *

@@ -21,7 +21,7 @@
 #include <cmath>
 #include <set>
 
-#include "libeuler/types/ERightTriangle.h"
+#include "common/types/ERightTriangle.h"
 
 /*
  * If p is the perimeter of a right angle triangle with integral length sides,

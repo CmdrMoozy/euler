@@ -21,7 +21,7 @@
 #include <iostream>
 #include <set>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * A perfect number is a number for which the sum of its proper divisors is

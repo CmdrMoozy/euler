@@ -21,8 +21,8 @@
 #include <cstdint>
 #include <vector>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/Math.h"
+#include "common/math/EMath.h"
+#include "common/math/Math.h"
 
 /*
  * The cube, 41063625 (345^3), can be permutated to produce two other cubes:

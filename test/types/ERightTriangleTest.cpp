@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "libeuler/types/ERightTriangle.h"
+#include "common/types/ERightTriangle.h"
 
 TEST_CASE("Test triangle normalization", "[ERightTriangle]")
 {

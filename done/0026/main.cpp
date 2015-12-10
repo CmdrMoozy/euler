@@ -20,8 +20,8 @@
 #include <cassert>
 #include <map>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/EFactorization.h"
+#include "common/math/EMath.h"
+#include "common/math/EFactorization.h"
 
 /*
  * A unit faction contains 1 in the numerator. The decimal representation of the

@@ -22,7 +22,7 @@
 #include <set>
 #include <vector>
 
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/math/EPrimeSieve.h"
 
 /*
  * The prime 41, can be written as the sum of six consecutive primes:

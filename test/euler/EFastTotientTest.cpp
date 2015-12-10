@@ -20,9 +20,9 @@
 
 #include <cstdint>
 
-#include "libeuler/euler/EFastTotient.h"
-#include "libeuler/math/EMath.h"
-#include "libeuler/math/EPrimeSieve.h"
+#include "common/euler/EFastTotient.h"
+#include "common/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
 
 TEST_CASE("Test fast totient computation", "[EFastTotient]")
 {

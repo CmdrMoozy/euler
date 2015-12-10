@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <set>
 
-#include "libeuler/util/EArrayUtilities.h"
+#include "common/util/EArrayUtilities.h"
 
 /*
  * We shall say that an n-digit number is pandigital if it makes use of all the

@@ -19,9 +19,9 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/types/EFraction.h"
-#include "libeuler/EExceptions.h"
-#include "libeuler/EDefines.h"
+#include "common/types/EFraction.h"
+#include "common/EExceptions.h"
+#include "common/EDefines.h"
 
 /*
  * We will be searching, in a sorted list of all fractions where the denominator

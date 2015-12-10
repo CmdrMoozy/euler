@@ -22,8 +22,8 @@
 #include <fstream>
 #include <string>
 
-#include "libeuler/types/ERomanNumeral.h"
-#include "libeuler/util/EString.h"
+#include "common/types/ERomanNumeral.h"
+#include "common/util/EString.h"
 
 /*
  * The rules for writing Roman numerals allow for many ways of writing each

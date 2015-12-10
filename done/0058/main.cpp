@@ -23,8 +23,8 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/math/EMath.h"
-#include "libeuler/euler/ESpiral.h"
+#include "common/math/EMath.h"
+#include "common/euler/ESpiral.h"
 
 /*
  * This value is sufficiently high enough for us to get the correct answer,

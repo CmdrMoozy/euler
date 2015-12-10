@@ -24,7 +24,7 @@
 
 #include <gmp.h>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 /*
  * Consider quadratic Diophantine equations of the form:

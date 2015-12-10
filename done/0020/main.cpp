@@ -23,7 +23,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/types/EDigitInteger.h"
+#include "common/types/EDigitInteger.h"
 
 /*
  * n! means n x  (n - 1) x ... x 3 x 2 x 1

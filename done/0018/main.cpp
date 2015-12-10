@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/euler/ETriangleStructure.h"
+#include "common/euler/ETriangleStructure.h"
 
 /*
  * By starting at the top of the triangle below and moving to adjacent numbers

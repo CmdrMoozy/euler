@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/euler/ENumberGrid.h"
+#include "common/euler/ENumberGrid.h"
 
 /*
  * In the 20x20 grid below, four numbers along a diagonal line have been marked

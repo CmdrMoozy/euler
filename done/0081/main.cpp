@@ -21,9 +21,9 @@
 #include <functional>
 #include <iostream>
 
-#include "libeuler/euler/GridGraphUtils.h"
-#include "libeuler/graph/astar.h"
-#include "libeuler/graph/Edge.h"
+#include "common/euler/GridGraphUtils.h"
+#include "common/graph/astar.h"
+#include "common/graph/Edge.h"
 
 /*
  * In the 5 by 5 matrix below, the minimal path sum from the top left to bottom

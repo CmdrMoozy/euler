@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/util/EArray.h"
+#include "common/util/EArray.h"
 
 /*
  * A permutation is an ordered arrangement of objects. For example, 3124 is one

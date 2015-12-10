@@ -20,7 +20,7 @@
 #include <cassert>
 #include <list>
 
-#include "libeuler/math/EMath.h"
+#include "common/math/EMath.h"
 
 #define T_START_INDEX 286
 #define P_START_INDEX 165

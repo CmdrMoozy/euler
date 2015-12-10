@@ -22,7 +22,7 @@
 #include <string>
 #include <cassert>
 
-#include "libeuler/euler/ETriangleStructure.h"
+#include "common/euler/ETriangleStructure.h"
 
 int main(void)
 {

@@ -19,8 +19,8 @@
 #include <iostream>
 #include <cassert>
 
-#include "libeuler/types/EDigitInteger.h"
-#include "libeuler/math/EMath.h"
+#include "common/types/EDigitInteger.h"
+#include "common/math/EMath.h"
 
 #define PRIME_PRECISION 100
 

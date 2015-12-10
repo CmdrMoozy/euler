@@ -25,8 +25,8 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "libeuler/types/EDigitInteger.h"
-#include "libeuler/util/EArray.h"
+#include "common/types/EDigitInteger.h"
+#include "common/util/EArray.h"
 
 TEST_CASE("Test construction and assignment", "[EDigitInteger]")
 {
