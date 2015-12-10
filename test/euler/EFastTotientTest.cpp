@@ -16,26 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_LIBEULER_EULER_FAST_TOTIENT_H
-#define INCLUDE_LIBEULER_EULER_FAST_TOTIENT_H
+#include <catch/catch.hpp>
 
 #include <cstdint>
 
-class EPrimeSieve;
+#include "libeuler/euler/EFastTotient.h"
+#include "libeuler/math/EMath.h"
+#include "libeuler/math/EPrimeSieve.h"
 
-class EFastTotient
+TEST_CASE("Test fast totient computation", "[EFastTotient]")
 {
-public:
-	EFastTotient(EPrimeSieve *s, uint32_t l = 0);
-	virtual ~EFastTotient();
+	constexpr uint32_t TEST_LIMIT = 1000;
 
-	uint32_t getLimit() const;
-	void setLimit(uint32_t l);
+	EPrimeSieve s;
+	EFastTotient t(&s, TEST_LIMIT);
 
-	uint32_t totient(uint32_t n);
-
-private:
-	EPrimeSieve *sieve;
-};
-
-#endif
+	for(uint32_t i = 0; i <= TEST_LIMIT; ++i)
+		CHECK(EMath::totient(i) == t.totient(i));
+}
