@@ -18,9 +18,7 @@
 
 #include "Profiler.h"
 
-#include <iomanip>
-#include <iostream>
-#include <sstream>
+#include <cstdio>
 
 namespace euler
 {
@@ -65,9 +63,7 @@ double Profiler::getElapsed() const
 void Profiler::printElapsed() const
 {
 	double elapsed = getElapsed();
-	std::ostringstream oss;
-	oss << printPrefix << "Profiler: " << std::fixed << std::setprecision(4)
-	    << elapsed << "s\n";
-	std::cout << oss.str();
+	std::fprintf(stdout, "%sElapsed time: %0.9fs\n", printPrefix.c_str(),
+	             elapsed);
 }
 }
