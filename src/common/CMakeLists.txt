@@ -81,6 +81,8 @@ SET(euler-common_SOURCES
 	util/EString.cpp
 	util/EString.h
 	util/ScopeExit.h
+	util/Terminal.cpp
+	util/Terminal.hpp
 
 )
 
