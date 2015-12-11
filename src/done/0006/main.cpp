@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include <cstddef>
-#include <iostream>
+#include <cstdint>
 
 #include <gmp.h>
 #include <gmpxx.h>
+
+#include "common/util/Process.hpp"
 
 /*
  * The sum of the squares of the first ten natural numbers is,
@@ -33,42 +33,33 @@
  *     (1 + 2 + ... + 10)^2 = 55^2 = 3025
  *
  * Hence the difference between the sum of the squares of the first ten natural
- *numbers
- * and the square of the sum is 3025 - 385 = 2640.
+ * numbers and the square of the sum is 3025 - 385 = 2640.
  *
  * Find the difference between the sum of the squares of the first one hundred
- *natural numbers
- * and the square of the sum.
+ * natural numbers and the square of the sum.
  */
 
-#define START_NUMBER 1
-#define END_NUMBER 100
-
-int main(void)
+namespace
 {
-	mpz_class result, a, b;
-	int i;
+constexpr uint64_t START_NUMBER = 1;
+constexpr uint64_t END_NUMBER = 100;
+constexpr uint64_t EXPECTED_RESULT = 25164150;
 
-	result = 0;
-	a = 0;
+euler::util::process::ProblemResult<uint64_t> problem()
+{
+	mpz_class result = 0;
 
-	for(i = START_NUMBER; i <= END_NUMBER; i++)
+	for(uint64_t i = START_NUMBER; i <= END_NUMBER; ++i)
 		result += i;
-
 	result = (result * result);
 
-	for(i = START_NUMBER; i <= END_NUMBER; i++)
-	{
-		b = (i * i);
-		a += b;
-	}
+	mpz_class sumOfSquares = 0;
+	for(uint64_t i = START_NUMBER; i <= END_NUMBER; ++i)
+		sumOfSquares += (i * i);
+	result -= sumOfSquares;
 
-	result -= a;
-
-	std::cout << "The square of the sum of the first 100 natural numbers, "
-	             "minus the sum of the squares "
-	          << "of the first 100 natural numbers is: " << result << "\n";
-
-	assert(result == 25164150);
-	return 0;
+	return {result.get_ui(), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

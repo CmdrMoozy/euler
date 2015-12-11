@@ -16,37 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstdint>
+
+#include "common/util/Process.hpp"
 
 /*
  * 2520 is the smallest number that can be divided by each of the numbers from 1
- *to 10
- * without any remainder.
+ * to 10 without any remainder.
  *
  * What is the smallest positive number that is evenly divisible by all of the
- *numbers
- * from 1 to 20?
+ * numbers from 1 to 20?
  */
 
-int main(void)
+namespace
 {
-	uint64_t number = 0;
-	bool success = false;
+constexpr uint64_t EXPECTED_RESULT = 232792560;
 
-	while(!success)
+euler::util::process::ProblemResult<uint64_t> problem()
+{
+	for(uint64_t number = 20;; number += 20)
 	{
-		number += 20;
-
-		success = !(number % 11) && !(number % 12) && !(number % 13) &&
-		          !(number % 14) && !(number % 15) && !(number % 16) &&
-		          !(number % 17) && !(number % 18) && !(number % 19) &&
-		          !(number % 20);
+		if(!(number % 11) && !(number % 12) && !(number % 13) &&
+		   !(number % 14) && !(number % 15) && !(number % 16) &&
+		   !(number % 17) && !(number % 18) && !(number % 19) &&
+		   !(number % 20))
+		{
+			return {number, EXPECTED_RESULT};
+		}
 	}
-
-	std::cout << number << " is the smallest positive integer divisible by "
-	                       "every number from [1, 20].\n";
-
-	assert(number == 232792560);
-	return 0;
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,15 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include <cstddef>
-#include <iostream>
-#include <set>
+#include <cstdint>
 
-#include <gmp.h>
-#include <gmpxx.h>
-
+#include "common/math/EMath.h"
 #include "common/math/EPrimeSieve.h"
+#include "common/util/Process.hpp"
 
 /*
  * The prime factors of 13195 are 5, 7, 13 and 29.
@@ -32,37 +28,25 @@
  * What is the largest prime factor of the number 600851475143?
  */
 
-#define VALUE_TO_FACTOR 600851475143
-
-int main(void)
+namespace
 {
+constexpr uint64_t VALUE_TO_FACTOR = 600851475143;
+constexpr uint32_t EXPECTED_RESULT = 6857;
+
+euler::util::process::ProblemResult<uint32_t> problem()
+{
+	uint64_t root = EMath::isqrt(VALUE_TO_FACTOR);
 	EPrimeSieve s;
-	std::set<uint32_t>::iterator it;
-	mpz_class value, root;
+	s.setLimit(static_cast<uint32_t>(root));
 
-	value = VALUE_TO_FACTOR;
-	mpz_sqrt(root.get_mpz_t(), value.get_mpz_t());
-
-	s.setLimit(static_cast<uint32_t>(root.get_ui()));
-
-	it = s.end();
-	it--;
-	do
+	for(auto it = s.rbegin(); it != s.rend(); ++it)
 	{
-		if((value % (*it)) == 0)
-		{
-			std::cout << "The largest prime factor of " << value
-			          << " is: " << (*it) << "\n";
+		if((VALUE_TO_FACTOR % *it) == 0)
+			return {*it, EXPECTED_RESULT};
+	}
 
-			assert((*it) == 6857);
-			return 0;
-		}
-
-		if(it == s.begin())
-			break;
-
-		it--;
-	} while(true);
-
-	return 0;
+	return {0, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
