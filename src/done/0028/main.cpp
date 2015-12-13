@@ -16,16 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 
 #include "common/euler/ESpiral.h"
+#include "common/util/Process.hpp"
 
 /*
  * Starting with the number 1 and moving to the right in a clockwise direction a
- *5 by 5
- * spiral is formed as follows:
+ * 5 by 5 spiral is formed as follows:
  *
  *    21 22 23 24 25
  *    20  7  8  9 10
@@ -36,11 +34,14 @@
  * It can be verified that the sum of the numbers on the diagonals is 101.
  *
  * What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral
- *formed in the
- * same way?
+ * formed in the same way?
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t EXPECTED_RESULT = 669171001;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	ESpiral s;
 	uint32_t result = 1;
@@ -57,9 +58,8 @@ int main(void)
 		i++;
 	}
 
-	std::cout << "The sum of the numbers on the diagonals is: " << result
-	          << "\n";
-
-	assert(result == 669171001);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

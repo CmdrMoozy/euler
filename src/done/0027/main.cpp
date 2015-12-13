@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstdint>
 
 #include "common/math/EPrimeSieve.h"
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * Euler published the remarkable quadratic formula:
@@ -28,42 +28,41 @@
  *     n^2 + n + 41
  *
  * it turns out that the formula will produce 40 primes for the consecutive
- *values
- * n=0 to 39. However, when n=40, 40^2 + 40 + 41 = 40(40+1) + 41 is divisible by
- *41,
- * and certainly when n=41, 41^2 + 41 + 41 is clearly divisible by 41.
+ * values n=0 to 39. However, when n=40, 40^2 + 40 + 41 = 40(40+1) + 41 is
+ * divisible by 41, and certainly when n=41, 41^2 + 41 + 41 is clearly
+ * divisible by 41.
  *
  * Using computers, the incredible formula n^2 - 79n + 1601 was discovered,
- *which
- * produces 80 primes for the consecutive values n=0 to 79. The product of the
- *coefficients,
- * -79 and 1601, is -126479.
+ * which produces 80 primes for the consecutive values n=0 to 79. The product
+ * of the coefficients, -79 and 1601, is -126479.
  *
  * Considering quadratics of the form:
  *
  *     n^2 + an + b, where |a| < 1000 and |b| < 1000
  *
  * Find the product of the coefficients, a and b, for the quadratic expression
- *that
- * produces the longest maximum number of primes for consecutive values of n,
- *starting
- * with n=0.
+ * that produces the longest maximum number of primes for consecutive values
+ * of n, starting with n=0.
  */
 
-#define SIEVE_LIMIT 1000000
-#define PRIME_PRECISION 200
+namespace
+{
+constexpr uint32_t SIEVE_LIMIT = 1000000;
+constexpr int PRIME_PRECISION = 200;
+
+constexpr int EXPECTED_RESULT = -59231;
 
 /*
  * This function returns the result of our polynomial with the given value of n,
  * and the given
  * coefficients.
  */
-inline int polynomial(int n, int a, int b)
+int polynomial(int n, int a, int b)
 {
 	return ((n * n) + (a * n) + b);
 }
 
-int main(void)
+euler::util::process::ProblemResult<int> problem()
 {
 	EPrimeSieve sieve;
 	int i, j, v;
@@ -86,8 +85,10 @@ int main(void)
 				if(v < 0)
 					break;
 
-				if(v < SIEVE_LIMIT)
-				{ // If our value is inside our sieve limit,
+				if(v < static_cast<int>(SIEVE_LIMIT))
+				{
+					// If our value is inside our sieve
+					// limit,
 					// test it for primality that way.
 					if(sieve.find(static_cast<uint32_t>(
 					           v)) != sieve.end())
@@ -96,7 +97,8 @@ int main(void)
 						break;
 				}
 				else
-				{ // Otherwise, do a probabalistic test.
+				{
+					// Otherwise, do a probabalistic test.
 					if(EMath::isPrime_UI(
 					           static_cast<uint64_t>(v),
 					           PRIME_PRECISION))
@@ -117,10 +119,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The product of the coefficients on the longest "
-	             "prime-generating polynomial is: "
-	          << (a * b) << "\n";
-
-	assert((a * b) == -59231);
-	return 0;
+	return {a * b, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

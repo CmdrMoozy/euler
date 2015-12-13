@@ -16,46 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
-
-/*
- * Because this problem says to find "all numbers", we need to establish sane
- *bounds for our search.
- * The lower bound of 10 is implied because single-digit numbers are not sums,
- *and as such are not
- * included.
- *
- * For the upper bound, it can be said that, if n is a d-digit number that can
- *be written as the sum
- * of the fifth powers of its digits:
- *
- *     10^(d-1) <= n <= 9^5 * d
- *
- * 10^(d-1) is the smallest number with at least d digits; i.e., the smallest
- *3-digit number is 100.
- *
- * 9^5 * d is the largest number we could have since, for instance, 999 would be
- *9^5 + 9^5 + 9^5 (or
- * 9^5 * 3).
- *
- * This formula only holds true while d < 7; at d = 7, our formula would be
- *stating:
- *     1,000,000 <= n <= 413,343
- * which is obviously false. Therefore, we can conclude that the largest
- *possible number we need to search
- * for is a 6-digit number. However, 999,999 is larger than the upper bound at
- *d=6, so our real upper bound
- * is 9^5 * 6, or 354,294.
- */
-
-#define LOWER_BOUND 10
-#define UPPER_BOUND 354294
+#include "common/util/Process.hpp"
 
 /*
  * Surprisingly there are only three numbers that can be written as the sum of
- *fourth powers
- * of their digits:
+ * fourth powers of their digits:
  *
  *     1634 = 1^4 + 6^4 + 3^4 + 4^4
  *     8208 = 8^4 + 2^4 + 0^4 + 8^4
@@ -66,10 +31,43 @@
  * The sum of these numbers is 1634 + 8208 + 9474 = 19316.
  *
  * Find the sum of all the numbers that can be written as the sum of fifth
- *powers of their digits.
+ * powers of their digits.
  */
 
-int main(void)
+namespace
+{
+/*
+ * Because this problem says to find "all numbers", we need to establish sane
+ * bounds for our search. The lower bound of 10 is implied because single-digit
+ * numbers are not sums, and as such are not included.
+ *
+ * For the upper bound, it can be said that, if n is a d-digit number that can
+ * be written as the sum of the fifth powers of its digits:
+ *
+ *     10^(d-1) <= n <= 9^5 * d
+ *
+ * 10^(d-1) is the smallest number with at least d digits; i.e., the smallest
+ * 3-digit number is 100.
+ *
+ * 9^5 * d is the largest number we could have since, for instance, 999 would be
+ * 9^5 + 9^5 + 9^5 (or 9^5 * 3).
+ *
+ * This formula only holds true while d < 7; at d = 7, our formula would be
+ * stating:
+ *
+ *     1,000,000 <= n <= 413,343
+ *
+ * which is obviously false. Therefore, we can conclude that the largest
+ * possible number we need to search for is a 6-digit number. However, 999,999
+ * is larger than the upper bound at d=6, so our real upper bound is 9^5 * 6,
+ * or 354,294.
+ */
+constexpr uint32_t LOWER_BOUND = 10;
+constexpr uint32_t UPPER_BOUND = 354294;
+
+constexpr uint32_t EXPECTED_RESULT = 443839;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	uint32_t i, sum, result, n;
 
@@ -106,10 +104,8 @@ int main(void)
 			result += sum;
 	}
 
-	std::cout << "The sum of all numbers that are the sum of the fifth "
-	             "powers of its digit is: "
-	          << result << "\n";
-
-	assert(result == 443839);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

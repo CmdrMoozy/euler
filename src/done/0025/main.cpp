@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
-#include <iostream>
+#include <cstdint>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * The Fibonacci sequence is defiend by the recurrence relation:
@@ -50,19 +50,20 @@
  * What is the first term in the Fibonacci sequence to contain 1000 digits?
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 4782;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	mpz_class target;
-	uint64_t result;
 
 	// The limit we are searching for is 10^999.
 	target = 10;
 	mpz_pow_ui(target.get_mpz_t(), target.get_mpz_t(), 999);
 
-	result = EMath::fibonacciSearch(1000, target);
-	std::cout << "The " << result
-	          << "th number is the first to have >= 1,000 digits.\n";
-
-	assert(result == 4782);
-	return 0;
+	return {EMath::fibonacciSearch(1000, target), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
