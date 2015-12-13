@@ -16,48 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cmath>
+#include <cstdint>
 #include <set>
+#include <vector>
 
 #include "common/types/ERightTriangle.h"
+#include "common/util/Process.hpp"
 
 /*
  * If p is the perimeter of a right angle triangle with integral length sides,
- *{a,b,c},
- * there are exactly three solutions for p = 120.
+ * {a,b,c}, there are exactly three solutions for p = 120.
  *
  * {20,48,52}, {24,45,51}, {30,40,50}
  *
  * For which value of p <= 1000, is the number of solutions maximised?
  */
 
-#define PERIMETER_MAX 1000
-
 namespace
 {
-constexpr double DOUBLE_COMPARE_EPSILON = 0.000001;
-}
+constexpr std::size_t PERIMETER_MAX = 1000;
+constexpr double DOUBLE_COMPARE_EPSILON = 0.0000000001;
 
-int main(void)
+constexpr std::size_t EXPECTED_RESULT = 840;
+
+euler::util::process::ProblemResult<std::size_t> problem()
 {
-	std::set<ERightTriangle> *count;
-	uint32_t a, b, ic, mp;
-	std::size_t mv;
-	double c;
-
-	count = new std::set<ERightTriangle>[PERIMETER_MAX + 1];
-
-	for(a = 1; a <= 998; a++)
+	std::vector<std::set<ERightTriangle>> count(PERIMETER_MAX + 1);
+	for(uint32_t a = 1; a <= 998; ++a)
 	{
-		for(b = 1; b <= 998; b++)
+		for(uint32_t b = 1; b <= 998; ++b)
 		{
-			c = sqrt(static_cast<double>(a * a) +
-			         static_cast<double>(b * b));
-			ic = static_cast<uint32_t>(floor(c));
+			double c = std::sqrt(static_cast<double>(a * a) +
+			                     static_cast<double>(b * b));
+			uint32_t ic = static_cast<uint32_t>(std::floor(c));
 
-			if(std::abs(static_cast<double>(ic) - c) <
+			if(std::abs(static_cast<double>(ic) - c) >=
 			   DOUBLE_COMPARE_EPSILON)
 			{
 				continue;
@@ -70,8 +64,9 @@ int main(void)
 		}
 	}
 
-	mv = mp = 0;
-	for(a = 0; a < (PERIMETER_MAX + 1); a++)
+	std::size_t mp = 0;
+	std::size_t mv = 0;
+	for(std::size_t a = 0; a < (PERIMETER_MAX + 1); ++a)
 	{
 		if(count[a].size() > mv)
 		{
@@ -80,10 +75,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The perimeter with the most solutions is " << mp << " ("
-	          << mv << " solutions).\n";
-
-	delete[] count;
-	assert(mp == 840);
-	return 0;
+	return {mp, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

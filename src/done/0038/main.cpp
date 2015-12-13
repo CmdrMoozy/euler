@@ -16,16 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
-#include <cstdint>
-#include <set>
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
+#include <set>
 
 #include "common/math/EMath.h"
 #include "common/math/Math.h"
 #include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * Take the number 192 and multiply it by each of 1, 2, and 3:
@@ -35,39 +34,38 @@
  *     192 x 3 = 576
  *
  * By concatenating each product we get the 1 to 9 pandigital, 192384576. We
- *will call 192384576
- * the concatenated product of 192 and (1,2,3)
+ * will call 192384576 the concatenated product of 192 and (1,2,3)
  *
  * The same can be achieved by starting with 9 and multiplying by 1, 2, 3, 4,
- *and 5, giving the
- * pandigital, 918273645, which is the concatenated product of 9 and
- *(1,2,3,4,5).
+ * and 5, giving the pandigital, 918273645, which is the concatenated product
+ * of 9 and (1,2,3,4,5).
  *
  * What is the largest 1 to 9 pandigital 9-digit number that can be formed as
- *the concatenated product
- * of an integer with (1,2, ... ,n) where n > 1?
+ * the concatenated product of an integer with (1,2, ... ,n) where n > 1?
  */
 
-inline void concatenate(uint64_t &d, uint64_t o)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 932718654;
+
+void concatenate(uint64_t &d, uint64_t o)
 {
 	d *= euler::math::ipow(10,
 	                       static_cast<uint8_t>(EMath::logBaseTen(o) + 1));
 	d += o;
 }
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	std::set<uint64_t> numbers;
-	std::set<uint64_t>::reverse_iterator it;
 	EDigitInteger ptest;
 
 	uint64_t concat, lbound, ubound;
 
 	/*
 	 * Test every number of multiples from [2, 9], since 9 is the largest
-	 * number of multiples we
-	 * can take that can still possibly produce a 9-digit number (assuming
-	 * the base is one).
+	 * number of multiples we can take that can still possibly produce a
+	 * 9-digit number (assuming the base is one).
 	 */
 
 	for(uint64_t n = 2; n <= 9; ++n)
@@ -75,21 +73,20 @@ int main(void)
 
 		/*
 		 * We calculate lower and upper bounds for the base number based
-		 *on the fact that the end number needs
-		 * to be nine digits in length. Thus, we generate the largest
-		 *number which would produce a result of less
-		 * than nine digits:
+		 * on the fact that the end number needs to be nine digits in
+		 * length. Thus, we generate the largest number which would
+		 * produce a result of less than nine digits:
 		 *
 		 *     10^(floor(9/n) - 1)
 		 *
 		 * And the smallest number which would produce a result of more
-		 *than nine digits:
+		 * than nine digits:
 		 *
 		 *     10^(floor(9/n))
 		 *
 		 * For instance, when n = 3, our bounds are going to be: (99,
-		 *1000), which would result in us testing numbers
-		 * in the inclusive range [100, 999].
+		 * 1000), which would result in us testing numbers in the
+		 * inclusive range [100, 999].
 		 */
 
 		lbound = euler::math::ipow(
@@ -107,8 +104,8 @@ int main(void)
 			 * The problem description gives that the pandigital
 			 * 918273645 exists, which means that the greatest
 			 * pandigital must be greater than or equal to the given
-			 * one. Thus, the first digit of our base must
-			 * be a nine.
+			 * one. Thus, the first digit of our base must be a
+			 * nine.
 			 */
 
 			if(base / (euler::math::ipow(
@@ -116,7 +113,9 @@ int main(void)
 			                  static_cast<uint8_t>(
 			                          EMath::logBaseTen(base)))) !=
 			   9)
+			{
 				continue;
+			}
 
 			// Formulate the number.
 
@@ -150,19 +149,8 @@ int main(void)
 		}
 	}
 
-	// Print out the largest number we got.
-
-	it = numbers.rbegin();
-	if(it != numbers.rend())
-	{
-		std::cout << "The largest pandigital is: " << (*it) << "\n";
-		assert((*it) == 932718654);
-	}
-	else
-	{
-		std::cout << "No pandigital numbers found.\n";
-		assert(false);
-	}
-
-	return 0;
+	return {numbers.empty() ? 0 : *numbers.rbegin(), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,24 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstdint>
 
 #include "common/types/EDigitInteger.h"
 #include "common/math/EMath.h"
-
-#define PRIME_PRECISION 100
+#include "common/util/Process.hpp"
 
 /*
  * We shall say than an n-digit number is pandigital if it makes use of all the
- *digits
- * 1 to n exactly once. For example, 2143 is a 4-digit pandigital and is also
- *prime.
+ * digits 1 to n exactly once. For example, 2143 is a 4-digit pandigital and is
+ * also prime.
  *
  * What is the largest n-digit pandigital prime that exists?
  */
 
-int main(void)
+namespace
+{
+constexpr int PRIME_PRECISION = 100;
+constexpr uint64_t EXPECTED_RESULT = 7652413;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint32_t digits[] = {987654321, 87654321, 7654321, 654321, 54321,
 	                     4321,      321,      21,      1};
@@ -57,8 +59,8 @@ int main(void)
 			break;
 	}
 
-	std::cout << "The largest pandigital prime is: " << result << "\n";
-
-	assert(result == 7652413);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

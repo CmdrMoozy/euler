@@ -16,28 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * An irrational decimal fraction is created by concatenating the positive
- *integers:
+ * integers:
  *
  *     0.12345678910_1_112131415161718192021...
  *
  * It can be seen that the 12th digit of the fractional part is 1.
  *
  * If dn represents the nth digit of the fractional part, find the value of the
- *following
- * expression.
+ * following expression.
  *
  *     d1 x d10 x d100 x d1000 x d10000 x d100000 x d1000000
  */
 
-int main(void)
+namespace
+{
+constexpr int EXPECTED_RESULT = 210;
+
+euler::util::process::ProblemResult<int> problem()
 {
 	uint32_t i, j, on, n, log;
 	int *digits;
@@ -68,12 +70,10 @@ int main(void)
 
 	int result = digits[0] * digits[9] * digits[99] * digits[999] *
 	             digits[9999] * digits[99999] * digits[999999];
-
 	delete[] digits;
 
-	std::cout << "The product of the specified digits is: " << result
-	          << "\n";
-
-	assert(result == 210);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

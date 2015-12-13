@@ -16,35 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
-#include <set>
-#include <fstream>
-#include <string>
 #include <cstdint>
+#include <fstream>
+#include <set>
+#include <stdexcept>
+#include <string>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
- * The nth term of the sequence of triangle numbers is given by, tn = 1/2 * n *
- *(n+1); so the first
- * ten triangle numbers are:
+ * The nth term of the sequence of triangle numbers is given by,
+ * tn = 1/2 * n * (n+1); so the first ten triangle numbers are:
  *
  *     1, 3, 6, 10, 15, 21, 28, 36, 45, 55, ...
  *
  * By converting each letter in a word to a number corresponding to its
- *alphabetical position and adding
- * these values we form a word value. For example, the word value for SKY is 19
- *+ 11 + 25 = 55 = t10. If
- * the word value is a triangle number then we shall call the word a triangle
- *world.
+ * alphabetical position and adding these values we form a word value. For
+ * example, the word value for SKY is 19 + 11 + 25 = 55 = t10. If the word
+ * value is a triangle number then we shall call the word a triangle world.
  *
  * Using words.txt (right click and 'Save Link/Target As...'), a 16K text file
- *containing nearly two-
- * thousand common English words, how many are triangle words?
+ * containing nearly two-thousand common English words, how many are triangle
+ * words?
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 162;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	std::string word;
 	std::ifstream fin;
@@ -58,8 +59,8 @@ int main(void)
 	fin.open("words-processed.txt");
 	if(!fin.is_open())
 	{
-		std::cout << "Unable to open 'words-processed.txt'!\n";
-		return 1;
+		throw std::runtime_error(
+		        "Unable to open 'words-processed.txt'!");
 	}
 
 	while(fin.good())
@@ -93,10 +94,9 @@ int main(void)
 		if(triangleNumbers[(*it)] == (*it))
 			result++;
 
-	std::cout << "The number of triangle words in the text file is: "
-	          << result << "\n";
-
 	delete[] triangleNumbers;
-	assert(result == 162);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

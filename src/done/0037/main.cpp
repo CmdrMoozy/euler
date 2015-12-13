@@ -19,10 +19,10 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 
 #include "common/math/EPrimeSieve.h"
 #include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * The number 3797 has an interesting property. Being prime itself, it is
@@ -69,9 +69,8 @@ bool numberIsRightToLeftTruncatablePrime(EDigitInteger const &number,
 	}
 	return true;
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	EPrimeSieve sieve;
 	sieve.setLimit(INITIAL_SIEVE_LIMIT);
@@ -114,9 +113,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The sum of the only eleven truncatable primes is: " << sum
-	          << "\n";
-
-	assert(sum == EXPECTED_RESULT);
-	return 0;
+	return {sum, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
