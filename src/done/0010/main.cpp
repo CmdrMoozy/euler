@@ -16,15 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include <cstddef>
-#include <iostream>
-#include <set>
-
-#include <gmp.h>
-#include <gmpxx.h>
+#include <cstdint>
 
 #include "common/math/EPrimeSieve.h"
+#include "common/types/EBigInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
@@ -32,23 +28,22 @@
  * Find the sum of all the primes below two million.
  */
 
-#define PRIME_VALUE_MAX 2000000
-
-int main(void)
+namespace
 {
-	mpz_class total;
-	EPrimeSieve s;
-	std::set<uint32_t>::iterator it;
+constexpr uint32_t PRIME_VALUE_MAX = 2000000;
+constexpr char EXPECTED_VALUE[] = "142913828922";
 
+euler::util::process::ProblemResult<EBigInteger> problem()
+{
+	EPrimeSieve s;
 	s.setLimit(PRIME_VALUE_MAX - 1);
 
-	total = 0;
-	for(it = s.begin(); it != s.end(); it++)
-		total += (*it);
+	EBigInteger total(static_cast<int64_t>(0));
+	for(auto it = s.begin(); it != s.end(); ++it)
+		total += EBigInteger(static_cast<uint64_t>(*it));
 
-	std::cout << "The sum of all primes less than 2,000,000 is: " << total
-	          << "\n";
-
-	assert(total == 142913828922);
-	return 0;
+	return {total, EBigInteger(std::string(EXPECTED_VALUE))};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

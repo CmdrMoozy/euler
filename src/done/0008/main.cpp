@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstddef>
+
+#include "common/util/Process.hpp"
 
 /*
  * Find the greatest product of five consecutive digits in the 1000-digit
- *number.
+ * number.
  *
  * 73167176531330624919225119674426574742355349194934
  * 96983520312774506326239578318016984801869478851843
@@ -45,11 +46,14 @@
  * 71636269561882670428252483600823257530420752963450
  */
 
-int main(void)
+namespace
 {
-	int i, j;
-	int n, greatest;
-	int number[1000] = {
+constexpr int EXPECTED_RESULT = 40824;
+
+euler::util::process::ProblemResult<int> problem()
+{
+	constexpr std::size_t NUMBER_DIGITS = 1000;
+	constexpr int number[NUMBER_DIGITS] = {
 	        7, 3, 1, 6, 7, 1, 7, 6, 5, 3, 1, 3, 3, 0, 6, 2, 4, 9, 1, 9, 2,
 	        2, 5, 1, 1, 9, 6, 7, 4, 4, 2, 6, 5, 7, 4, 7, 4, 2, 3, 5, 5, 3,
 	        4, 9, 1, 9, 4, 9, 3, 4, 9, 6, 9, 8, 3, 5, 2, 0, 3, 1, 2, 7, 7,
@@ -99,25 +103,19 @@ int main(void)
 	        0, 4, 2, 8, 2, 5, 2, 4, 8, 3, 6, 0, 0, 8, 2, 3, 2, 5, 7, 5, 3,
 	        0, 4, 2, 0, 7, 5, 2, 9, 6, 3, 4, 5, 0};
 
-	greatest = -1;
-
-	for(i = 0; i <= (995); i++)
+	int greatest = -1;
+	for(std::size_t i = 0; i < (NUMBER_DIGITS - 4); ++i)
 	{
-		n = 1;
-
-		for(j = i; j <= (i + 4); j++)
-		{
+		int n = 1;
+		for(std::size_t j = i; j <= (i + 4); ++j)
 			n *= number[j];
-		}
 
 		if(n > greatest)
 			greatest = n;
 	}
 
-	std::cout << "The greatest product of five consecutive digits in a "
-	             "given 1,000-digit "
-	          << "number is: " << greatest << "\n";
-
-	assert(greatest == 40824);
-	return 0;
+	return {greatest, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

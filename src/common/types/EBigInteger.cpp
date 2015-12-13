@@ -18,30 +18,28 @@
 
 #include "EBigInteger.h"
 
-#include <iostream>
-#include <cstdlib>
 #include <climits>
+#include <cstdlib>
+#include <iostream>
+#include <memory>
 
 #if(defined _WIN32 || defined __APPLE__)
-#include "common/math/QMath.h"
+#include "common/math/EMath.h"
 #endif
 
 /*
  * This is our default constructor, which initializes our integer's value to 0.
  */
-EBigInteger::EBigInteger()
+EBigInteger::EBigInteger() : value(0)
 {
-	value = 0;
 }
 
-EBigInteger::EBigInteger(const EBigInteger &o)
+EBigInteger::EBigInteger(const mpz_class &v) : value(v)
 {
-	(*this) = o;
 }
 
-EBigInteger::EBigInteger(const mpz_class &v)
+EBigInteger::EBigInteger(std::string const &v) : value(v, 10)
 {
-	value = v;
 }
 
 EBigInteger::EBigInteger(int64_t v)
@@ -58,7 +56,7 @@ EBigInteger::EBigInteger(int64_t v)
 EBigInteger::EBigInteger(uint64_t v)
 {
 #if(defined _WIN32 || defined __APPLE__)
-	value = QMath::int64ToBigInteger(v);
+	value = EMath::int64ToBigInteger(v);
 #else
 	value = v;
 #endif
@@ -66,12 +64,6 @@ EBigInteger::EBigInteger(uint64_t v)
 
 EBigInteger::~EBigInteger()
 {
-}
-
-EBigInteger &EBigInteger::operator=(const EBigInteger &o)
-{
-	value = o.value;
-	return (*this);
 }
 
 bool EBigInteger::operator==(const EBigInteger &o) const
@@ -345,12 +337,14 @@ void EBigInteger::nextPrime()
 
 std::string EBigInteger::toString() const
 {
-	char *s = mpz_get_str(NULL, 10, value.get_mpz_t());
-
-	std::string r(s);
-	delete s;
-
-	return r;
+	auto deleter = [](char *p)
+	{
+		if(p != nullptr)
+			std::free(p);
+	};
+	std::unique_ptr<char, std::function<void(char *)>> s(
+	        mpz_get_str(nullptr, 10, value.get_mpz_t()), deleter);
+	return std::string(s.get());
 }
 
 /*

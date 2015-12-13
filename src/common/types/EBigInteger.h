@@ -22,6 +22,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iosfwd>
+#include <string>
 
 #include <gmp.h>
 #include <gmpxx.h>
@@ -40,13 +41,15 @@ class EBigInteger
 {
 public:
 	EBigInteger();
-	EBigInteger(const EBigInteger &o);
-	EBigInteger(const mpz_class &v);
-	explicit EBigInteger(int64_t v);
-	EBigInteger(uint64_t v);
-	virtual ~EBigInteger();
+	explicit EBigInteger(mpz_class const &v);
+	explicit EBigInteger(std::string const &v);
+	EBigInteger(int64_t v);
+	explicit EBigInteger(uint64_t v);
 
-	EBigInteger &operator=(const EBigInteger &o);
+	EBigInteger(EBigInteger const &) = default;
+	EBigInteger &operator=(EBigInteger const &) = default;
+
+	virtual ~EBigInteger();
 
 	bool operator==(const EBigInteger &o) const;
 	bool operator!=(const EBigInteger &o) const;

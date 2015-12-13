@@ -16,73 +16,64 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * A Pythagorean triplet is a set of three natural numbers, a < b < c, for
- *which,
+ * which,
  *
  *     a^2 + b^2 = c^2
  *
  * For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2
  *
  * There exists a Pythagorean triplet for which a + b + c = 1000. Find the
- *product abc.
+ * product abc.
  */
 
-int main(void)
+namespace
 {
-	uint32_t rangeMax;
-	uint32_t i, j, k;
-	uint64_t a, b, c;
+constexpr uint64_t EXPECTED_RESULT = 31875000;
 
-	rangeMax = 5;
-	while(1)
+struct Solution
+{
+	bool valid;
+	uint64_t product;
+};
+
+Solution checkSolution(uint32_t i, uint32_t j, uint32_t k)
+{
+	uint64_t a = EMath::getPythagoreanTripleA(i, j, k);
+	uint64_t b = EMath::getPythagoreanTripleB(i, j, k);
+	uint64_t c = EMath::getPythagoreanTripleC(i, j, k);
+	return {(a + b + c) == 1000, a * b * c};
+}
+
+euler::util::process::ProblemResult<uint64_t> problem()
+{
+	for(uint32_t rangeMax = 5;; rangeMax += 5)
 	{
-		for(i = 1; i <= rangeMax; i++)
+		for(uint32_t i = 1; i <= rangeMax; ++i)
 		{
-			for(j = 1; j <= rangeMax; j++)
+			for(uint32_t j = 1; j <= rangeMax; ++j)
 			{
-				for(k = 1; k <= rangeMax; k++)
+				for(uint32_t k = 1; k <= rangeMax; ++k)
 				{
-					if(i > j)
+					if(i <= j)
+						continue;
+					Solution s = checkSolution(i, j, k);
+					if(s.valid)
 					{
-						a = EMath::
-						        getPythagoreanTripleA(
-						                i, j, k);
-						b = EMath::
-						        getPythagoreanTripleB(
-						                i, j, k);
-						c = EMath::
-						        getPythagoreanTripleC(
-						                i, j, k);
-
-						if((a + b + c) == 1000)
-						{
-							std::cout
-							        << "The "
-							           "product of "
-							           "the "
-							           "desired "
-							           "pythagorean"
-							           " triple "
-							           "is: "
-							        << (a * b * c)
-							        << "\n";
-
-							assert((a * b * c) ==
-							       31875000);
-							return 0;
-						}
+						return {s.product,
+						        EXPECTED_RESULT};
 					}
 				}
 			}
 		}
-
-		rangeMax += 5;
 	}
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
