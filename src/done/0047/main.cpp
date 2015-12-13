@@ -16,12 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdlib>
 
-#define STARTING_UPPER_LIMIT 200000
-#define UPPER_LIMIT_MULTIPLIER 2
+#include "common/util/Process.hpp"
 
 /*
  * The first two consecutive numbers to have two distinct prime factors are:
@@ -36,12 +33,16 @@
  *     646 = 2 x 17 x 19
  *
  * Find the first four consecutive integers to have four distinct prime factors.
- *What is
- * the first of these numbers?
+ * What is the first of these numbers?
  */
 
 namespace
 {
+constexpr uint32_t STARTING_UPPER_LIMIT = 200000;
+constexpr uint32_t UPPER_LIMIT_MULTIPLIER = 2;
+
+constexpr uint32_t EXPECTED_RESULT = 134043;
+
 void sieve(uint32_t *li, uint32_t le)
 {
 	uint32_t i, j;
@@ -58,9 +59,8 @@ void sieve(uint32_t *li, uint32_t le)
 			li[j]++;
 	}
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	uint32_t *list = NULL;
 	uint32_t upperBound = STARTING_UPPER_LIMIT;
@@ -116,10 +116,8 @@ int main(void)
 	if(list != NULL)
 		delete[] list;
 
-	std::cout << "The first of four consecutive integers to have four "
-	             "distinct prime factors is: "
-	          << result << "\n";
-
-	assert(result == 134043);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

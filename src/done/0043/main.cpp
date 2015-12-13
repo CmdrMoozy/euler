@@ -16,20 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 
 #include "common/util/EArrayUtilities.h"
+#include "common/util/Process.hpp"
 
 /*
  * The number, 1406357289, is a 0 to 9 pandigital number because it is made up
- *of each of the digits 0 to 9
- * in some order, but it also has a rather interesting sub-string divisibility
- *property.
+ * of each of the digits 0 to 9 in some order, but it also has a rather
+ * interesting sub-string divisibility property.
  *
  * Let d1 be the 1st digit, d2 be the 2nd digit, and so on. In this way, we note
- *the following:
+ * the following:
  *
  *     - d2d3d4  = 406 is divisible by 2
  *     - d3d4d5  = 063 is divisible by 3
@@ -42,7 +40,11 @@
  * Find the sum of all 0 to 9 pandigital numbers with this property.
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 16695334890;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint64_t sum = 0, n;
 	uint64_t test;
@@ -104,11 +106,8 @@ int main(void)
 
 	} while(EArrayUtilities::permutate<uint64_t>(digits, 10));
 
-	// Return the answer.
-
-	std::cout << "The sum of all sub-string divisible pandigitals is: "
-	          << sum << "\n";
-	assert(sum == 16695334890);
-
-	return 0;
+	return {sum, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

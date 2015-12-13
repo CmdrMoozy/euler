@@ -16,22 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cmath>
+#include <cstdint>
 #include <set>
 
 #include "common/math/EPrimeSieve.h"
-
-#define INITIAL_SIEVE_LIMIT 1000000
-#define SIEVE_LIMIT_MULTIPLIER 2
-
-#define LOWER_BOUND 9
+#include "common/util/Process.hpp"
 
 /*
  * It was proposed by Christian Goldbach that every odd composite number can be
- *written as the
- * sum of a prime and twice a square.
+ * written as the sum of a prime and twice a square.
  *
  *     9 = 7 + (2 * 1^2)
  *     15 = 7 + (2 * 2^2)
@@ -43,11 +37,19 @@
  * It turns out that the conjecture was false.
  *
  * What is the smallest odd composite that cannot be written as the sum of a
- *prime and twice a
- * square?
+ * prime and twice a square?
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t INITIAL_SIEVE_LIMIT = 1000000;
+constexpr uint32_t SIEVE_LIMIT_MULTIPLIER = 2;
+
+constexpr uint32_t LOWER_BOUND = 9;
+
+constexpr uint32_t EXPECTED_RESULT = 5777;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	EPrimeSieve sieve;
 	std::set<uint32_t>::iterator sit;
@@ -105,10 +107,8 @@ int main(void)
 			break;
 	}
 
-	std::cout << "The smallest odd composite that doesn't fit Goldbach's "
-	             "conjecture is: "
-	          << n << "\n";
-
-	assert(n == 5777);
-	return 0;
+	return {n, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
