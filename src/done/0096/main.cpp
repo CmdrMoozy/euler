@@ -18,20 +18,22 @@
 
 #include <algorithm>
 #include <atomic>
-#include <cassert>
 #include <cstddef>
 #include <fstream>
-#include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <thread>
 #include <vector>
 
 #include "common/euler/ESudoku.h"
+#include "common/util/Process.hpp"
 
 namespace
 {
+constexpr int EXPECTED_RESULT = 24702;
+
 /*
  * This structure defines the context of a consumer thread, including our list
  * of puzzles that are to be solved, the total from the solved puzzles, and an
@@ -95,12 +97,8 @@ void solvePuzzles(ThreadContext &context)
 		context.total.fetch_add(a, std::memory_order_seq_cst);
 	}
 }
-}
 
-/*
- * main() parses our sudoku input file and then starts worker threads to
- */
-int main(void)
+euler::util::process::ProblemResult<int> problem()
 {
 	std::vector<int> puzzle;
 
@@ -119,8 +117,8 @@ int main(void)
 
 	if(!pfile.is_open())
 	{
-		std::cout << "Failed to open input file 'sudoku.txt'!\n";
-		return 1;
+		throw std::runtime_error(
+		        "Failed to open input file 'sudoku.txt'!");
 	}
 
 	buf[1] = '\0';
@@ -190,16 +188,15 @@ int main(void)
 
 	if(!context.error)
 	{
-		std::cout << "The sum of the numbers in the solutions is: "
-		          << context.total << "\n";
-		assert(context.total == 24702);
+		return {context.total.load(std::memory_order_seq_cst),
+		        EXPECTED_RESULT};
 	}
 	else
 	{
-		std::cout << "One or more threads did not complete "
-		             "successfully!\n";
-		return 1;
+		throw std::runtime_error(
+		        "One or more threads did not complete successfully!");
 	}
-
-	return 0;
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -19,10 +19,11 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
-#include <iostream>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "common/util/Process.hpp"
 
 /*
  * The number 145 is well known for the property that the sum of the factorial
@@ -60,7 +61,9 @@ constexpr uint64_t MAX_START = 999999;
 
 constexpr uint64_t DESIRED_CHAIN_LENGTH = 60;
 
-inline uint64_t factorialOfDigit(uint64_t digit)
+constexpr uint64_t EXPECTED_RESULT = 402;
+
+uint64_t factorialOfDigit(uint64_t digit)
 {
 	static constexpr uint64_t LOOKUP_TABLE[] = {
 	        1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
@@ -91,9 +94,8 @@ findRepeat(const std::vector<uint64_t> &chain, const uint64_t &value)
 	auto it = std::find(chain.rbegin(), end, value);
 	return std::make_pair(it.base() + 1, it != end);
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint64_t count = 0;
 
@@ -148,9 +150,8 @@ int main(void)
 			++count;
 	}
 
-	std::cout << count << " values below one million produce 60-term "
-	          << "digit factorial sequences.\n";
-	assert(count == 402);
-
-	return 0;
+	return {count, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,28 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
+#include "common/util/Process.hpp"
+
 /*
  * The first known prime found to exceed one million digits was discovered in
- *1999, and is a Mersenne prime of the form
- * 2^6972593 - 1; it contains exactly 2,098,960 digits. Subsequently other
- *Mersenne primes, of the form 2^p - 1, have
- * been found which contain more digits.
+ * 1999, and is a Mersenne prime of the form 2^6972593 - 1; it contains exactly
+ * 2,098,960 digits. Subsequently other Mersenne primes, of the form 2^p - 1,
+ * have been found which contain more digits.
  *
  * However, in 2004 there was found a massive non-Mersenne prime which contains
- *2,357,207 digits: 28433 x 2^7830457 + 1.
+ * 2,357,207 digits: 28433 x 2^7830457 + 1.
  *
  * Find the last ten digits of this prime number.
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 8739992577;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	/*
 	 * We need the last 10 digits of 28,433 * 2^7,830,457 + 1
@@ -61,8 +64,8 @@ int main(void)
 		prime /= 10;
 	}
 
-	std::cout << "The last ten digits of the prime are: " << digits << "\n";
-	assert(digits == 8739992577);
-
-	return 0;
+	return {digits, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

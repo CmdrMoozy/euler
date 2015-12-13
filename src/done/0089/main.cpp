@@ -16,25 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
 #include <cstdint>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 
 #include "common/types/ERomanNumeral.h"
 #include "common/util/EString.h"
+#include "common/util/Process.hpp"
 
 /*
  * The rules for writing Roman numerals allow for many ways of writing each
- *number (see
- * About Roman Numerals...). However, there is always a "best" way of writing a
- *particular
- * number.
+ * number (see About Roman Numerals...). However, there is always a "best" way
+ * of writing a particular number.
  *
  * For example, the following represent all of the legitimate ways of writing
- *the number
- * sixteen:
+ * the number sixteen:
  *
  *     IIIIIIIIIIIIIIII
  *     VIIIIIIIIIII
@@ -44,26 +42,26 @@
  *     XVI
  *
  * The last example being considered the most efficient, as it uses the least
- *number of
- * numerals.
+ * number of numerals.
  *
  * The 11K text file, roman.txt (right click and 'Save Link/Target As...'),
- *contains one
- * thousand numbers written in valid, but not necessarily minimal, Roman
- *numerals; that
- * is, they are arranged in descending units and obey the subtractive pair rule
- *(see
- * About Roman Numerals... for the definitive rules for this problem).
+ * contains one thousand numbers written in valid, but not necessarily minimal,
+ * Roman numerals; that is, they are arranged in descending units and obey the
+ * subtractive pair rule (see About Roman Numerals... for the definitive rules
+ * for this problem).
  *
  * Find the number of characters saved by writing each of these in their minimal
- *form.
+ * form.
  *
  * Note: You can assume that all the Roman numerals in the file contain no more
- *than four
- * consecutive identical units.
+ * than four consecutive identical units.
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 743;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	ERomanNumeral numeral;
 	uint64_t inchars, outchars;
@@ -75,8 +73,8 @@ int main(void)
 
 	if(!numeralfile.is_open())
 	{
-		std::cout << "FATAL: Couldn't open roman.txt for reading.\n";
-		return 1;
+		throw std::runtime_error(
+		        "Couldn't open 'roman.txt' for reading.");
 	}
 
 	// Process each line of the file...
@@ -96,9 +94,8 @@ int main(void)
 
 		if(!numeral.parse(line))
 		{
-			std::cout << "FATAL: Invalid roman numeral '" << line
-			          << "'.\n";
-			return 1;
+			throw std::runtime_error(
+			        "Invalid roman numeral in 'roman.txt'.");
 		}
 
 		std::string out = numeral.getStringValue();
@@ -108,10 +105,9 @@ int main(void)
 
 	// Print our answer!
 
-	std::cout << "We saved " << (inchars - outchars)
-	          << " characters by minifying the numerals.\n";
 	assert(inchars >= outchars);
-	assert((inchars - outchars) == 743);
-
-	return 0;
+	return {inchars - outchars, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

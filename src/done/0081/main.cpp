@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
-#include <iostream>
 
 #include "common/euler/GridGraphUtils.h"
 #include "common/graph/astar.h"
 #include "common/graph/Edge.h"
+#include "common/util/Process.hpp"
 
 /*
  * In the 5 by 5 matrix below, the minimal path sum from the top left to bottom
@@ -49,9 +49,10 @@ constexpr std::size_t GRID_HEIGHT = 80;
 typedef euler::grid_graph_utils::GridGraphWeights<GRID_WIDTH, GRID_HEIGHT>
         GridGraphWeights_t;
 typedef euler::grid_graph_utils::GridGraph<GRID_WIDTH, GRID_HEIGHT> GridGraph_t;
-}
 
-int main(void)
+constexpr int64_t EXPECTED_RESULT = 427337;
+
+euler::util::process::ProblemResult<int64_t> problem()
 {
 	// Load the weights from the input file, and build a graph from them.
 	GridGraphWeights_t weights =
@@ -88,8 +89,8 @@ int main(void)
 	auto result = euler::graph::astar<euler::graph::ConsistentHeuristic>(
 	        *graph.graph, *graph.fauxStart.vertex, *graph.fauxEnd.vertex,
 	        heuristicFn);
-	std::cout << "The minimum path sum is: " << result.sum << "\n";
-	assert(result.sum == 427337);
-
-	return EXIT_SUCCESS;
+	return {result.sum, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
