@@ -16,30 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
 #include "common/math/EMath.h"
 #include "common/math/Math.h"
+#include "common/util/Process.hpp"
 
 /*
  * The cube, 41063625 (345^3), can be permutated to produce two other cubes:
- *56623104 (384^3) and
- * 66430125 (405^3). In fact, 41063625 is the smallest cube which has exactly
- *three permutations of
- * its digits which are also cube.
+ * 56623104 (384^3) and 66430125 (405^3). In fact, 41063625 is the smallest
+ * cube which has exactly three permutations of its digits which are also cube.
  *
  * Find the smallest cube for which exactly five permutations of its digits are
- *cube.
+ * cube.
  */
 
+namespace
+{
 // "Find the smallest cube for which exactly CUBIC_PERMS_TARGET permutations of
 // its digits are cube."
-#define CUBIC_PERMS_TARGET 5
+constexpr std::size_t CUBIC_PERMS_TARGET = 5;
 
-int main(void)
+constexpr uint64_t EXPECTED_RESULT = 5027;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint64_t bresult = 0;
 
@@ -140,13 +142,8 @@ int main(void)
 		++digits;
 	}
 
-	// Print out our result and bail!
-
-	std::cout << "The smallest cube with exactly "
-	          << (CUBIC_PERMS_TARGET - 1)
-	          << " other cubic permutations is: "
-	          << (bresult * bresult * bresult) << "\n";
-	assert(bresult == 5027);
-
-	return 0;
+	return {bresult, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,28 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
-#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
 #include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * A googol (10^100) is a massive number: one followed by one-hundred zeros;
- *100^100 is almost
- * unimaginably large: one followed by two-hundred zeros. Despite their size,
- *the sum of the
- * digits in each number is only 1.
+ * 100^100 is almost unimaginably large: one followed by two-hundred zeros.
+ * Despite their size, the sum of the digits in each number is only 1.
  *
  * Considering natural numbers of the form, a^b, where a, b < 100, what is the
- *maximum digital
- * sum?
+ * maximum digital sum?
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t EXPECTED_RESULT = 972;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	EDigitInteger d;
 	uint32_t a, b, s, result;
@@ -62,9 +62,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The maximum digital sum in our range is: " << result
-	          << "\n";
-
-	assert(result == 972);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

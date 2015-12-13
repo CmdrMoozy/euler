@@ -16,21 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
-#include <iostream>
+#include <cstdint>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
 #include "common/math/EMath.h"
 #include "common/euler/ESpiral.h"
-
-/*
- * This value is sufficiently high enough for us to get the correct answer,
- * and sufficiently low enough to find the answer very quickly.
- */
-#define PRIME_PRECISION 25
+#include "common/util/Process.hpp"
 
 /*
  * Starting with 1 and spiralling anticlockwise in the following way, a square
@@ -54,7 +48,17 @@
  * both diagonals first falls below 10%?
  */
 
-int main(void)
+namespace
+{
+/*
+ * This value is sufficiently high enough for us to get the correct answer,
+ * and sufficiently low enough to find the answer very quickly.
+ */
+constexpr int PRIME_PRECISION = 25;
+
+constexpr std::size_t EXPECTED_RESULT = 26241;
+
+euler::util::process::ProblemResult<std::size_t> problem()
 {
 	uint32_t primes, o;
 	ESpiral sp;
@@ -76,11 +80,8 @@ int main(void)
 		sp.next();
 	} while((primes * 10) > ((o * 4) + 1));
 
-	std::size_t result = sp.getSizeFor(o);
-	std::cout << "The size of spiral whose diagonal prime ratio first "
-	             "falls below 10% is: "
-	          << result << "\n";
-
-	assert(result == 26241);
-	return 0;
+	return {sp.getSizeFor(o), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

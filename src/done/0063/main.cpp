@@ -16,12 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cmath>
 #include <cstdint>
-#include <iostream>
 
 #include "common/math/Math.h"
+#include "common/util/Process.hpp"
 
 /*
  * The 5-digit number, 16807 = 7^5, is also a fifth power. Similarly, the
@@ -47,7 +46,7 @@ namespace
  * case will be counted as a solution to the problem separately.
  */
 
-const uint64_t MINIMUM_BASE = 1;
+constexpr uint64_t MINIMUM_BASE = 1;
 
 /*
  * Since we are trying to find values satisfying
@@ -61,7 +60,7 @@ const uint64_t MINIMUM_BASE = 1;
  * be strictly less than 10.
  */
 
-const uint64_t MAXIMUM_BASE = 9;
+constexpr uint64_t MAXIMUM_BASE = 9;
 
 /*
  * We can also see that e must be nonnegative, since b^e for negative
@@ -70,10 +69,11 @@ const uint64_t MAXIMUM_BASE = 9;
  * definition doesn't exist.
  */
 
-const uint64_t MINIMUM_EXP = 1;
-}
+constexpr uint64_t MINIMUM_EXP = 1;
 
-int main(void)
+constexpr uint64_t EXPECTED_RESULT = 49;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	/*
 	 * Start the count at 1, since 0^1 = 0 which is a 1-digit number. This
@@ -125,9 +125,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The number of n-digit nth power "
-	          << "positive intgers is: " << count << "\n";
-	assert(count == 49);
-
-	return 0;
+	return {count, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
