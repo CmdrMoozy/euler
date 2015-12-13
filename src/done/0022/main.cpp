@@ -16,31 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
 #include <algorithm>
-#include <cassert>
+#include <cstdint>
+#include <fstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+#include "common/util/Process.hpp"
 
 /*
  * Using names.txt, a 46K text file containing over five-thousand first names,
  * begin by sorting it into alphabetical order. Then working out the
- *alphabetical
- * value for each name, multiply this value by its alphabetical position in the
- *list to
- * obtain a name score.
+ * alphabetical value for each name, multiply this value by its alphabetical
+ * position in the list to obtain a name score.
  *
  * For example, when the list is sorted into alphabetical order, COLIN, which is
- *worth
- * 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would
- *obtain
- * a score of 938 x 53 + 49714.
+ * worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN
+ * would obtain a score of 938 x 53 + 49714.
  *
  * What is the total of all the name scores in the file?
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 871198282;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	/*
 	 * This is a bit of a naieve solution... Basically we use a shell script
@@ -50,7 +52,7 @@ int main(void)
 	 * Despite this, this solution still executes quite rapidly.
 	 */
 
-	unsigned long int total, name;
+	uint64_t total, name;
 	std::string buf;
 	std::vector<std::string> names;
 	std::vector<std::string>::iterator it;
@@ -58,13 +60,13 @@ int main(void)
 
 	if(!in.is_open())
 	{
-		std::cerr << "Unable to open 'names_processed.txt'!\n";
-		return 1;
+		throw std::runtime_error(
+		        "Unable to open 'names_processed.txt'!");
 	}
 
 	while(in.good())
 	{
-		getline(in, buf);
+		std::getline(in, buf);
 		names.push_back(buf);
 	}
 
@@ -87,8 +89,8 @@ int main(void)
 		total += name;
 	}
 
-	std::cout << "The total of the name scores is: " << total << "\n";
-
-	assert(total == 871198282);
-	return 0;
+	return {total, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

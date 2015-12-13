@@ -16,30 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <set>
 #include <cstdint>
-#include <cassert>
+#include <set>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * Let d(n) be defined as the sum of proper divisors of n (numbers less than n
- *which divide evenly into n).
- * If d(a) = b and d(b) = a, where a != b, then a and b are an amicable pair and
- *each of a and b are called
- * amicable numbers.
+ * which divide evenly into n). If d(a) = b and d(b) = a, where a != b, then
+ * a and b are an amicable pair and each of a and b are called amicable
+ * numbers.
  *
  * For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44,
- *55 and 110; therefore d(22) = 284.
- * The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+ * 55 and 110; therefore d(22) = 284. The proper divisors of 284 are 1, 2, 4,
+ * 71 and 142; so d(284) = 220.
  *
  * Evaluate the sum of all the amicable numbers under 10000.
  */
 
-#define LIMIT 10000
+namespace
+{
+constexpr uint64_t LIMIT = 10000;
+constexpr uint64_t EXPECTED_RESULT = 31626;
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	std::set<uint64_t> bset;
 	uint64_t a, b;
@@ -63,9 +64,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The sum of all amicable numbers below 10,000 is: " << sum
-	          << "\n";
-
-	assert(sum == 31626);
-	return 0;
+	return {sum, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

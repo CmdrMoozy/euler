@@ -138,6 +138,11 @@ public:
 		size = s;
 	}
 
+	T const *get() const
+	{
+		return array;
+	}
+
 	/*!
 	 * This function just returns a non-const reference to the element at
 	 *the given index in our

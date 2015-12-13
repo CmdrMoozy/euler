@@ -16,45 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstring>
-#include <iostream>
 #include <set>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * A perfect number is a number for which the sum of its proper divisors is
- *exactly
- * equal to the number. For example, the sum of the proper divisors of 28 would
- *be
- * 1 + 2 + 4 + 7 + 14 = 28, which means that 28 is a perfect number.
+ * exactly equal to the number. For example, the sum of the proper divisors
+ * of 28 would be 1 + 2 + 4 + 7 + 14 = 28, which means that 28 is a perfect
+ * number.
  *
  * A number n is called deficient if the sum of its proper divisors is less than
- *n
- * and it is called abundant if this sum exceeds n.
+ * n and it is called abundant if this sum exceeds n.
  *
  * As 12 is the smallest abundant number, 1 + 2 + 3 + 4 + 6 = 16, the smallest
- *number
- * that can be written as the sum of two abundant numbers is 24. By mathematical
- * analysis, it can be shown that all integers greater than 28123 can be written
- *as
- * the sum of two abundant numbers. However, this upper limit cannot be reduced
- *by
- * analysis even though it is known that the greatest number that cannot be
- *expressed
- * as the sum of two abundant numbers is less than this limit.
+ * number that can be written as the sum of two abundant numbers is 24. By
+ * mathematical analysis, it can be shown that all integers greater than 28123
+ * can be written as the sum of two abundant numbers. However, this upper limit
+ * cannot be reduced by analysis even though it is known that the greatest
+ * number that cannot be expressed as the sum of two abundant numbers is less
+ * than this limit.
  *
  * Find the sum of all the positive integers which cannot be written as the sum
- *of
- * two abundant numbers.
+ * of two abundant numbers.
  */
 
+namespace
+{
 // We reduce the upper limit as per:
 // http://en.wikipedia.org/wiki/Abundant_number
-#define LIMIT 20161
+constexpr uint64_t LIMIT = 20161;
 
-int main(void)
+constexpr uint32_t EXPECTED_RESULT = 4179871;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	uint64_t *abundantNumbers;
 	uint64_t i, j, k;
@@ -121,10 +118,8 @@ int main(void)
 
 	delete[] abundantNumbers;
 
-	std::cout << "The sum of the numbers that CANNOT be written as the sum "
-	             "of two abundant numbers is: "
-	          << total << "\n";
-
-	assert(total == 4179871);
-	return 0;
+	return {total, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

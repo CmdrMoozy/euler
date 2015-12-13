@@ -16,14 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
-
 #include "common/util/EDate.h"
+#include "common/util/Process.hpp"
 
 /*
  * You are given the following information, but you may prefer to do some
- *reasearch for yourself.
+ * reasearch for yourself.
  *
  * - 1 Jan 1900 was a Monday.
  * - Thirty days has September,
@@ -33,15 +31,17 @@
  *   Which has twenty-eight, rain or shine
  *   And on leap years, twenty-nine.
  * - A leap year occurs on any year evenly divisible by 4, but not on a century
- *unless it is
- *   divisble by 400.
+ *   unless it is divisble by 400.
  *
  * How many Sundays fell on the first of the month during the twentieth century
- *(1 Jan 1901 to
- * 31 Dec 2000)?
+ * (1 Jan 1901 to 31 Dec 2000)?
  */
 
-int main(void)
+namespace
+{
+constexpr int EXPECTED_RESULT = 171;
+
+euler::util::process::ProblemResult<int> problem()
 {
 	int s;
 	EDate d(1900, 1, 1, EDate::Monday);
@@ -64,10 +64,8 @@ int main(void)
 		d.addWeeks(1);
 	} while(d < e);
 
-	std::cout << "The number of Sundays that fell on the first of the "
-	             "month between 1901/01/01 and "
-	          << "2000/12/31 (inclusive) is: " << s << "\n";
-
-	assert(s == 171);
-	return 0;
+	return {s, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,14 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
-#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
 #include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * n! means n x  (n - 1) x ... x 3 x 2 x 1
@@ -31,18 +30,20 @@
  * Find the sum of the digits in the number 100!
  */
 
-int main(void)
+namespace
+{
+constexpr int EXPECTED_RESULT = 648;
+
+euler::util::process::ProblemResult<int> problem()
 {
 	EDigitInteger eda;
 	mpz_class number, sum;
-	int result;
 
 	mpz_fac_ui(number.get_mpz_t(), 100);
 
 	eda = number;
-	result = eda.sumOfDigits();
-	std::cout << "The sum of the digits in 100! is: " << result << "\n";
-
-	assert(result == 648);
-	return 0;
+	return {eda.sumOfDigits(), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
