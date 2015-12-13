@@ -23,6 +23,7 @@
 #include <cstdint>
 
 #include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * If the numbers 1 to 5 are written out in words: one, two, three, four, five,
@@ -39,32 +40,33 @@
 
 namespace
 {
-char const *LITERAL_DIGITS[] = {"Zero", "One", "Two",   "Three", "Four",
-                                "Five", "Six", "Seven", "Eight", "Nine"};
+constexpr char const *LITERAL_DIGITS[] = {"Zero",  "One",  "Two", "Three",
+                                          "Four",  "Five", "Six", "Seven",
+                                          "Eight", "Nine"};
 
-char const *LITERAL_SPECIAL[] = {"",         "Eleven",  "Twelve",  "Thirteen",
-                                 "Fourteen", "Fifteen", "Sixteen", "Seventeen",
-                                 "Eighteen", "Nineteen"};
+constexpr char const *LITERAL_SPECIAL[] = {
+        "",        "Eleven",  "Twelve",    "Thirteen", "Fourteen",
+        "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 
-char const *LITERAL_TEN_MULTIPLES[] = {"",       "Ten",   "Twenty", "Thirty",
-                                       "Forty",  "Fifty", "Sixty",  "Seventy",
-                                       "Eighty", "Ninety"};
+constexpr char const *LITERAL_TEN_MULTIPLES[] = {
+        "",      "Ten",   "Twenty",  "Thirty", "Forty",
+        "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
 
-char const *LITERAL_PLACES[] = {"", "",        "", "Hundred", "Thousand",
-                                "", "Million", "", "",        "Billion"};
+constexpr char const *LITERAL_PLACES[] = {
+        "", "", "", "Hundred", "Thousand", "", "Million", "", "", "Billion"};
+
+constexpr int EXPECTED_RESULT = 21124;
 
 /*
  * This function will spell-out an input number -- i.e., "123" becomes "one
- *hundred and twenty-three".
+ * hundred and twenty-three".
  *
  * It is up to the caller to make sure that dest is large enough; although, this
- *function will not write
- * more than destSize bytes (chars) to dest.
+ * function will not write more than destSize bytes (chars) to dest.
  *
  * that this function can only handle numbers up to the billions, so your input
- *number must be
- * >= 9,999,999,999 (e.g., we can handle up to an unsigned 32-bit integer
- *value).
+ * number must be >= 9,999,999,999 (e.g., we can handle up to an unsigned 32-bit
+ * integer value).
  *
  * This function returns 1 (TRUE) on success or 0 (FALSE) on failure.
  */
@@ -107,7 +109,7 @@ std::string numberToLiteral(uint32_t n)
 					oss << LITERAL_SPECIAL[edi.get(i - 1)]
 					    << " " << LITERAL_PLACES[place - 1]
 					    << " ";
-					--i;
+					++offFromEnd;
 				}
 			}
 			else if(edi.get(i) > 1)
@@ -122,7 +124,7 @@ std::string numberToLiteral(uint32_t n)
 				{
 					oss << " " << LITERAL_PLACES[place - 1]
 					    << " ";
-					--i;
+					++offFromEnd;
 				}
 			}
 
@@ -156,7 +158,7 @@ std::string numberToLiteral(uint32_t n)
 					oss << LITERAL_SPECIAL[edi.get(i - 1)]
 					    << " " << LITERAL_PLACES[place - 1]
 					    << " ";
-					--i;
+					++offFromEnd;
 				}
 			}
 			else if(edi.get(i) > 1)
@@ -171,7 +173,7 @@ std::string numberToLiteral(uint32_t n)
 				{
 					oss << " " << LITERAL_PLACES[place - 1]
 					    << " ";
-					--i;
+					++offFromEnd;
 				}
 			}
 
@@ -205,8 +207,7 @@ std::string numberToLiteral(uint32_t n)
 					    << " ";
 				else
 					oss << LITERAL_TEN_MULTIPLES[1] << " ";
-
-				--i;
+				++offFromEnd;
 			}
 			else if(edi.get(i) > 1)
 			{
@@ -219,7 +220,7 @@ std::string numberToLiteral(uint32_t n)
 				else
 				{
 					oss << " ";
-					--i;
+					++offFromEnd;
 				}
 			}
 
@@ -238,30 +239,21 @@ std::string numberToLiteral(uint32_t n)
 
 	return oss.str();
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<int> problem()
 {
-	int count;
-	unsigned int j;
-	std::string s;
-
-	count = 0;
-	for(uint32_t i = 1; i <= 1000; i++)
+	int count = 0;
+	for(uint32_t i = 1; i <= 1000; ++i)
 	{
-		s = numberToLiteral(i);
-
-		for(j = 0; j < s.length(); j++)
+		std::string s = numberToLiteral(i);
+		for(std::size_t j = 0; j < s.length(); ++j)
 		{
 			if(!isspace(s[j]) && (s[j] != '-'))
-				count++;
+				++count;
 		}
 	}
-
-	std::cout << "The total number of characters used if all of the "
-	             "numbers from 1 to 1000 "
-	          << "(inclusive) are spelled out is: " << count << "\n";
-
-	assert(count == 21124);
-	return 0;
+	return {count, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
