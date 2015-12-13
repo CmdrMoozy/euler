@@ -16,18 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <map>
 
 #include <gmp.h>
 #include <gmpxx.h>
 
 #include "common/euler/ECircularPrimeSieve.h"
-
-#define PRIME_LIMIT 1000000
+#include "common/util/Process.hpp"
 
 /*
  * The number, 197, is called a circular prime because all rotations of the
@@ -39,17 +36,18 @@
  * How many circular primes are there below one million?
  */
 
-int main(void)
+namespace
 {
-	uint32_t count;
+constexpr uint32_t PRIME_LIMIT = 1000000;
+
+constexpr std::size_t EXPECTED_RESULT = 55;
+
+euler::util::process::ProblemResult<std::size_t> problem()
+{
 	ECircularPrimeSieve s;
-
 	s.setLimit(PRIME_LIMIT);
-
-	count = s.getSize();
-	std::cout << "The number of circular primes under " << PRIME_LIMIT
-	          << " is: " << count << "\n";
-
-	assert(count == 55);
-	return 0;
+	return {s.getSize(), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

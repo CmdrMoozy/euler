@@ -16,32 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 #include <set>
 
 #include "common/util/EArrayUtilities.h"
+#include "common/util/Process.hpp"
 
 /*
  * We shall say that an n-digit number is pandigital if it makes use of all the
- *digits 1 to n exactly
- * once; for example, the 5-digit number, 15234, is 1 through 5 pandigital.
+ * digits 1 to n exactly once; for example, the 5-digit number, 15234, is 1
+ * through 5 pandigital.
  *
  * The product 7254 is unusual, as the identity, 39 x 186 = 7254, containing
- *multiplicand, multiplier,
- * and product is 1 through 9 pandigital.
+ * multiplicand, multiplier, and product is 1 through 9 pandigital.
  *
  * Find the sum of all products whose multiplicand/multiplier/product identity
- *can be written as a 1
- * through 9 pandigital.
+ * can be written as a 1 through 9 pandigital.
  *
  * HINT: Some products can be obtained in more than one way so be sure to
- *include it only once in your
- * sum.
+ * include it only once in your sum.
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 45228;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	std::set<uint64_t>
 	        products; // A std::set eliminates any duplicate products.
@@ -54,20 +54,18 @@ int main(void)
 	{
 		/*
 		 * We know that the product of two numbers which contain m and n
-		 *digits respectively
-		 * is always between (m+n-1) and (m+n) in length.
+		 * digits respectively is always between (m+n-1) and (m+n) in
+		 * length.
 		 *
 		 * Because of this, along with the fact that the multiplicative
-		 *identity we are checking
-		 * MUST contain all 9 numbers from 1-9 (inclusive), we know that
-		 *the product must be either
-		 * 4 or 5 digits in length.
+		 * identity we are checking MUST contain all 9 numbers from 1-9
+		 * (inclusive), we know that the product must be either 4 or 5
+		 * digits in length.
 		 *
 		 * (If the product were more than 5 digits in length, there
-		 *aren't enough remaining digits
-		 * to produce it. If the product were less than 4 digits, the
-		 *remaining digits would have
-		 * to product a larger product than the one given.)
+		 * aren't enough remaining digits to produce it. If the product
+		 * were less than 4 digits, the remaining digits would have to
+		 * product a larger product than the one given.)
 		 */
 
 		// Test the four-digit product.
@@ -78,8 +76,9 @@ int main(void)
 		product = (product * 10) + digits[8];
 
 		for(i = 1; i <= 4; ++i)
-		{ // The number of digits in the first number are between 1 and
-			// 4.
+		{
+			// The number of digits in the first number are between
+			// 1 and 4.
 
 			a = b = 0;
 
@@ -102,8 +101,9 @@ int main(void)
 		product += static_cast<uint64_t>(digits[4]) * 10000;
 
 		for(i = 1; i <= 3; ++i)
-		{ // The number of digits in the first number are between 1 and
-			// 3.
+		{
+			// The number of digits in the first number are between
+			// 1 and 3.
 
 			a = b = 0;
 
@@ -128,11 +128,8 @@ int main(void)
 	for(it = products.begin(); it != products.end(); it++)
 		total += (*it);
 
-	// Print the answer!
-	std::cout << "The sum of the products whose multiplicative identity is "
-	             "1-9 pandigital is: "
-	          << total << "\n";
-	assert(total == 45228);
-
-	return 0;
+	return {total, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

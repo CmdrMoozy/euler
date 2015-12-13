@@ -16,14 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
+
+#include "common/util/Process.hpp"
 
 /*
  * In England the currency is made up of pound and pence, and there are eight
- *coins in general
- * circulation:
+ * coins in general circulation:
  *
  *     1p, 2p, 5p, 10p, 20p, 50p, 1pound and 2pound.
  *
@@ -34,15 +33,18 @@
  * How many different ways can 2 pound be made using any number of coins?
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 73682;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint64_t total = 0;
 
 	/*
 	 * Just calculate the answer using brute force, skipping the interior
-	 * loops if the total produced by
-	 * the outer loops is already too great. A stupid solution, but
-	 * acceptably fast.
+	 * loops if the total produced by the outer loops is already too great.
+	 * A stupid solution, but acceptably fast.
 	 */
 
 	for(int one = 200; one >= 0; --one)
@@ -115,8 +117,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "Two pounds can be made " << total << " different ways.\n";
-	assert(total == 73682);
-
-	return 0;
+	return {total, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,25 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <climits>
-#include <cassert>
+#include <cstdint>
 
 #include "common/types/EDigitInteger.h"
 #include "common/util/EBitwise.h"
+#include "common/util/Process.hpp"
 
 /*
  * The decimal number, 585 = 1001001001 (binary), is palindromic in both bases.
  *
  * Find the sum of all numbers, less than one million, which are palindromic in
- *base 10 and
- * base 2.
+ * base 10 and base 2.
  *
  * (Please note that the palindromic number, in either base, may not include
- *leading zeros.)
+ * leading zeros.)
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t EXPECTED_RESULT = 872187;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	uint32_t i, result;
 	EDigitInteger d;
@@ -55,10 +58,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The sum of the numbers below 1,000,000 that are "
-	             "palindromic in base 10 and 2 is: "
-	          << result << "\n";
-
-	assert(result == 872187);
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
