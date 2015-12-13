@@ -60,6 +60,7 @@ public:
 	EFraction &operator=(const EFraction &o);
 
 	bool operator==(const EFraction &o) const;
+	bool operator!=(EFraction const &o) const;
 	bool operator>(const EFraction &o) const;
 	bool operator<(const EFraction &o) const;
 	bool operator>=(const EFraction &o) const;
@@ -67,6 +68,8 @@ public:
 
 	EFraction &operator+=(const EFraction &o);
 	EFraction &operator-=(const EFraction &o);
+
+	int compare(EFraction const &o) const;
 
 	uint64_t getNumerator() const;
 	void setNumerator(uint64_t n);

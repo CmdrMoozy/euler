@@ -17,14 +17,13 @@
  */
 
 #include <cstddef>
-#include <cassert>
 #include <cstdint>
-#include <iostream>
 #include <vector>
 
 #include <gmp.h>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * Consider quadratic Diophantine equations of the form:
@@ -37,7 +36,8 @@
  * square.
  *
  * By finding minimal solutions in x for D = {2, 3, 5, 6, 7} we obtain the
- *following:
+ * following:
+ *
  *     3^2 - 2 x 2^2 = 1
  *     2^2 - 3 x 1^2 = 1
  *     9^2 - 5 x 4^2 = 1
@@ -45,32 +45,27 @@
  *     8^2 - 7 x 3^2 = 1
  *
  * Hence, by considering minimal solutions in x for D <= 7, the largest x is
- *obtained
- * when D = 5.
+ * obtained when D = 5.
  *
  * Find the value of D <= 1000 in minimal solutions of x for which the largest
- *value
- * of x is obtained.
+ * value of x is obtained.
  */
 
 namespace
 {
+constexpr uint64_t EXPECTED_RESULT = 661;
+
 /*!
  * This function will return the periodic continued fraction notation of
- *sqrt(D). E.g.,
- * for sqrt(11), which is [3; 3, 6, 3, 6, ...], we will return a vector
- *containing the
- * elements 3, 3 and 6, in that order.
+ * sqrt(D). E.g., for sqrt(11), which is [3; 3, 6, 3, 6, ...], we will return
+ * a vector containing the elements 3, 3 and 6, in that order.
  *
  * If the given number is a perfect square, then the vector returned will only
- *contain
- * one element: sqrt(D).
+ * contain one element: sqrt(D).
  *
  * Also, note that we will always return the entire period: e.g., for the
- *returned vector
- * v, the continued fraction representation of sqrt(D) is guaranteed to be,
- *e.g., for a
- * period length of 4:
+ * returned vector v, the continued fraction representation of sqrt(D) is
+ * guaranteed to be, e.g., for a period length of 4:
  *
  *     [v(0), v(1), v(2), v(3), v(4), v(1), v(2), v(3), v(4), ...]
  *
@@ -116,20 +111,17 @@ std::vector<uint64_t> getContinuedFraction(uint64_t D)
 
 	return v;
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	/*
 	 * To solve this problem, we will use H. W. Lenstra Jr.'s "Solving the
-	 *Pell
-	 * Equation," which gives us that:
+	 * Pell Equation," which gives us that:
 	 *
 	 *     Let h(i) / k(i) denote the sequence of convergents to the
-	 *continued fraction
-	 *     for sqrt(D). Then the pair (x1, y1) solving Pell's equation and
-	 *minimizing x
-	 *     satisfies x1 = h(i) and y1 = k(i) for some i.
+	 *     continued fraction for sqrt(D). Then the pair (x1, y1) solving
+	 *     Pell's equation and minimizing x satisfies x1 = h(i) and
+	 *     y1 = k(i) for some i.
 	 *
 	 * Notice that the generalized form of a continued fraction is:
 	 *
@@ -144,16 +136,15 @@ int main(void)
 	 *                                     b(4) + ...
 	 *
 	 * And, finally, note that the recurrence relations for the convergents
-	 *of continued
-	 * fractions in the form A(n) / B(n) are:
+	 * of continued fractions in the form A(n) / B(n) are:
 	 *
 	 *     A(0) = b(0)                              B(0) = 1
 	 *     A(1) = b(1) * b(0) + a(1)                B(1) = b(1)
 	 *     A(n) = b(n) * A(n-1) + a(n) * A(n-2)     B(n) = b(n) * B(n-1) +
-	 *a(n) * B(n-2)
+	 *                                                       a(n) * B(n-2)
 	 *
 	 * This allows us to very easily generate the list of convergents for a
-	 *given value of D.
+	 * given value of D.
 	 */
 
 	mpz_t Am1, Am2;
@@ -257,16 +248,9 @@ int main(void)
 	// We've gone through all possible D values - print out our final
 	// solution!
 
-	char *resultxstr = mpz_get_str(NULL, 10, resultx);
-
-	std::cout << "The D value in x^2 - D * y^2 = 1 whose minimal x "
-	             "solution is the "
-	          << "largest is D = " << resultD << ", with x = " << resultxstr
-	          << "\n";
-	assert(resultD == 661);
-
-	// Clear our GMP numbers.
-
-	free(resultxstr);
 	mpz_clears(Am1, Am2, Bm1, Bm2, resultx, tmpA, tmpB, NULL);
+	return {resultD, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

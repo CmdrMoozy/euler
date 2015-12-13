@@ -16,27 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
-#include <cassert>
 
 #include "common/euler/ETriangleStructure.h"
+#include "common/util/Process.hpp"
 
-int main(void)
+namespace
 {
-	int result;
+constexpr int EXPECTED_RESULT = 7273;
+
+euler::util::process::ProblemResult<int> problem()
+{
 	int rowValues[100];
 	std::string buf;
 	ETriangleStructure t(100);
 	std::ifstream in("triangle.txt");
 
 	if(!in.is_open())
-	{
-		std::cerr << "Unable to open 'triangle.txt'!\n";
-		return 1;
-	}
+		throw std::runtime_error("Unable to open 'triangle.txt'!");
 
 	std::size_t i = 0;
 	while(in.good())
@@ -56,10 +56,8 @@ int main(void)
 
 	in.close();
 
-	result = t.getLargestPathSum();
-	std::cout << "The maximum total from top to bottom in our triangle is: "
-	          << result << "\n";
-
-	assert(result == 7273);
-	return 0;
+	return {t.getLargestPathSum(), EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

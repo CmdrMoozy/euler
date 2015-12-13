@@ -16,13 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 
 #include <gmp.h>
 #include <gmpxx.h>
+
+#include "common/util/Process.hpp"
 
 /*
  * The square root of 2 can be written as an infinite continued fraction.
@@ -34,12 +34,12 @@
  *                   2 + ...
  *
  * The infinite continued fraction can be written, sqrt(2) = [1;(2)], (2)
- *indicates that 2 repeats
- * ad infinitum. In a similar way, sqrt(23) = [4;(1,3,1,8)].
+ * indicates that 2 repeats ad infinitum. In a similar way,
+ * sqrt(23) = [4;(1,3,1,8)].
  *
  * It turns out that the sequence of partial values of continued fractions for
- *square roots provide the best
- * rational approximations. Let us consider the convergents for sqrt(2):
+ * square roots provide the best rational approximations. Let us consider the
+ * convergents for sqrt(2):
  *
  *     3/2
  *     7/5
@@ -48,8 +48,8 @@
  *
  * Hence the sequence of the first ten convergents for sqrt(2) are:
  *
- *     1, 3/2, 7/5, 17/12, 41/29, 99/70, 239/169, 577/408, 1393/985, 3363/2378,
- *...
+ *     1, 3/2, 7/5, 17/12, 41/29, 99/70, 239/169, 577/408, 1393/985,
+ *     3363/2378, ...
  *
  * What is most surprising is that the important mathematical constant,
  *
@@ -62,15 +62,16 @@
  * The sum of the digits in the numerator of the 10th convergent is 1+4+5+7=17.
  *
  * Find the sum of the digits in the numerator of the 100th convergent of the
- *continued fraction for e.
+ * continued fraction for e.
  */
 
 namespace
 {
+constexpr uint64_t EXPECTED_RESULT = 272;
+
 /*
  * This function returns the nth continued fraction denominator for the
- *continued fraction representation
- * of e, elsewhere referred to as b(n).
+ * continued fraction representation of e, elsewhere referred to as b(n).
  *
  * We are using the continued fraction: [ 2; (1, 2k, 1) ] for this calculation.
  */
@@ -88,13 +89,12 @@ uint64_t getDenominator(uint32_t n)
 		return 2;
 	}
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	/*
 	 * By the Fundamental Recurrence formulas
-	 *(http://en.wikipedia.org/wiki/Fundamental_recurrence_formulas),
+	 * (http://en.wikipedia.org/wiki/Fundamental_recurrence_formulas),
 	 * we are given the following:
 	 *
 	 * The nth convergent, x(n), = A(n) / B(n).
@@ -110,19 +110,17 @@ int main(void)
 	 *     B(n+1) = b(n+1)B(n) + a(n+1)B(n-1)
 	 *
 	 * Where a(n) and b(n) represent the nth numerator and denominator of
-	 *the continued fraction, respectively.
-	 * It can be seen that for the continued fraction representation [...],
-	 *where S(n) is the nth term of the
-	 * representation starting at S(0), that:
+	 * the continued fraction, respectively. It can be seen that for the
+	 * continued fraction representation [...], where S(n) is the nth term
+	 * of the representation starting at S(0), that:
 	 *
 	 *     b(n) = S(n)
 	 *     a(n) = 1
 	 *
 	 * It should also be noted that, by the way continued fraction
-	 *representations are constructed, we know that
-	 * the the convergent x(n) for all n in Z is automatically written in
-	 *lowest terms (i.e., gcd(A(n), B(n)) = 1
-	 * for all valid n).
+	 * representations are constructed, we know that the the convergent
+	 * x(n) for all n in Z is automatically written in lowest terms (i.e.,
+	 * gcd(A(n), B(n)) = 1 for all valid n).
 	 */
 
 	// The first two convergent numerators are 2(/1) and 3(/2).
@@ -153,9 +151,8 @@ int main(void)
 		A /= 10;
 	}
 
-	std::cout << "The sum of the digits in the 100th numerator is: " << sum
-	          << "\n";
-	assert(sum == 272);
-
-	return 0;
+	return {sum, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

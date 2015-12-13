@@ -25,11 +25,6 @@
 #include "common/EDefines.h"
 #include "common/math/EMath.h"
 
-namespace
-{
-constexpr double DOUBLE_COMPARE_EPSILON = 0.00001;
-}
-
 /*!
  * This function tests if the given numerator and denominator are a reduced
  * proper fraction. That is, we test if a fraction n/d could be reduced or not.
@@ -107,7 +102,12 @@ EFraction &EFraction::operator=(const EFraction &o)
  */
 bool EFraction::operator==(const EFraction &o) const
 {
-	return std::abs(toDouble() - o.toDouble()) < DOUBLE_COMPARE_EPSILON;
+	return compare(o) == 0;
+}
+
+bool EFraction::operator!=(EFraction const &o) const
+{
+	return !(*this == o);
 }
 
 /*!
@@ -120,7 +120,7 @@ bool EFraction::operator==(const EFraction &o) const
  */
 bool EFraction::operator>(const EFraction &o) const
 {
-	return (toDouble() > o.toDouble());
+	return compare(o) > 0;
 }
 
 /*!
@@ -133,7 +133,7 @@ bool EFraction::operator>(const EFraction &o) const
  */
 bool EFraction::operator<(const EFraction &o) const
 {
-	return (toDouble() < o.toDouble());
+	return compare(o) < 0;
 }
 
 /*!
@@ -146,7 +146,7 @@ bool EFraction::operator<(const EFraction &o) const
  */
 bool EFraction::operator>=(const EFraction &o) const
 {
-	return (toDouble() >= o.toDouble());
+	return compare(o) >= 0;
 }
 
 /*!
@@ -159,7 +159,7 @@ bool EFraction::operator>=(const EFraction &o) const
  */
 bool EFraction::operator<=(const EFraction &o) const
 {
-	return (toDouble() <= o.toDouble());
+	return compare(o) <= 0;
 }
 
 /*!
@@ -224,6 +224,21 @@ EFraction &EFraction::operator-=(const EFraction &o)
 	}
 
 	return (*this);
+}
+
+int EFraction::compare(EFraction const &o) const
+{
+	uint64_t multiple = EMath::leastCommonMultiple(getDenominator(),
+	                                               o.getDenominator());
+	uint64_t thisNumerator = getNumerator() * (multiple / getDenominator());
+	uint64_t otherNumerator =
+	        o.getNumerator() * (multiple / o.getDenominator());
+	if(thisNumerator < otherNumerator)
+		return -1;
+	else if(thisNumerator > otherNumerator)
+		return 1;
+	else
+		return 0;
 }
 
 /*!

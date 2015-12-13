@@ -16,21 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <algorithm>
 #include <cstdint>
 #include <vector>
-#include <algorithm>
 
 #include "common/math/Math.h"
 #include "common/math/EPrimeSieve.h"
+#include "common/util/Process.hpp"
 
 /*
  * Euler's Totient function, phi(n), is used to determine the number of numbers
- *less than n which are
- * relatively prime to n. For example, as 1, 2, 4, 5, 7, and 8, are all less
- *than nine and relatively
- * prime to nine, phi(9) = 6.
+ * less than n which are relatively prime to n. For example, as 1, 2, 4, 5, 7,
+ * and 8, are all less than nine and relatively prime to nine, phi(9) = 6.
  *
  * |----|-------------|--------|------------|
  * | n  | Coprimes    | phi(n) | n / phi(n) |
@@ -53,18 +50,18 @@
 
 namespace
 {
+constexpr uint32_t EXPECTED_RESULT = 510510;
+
 /*!
  * This function generates a list of all numbers less than or equal to n,
- *excluding 1. The result is
- * given in a vector, which contains a list of numbers which themselves are
- *represented as a list of
- * prime factors (non-squarefree numbers are represented by repeating prime
- *factors in this list).
+ * excluding 1. The result is given in a vector, which contains a list of
+ * numbers which themselves are represented as a list of prime factors
+ * (non-squarefree numbers are represented by repeating prime factors in this
+ * list).
  *
  * \param p The prime number sieve to use to generate composites.
  * \param n The upper limit for generation.
- * \param m The minimum prime factor to be looked at (use default value for
- *initial call).
+ * \param m Minimum prime factor to be looked at (use default for first call).
  * \return A list of all numbers less than or equal to n, excluding 1.
  */
 std::vector<std::vector<uint32_t>> composites(EPrimeSieve &p, uint32_t n,
@@ -98,11 +95,10 @@ std::vector<std::vector<uint32_t>> composites(EPrimeSieve &p, uint32_t n,
 
 /*!
  * This function calculates the totient of the given number. The vector given is
- *assumed to be a PRIME FACTORIZATION
- * of the number, where non-squarefree numbers are simply represented by
- *repeated primes in the given list. Also note
- * that, for non-squarefree integers, the given list needs to be SORTED (either
- *ascending or descending will work).
+ * assumed to be a PRIME FACTORIZATION of the number, where non-squarefree
+ * numbers are simply represented by repeated primes in the given list. Also
+ * note that, for non-squarefree integers, the given list needs to be SORTED
+ * (either ascending or descending will work).
  *
  * \param n The number whose totient we will calculate.
  * \return The totient of n.
@@ -140,9 +136,8 @@ uint32_t totient(const std::vector<uint32_t> &n)
 
 	return t;
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	EPrimeSieve sieve(1000000);
 	uint32_t maxn = 0, n;
@@ -175,9 +170,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The number with the largest n/phi(n) ratio is " << maxn
-	          << " (" << maxr << ").\n";
-	assert(maxn == 510510);
-
-	return 0;
+	return {maxn, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
