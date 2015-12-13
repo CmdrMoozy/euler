@@ -16,24 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstdint>
 
-#include "common/types/EDigitInteger.h"
 #include "common/math/EMath.h"
 #include "common/math/Math.h"
+#include "common/types/EDigitInteger.h"
+#include "common/util/Process.hpp"
 
 /*
  * It can be seen that the number, 125874, and its double, 251748, contain
- *exactly the same
- * digits, but in a different order.
+ * exactly the same digits, but in a different order.
  *
  * Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x,
- *contain the same
- * digits.
+ * contain the same digits.
  */
 
-int main(void)
+namespace
+{
+constexpr uint64_t EXPECTED_RESULT = 142857;
+
+euler::util::process::ProblemResult<uint64_t> problem()
 {
 	uint64_t x, a, b, c;
 	EDigitInteger dx, db;
@@ -89,10 +91,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The smallest positive integer such that its multiples "
-	             "contain the same digits is: "
-	          << x << "\n";
-
-	assert(x == 142857);
-	return 0;
+	return {x, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

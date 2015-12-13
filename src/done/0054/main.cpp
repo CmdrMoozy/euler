@@ -16,14 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
-#include <string>
 #include <fstream>
+#include <stdexcept>
+#include <string>
 
 #include "common/euler/EPoker.h"
+#include "common/util/Process.hpp"
 
-int main(void)
+namespace
+{
+constexpr int EXPECTED_RESULT = 376;
+
+euler::util::process::ProblemResult<int> problem()
 {
 	int wins;
 	EPoker a, b;
@@ -32,8 +36,8 @@ int main(void)
 
 	if(!ifile.is_open())
 	{
-		std::cout << "Failed to open input file 'poker.txt'!\n";
-		return 1;
+		throw std::runtime_error(
+		        "Failed to open input file 'poker.txt'!");
 	}
 
 	wins = 0;
@@ -45,22 +49,21 @@ int main(void)
 
 		if(!a.parse(line.substr(0, 14)))
 		{
-			std::cout << "Unable to parse first hand!\n";
-			return 1;
+			throw std::runtime_error("Unable to parse first hand!");
 		}
 
 		if(!b.parse(line.substr(15, 14)))
 		{
-			std::cout << "Unable to parse second hand!\n";
-			return 1;
+			throw std::runtime_error(
+			        "Unable to parse second hand!");
 		}
 
 		if(a > b)
 			++wins;
 	}
 
-	std::cout << "Player 1 won: " << wins << " hands.\n";
-	assert(wins == 376);
-
-	return 0;
+	return {wins, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

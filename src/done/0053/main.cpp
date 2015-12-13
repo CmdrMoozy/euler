@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
+#include <cstdint>
 
 #include "common/math/EMath.h"
+#include "common/util/Process.hpp"
 
 /*
  * There are exactly ten ways of selecting three from five, 12345:
@@ -30,16 +30,20 @@
  *
  * In general,
  *
- * nCr = n! / (r! * (n-r)!), where r <= n, n! = n * (n-1 * ... * 3 * 2 * 1, and
- *0! = 1.
+ * nCr = n! / (r! * (n-r)!), where r <= n, n! = n * (n-1 * ... * 3 * 2 * 1,
+ * and 0! = 1.
  *
  * It is not until n = 23, that a value exceeds one-million: 23C10 = 1144066.
  *
  * How many, not necessarily distinct, values of nCr, for 1 <= n <= 100, are
- *greater than one-million?
+ * greater than one-million?
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t EXPECTED_RESULT = 4075;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	uint64_t v;
 	uint32_t n, r, c;
@@ -57,9 +61,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "The number of values that exceed 1,000,000 is: " << c
-	          << "\n";
-
-	assert(c == 4075);
-	return 0;
+	return {c, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

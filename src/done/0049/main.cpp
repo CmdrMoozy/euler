@@ -16,29 +16,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <set>
 #include <cstdint>
+#include <iostream>
 
 #include "common/math/EMath.h"
 #include "common/math/EPrimeSieve.h"
+#include "common/util/Process.hpp"
 
 /*
  * The arithmetic sequence, 1487, 4817, 8147, in which each of the terms
- *increases by 3330, is unusual in two ways:
- * (i) each of the three terms are prime, and, (ii) each of the 4-digit numbers
- *are permutations of one another.
+ * increases by 3330, is unusual in two ways: (i) each of the three terms are
+ * prime, and, (ii) each of the 4-digit numbers are permutations of one
+ * another.
  *
  * There are no arithmetic sequences made up of three 1-, 2-, or 3-digit primes,
- *exhibiting this property, but there
- * is one other 4-digit increasing sequence.
+ * exhibiting this property, but there is one other 4-digit increasing sequence.
  *
  * What 12-digit number do you form by concatenating the three terms in this
- *sequence?
+ * sequence?
  */
 
-int main(void)
+namespace
+{
+struct Result
+{
+	uint32_t a;
+	uint32_t b;
+	uint32_t c;
+
+	bool operator==(Result const &o) const
+	{
+		return (a == o.a) && (b == o.b) && (c == o.c);
+	}
+};
+
+std::ostream &operator<<(std::ostream &o, Result const &r)
+{
+	o << "(" << r.a << "," << r.b << "," << r.c << ")";
+	return o;
+}
+
+constexpr Result EXPECTED_RESULT{2969, 6299, 9629};
+
+euler::util::process::ProblemResult<Result> problem()
 {
 	EPrimeSieve sieve(10000);
 	std::set<uint32_t>::iterator ita, itb, itc;
@@ -71,23 +92,9 @@ int main(void)
 						   ((*itb) != 4817) &&
 						   ((*itc) != 8147))
 						{
-							std::cout
-							        << "Found "
-							           "arithmetic "
-							           "sequence: "
-							        << (*ita)
-							        << (*itb)
-							        << (*itc)
-							        << "\n";
-
-							assert(((*ita) ==
-							        2969) &&
-							       ((*itb) ==
-							        6299) &&
-							       ((*itc) ==
-							        9629));
-
-							return 0;
+							return {{*ita, *itb,
+							         *itc},
+							        EXPECTED_RESULT};
 						}
 					}
 				}
@@ -95,7 +102,8 @@ int main(void)
 		}
 	}
 
-	std::cout << "No arithmetic sequence found!\n";
-	assert(false);
-	return 1;
+	return {{0, 0, 0}, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

@@ -16,13 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <cassert>
 #include <cstdint>
 #include <set>
 #include <vector>
 
 #include "common/math/EPrimeSieve.h"
+#include "common/util/Process.hpp"
 
 /*
  * The prime 41, can be written as the sum of six consecutive primes:
@@ -30,24 +29,25 @@
  *     41 = 2 + 3 + 5 + 7 + 11 + 13
  *
  * This is the longest sum of consecutive primes that adds to a prime below
- *one-hundred.
+ * one-hundred.
  *
  * The longest sum of consecutive primes below one-thousand that adds to a
- *prime, contains 21 terms, and
- * is equal to 953.
+ * prime, contains 21 terms, and is equal to 953.
  *
  * Which prime, below one-million, can be written as the sum of the most
- *consecutive primes?
+ * consecutive primes?
  */
 
-int main(void)
+namespace
+{
+constexpr uint32_t EXPECTED_RESULT = 997651;
+
+euler::util::process::ProblemResult<uint32_t> problem()
 {
 	/*
 	 * It can be determined by adding the first n primes that the largest
-	 * possible set of consecutive
-	 * primes added together to form a number less than 1,000,000 is 546.
-	 * Thus, this is our starting
-	 * upper limit.
+	 * possible set of consecutive primes added together to form a number
+	 * less than 1,000,000 is 546. Thus, this is our starting upper limit.
 	 */
 
 	EPrimeSieve sieve(1000000);
@@ -58,8 +58,7 @@ int main(void)
 	{
 		/*
 		 * For each possible length, we try to see if the sum of that
-		 * number of any consecutive primes
-		 * produces a prime.
+		 * number of any consecutive primes produces a prime.
 		 */
 
 		start = 0;
@@ -84,20 +83,16 @@ int main(void)
 			// If the resulting number is prime, we've found the one
 			// we wanted!
 			if(sieve.contains(result))
-			{
-				std::cout << "The prime < 1,000,000 which is "
-				             "the sum of the most consecutive "
-				             "primes ("
-				          << length << ") is: " << result
-				          << "\n";
-				assert(result == 997651);
-
-				return 0;
-			}
+				return {result, EXPECTED_RESULT};
 
 			// Increment the range we are working with.
 			++start;
 			++end;
 		}
 	}
+
+	return {0, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
