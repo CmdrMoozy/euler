@@ -16,37 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 
 #include <gmp.h>
 #include <mpfr.h>
 
+#include "common/util/Process.hpp"
+
 /*
  * If a box contains twenty-one coloured discs, composed of fifteen blue discs
- *and six red
- * discs, and two discs were taken at random, it can be seen that the
- *probability of
- * taking two blue discs, P(BB) = (15/12) x (14/20) = 1/2.
+ * and six red discs, and two discs were taken at random, it can be seen that
+ * the probability of taking two blue discs, P(BB) = (15/12) x (14/20) = 1/2.
  *
  * The next such arrangement, for which there is exactly 50% change of taking
- *two blue
- * discs at random, is a box containing eighty-five blue discs and thirty-five
- *red discs.
+ * two blue discs at random, is a box containing eighty-five blue discs and
+ * thirty-five red discs.
  *
  * By finding the first arrangement to contain over 10^12 = 1,000,000,000,000
- *discs in
- * total, determine the number of blue discs that the box would contain.
+ * discs in total, determine the number of blue discs that the box would
+ * contain.
  */
 
-int main(void)
+namespace
+{
+constexpr uintmax_t EXPECTED_RESULT = 756872327473;
+
+euler::util::process::ProblemResult<uintmax_t> problem()
 {
 	/*
 	 * First note that, in general, we are trying to find integer solutions
-	 *to the
-	 * following:
+	 * to the following:
 	 *
 	 *     [B * (B - 1)] / [N * (N - 1)] = 1/2
 	 *
@@ -55,8 +55,7 @@ int main(void)
 	 *     2B(B-1) = N(N-1)
 	 *
 	 * Using some very basic algebra, as well as by completing the square to
-	 *solve for
-	 * B in terms of N, we end up with:
+	 * solve for B in terms of N, we end up with:
 	 *
 	 *     B^2 - B = (1/2) * N * (N - 1)
 	 *     B^2 - B + (1/4) = (1/2) * N * (N - 1) + (1/4)
@@ -65,22 +64,21 @@ int main(void)
 	 *     B = +/- sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2)
 	 *
 	 * Furthermore, note that (in the context of our problem), negative
-	 *values for B
-	 * don't make sense, so we can simply ignore those values of B, giving:
+	 * values for B don't make sense, so we can simply ignore those values
+	 * of B, giving:
 	 *
 	 *     B = sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2)
 	 *
 	 * At this point, all we need to do to solve this problem is to solve
-	 *the
-	 * right-hand side of the equation over the integers, with N > 10^12.
+	 * the right-hand side of the equation over the integers, with
+	 * N > 10^12.
 	 *
 	 * Note that, because B must be an integer, we also know that the
-	 *right-hand side
-	 * of the given equation is in Z. Thus (=> means implies):
+	 * right-hand side of the given equation is in Z. Thus (=> means
+	 * implies):
 	 *
 	 *     sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2) is in Z
-	 *     Let sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2) = Y, with Y is in
-	 *Z.
+	 *     Let sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2) = Y, for Y in Z.
 	 *
 	 * With basic algebra, we come up with:
 	 *
@@ -97,21 +95,16 @@ int main(void)
 	 *     X`^2 - 2Y`^2 = -1
 	 *
 	 * I.e., the problem is reduced to the negative Pell's equation. For
-	 *this
-	 * particular instance of the negative Pell's equation, the fundamental
-	 *solution
-	 * is well known to be X` = 1, Y` = 1. Furthermore, the list of all
-	 *positive
-	 * solutions are given by the recurrences:
+	 * this particular instance of the negative Pell's equation, the
+	 * fundamental solution is well known to be X` = 1, Y` = 1. Furthermore,
+	 * the list of all positive solutions are given by the recurrences:
 	 *
 	 *     X`[n + 1] = 3 * X`[n] + 4 * Y`[n]
 	 *     Y`[n + 1] = 2 * X`[n] + 3 * Y`[n]
 	 *
-	 * Returning back to the problem, we're looking for solutions with N >
-	 *10^12. This
-	 * means that we're looking for the first solution with X` > 2 * 10^12 -
-	 *1. Let us
-	 * search for that value first:
+	 * Returning back to the problem, we're looking for solutions with
+	 * N > 10^12. This means that we're looking for the first solution with
+	 * X` > 2 * 10^12 - 1. Let us search for that value first:
 	 */
 
 	mpz_t xprime, yprime, bound, tmpA, tmpB, tmpC;
@@ -144,15 +137,13 @@ int main(void)
 
 	/*
 	 * Now that we have the minimized X` solution, we need to get the
-	 *corresponding
-	 * minimal N solution. Since X` = 2N - 1, we have:
+	 * corresponding minimal N solution. Since X` = 2N - 1, we have:
 	 *
 	 *     2N = X` - 1
 	 *     N = (1/2) * (X` - 1)
 	 *
 	 * Note that this must be an integer, since by definition of the
-	 *solutions of the
-	 * negative Pell's equation we know that X` is odd.
+	 * solutions of the negative Pell's equation we know that X` is odd.
 	 */
 
 	mpz_sub_ui(xprime, xprime, 1);
@@ -160,8 +151,7 @@ int main(void)
 
 	/*
 	 * Finally, it was proven above that B, the number of blue discs, can be
-	 *written
-	 * in terms of N, the total number of discs. Namely:
+	 * written in terms of N, the total number of discs. Namely:
 	 *
 	 *     B = sqrt[ (1/2) * N * (N - 1) + (1/4) ] + (1/2)
 	 *
@@ -202,9 +192,10 @@ int main(void)
 
 	mpfr_clear(N);
 	mpfr_clear(B);
+	mpfr_clear(ftmpA);
 
-	std::cout << "The number of blue discs is: " << result << "\n";
-	assert(result == 756872327473);
-
-	return 0;
+	return {result, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT

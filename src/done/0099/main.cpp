@@ -16,47 +16,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
-#include <iostream>
+#include <stdexcept>
 #include <string>
 
 #include <mpfr.h>
 
+#include "common/util/Process.hpp"
+
 /*
  * Comparing two numbers written in index form like 2^11 and 3^7 is not
- *difficult, as any
- * calculator would confirm that 2^11 = 2048 < 3^7 = 2187.
+ * difficult, as any calculator would confirm that 2^11 = 2048 < 3^7 = 2187.
  *
  * However, confirming that 632382^518061 > 519432^525806 would be much more
- *difficult, as
- * both numbers contain over three million digits.
+ * difficult, as both numbers contain over three million digits.
  *
  * Using base_exp.txt, a 22K text file containing one thousand lines with a
- *base/exponent
- * pair on each line, determine which line number has the greatest numerical
- *value.
+ * base/exponent pair on each line, determine which line number has the
+ * greatest numerical value.
  *
  * NOTE: The first two lines in the file represent the numbers in the example
- *given above.
+ * given above.
  */
 
 namespace
 {
+constexpr int EXPECTED_RESULT = 709;
+
 /*!
  * This function compares two b^e values. We take advantage of the fact that
- *deciding if:
+ * deciding if:
  *
  *     a^b > c^d is equivalent to deciding if:
  *     log(a^b) > log(c^d)
  *
  * This function is a typical three-state compare: it returns an integer greater
- *than, equal
- * to or less than zero if a is greater than, equal to or less than b,
- *respectively.
+ * than, equal to or less than zero if a is greater than, equal to or less than
+ * b, respectively.
  *
  * \param ba The base of the first value.
  * \param ea The exponent of the first value.
@@ -100,9 +99,8 @@ int compare(uint64_t ba, uint64_t ea, uint64_t bb, uint64_t be)
 
 	return ret;
 }
-}
 
-int main(void)
+euler::util::process::ProblemResult<int> problem()
 {
 	std::string line;
 	std::ifstream ifile;
@@ -110,70 +108,58 @@ int main(void)
 	uint64_t maxb = 1, maxe = 1;
 
 	ifile.open("base_exp.txt", std::ifstream::in);
+	if(!ifile.is_open())
+		throw std::runtime_error("Unable to open base_exp.txt!");
 
-	if(ifile.is_open())
+	while(ifile.good())
 	{
-		while(ifile.good())
+		std::getline(ifile, line);
+		++ln;
+
+		if(line.length() > 0)
 		{
-			std::getline(ifile, line);
-			++ln;
+			// Parse this particular line.
 
-			if(line.length() > 0)
+			std::string bs, es;
+			uint64_t b = 0, e = 0;
+			size_t idx;
+
+			idx = line.find(",");
+
+			if(idx == std::string::npos)
 			{
-				// Parse this particular line.
+				throw std::runtime_error(
+				        "Invalid line in input file.");
+			}
 
-				std::string bs, es;
-				uint64_t b = 0, e = 0;
-				size_t idx;
+			bs = line.substr(0, idx);
+			es = line.substr(idx + 1, line.length() - (idx + 1));
 
-				idx = line.find(",");
+			b = static_cast<uint64_t>(
+			        strtoll(bs.c_str(), NULL, 10));
+			e = static_cast<uint64_t>(
+			        strtoll(es.c_str(), NULL, 10));
 
-				if(idx == std::string::npos)
-				{
-					std::cout << "Invalid line in input "
-					             "file.\n";
-					return 1;
-				}
+			if((b == 0) || (e == 0))
+			{
+				throw std::runtime_error(
+				        "Invalid line in input file.");
+			}
 
-				bs = line.substr(0, idx);
-				es = line.substr(idx + 1,
-				                 line.length() - (idx + 1));
+			// Compare this line's value with our previous
+			// maximum value.
 
-				b = static_cast<uint64_t>(
-				        strtoll(bs.c_str(), NULL, 10));
-				e = static_cast<uint64_t>(
-				        strtoll(es.c_str(), NULL, 10));
-
-				if((b == 0) || (e == 0))
-				{
-					std::cout << "Invalid line in input "
-					             "file.\n";
-					return 1;
-				}
-
-				// Compare this line's value with our previous
-				// maximum value.
-
-				if(compare(maxb, maxe, b, e) < 0)
-				{
-					maxb = b;
-					maxe = e;
-					maxl = ln;
-				}
+			if(compare(maxb, maxe, b, e) < 0)
+			{
+				maxb = b;
+				maxe = e;
+				maxl = ln;
 			}
 		}
-
-		ifile.close();
-	}
-	else
-	{
-		std::cout << "Unable to open base_exp.txt!\n";
-		return 1;
 	}
 
-	std::cout << "The line number with the largest value was: " << maxl
-	          << "\n";
-	assert(maxl == 709);
-
-	return 0;
+	return {maxl, EXPECTED_RESULT};
 }
+}
+
+EULER_PROBLEM_ENTRYPOINT
