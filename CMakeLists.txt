@@ -29,7 +29,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/Functions.cmake)
 
 find_package(GMP REQUIRED)
 find_package(MPFR REQUIRED)
-find_package(PCRE REQUIRED)
+find_package(RE2 REQUIRED)
 
 # Setup our compile flags.
 
@@ -52,7 +52,7 @@ set(euler_LIBRARIES
 	${GMP_LIBRARIES}
 	${GMPXX_LIBRARIES}
 	${MPFR_LIBRARIES}
-	${PCRE_LIBRARIES}
+	${RE2_LIBRARIES}
 
 )
 

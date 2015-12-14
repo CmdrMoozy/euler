@@ -22,10 +22,8 @@
 #include <functional>
 #include <sstream>
 
-#include <pcre.h>
-
+#include "common/string/RegEx.hpp"
 #include "common/util/EString.h"
-#include "common/util/ScopeExit.h"
 
 namespace
 {
@@ -226,12 +224,6 @@ void ERomanNumeral::setValue(uint64_t v)
  */
 bool ERomanNumeral::parse(const std::string &v)
 {
-	pcre *regex;
-	const char *error;
-	int erroroff;
-	int ovector[42];
-	int rc, i;
-
 	// Reset our object's value.
 
 	setValue(0);
@@ -243,62 +235,33 @@ bool ERomanNumeral::parse(const std::string &v)
 	EString::trim(pv);
 	EString::strtoupper(pv);
 
-	// Prepare the regular expression we'll use to match the input string.
-
-	std::string regexs =
-	        "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?(L*)"
-	        "([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$";
-
-	regex = pcre_compile(regexs.c_str(), 0, &error, &erroroff, NULL);
-	euler::util::ScopeExit<std::function<void()>> cleanup(
-	        [regex]()
-	        {
-		        pcre_free(regex);
-		});
-
-	if(regex == NULL)
-	{
-		return false;
-	}
-
 	// Execute the regular expression on our input string.
 
-	rc = pcre_exec(regex, NULL, pv.c_str(), static_cast<int>(pv.length()),
-	               0, 0, ovector, 42);
+	euler::string::RegEx regex(
+	        "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?(L*)"
+	        "([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$");
 
-	if(rc <= 0)
-	{
+	auto result = regex.match(pv);
+	if(!result.matched)
 		return false;
-	}
 
 	// Process each captured group.
 
-	uint64_t total = 0, gv;
+	uint64_t total = 0;
 
-	for(i = 1; i < rc; ++i)
+	for(std::size_t i = 1; i < result.matches.size(); ++i)
 	{
 		/*
 		 * From our regular expression, we have the following capture
-		 *groups:
+		 * groups:
 		 *
 		 *     i = 1, 3, 5, 7, 9, 11, 13 - Additive groups.
 		 *
 		 *     i = 2, 4, 6, 8, 10, 12 - Subtractive groups.
 		 *
 		 * Add their values to the running total, checking that they're
-		 *valid.
+		 * valid.
 		 */
-
-		// Get this group as a std::string.
-
-		std::size_t off = static_cast<std::size_t>(ovector[2 * i]);
-		std::size_t len = static_cast<std::size_t>(ovector[2 * i + 1] -
-		                                           ovector[2 * i]);
-
-		std::string group = "";
-
-		if(len > 0)
-			group = pv.substr(off, len);
 
 		// Get the value for this group.
 
@@ -312,9 +275,12 @@ bool ERomanNumeral::parse(const std::string &v)
 		case 11:
 		case 13:
 		{
-			if(!ERomanNumeral::getAdditiveStringValue(group, &gv))
+			uint64_t gv;
+			if(!ERomanNumeral::getAdditiveStringValue(
+			           result.matches[i], &gv))
+			{
 				return false;
-
+			}
 			total += gv;
 		}
 		break;
@@ -326,10 +292,12 @@ bool ERomanNumeral::parse(const std::string &v)
 		case 10:
 		case 12:
 		{
-			if(!ERomanNumeral::getSubtractiveStringValue(group,
-			                                             &gv))
+			uint64_t gv;
+			if(!ERomanNumeral::getSubtractiveStringValue(
+			           result.matches[i], &gv))
+			{
 				return false;
-
+			}
 			total += gv;
 		}
 		break;

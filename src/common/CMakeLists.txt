@@ -48,6 +48,9 @@ SET(euler-common_SOURCES
 	math/EPrimeSieve.cpp
 	math/EPrimeSieve.h
 
+	string/RegEx.cpp
+	string/RegEx.hpp
+
 	structs/EGrid.h
 
 	types/BigDecimal.cpp
