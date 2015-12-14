@@ -79,6 +79,8 @@ SET(euler-common_SOURCES
 	util/EDate.h
 	util/Error.cpp
 	util/Error.hpp
+	util/Process.cpp
+	util/Process.hpp
 	util/Profiler.cpp
 	util/Profiler.h
 	util/EString.cpp

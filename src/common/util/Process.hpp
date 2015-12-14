@@ -25,6 +25,9 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
+#include <vector>
+
+#include <sys/types.h>
 
 #include "common/util/Profiler.h"
 #include "common/util/Terminal.hpp"
@@ -35,6 +38,38 @@ namespace util
 {
 namespace process
 {
+void registerProblemSignalHandlers();
+
+struct ProcessArguments
+{
+	const std::string path;
+	const std::vector<std::string> arguments;
+
+	char const *file;
+	const std::vector<char const *> argv;
+
+	ProcessArguments(std::string const &p,
+	                 std::vector<std::string> const &a);
+};
+
+class Process
+{
+public:
+	Process(std::string const &p, std::vector<std::string> const &a);
+
+	Process(Process const &) = delete;
+	Process(Process &&) = default;
+	Process &operator=(Process const &) = delete;
+	Process &operator=(Process &&) = default;
+
+	~Process();
+
+private:
+	ProcessArguments args;
+	pid_t parent;
+	pid_t child;
+};
+
 template <typename R> struct ProblemResult
 {
 	using result_type = typename std::decay<R>::type;
@@ -92,6 +127,7 @@ int problemMain(std::function<ProblemResult<R>()> const &problem, int /*argc*/,
 #define EULER_PROBLEM_ENTRYPOINT                                               \
 	int main(int argc, char const *const *argv)                            \
 	{                                                                      \
+		::euler::util::process::registerProblemSignalHandlers();       \
 		return ::euler::util::process::problemMain<decltype(           \
 		        problem())::result_type>(problem, argc, argv);         \
 	}
