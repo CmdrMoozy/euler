@@ -16,17 +16,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdlib>
+#ifndef common_string_Util_HPP
+#define common_string_Util_HPP
+
+#include <sstream>
 #include <string>
 #include <vector>
 
-#include "common/fs/Path.hpp"
-
-int main(int, char const *const *)
+namespace euler
 {
-	std::string pattern = euler::fs::path::join(
-	        {EULER_BINARY_DIR, "src", "done", "????", "????"});
-	std::vector<std::string> binaries = euler::fs::path::glob(pattern);
-
-	return EXIT_SUCCESS;
+namespace string
+{
+namespace util
+{
+template <typename Iterator>
+std::string join(Iterator begin, Iterator end, std::string const &delimiter)
+{
+	std::ostringstream oss;
+	for(auto it = begin; it != end; ++it)
+	{
+		auto next = it;
+		++next;
+		oss << *it;
+		if(next != end)
+			oss << delimiter;
+	}
+	return oss.str();
 }
+
+std::string join(std::vector<std::string> const &strings,
+                 std::string const &delimiter);
+}
+}
+}
+
+#endif

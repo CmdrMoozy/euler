@@ -36,6 +36,8 @@ find_package(RE2 REQUIRED)
 include(${CMAKE_SOURCE_DIR}/3rdparty/cmu/cmake/SetFlags.cmake)
 cmuSetCompileFlags()
 
+add_definitions(-DEULER_BINARY_DIR="${CMAKE_BINARY_DIR}")
+
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_definitions(-DLIBEULER_DEBUG)
 endif()

@@ -21,6 +21,9 @@ SET(euler-common_SOURCES
 	euler/GridGraphUtils.cpp
 	euler/GridGraphUtils.h
 
+	fs/Path.cpp
+	fs/Path.hpp
+
 	geodesy/EGeoCoord.cpp
 	geodesy/EGeoCoord.h
 	geodesy/ELatLonValue.cpp
@@ -50,6 +53,8 @@ SET(euler-common_SOURCES
 
 	string/RegEx.cpp
 	string/RegEx.hpp
+	string/Util.cpp
+	string/Util.hpp
 
 	structs/EGrid.h
 

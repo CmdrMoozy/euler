@@ -16,17 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdlib>
-#include <string>
-#include <vector>
+#include "Util.hpp"
 
-#include "common/fs/Path.hpp"
-
-int main(int, char const *const *)
+namespace euler
 {
-	std::string pattern = euler::fs::path::join(
-	        {EULER_BINARY_DIR, "src", "done", "????", "????"});
-	std::vector<std::string> binaries = euler::fs::path::glob(pattern);
-
-	return EXIT_SUCCESS;
+namespace string
+{
+namespace util
+{
+std::string join(std::vector<std::string> const &strings,
+                 std::string const &delimiter)
+{
+	return ::euler::string::util::join(strings.begin(), strings.end(),
+	                                   delimiter);
+}
+}
+}
 }
