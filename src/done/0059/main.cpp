@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 
+#include "common/fs/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -93,7 +94,7 @@ euler::util::process::ProblemResult<uint32_t> problem()
 
 	// Read in our input file.
 
-	fin.open("cipher1.txt");
+	fin.open(euler::fs::path::currentPath({"cipher1.txt"}));
 	if(!fin.is_open())
 	{
 		throw std::runtime_error("Unable to open 'cipher1.txt'.");

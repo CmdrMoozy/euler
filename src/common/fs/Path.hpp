@@ -36,8 +36,17 @@ template <typename Iterator> std::string join(Iterator begin, Iterator end)
 }
 
 std::string join(std::vector<std::string> const &components);
+std::string baseJoin(std::string const &base,
+                     std::vector<std::string> const &components);
 
 std::vector<std::string> glob(std::string const &pattern);
+
+std::string currentExecutable();
+std::string currentPath();
+
+std::string sourcePath(std::vector<std::string> const &components);
+std::string binaryPath(std::vector<std::string> const &components);
+std::string currentPath(std::vector<std::string> const &components);
 }
 }
 }

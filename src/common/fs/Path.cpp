@@ -18,11 +18,16 @@
 
 #include "Path.hpp"
 
+#include <cassert>
 #include <cerrno>
 #include <cstddef>
+#include <memory>
 #include <stdexcept>
 
 #include <glob.h>
+#include <libgen.h>
+#include <unistd.h>
+#include <linux/limits.h>
 
 #include "common/util/Error.hpp"
 
@@ -71,6 +76,17 @@ std::string join(std::vector<std::string> const &components)
 	return ::euler::fs::path::join(components.begin(), components.end());
 }
 
+std::string baseJoin(std::string const &base,
+                     std::vector<std::string> const &components)
+{
+	std::vector<std::string> newComponents;
+	newComponents.reserve(components.size() + 1);
+	newComponents.emplace_back(base);
+	newComponents.insert(newComponents.end(), components.begin(),
+	                     components.end());
+	return ::euler::fs::path::join(newComponents);
+}
+
 std::vector<std::string> glob(std::string const &pattern)
 {
 	GlobBuffer buffer(pattern.c_str(), GLOB_ERR | GLOB_NOSORT, nullptr);
@@ -78,6 +94,42 @@ std::vector<std::string> glob(std::string const &pattern)
 	for(std::size_t i = 0; i < buffer.buffer.gl_pathc; ++i)
 		paths.emplace_back(buffer.buffer.gl_pathv[i]);
 	return paths;
+}
+
+std::string currentExecutable()
+{
+	char buffer[PATH_MAX];
+	ssize_t ret = readlink("/proc/self/exe", buffer, PATH_MAX - 1);
+	if(ret == -1)
+		::euler::util::error::throwErrnoError();
+	assert(static_cast<std::size_t>(ret) < (PATH_MAX - 1));
+	buffer[ret] = '\0';
+	return buffer;
+}
+
+std::string currentPath()
+{
+	std::unique_ptr<char, std::function<void(char *)>> duplicate(
+	        ::euler::string::util::strdup(currentExecutable().c_str()),
+	        [](char *p)
+	        {
+		        free(p);
+		});
+	return dirname(duplicate.get());
+}
+
+std::string sourcePath(std::vector<std::string> const &components)
+{
+	return baseJoin(EULER_SOURCE_DIR, components);
+}
+std::string binaryPath(std::vector<std::string> const &components)
+{
+	return baseJoin(EULER_SOURCE_DIR, components);
+}
+
+std::string currentPath(std::vector<std::string> const &components)
+{
+	return baseJoin(currentPath(), components);
 }
 }
 }

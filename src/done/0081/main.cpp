@@ -21,6 +21,7 @@
 #include <functional>
 
 #include "common/euler/GridGraphUtils.h"
+#include "common/fs/Path.hpp"
 #include "common/graph/astar.h"
 #include "common/graph/Edge.h"
 #include "common/util/Process.hpp"
@@ -57,7 +58,7 @@ euler::util::process::ProblemResult<int64_t> problem()
 	// Load the weights from the input file, and build a graph from them.
 	GridGraphWeights_t weights =
 	        euler::grid_graph_utils::loadWeights<GRID_WIDTH, GRID_HEIGHT>(
-	                "matrix.txt");
+	                euler::fs::path::currentPath({"matrix.txt"}));
 	GridGraph_t graph(
 	        weights, euler::grid_graph_utils::GRID_GRAPH_MOVE_DOWN |
 	                         euler::grid_graph_utils::GRID_GRAPH_MOVE_RIGHT,
