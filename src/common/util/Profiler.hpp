@@ -16,13 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_LIBEULER_UTIL_PROFILER
-#define INCLUDE_LIBEULER_UTIL_PROFILER
+#ifndef common_util_Profiler_HPP
+#define common_util_Profiler_HPP
 
 #include <chrono>
 #include <string>
 
 namespace euler
+{
+namespace util
 {
 /*!
  * \brief This class provides easy-to-use profiling for applications.
@@ -41,6 +43,7 @@ private:
 	std::string printPrefix;
 	std::chrono::high_resolution_clock::time_point start;
 };
+}
 }
 
 #endif

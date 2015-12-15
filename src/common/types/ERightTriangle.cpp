@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 
 /*!
  * This is our default constructor, which initializes a new ERightTriangle.

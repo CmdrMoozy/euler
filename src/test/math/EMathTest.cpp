@@ -29,7 +29,7 @@
 
 #include "common/math/EFactorization.h"
 #include "common/math/EMath.cpp"
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 
 TEST_CASE("Test getTriangleNumberN", "[EMath]")
 {

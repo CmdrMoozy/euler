@@ -19,7 +19,7 @@
 #include <cstdint>
 
 #include "common/math/EMath.h"
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 #include "common/types/EDigitInteger.h"
 #include "common/util/Process.hpp"
 

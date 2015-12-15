@@ -16,17 +16,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 
 #include "common/fs/Path.hpp"
+#include "common/math/Math.hpp"
+#include "common/util/Process.hpp"
+#include "common/util/Profiler.hpp"
 
 int main(int, char const *const *)
 {
 	std::string pattern = euler::fs::path::join(
 	        {EULER_BINARY_DIR, "src", "done", "????", "????"});
 	std::vector<std::string> binaries = euler::fs::path::glob(pattern);
+
+	std::vector<double> timings;
+	std::size_t successes = 0;
+	for(auto const &binary : binaries)
+	{
+		std::cout << "Executing " << binary << "...\n";
+
+		euler::util::Profiler profiler;
+		euler::util::process::Process process(binary);
+		int ret = process.wait();
+		timings.push_back(profiler.getElapsed());
+		if(ret == EXIT_SUCCESS)
+			++successes;
+	}
+
+	double avgTiming = static_cast<double>(
+	        euler::math::average(timings.begin(), timings.end()));
+	double minTiming = *std::min_element(timings.begin(), timings.end());
+	double maxTiming = *std::max_element(timings.begin(), timings.end());
+
+	assert(successes <= binaries.size());
+	std::cout << "Executed " << binaries.size() << " problems ("
+	          << successes << " successes, "
+	          << (binaries.size() - successes) << " failures).\n";
+	std::printf("Execution time: average %0.9fs, min %0.9fs, max %0.9fs\n",
+	            avgTiming, minTiming, maxTiming);
 
 	return EXIT_SUCCESS;
 }

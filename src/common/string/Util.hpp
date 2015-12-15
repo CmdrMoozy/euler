@@ -29,6 +29,15 @@ namespace string
 {
 namespace util
 {
+/*!
+ * A version of strdup() which is guaranteed to return a valid pointer. If the
+ * copy could not be allocated, then an exception is thrown instead.
+ *
+ * \param s The string to duplicate.
+ * \return The copy of the input string.
+ */
+char *strdup(char const *s);
+
 template <typename Iterator>
 std::string join(Iterator begin, Iterator end, std::string const &delimiter)
 {

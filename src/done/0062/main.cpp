@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "common/math/EMath.h"
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 #include "common/util/Process.hpp"
 
 /*

@@ -1,6 +1,5 @@
 /*
- * euler - A collection of ProjectEuler solutions, and supporting libraries and
- *tools.
+ * euler - a collection of projecteuler libraries, tools, and solutions.
  * Copyright (C) 2013 Axel Rasmussen
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,10 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_LIBEULER_MATH_MATH_H
-#define INCLUDE_LIBEULER_MATH_MATH_H
+#ifndef common_math_Math_HPP
+#define common_math_Math_HPP
 
 #include <cstdint>
+#include <iterator>
 
 namespace euler
 {
@@ -49,6 +49,15 @@ uint64_t ipow(uint64_t b, uint8_t e);
  * \return b^e (mod m).
  */
 uint64_t ipowmod(uint64_t b, uint64_t e, uint64_t m);
+
+template <typename Iterator> long double average(Iterator begin, Iterator end)
+{
+	long double result = 0.0;
+	const long double count = std::distance(begin, end);
+	for(auto it = begin; it != end; ++it)
+		result += static_cast<long double>(*it) * count;
+	return result;
+}
 }
 }
 

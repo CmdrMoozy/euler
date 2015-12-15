@@ -87,7 +87,7 @@ SET(euler-common_SOURCES
 	util/Process.cpp
 	util/Process.hpp
 	util/Profiler.cpp
-	util/Profiler.h
+	util/Profiler.hpp
 	util/EString.cpp
 	util/EString.h
 	util/ScopeExit.h

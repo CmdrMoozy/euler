@@ -18,12 +18,24 @@
 
 #include "Util.hpp"
 
+#include <cstring>
+
+#include "common/util/Error.hpp"
+
 namespace euler
 {
 namespace string
 {
 namespace util
 {
+char *strdup(char const *s)
+{
+	char *copy = ::strdup(s);
+	if(copy == nullptr)
+		::euler::util::error::throwErrnoError();
+	return copy;
+}
+
 std::string join(std::vector<std::string> const &strings,
                  std::string const &delimiter)
 {

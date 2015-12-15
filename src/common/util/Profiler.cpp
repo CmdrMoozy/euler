@@ -16,11 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Profiler.h"
+#include "Profiler.hpp"
 
 #include <cstdio>
 
 namespace euler
+{
+namespace util
 {
 /*!
  * This is our constructor, which records our "starting" time.
@@ -65,5 +67,6 @@ void Profiler::printElapsed() const
 	double elapsed = getElapsed();
 	std::fprintf(stdout, "%sElapsed time: %0.9fs\n", printPrefix.c_str(),
 	             elapsed);
+}
 }
 }

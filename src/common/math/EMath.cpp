@@ -24,7 +24,7 @@
 
 #include "common/EDefines.h"
 #include "common/math/EFactorization.h"
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 #include "common/util/EBitwise.h"
 
 #if(defined _WIN32 || defined __APPLE__)

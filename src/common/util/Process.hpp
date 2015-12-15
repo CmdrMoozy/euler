@@ -23,13 +23,14 @@
 #include <exception>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <type_traits>
 #include <vector>
 
 #include <sys/types.h>
 
-#include "common/util/Profiler.h"
+#include "common/util/Profiler.hpp"
 #include "common/util/Terminal.hpp"
 
 namespace euler
@@ -42,11 +43,21 @@ void registerProblemSignalHandlers();
 
 struct ProcessArguments
 {
+public:
+	using ArgvSmartPointer =
+	        std::unique_ptr<char, std::function<void(char *)>>;
+	using ArgvContainer = std::vector<ArgvSmartPointer>;
+
 	const std::string path;
 	const std::vector<std::string> arguments;
 
+private:
+	const ArgvContainer argvContainer;
+	const std::vector<char *> argvPointers;
+
+public:
 	char const *file;
-	const std::vector<char const *> argv;
+	char *const *argv;
 
 	ProcessArguments(std::string const &p,
 	                 std::vector<std::string> const &a);
@@ -55,7 +66,7 @@ struct ProcessArguments
 class Process
 {
 public:
-	Process(std::string const &p, std::vector<std::string> const &a);
+	Process(std::string const &p, std::vector<std::string> const &a = {});
 
 	Process(Process const &) = delete;
 	Process(Process &&) = default;
@@ -63,6 +74,8 @@ public:
 	Process &operator=(Process &&) = default;
 
 	~Process();
+
+	int wait();
 
 private:
 	ProcessArguments args;
@@ -97,7 +110,7 @@ template <typename R>
 int problemMain(std::function<ProblemResult<R>()> const &problem, int /*argc*/,
                 char const *const * /*argv*/)
 {
-	euler::Profiler profiler(
+	euler::util::Profiler profiler(
 	        terminal::isInteractiveTerminal(terminal::StdStream::Out));
 
 	try

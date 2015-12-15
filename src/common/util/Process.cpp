@@ -20,36 +20,50 @@
 
 #include <cerrno>
 #include <cstddef>
+#include <cstring>
 #include <sstream>
+#include <stdexcept>
 
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "common/string/Util.hpp"
 #include "common/util/Error.hpp"
 
 namespace
 {
 constexpr std::size_t READ_BUFFER_SIZE = 256;
 
-template <typename T>
-std::vector<T> concatenate(std::vector<T> const &a, std::vector<T> const &b)
+void argvDeleter(char *p)
 {
-	std::vector<T> result;
-	result.reserve(a.size() + b.size());
-	result.insert(result.end(), a.begin(), a.end());
-	result.insert(result.end(), b.begin(), b.end());
-	return result;
+	std::free(p);
 }
 
-std::vector<char const *>
-toCStringVector(std::vector<std::string> const &strings)
+euler::util::process::ProcessArguments::ArgvContainer
+duplicateArgvStrings(std::string const &path,
+                     std::vector<std::string> const &arguments)
 {
-	std::vector<char const *> cstrings(strings.size());
-	for(std::size_t i = 0; i < strings.size(); ++i)
-		cstrings[i] = strings[i].c_str();
-	return cstrings;
+	euler::util::process::ProcessArguments::ArgvContainer argv;
+	argv.reserve(arguments.size() + 1);
+	argv.emplace_back(euler::string::util::strdup(path.c_str()),
+	                  argvDeleter);
+	for(auto const &argument : arguments)
+	{
+		argv.emplace_back(euler::string::util::strdup(argument.c_str()),
+		                  argvDeleter);
+	}
+	return argv;
+}
+
+std::vector<char *> toArgvPointers(
+        euler::util::process::ProcessArguments::ArgvContainer const &argv)
+{
+	std::vector<char *> pointers(argv.size(), nullptr);
+	for(std::size_t i = 0; i < argv.size(); ++i)
+		pointers[i] = argv[i].get();
+	return pointers;
 }
 
 std::string readAll(int fd)
@@ -65,6 +79,21 @@ std::string readAll(int fd)
 		                   static_cast<std::size_t>(count));
 	}
 	return oss.str();
+}
+
+[[noreturn]] void throwChildSignalError(int sig)
+{
+	char const *signalString = strsignal(sig);
+	if(signalString == nullptr)
+	{
+		throw std::runtime_error(
+		        "Child exited due to unrecognized signal.");
+	}
+	else
+	{
+		std::string message(signalString);
+		throw std::runtime_error(message);
+	}
 }
 }
 
@@ -84,9 +113,10 @@ ProcessArguments::ProcessArguments(std::string const &p,
                                    std::vector<std::string> const &a)
         : path(p),
           arguments(a),
+          argvContainer(duplicateArgvStrings(path, arguments)),
+          argvPointers(toArgvPointers(argvContainer)),
           file(path.c_str()),
-          argv(concatenate(concatenate({file}, toCStringVector(arguments)),
-                           {"\0"}))
+          argv(argvPointers.data())
 {
 }
 
@@ -122,9 +152,10 @@ Process::Process(std::string const &p, std::vector<std::string> const &a)
 		{
 			// The POSIX standard guarantees that argv will not be
 			// modified, so this const cast is safe.
-			if(execvp(args.file, const_cast<char *const *>(
-			                             args.argv.data())) == -1)
+			if(execvp(args.file, args.argv) == -1)
+			{
 				error::throwErrnoError();
+			}
 		}
 		catch(std::runtime_error const &e)
 		{
@@ -153,8 +184,19 @@ Process::Process(std::string const &p, std::vector<std::string> const &a)
 
 Process::~Process()
 {
+	try
+	{
+		wait();
+	}
+	catch(...)
+	{
+	}
+}
+
+int Process::wait()
+{
 	if(child == -1)
-		return;
+		return EXIT_SUCCESS;
 
 	int status;
 	while(waitpid(child, &status, 0) == -1)
@@ -162,6 +204,14 @@ Process::~Process()
 		if(errno != EINTR)
 			error::throwErrnoError();
 	}
+
+	child = -1;
+	if(WIFEXITED(status))
+		return WEXITSTATUS(status);
+	else if(WIFSIGNALED(status))
+		throwChildSignalError(WTERMSIG(status));
+
+	return EXIT_FAILURE;
 }
 }
 }

@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <cmath>
 
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 
 TEST_CASE("Test ipow function", "[Math]")
 {

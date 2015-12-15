@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "common/math/Math.h"
+#include "common/math/Math.hpp"
 #include "common/math/EPrimeSieve.h"
 #include "common/util/Process.hpp"
 
