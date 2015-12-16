@@ -18,9 +18,11 @@
 
 #include <catch/catch.hpp>
 
-#include <cstdint>
 #include <cmath>
+#include <cstdint>
+#include <vector>
 
+#include "common/math/floatCompare.hpp"
 #include "common/math/Math.hpp"
 
 TEST_CASE("Test ipow function", "[Math]")
@@ -48,5 +50,33 @@ TEST_CASE("Test ipowmod function", "[Math]")
 			uint64_t act = euler::math::ipowmod(b, e, MODULUS);
 			CHECK(exp == act);
 		}
+	}
+}
+
+TEST_CASE("Test average function", "[Math]")
+{
+	using TestCase = struct
+	{
+		std::vector<double> values;
+		double expected;
+	};
+
+	static const std::vector<TestCase> TEST_CASES{
+	        {{0.0, 0.0, 0.0}, 0.0},
+	        {{1.0, 1.0, 1.0}, 1.0},
+	        {{-97.047790049926, 2.2699590208147, 87.702374647301,
+	          -82.952833961549, -30.853109530753, 77.352712625263,
+	          -27.762678970164, -78.276824490749, 11.014111208521,
+	          85.738191989333, 76.382296597373, 57.000249288384,
+	          -38.178431785339, 79.10107093935, 2.2370599400008,
+	          4.7434514388933, 47.573826787054, 39.190955050969,
+	          39.666378628033, -74.557951729133},
+	         9.0171508821838400}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		double avg = euler::math::average(testCase.values.begin(),
+		                                  testCase.values.end());
+		CHECK(euler::math::floatCompare(avg, testCase.expected) == 0);
 	}
 }

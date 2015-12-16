@@ -46,8 +46,9 @@ SET(euler-common_SOURCES
 	math/EFactorization.h
 	math/EMath.cpp
 	math/EMath.h
+	math/floatCompare.hpp
 	math/Math.cpp
-	math/Math.h
+	math/Math.hpp
 	math/EPrimeSieve.cpp
 	math/EPrimeSieve.h
 

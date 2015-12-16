@@ -57,8 +57,7 @@ int main(int, char const *const *)
 		}
 	}
 
-	double avgTiming = static_cast<double>(
-	        euler::math::average(timings.begin(), timings.end()));
+	double avgTiming = euler::math::average(timings.begin(), timings.end());
 	double minTiming = *std::min_element(timings.begin(), timings.end());
 	double maxTiming = *std::max_element(timings.begin(), timings.end());
 

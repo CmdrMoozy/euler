@@ -52,18 +52,18 @@ uint64_t ipowmod(uint64_t b, uint64_t e, uint64_t m);
 
 /*!
  * Compute the average of a collection of numbers. The numbers pointed to by
- * the given iterators must be able to be casted to long double.
+ * the given iterators must be able to be casted to double.
  *
  * \param begin The start of the collection to average.
  * \param end The end of the collection to average.
  * \return The average of the given numbers.
  */
-template <typename Iterator> long double average(Iterator begin, Iterator end)
+template <typename Iterator> double average(Iterator begin, Iterator end)
 {
-	long double result = 0.0;
-	const long double count = std::distance(begin, end);
+	double result = 0.0;
+	const double count = std::distance(begin, end);
 	for(auto it = begin; it != end; ++it)
-		result += static_cast<long double>(*it) / count;
+		result += static_cast<double>(*it) / count;
 	return result;
 }
 }
