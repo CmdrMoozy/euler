@@ -29,6 +29,7 @@
 #include "common/math/Math.hpp"
 #include "common/util/Process.hpp"
 #include "common/util/Profiler.hpp"
+#include "common/util/Terminal.hpp"
 
 int main(int, char const *const *)
 {
@@ -44,10 +45,16 @@ int main(int, char const *const *)
 		euler::util::process::Process process(binary);
 		int ret = process.wait();
 		timings.push_back(profiler.getElapsed());
+
 		if(ret == EXIT_SUCCESS)
+		{
 			++successes;
-		else
+		}
+		else if(euler::util::terminal::isInteractiveTerminal(
+		                euler::util::terminal::StdStream::Out))
+		{
 			std::cout << "FAILED: " << binary << "\n";
+		}
 	}
 
 	double avgTiming = static_cast<double>(
@@ -56,11 +63,17 @@ int main(int, char const *const *)
 	double maxTiming = *std::max_element(timings.begin(), timings.end());
 
 	assert(successes <= binaries.size());
-	std::cout << "Executed " << binaries.size() << " problems ("
-	          << successes << " successes, "
-	          << (binaries.size() - successes) << " failures).\n";
-	std::printf("Execution time: average %0.9fs, min %0.9fs, max %0.9fs\n",
-	            avgTiming, minTiming, maxTiming);
+
+	if(euler::util::terminal::isInteractiveTerminal(
+	           euler::util::terminal::StdStream::Out))
+	{
+		std::cout << "Executed " << binaries.size() << " problems ("
+		          << successes << " successes, "
+		          << (binaries.size() - successes) << " failures).\n";
+		std::printf("Execution time: average %0.9fs, min %0.9fs, max "
+		            "%0.9fs\n",
+		            avgTiming, minTiming, maxTiming);
+	}
 
 	return successes == binaries.size() ? EXIT_SUCCESS : EXIT_FAILURE;
 }
