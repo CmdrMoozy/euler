@@ -40,14 +40,14 @@ int main(int, char const *const *)
 	std::size_t successes = 0;
 	for(auto const &binary : binaries)
 	{
-		std::cout << "Executing " << binary << "...\n";
-
 		euler::util::Profiler profiler;
 		euler::util::process::Process process(binary);
 		int ret = process.wait();
 		timings.push_back(profiler.getElapsed());
 		if(ret == EXIT_SUCCESS)
 			++successes;
+		else
+			std::cout << "FAILED: " << binary << "\n";
 	}
 
 	double avgTiming = static_cast<double>(
@@ -62,5 +62,5 @@ int main(int, char const *const *)
 	std::printf("Execution time: average %0.9fs, min %0.9fs, max %0.9fs\n",
 	            avgTiming, minTiming, maxTiming);
 
-	return EXIT_SUCCESS;
+	return successes == binaries.size() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

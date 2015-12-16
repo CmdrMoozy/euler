@@ -64,7 +64,7 @@ euler::util::process::ProblemResult<uint32_t> problem()
 		}
 	}
 
-	return {mRL, EXPECTED_RESULT};
+	return {mN, EXPECTED_RESULT};
 }
 }
 

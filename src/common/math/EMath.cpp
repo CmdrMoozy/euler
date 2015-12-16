@@ -387,8 +387,7 @@ uint32_t EMath::totient(uint32_t n)
 
 /*!
  * This function returns the length of the repeating portion of the decimal part
- *of the reciprocal
- * of n.
+ * of the reciprocal of n.
  *
  * This function's behavior is explained in-depth here:
  *     http://mathforum.org/library/drmath/view/67018.html
@@ -426,9 +425,8 @@ uint32_t EMath::repetendLength(uint32_t n, EFactorization &f)
 
 /*!
  * This function implements Algorithm B from "The Art of Computer Programming -
- *Volume 2" pp. 338
- * to calculate the greatest common divisor of the two integers provided, u and
- *v.
+ * Volume 2" pp. 338 to calculate the greatest common divisor of the two
+ * integers provided, u and v.
  *
  * Note that this function returns x for gcd(0,x) and 0 for gcd(0,0).
  *
@@ -446,8 +444,8 @@ uint64_t EMath::greatestCommonDivisor(uint64_t u, uint64_t v)
 
 	/*
 	 * Find the largest power of 2 that divides both u and v. That is,
-	 * divide u and v by
-	 * the smallest 2^k value such that u and v are not both even.
+	 * divide u and v by the smallest 2^k value such that u and v are
+	 * not both even.
 	 */
 
 	for(k = 0; ((u | v) & 1) == 0; ++k)
@@ -485,10 +483,8 @@ uint64_t EMath::greatestCommonDivisor(uint64_t u, uint64_t v)
 
 /*!
  * This function returns the least common multiple of a and b. To make it easy,
- *we reduce this
- * problem to being able to find the greatest common divisor, which we can
- *already do using the
- * fast Euclidean algorithm.
+ * we reduce this problem to being able to find the greatest common divisor,
+ * which we can already do using the fast Euclidean algorithm.
  *
  * More information:
  *     http://en.wikipedia.org/wiki/Least_common_multiple#Reduction_by_the_greatest_common_divisor
@@ -511,8 +507,8 @@ uint64_t EMath::leastCommonMultiple(uint64_t a, uint64_t b)
 
 /*!
  * This function returns the number of divisors of the given number. The
- *definition for this
- * function is provided by: http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+ * definition for this function is provided by:
+ * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
  *
  * \param n The number to process.
  * \return The number of divisors of n.
@@ -544,8 +540,8 @@ uint64_t EMath::aliquotNumberDivisors(uint32_t n)
 
 /*!
  * This function returns the sum of the divisors of the given number. The
- *definition for this
- * function is provided by: http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+ * definition for this function is provided by:
+ * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
  *
  * \param n The number to process.
  * \return The sum of the divisors of n.
@@ -557,9 +553,8 @@ uint64_t EMath::aliquotSumDivisors(uint64_t n)
 
 /*!
  * This function returns the sum of the proper divisors of the given number. The
- *definition
- * for this function is provided by:
- *http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+ * definition for this function is provided by:
+ * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
  *
  * \param n The number to process.
  * \return The sum of the proper divisors of n.
@@ -594,37 +589,45 @@ uint64_t EMath::aliquotSumProperDivisors(uint64_t n)
 
 /*!
  * This function returns the floor of the base-10 logarithm of the given number.
- *It should be
- * extremely fast, depending on how quickly the processor branches.
+ * It should be extremely fast, depending on how quickly the processor branches.
  *
  * \param n The number to process.
  * \return log10(n)
  */
 uint32_t EMath::logBaseTen(uint64_t n)
 {
-	return ((n >= 10000000000000000000ULL) ? 19 : (n >=
-	                                               1000000000000000000ULL)
-	                                                      ? 18
-	                                                      : (n >= 100000000000000000ULL) ? 17 : (n >=
-	                                                                                             10000000000000000ULL)
-	                                                                                                    ? 16
-	                                                                                                    : (n >= 1000000000000000ULL) ? 15 : (n >= 100000000000000ULL) ? 14 : (n >= 10000000000000ULL) ? 13 : (n >= 1000000000000ULL) ? 12 : (n >= 100000000000ULL) ? 11 : (n >= 10000000000ULL) ? 10 : (n >= 1000000000) ? 9 : (n >= 100000000) ? 8 : (n >= 10000000) ? 7 : (n >= 1000000) ? 6 : (n >=
-	                                                                                                                                                                                                                                                                                                                                                                                              100000)
-	                                                                                                                                                                                                                                                                                                                                                                                                     ? 5
-	                                                                                                                                                                                                                                                                                                                                                                                                     : (n >= 10000) ? 4 : (n >= 1000) ? 3 : (n >= 100) ? 2 : (n >= 10) ? 1
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                       : 0);
+	// clang-format off
+	return ((n >= 10000000000000000000ULL) ? 19 :
+		(n >= 1000000000000000000ULL) ? 18 :
+		(n >= 100000000000000000ULL) ? 17 :
+		(n >= 10000000000000000ULL) ? 16 :
+		(n >= 1000000000000000ULL) ? 15 :
+		(n >= 100000000000000ULL) ? 14 :
+		(n >= 10000000000000ULL) ? 13 :
+		(n >= 1000000000000ULL) ? 12 :
+		(n >= 100000000000ULL) ? 11 :
+		(n >= 10000000000ULL) ? 10 :
+		(n >= 1000000000) ? 9 :
+		(n >= 100000000) ? 8 :
+		(n >= 10000000) ? 7 :
+		(n >= 1000000) ? 6 :
+		(n >= 100000) ? 5 :
+		(n >= 10000) ? 4 :
+		(n >= 1000) ? 3 :
+		(n >= 100) ? 2 :
+		(n >= 10) ? 1 :
+		0);
+	// clang-format on
 }
 
 /*!
  * This function computes the integer square root of the given number. That is,
- *isqrt(x)
- * is equivalent to floor(sqrt(x)). Note that, because we do not use any
- *floating-point
- * arithmetic for this result, it is faster than the built-in sqrt() function.
+ * isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not use
+ * any floating-point arithmetic for this result, it is faster than the
+ * built-in sqrt() function.
  *
  * We implement the algorithm using a simple binary search. Note, though, that
- *the initial
- * midpoint chosen works better for large n than small n.
+ * the initial midpoint chosen works better for large n than small n.
  *
  * \param n The number to take the square root of.
  * \return The integer square root of the given number.
