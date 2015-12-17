@@ -32,6 +32,7 @@ enum class StdStream
 	Err
 };
 
+int streamFD(StdStream stream);
 bool isInteractiveTerminal(StdStream stream);
 }
 }

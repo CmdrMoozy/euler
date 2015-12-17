@@ -31,27 +31,24 @@ namespace util
 {
 namespace terminal
 {
-bool isInteractiveTerminal(StdStream stream)
+int streamFD(StdStream stream)
 {
-	int fd = -1;
 	switch(stream)
 	{
 	case StdStream::In:
-		fd = STDIN_FILENO;
-		break;
+		return STDIN_FILENO;
 	case StdStream::Out:
-		fd = STDOUT_FILENO;
-		break;
+		return STDOUT_FILENO;
 	case StdStream::Err:
-		fd = STDERR_FILENO;
-		break;
+		return STDERR_FILENO;
 	}
-	assert(fd != -1);
+}
 
-	int r = isatty(fd);
+bool isInteractiveTerminal(StdStream stream)
+{
+	int r = isatty(streamFD(stream));
 	if(r == 0 && errno == EBADF)
 		error::throwErrnoError();
-
 	return r == 1;
 }
 }

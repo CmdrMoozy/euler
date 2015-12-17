@@ -23,6 +23,7 @@
 #include <cstring>
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 #include <fcntl.h>
 #include <signal.h>
@@ -66,6 +67,16 @@ std::vector<char *> toArgvPointers(
 	return pointers;
 }
 
+void addPipeFlags(int fd, int flags)
+{
+	int existingFlags = fcntl(fd, F_GETFD);
+	if(existingFlags == -1)
+		euler::util::error::throwErrnoError();
+
+	if(fcntl(fd, F_SETFD, existingFlags | flags) == -1)
+		euler::util::error::throwErrnoError();
+}
+
 std::string readAll(int fd)
 {
 	std::vector<char> buffer(READ_BUFFER_SIZE);
@@ -79,6 +90,21 @@ std::string readAll(int fd)
 		                   static_cast<std::size_t>(count));
 	}
 	return oss.str();
+}
+
+void closePipe(int fd)
+{
+	int ret = close(fd);
+	if(ret == -1)
+		euler::util::error::throwErrnoError();
+}
+
+void renamePipe(int srcFd, int dstFd)
+{
+	int ret = dup2(srcFd, dstFd);
+	if(ret == -1)
+		euler::util::error::throwErrnoError();
+	closePipe(srcFd);
 }
 
 [[noreturn]] void throwChildSignalError(int sig)
@@ -103,6 +129,19 @@ namespace util
 {
 namespace process
 {
+namespace detail
+{
+Pipe::Pipe(int flags) : read(-1), write(-1)
+{
+	int pipefd[2];
+	int ret = pipe2(pipefd, flags);
+	if(ret == -1)
+		error::throwErrnoError();
+	read = pipefd[0];
+	write = pipefd[1];
+}
+}
+
 void registerProblemSignalHandlers()
 {
 	// Ignore SIGCHLD, in order to portably reap child processes.
@@ -121,20 +160,20 @@ ProcessArguments::ProcessArguments(std::string const &p,
 }
 
 Process::Process(std::string const &p, std::vector<std::string> const &a)
-        : args(p, a), parent(getpid()), child(-1)
+        : args(p, a), parent(getpid()), child(-1), pipes()
 {
 	// Open a pipe, so we can get error messages from our child.
 
-	int pipes[2];
-	if(pipe(pipes) != 0)
-		error::throwErrnoError();
+	detail::Pipe errorPipe;
+	addPipeFlags(errorPipe.write, O_CLOEXEC);
 
-	int existingFlags = fcntl(pipes[1], F_GETFD);
-	if(existingFlags == -1)
-		error::throwErrnoError();
-
-	if(fcntl(pipes[1], F_SETFD, existingFlags | FD_CLOEXEC) != 0)
-		error::throwErrnoError();
+	// Open pipes for the child's standard streams.
+	pipes.emplace(std::make_pair<terminal::StdStream, detail::Pipe>(
+	        terminal::StdStream::In, detail::Pipe()));
+	pipes.emplace(std::make_pair<terminal::StdStream, detail::Pipe>(
+	        terminal::StdStream::Out, detail::Pipe()));
+	pipes.emplace(std::make_pair<terminal::StdStream, detail::Pipe>(
+	        terminal::StdStream::Err, detail::Pipe()));
 
 	// Fork a new process.
 
@@ -146,26 +185,37 @@ Process::Process(std::string const &p, std::vector<std::string> const &a)
 	{
 		// In the child process. Try to exec the binary.
 
-		close(pipes[0]);
+		closePipe(errorPipe.read);
+
+		closePipe(pipes[terminal::StdStream::In].write);
+		closePipe(pipes[terminal::StdStream::Out].read);
+		closePipe(pipes[terminal::StdStream::Err].read);
+
+		renamePipe(pipes[terminal::StdStream::In].read,
+		           terminal::streamFD(terminal::StdStream::In));
+		renamePipe(pipes[terminal::StdStream::Out].write,
+		           terminal::streamFD(terminal::StdStream::Out));
+		renamePipe(pipes[terminal::StdStream::Err].write,
+		           terminal::streamFD(terminal::StdStream::Err));
 
 		try
 		{
 			// The POSIX standard guarantees that argv will not be
 			// modified, so this const cast is safe.
 			if(execvp(args.file, args.argv) == -1)
-			{
 				error::throwErrnoError();
-			}
 		}
 		catch(std::runtime_error const &e)
 		{
 			std::string message = e.what();
-			write(pipes[1], message.c_str(), message.length());
+			write(errorPipe.write, message.c_str(),
+			      message.length());
 		}
 		catch(...)
 		{
 			std::string message = "Unknown error.";
-			write(pipes[1], message.c_str(), message.length());
+			write(errorPipe.write, message.c_str(),
+			      message.length());
 		}
 		_exit(EXIT_FAILURE);
 	}
@@ -174,9 +224,15 @@ Process::Process(std::string const &p, std::vector<std::string> const &a)
 		// Still in the parent process. Check for errors.
 
 		child = pid;
-		close(pipes[1]);
-		std::string error = readAll(pipes[0]);
-		close(pipes[0]);
+
+		closePipe(errorPipe.write);
+
+		closePipe(pipes[terminal::StdStream::In].read);
+		closePipe(pipes[terminal::StdStream::Out].write);
+		closePipe(pipes[terminal::StdStream::Err].write);
+
+		std::string error = readAll(errorPipe.read);
+		closePipe(errorPipe.read);
 		if(!error.empty())
 			throw std::runtime_error(error);
 	}
@@ -186,10 +242,27 @@ Process::~Process()
 {
 	try
 	{
+		closePipe(pipes[terminal::StdStream::In].write);
+		closePipe(pipes[terminal::StdStream::Out].read);
+		closePipe(pipes[terminal::StdStream::Err].read);
+
 		wait();
 	}
 	catch(...)
 	{
+	}
+}
+
+int Process::getPipe(terminal::StdStream stream) const
+{
+	switch(stream)
+	{
+	case terminal::StdStream::In:
+		return pipes.at(stream).write;
+
+	case terminal::StdStream::Out:
+	case terminal::StdStream::Err:
+		return pipes.at(stream).read;
 	}
 }
 

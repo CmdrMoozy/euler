@@ -23,6 +23,7 @@
 #include <exception>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <string>
 #include <type_traits>
@@ -39,6 +40,24 @@ namespace util
 {
 namespace process
 {
+namespace detail
+{
+struct Pipe
+{
+	int read;
+	int write;
+
+	explicit Pipe(int flags = 0);
+
+	Pipe(Pipe const &) = default;
+	Pipe(Pipe &&) = default;
+	Pipe &operator=(Pipe const &) = default;
+	Pipe &operator=(Pipe &&) = default;
+
+	~Pipe() = default;
+};
+}
+
 void registerProblemSignalHandlers();
 
 struct ProcessArguments
@@ -75,12 +94,15 @@ public:
 
 	~Process();
 
+	int getPipe(terminal::StdStream stream) const;
+
 	int wait();
 
 private:
 	ProcessArguments args;
 	pid_t parent;
 	pid_t child;
+	std::map<terminal::StdStream, detail::Pipe> pipes;
 };
 
 template <typename R> struct ProblemResult
