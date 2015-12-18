@@ -83,8 +83,6 @@ SET(euler-common_SOURCES
 	util/EByteArray.h
 	util/EDate.cpp
 	util/EDate.h
-	util/Error.cpp
-	util/Error.hpp
 	util/Process.cpp
 	util/Process.hpp
 	util/Profiler.cpp
@@ -92,8 +90,6 @@ SET(euler-common_SOURCES
 	util/EString.cpp
 	util/EString.h
 	util/ScopeExit.h
-	util/Terminal.cpp
-	util/Terminal.hpp
 
 )
 

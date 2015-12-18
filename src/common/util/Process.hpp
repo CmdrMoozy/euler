@@ -23,16 +23,11 @@
 #include <exception>
 #include <functional>
 #include <iostream>
-#include <map>
-#include <memory>
-#include <string>
 #include <type_traits>
-#include <vector>
 
-#include <sys/types.h>
+#include <bdrck/process/Terminal.hpp>
 
 #include "common/util/Profiler.hpp"
-#include "common/util/Terminal.hpp"
 
 namespace euler
 {
@@ -40,70 +35,7 @@ namespace util
 {
 namespace process
 {
-namespace detail
-{
-struct Pipe
-{
-	int read;
-	int write;
-
-	explicit Pipe(int flags = 0);
-
-	Pipe(Pipe const &) = default;
-	Pipe(Pipe &&) = default;
-	Pipe &operator=(Pipe const &) = default;
-	Pipe &operator=(Pipe &&) = default;
-
-	~Pipe() = default;
-};
-}
-
 void registerProblemSignalHandlers();
-
-struct ProcessArguments
-{
-public:
-	using ArgvSmartPointer =
-	        std::unique_ptr<char, std::function<void(char *)>>;
-	using ArgvContainer = std::vector<ArgvSmartPointer>;
-
-	const std::string path;
-	const std::vector<std::string> arguments;
-
-private:
-	const ArgvContainer argvContainer;
-	const std::vector<char *> argvPointers;
-
-public:
-	char const *file;
-	char *const *argv;
-
-	ProcessArguments(std::string const &p,
-	                 std::vector<std::string> const &a);
-};
-
-class Process
-{
-public:
-	Process(std::string const &p, std::vector<std::string> const &a = {});
-
-	Process(Process const &) = delete;
-	Process(Process &&) = default;
-	Process &operator=(Process const &) = delete;
-	Process &operator=(Process &&) = default;
-
-	~Process();
-
-	int getPipe(terminal::StdStream stream) const;
-
-	int wait();
-
-private:
-	ProcessArguments args;
-	pid_t parent;
-	pid_t child;
-	std::map<terminal::StdStream, detail::Pipe> pipes;
-};
 
 template <typename R> struct ProblemResult
 {
@@ -132,24 +64,28 @@ template <typename R>
 int problemMain(std::function<ProblemResult<R>()> const &problem, int /*argc*/,
                 char const *const * /*argv*/)
 {
-	euler::util::Profiler profiler(
-	        terminal::isInteractiveTerminal(terminal::StdStream::Out));
+	bool isInteractiveOut = bdrck::process::terminal::isInteractiveTerminal(
+	        bdrck::process::terminal::StdStream::Out);
+	bool isInteractiveErr = bdrck::process::terminal::isInteractiveTerminal(
+	        bdrck::process::terminal::StdStream::Err);
+
+	euler::util::Profiler profiler(isInteractiveOut);
 
 	try
 	{
 		ProblemResult<R> result = problem();
-		if(terminal::isInteractiveTerminal(terminal::StdStream::Out))
+		if(isInteractiveOut)
 			std::cout << result << "\n";
 		return result.isCorrect() ? EXIT_SUCCESS : EXIT_FAILURE;
 	}
 	catch(std::exception const &e)
 	{
-		if(terminal::isInteractiveTerminal(terminal::StdStream::Err))
+		if(isInteractiveErr)
 			std::cerr << "Caught exception: " << e.what() << "\n";
 	}
 	catch(...)
 	{
-		if(terminal::isInteractiveTerminal(terminal::StdStream::Err))
+		if(isInteractiveErr)
 			std::cerr << "Caught unknown exception.\n";
 	}
 

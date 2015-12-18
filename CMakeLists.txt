@@ -56,12 +56,17 @@ set(euler_LIBRARIES
 	${GMPXX_LIBRARIES}
 	${MPFR_LIBRARIES}
 	${RE2_LIBRARIES}
+	bdrck-cwrap
+	bdrck-process
+	bdrck-util
 
 )
 
 # Add our targets.
 
 enable_testing()
+
+add_subdirectory(3rdparty/bdrck)
 
 add_subdirectory(src/common)
 add_subdirectory(src/done)

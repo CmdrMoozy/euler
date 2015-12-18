@@ -29,7 +29,8 @@
 #include <unistd.h>
 #include <linux/limits.h>
 
-#include "common/util/Error.hpp"
+#include <bdrck/cwrap/String.hpp>
+#include <bdrck/util/Error.hpp>
 
 namespace
 {
@@ -48,10 +49,10 @@ struct GlobBuffer
 			break;
 
 		case GLOB_NOSPACE:
-			euler::util::error::throwErrnoError(ENOMEM);
+			bdrck::util::error::throwErrnoError(ENOMEM);
 
 		case GLOB_ABORTED:
-			euler::util::error::throwErrnoError(EIO);
+			bdrck::util::error::throwErrnoError(EIO);
 
 		default:
 			throw std::runtime_error("Unknown error.");
@@ -101,7 +102,7 @@ std::string currentExecutable()
 	char buffer[PATH_MAX];
 	ssize_t ret = readlink("/proc/self/exe", buffer, PATH_MAX - 1);
 	if(ret == -1)
-		::euler::util::error::throwErrnoError();
+		::bdrck::util::error::throwErrnoError();
 	assert(static_cast<std::size_t>(ret) < (PATH_MAX - 1));
 	buffer[ret] = '\0';
 	return buffer;
@@ -110,7 +111,7 @@ std::string currentExecutable()
 std::string currentPath()
 {
 	std::unique_ptr<char, std::function<void(char *)>> duplicate(
-	        ::euler::string::util::strdup(currentExecutable().c_str()),
+	        ::bdrck::cwrap::string::strdup(currentExecutable().c_str()),
 	        [](char *p)
 	        {
 		        free(p);

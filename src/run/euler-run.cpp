@@ -25,11 +25,12 @@
 #include <string>
 #include <vector>
 
+#include <bdrck/process/Process.hpp>
+#include <bdrck/process/Terminal.hpp>
+
 #include "common/fs/Path.hpp"
 #include "common/math/Math.hpp"
-#include "common/util/Process.hpp"
 #include "common/util/Profiler.hpp"
-#include "common/util/Terminal.hpp"
 
 int main(int, char const *const *)
 {
@@ -42,7 +43,7 @@ int main(int, char const *const *)
 	for(auto const &binary : binaries)
 	{
 		euler::util::Profiler profiler;
-		euler::util::process::Process process(binary);
+		bdrck::process::Process process(binary);
 		int ret = process.wait();
 		timings.push_back(profiler.getElapsed());
 
@@ -50,8 +51,8 @@ int main(int, char const *const *)
 		{
 			++successes;
 		}
-		else if(euler::util::terminal::isInteractiveTerminal(
-		                euler::util::terminal::StdStream::Out))
+		else if(bdrck::process::terminal::isInteractiveTerminal(
+		                bdrck::process::terminal::StdStream::Out))
 		{
 			std::cout << "FAILED: " << binary << "\n";
 		}
@@ -63,8 +64,8 @@ int main(int, char const *const *)
 
 	assert(successes <= binaries.size());
 
-	if(euler::util::terminal::isInteractiveTerminal(
-	           euler::util::terminal::StdStream::Out))
+	if(bdrck::process::terminal::isInteractiveTerminal(
+	           bdrck::process::terminal::StdStream::Out))
 	{
 		std::cout << "Executed " << binaries.size() << " problems ("
 		          << successes << " successes, "
