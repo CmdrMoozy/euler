@@ -21,7 +21,7 @@
 #include <string>
 
 #include "common/euler/EPoker.h"
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 namespace
@@ -33,7 +33,7 @@ euler::util::process::ProblemResult<int> problem()
 	int wins;
 	EPoker a, b;
 	std::string line;
-	std::ifstream ifile(euler::fs::path::currentPath({"poker.txt"}));
+	std::ifstream ifile(euler::util::path::currentPath({"poker.txt"}));
 
 	if(!ifile.is_open())
 	{

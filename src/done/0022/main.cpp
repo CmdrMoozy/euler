@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -57,7 +57,8 @@ euler::util::process::ProblemResult<uint64_t> problem()
 	std::string buf;
 	std::vector<std::string> names;
 	std::vector<std::string>::iterator it;
-	std::ifstream in(euler::fs::path::currentPath({"names_processed.txt"}));
+	std::ifstream in(
+	        euler::util::path::currentPath({"names_processed.txt"}));
 
 	if(!in.is_open())
 	{

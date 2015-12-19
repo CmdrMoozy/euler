@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -147,7 +147,7 @@ euler::util::process::ProblemResult<std::string> problem()
 	std::string buf;
 	std::vector<std::queue<char>>::iterator it;
 
-	std::ifstream in(euler::fs::path::currentPath({"numbers.txt"}));
+	std::ifstream in(euler::util::path::currentPath({"numbers.txt"}));
 	if(!in.is_open())
 	{
 		throw std::runtime_error(

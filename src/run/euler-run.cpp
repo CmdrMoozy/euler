@@ -29,7 +29,6 @@
 #include <bdrck/process/Process.hpp>
 #include <bdrck/process/Terminal.hpp>
 
-#include "common/fs/Path.hpp"
 #include "common/math/Math.hpp"
 #include "common/util/Profiler.hpp"
 
@@ -37,7 +36,7 @@ int main(int, char const *const *)
 {
 	std::string pattern = bdrck::fs::combinePaths(
 	        {EULER_BINARY_DIR, "src", "done", "????", "????"});
-	std::vector<std::string> binaries = euler::fs::path::glob(pattern);
+	std::vector<std::string> binaries = bdrck::fs::glob(pattern);
 
 	std::vector<double> timings;
 	std::size_t successes = 0;

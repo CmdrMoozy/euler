@@ -28,7 +28,7 @@
 #include <vector>
 
 #include "common/euler/ESudoku.h"
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 namespace
@@ -114,7 +114,7 @@ euler::util::process::ProblemResult<int> problem()
 
 	std::string line;
 	char *buf = new char[2];
-	std::ifstream pfile(euler::fs::path::currentPath({"sudoku.txt"}));
+	std::ifstream pfile(euler::util::path::currentPath({"sudoku.txt"}));
 
 	if(!pfile.is_open())
 	{

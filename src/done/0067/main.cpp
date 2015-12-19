@@ -22,7 +22,7 @@
 #include <string>
 
 #include "common/euler/ETriangleStructure.h"
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 namespace
@@ -34,7 +34,7 @@ euler::util::process::ProblemResult<int> problem()
 	int rowValues[100];
 	std::string buf;
 	ETriangleStructure t(100);
-	std::ifstream in(euler::fs::path::currentPath({"triangle.txt"}));
+	std::ifstream in(euler::util::path::currentPath({"triangle.txt"}));
 
 	if(!in.is_open())
 		throw std::runtime_error("Unable to open 'triangle.txt'!");

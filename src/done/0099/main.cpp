@@ -25,7 +25,7 @@
 
 #include <mpfr.h>
 
-#include "common/fs/Path.hpp"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -108,7 +108,7 @@ euler::util::process::ProblemResult<int> problem()
 	int ln = 0, maxl = 0;
 	uint64_t maxb = 1, maxe = 1;
 
-	ifile.open(euler::fs::path::currentPath({"base_exp.txt"}),
+	ifile.open(euler::util::path::currentPath({"base_exp.txt"}),
 	           std::ifstream::in);
 	if(!ifile.is_open())
 		throw std::runtime_error("Unable to open base_exp.txt!");

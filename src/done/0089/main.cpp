@@ -22,9 +22,9 @@
 #include <stdexcept>
 #include <string>
 
-#include "common/fs/Path.hpp"
 #include "common/types/ERomanNumeral.h"
 #include "common/util/EString.h"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -70,7 +70,8 @@ euler::util::process::ProblemResult<uint64_t> problem()
 	// Open the input file with the list of roman numerals.
 
 	std::string line;
-	std::ifstream numeralfile(euler::fs::path::currentPath({"roman.txt"}));
+	std::ifstream numeralfile(
+	        euler::util::path::currentPath({"roman.txt"}));
 
 	if(!numeralfile.is_open())
 	{

@@ -22,8 +22,8 @@
 #include <stdexcept>
 #include <string>
 
-#include "common/fs/Path.hpp"
 #include "common/math/EMath.h"
+#include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -57,7 +57,7 @@ euler::util::process::ProblemResult<uint64_t> problem()
 
 	// Read in and score all of our words.
 
-	fin.open(euler::fs::path::currentPath({"words-processed.txt"}));
+	fin.open(euler::util::path::currentPath({"words-processed.txt"}));
 	if(!fin.is_open())
 	{
 		throw std::runtime_error(

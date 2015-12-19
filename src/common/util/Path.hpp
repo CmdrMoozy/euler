@@ -16,20 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef common_fs_Path_HPP
-#define common_fs_Path_HPP
+#ifndef common_util_Path_HPP
+#define common_util_Path_HPP
 
 #include <string>
 #include <vector>
 
 namespace euler
 {
-namespace fs
+namespace util
 {
 namespace path
 {
-std::vector<std::string> glob(std::string const &pattern);
-
 std::string sourcePath(std::vector<std::string> const &components);
 std::string binaryPath(std::vector<std::string> const &components);
 std::string currentPath(std::vector<std::string> const &components);
