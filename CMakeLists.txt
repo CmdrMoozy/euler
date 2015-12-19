@@ -4,13 +4,7 @@ project(euler)
 set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-set(CMAKE_MODULE_PATH
-
-	${PROJECT_SOURCE_DIR}/3rdparty/cmu/cmake/modules
-	${PROJECT_SOURCE_DIR}/cmake
-	${PROJECT_SOURCE_DIR}/vrfy/CMake
-
-)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/3rdparty/cmu/cmake)
 
 # Note which type of build we're performing.
 
