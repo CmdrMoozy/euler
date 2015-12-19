@@ -93,5 +93,5 @@ SET(euler-common_SOURCES
 
 )
 
-ADD_LIBRARY(euler-common SHARED ${euler-common_SOURCES})
+ADD_LIBRARY(euler-common STATIC ${euler-common_SOURCES})
 TARGET_LINK_LIBRARIES(euler-common ${euler_LIBRARIES})
