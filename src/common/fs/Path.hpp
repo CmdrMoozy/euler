@@ -22,27 +22,13 @@
 #include <string>
 #include <vector>
 
-#include "common/string/Util.hpp"
-
 namespace euler
 {
 namespace fs
 {
 namespace path
 {
-template <typename Iterator> std::string join(Iterator begin, Iterator end)
-{
-	return string::util::join(begin, end, "/");
-}
-
-std::string join(std::vector<std::string> const &components);
-std::string baseJoin(std::string const &base,
-                     std::vector<std::string> const &components);
-
 std::vector<std::string> glob(std::string const &pattern);
-
-std::string currentExecutable();
-std::string currentPath();
 
 std::string sourcePath(std::vector<std::string> const &components);
 std::string binaryPath(std::vector<std::string> const &components);

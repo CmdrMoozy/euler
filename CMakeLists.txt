@@ -51,6 +51,7 @@ set(euler_LIBRARIES
 	${MPFR_LIBRARIES}
 	${RE2_LIBRARIES}
 	bdrck-cwrap
+	bdrck-fs
 	bdrck-process
 	bdrck-util
 

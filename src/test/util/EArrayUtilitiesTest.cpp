@@ -27,8 +27,9 @@
 #include <set>
 #include <vector>
 
+#include <bdrck/util/ScopeExit.hpp>
+
 #include "common/util/EArrayUtilities.h"
-#include "common/util/ScopeExit.h"
 
 namespace
 {
@@ -74,12 +75,11 @@ TEST_CASE("Test array utilities resize", "[EArrayUtilities]")
 	        34, 2345, 112, 123, 8539, 0, 0, 0, 0, 0};
 
 	int *a = nullptr;
-	euler::util::ScopeExit<std::function<void()>> cleanup(
-	        [&a]()
-	        {
-		        if(a != nullptr)
-			        delete[] a;
-		});
+	bdrck::util::ScopeExit cleanup([&a]()
+	                               {
+		                               if(a != nullptr)
+			                               delete[] a;
+		                       });
 	a = new int[TEST_DATA.size()];
 	std::copy(TEST_DATA.begin(), TEST_DATA.end(), a);
 
@@ -155,12 +155,11 @@ TEST_CASE("Test array utilities isUnique and makeUnique", "[EArrayUtilities]")
 	constexpr std::size_t UNIQUE_DATA_SIZE = 9;
 
 	int *a = nullptr;
-	euler::util::ScopeExit<std::function<void()>> cleanup(
-	        [&a]()
-	        {
-		        if(a != nullptr)
-			        delete[] a;
-		});
+	bdrck::util::ScopeExit cleanup([&a]()
+	                               {
+		                               if(a != nullptr)
+			                               delete[] a;
+		                       });
 	a = new int[TEST_DATA.size()];
 	std::copy(TEST_DATA.begin(), TEST_DATA.end(), a);
 

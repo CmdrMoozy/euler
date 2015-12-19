@@ -40,7 +40,7 @@ Edge::Edge(Vertex &va, Vertex &vb, int64_t w, EdgeDirection direction)
 
 	Vertex *vaPtr = &va;
 	Vertex *vbPtr = &vb;
-	cleanup = std::make_shared<util::ScopeExit<std::function<void()>>>(
+	cleanup = std::make_shared<bdrck::util::ScopeExit>(
 	        [vaPtr, vbPtr, direction]()
 	        {
 		        if(direction & EDGE_DIRECTION_FORWARD)

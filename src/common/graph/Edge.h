@@ -24,7 +24,7 @@
 #include <memory>
 #include <set>
 
-#include "common/util/ScopeExit.h"
+#include <bdrck/util/ScopeExit.hpp>
 
 namespace euler
 {
@@ -59,7 +59,7 @@ public:
 	bool operator==(const Edge &o) const;
 
 private:
-	std::shared_ptr<util::ScopeExit<std::function<void()>>> cleanup;
+	std::shared_ptr<bdrck::util::ScopeExit> cleanup;
 };
 
 struct EdgeComparator

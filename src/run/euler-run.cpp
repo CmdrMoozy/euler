@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 
+#include <bdrck/fs/Util.hpp>
 #include <bdrck/process/Process.hpp>
 #include <bdrck/process/Terminal.hpp>
 
@@ -34,7 +35,7 @@
 
 int main(int, char const *const *)
 {
-	std::string pattern = euler::fs::path::join(
+	std::string pattern = bdrck::fs::combinePaths(
 	        {EULER_BINARY_DIR, "src", "done", "????", "????"});
 	std::vector<std::string> binaries = euler::fs::path::glob(pattern);
 
