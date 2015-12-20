@@ -52,6 +52,7 @@ set(euler_LIBRARIES
 	${RE2_LIBRARIES}
 	bdrck-cwrap
 	bdrck-fs
+	bdrck-params
 	bdrck-process
 	bdrck-util
 
@@ -65,6 +66,7 @@ add_subdirectory(3rdparty/bdrck)
 
 add_subdirectory(src/common)
 add_subdirectory(src/done)
+add_subdirectory(src/mkprob)
 add_subdirectory(src/new)
 add_subdirectory(src/run)
 add_subdirectory(src/test)
