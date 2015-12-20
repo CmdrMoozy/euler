@@ -46,7 +46,7 @@ EDigitInteger::EDigitInteger() : digits(), positive(true)
 {
 	setZero();
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -178,7 +178,7 @@ EDigitInteger &EDigitInteger::operator=(const std::string &v)
 		throw e;
 	}
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -253,7 +253,7 @@ EDigitInteger &EDigitInteger::operator=(const mpz_class &v)
 		assert(false);
 	}
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -505,7 +505,7 @@ EDigitInteger &EDigitInteger::operator*=(const EDigitInteger &o)
 	removeLeadingZeros();
 	setPositive(sign);
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -544,7 +544,7 @@ EDigitInteger &EDigitInteger::operator/=(const EDigitInteger &o)
 	removeLeadingZeros();
 	setPositive(sign);
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -581,7 +581,7 @@ EDigitInteger &EDigitInteger::operator%=(const EDigitInteger &o)
 	removeLeadingZeros();
 	setPositive(sign);
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -1028,7 +1028,7 @@ void EDigitInteger::rightDigitalShift(int p)
 		assert(false);
 	}
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -1091,7 +1091,7 @@ bool EDigitInteger::rightDigitalRotate(int p)
 
 	r = removeLeadingZeros();
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -1479,7 +1479,7 @@ bool EDigitInteger::reverseDigits(std::size_t l, std::size_t r)
 
 	ret = removeLeadingZeros();
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	// Make sure our number still has at least 1 digit.
 	EASSERT(digitCount() >= 1);
 #endif
@@ -1698,7 +1698,7 @@ void EDigitInteger::borrow()
 	if(get(digitCount() - 1) < 0)
 		throw EUnderflowException("No more digits to borrow from!");
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 	for(std::size_t j = 0; j < digitCount(); ++j)
 		assert((0 <= get(j)) && (get(j) <= 9));
 #endif
@@ -2055,7 +2055,7 @@ void EDigitInteger::unsignedDivide(const EDigitInteger &i, bool m)
 				break;
 			}
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 			assert(aDigits > 0);
 			assert(bDigits > 0);
 

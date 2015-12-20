@@ -34,7 +34,7 @@ add_definitions(-DEULER_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 add_definitions(-DEULER_BINARY_DIR="${CMAKE_BINARY_DIR}")
 
 if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
-	add_definitions(-DLIBEULER_DEBUG)
+	add_definitions(-DEULER_DEBUG)
 endif()
 
 include_directories(3rdparty/include src)

@@ -42,7 +42,7 @@
 
 #include "common/EExceptions.h"
 
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 #include <ctime>
 #endif
 

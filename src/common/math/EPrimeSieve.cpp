@@ -278,7 +278,7 @@ void EPrimeSieve::generatePrimes()
 	}
 	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #endif
 	}

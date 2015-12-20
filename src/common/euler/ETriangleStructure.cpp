@@ -73,7 +73,7 @@ ETriangleStructure &ETriangleStructure::operator=(const ETriangleStructure &o)
 	}
 	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #endif
 	}
@@ -147,7 +147,7 @@ void ETriangleStructure::setHeight(std::size_t h,
 	}
 	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #endif
 	}
@@ -259,7 +259,7 @@ int ETriangleStructure::getLargestPathSum() const
 	}
 	catch(EOutOfBoundsException &)
 	{
-#ifdef LIBEULER_DEBUG
+#ifdef EULER_DEBUG
 		EDIE_LOGIC(std::runtime_error("Got EOutOfBoundsException."))
 #endif
 	}

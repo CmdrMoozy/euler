@@ -19,6 +19,9 @@
 #ifndef common_math_Math_HPP
 #define common_math_Math_HPP
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
 #include <cstdint>
 #include <iterator>
 
@@ -39,7 +42,7 @@ uint64_t ipow(uint64_t b, uint8_t e);
 
 /*!
  * This algorithm calculates b^e (mod m). This method is known as the
- * "right-to-left binary method," which is explained in more detail here:
+ * "right-to-left binary meth	od," which is explained in more detail here:
  *
  *     http://en.wikipedia.org/wiki/Modular_exponentiation
  *
@@ -65,6 +68,59 @@ template <typename Iterator> double average(Iterator begin, Iterator end)
 	for(auto it = begin; it != end; ++it)
 		result += static_cast<double>(*it) / count;
 	return result;
+}
+
+namespace detail
+{
+template <typename Iterator>
+double stddevImpl(Iterator begin, Iterator end, int correction)
+{
+	double denominator = static_cast<double>(std::distance(begin, end)) -
+	                     static_cast<double>(correction);
+	double avg = average(begin, end);
+	double stddev = 0.0;
+	for(auto it = begin; it != end; ++it)
+		stddev += std::pow(*it - avg, 2.0) / denominator;
+	return stddev;
+}
+}
+
+template <typename Iterator>
+double stddevPopulation(Iterator begin, Iterator end)
+{
+	return detail::stddevImpl(begin, end, 0);
+}
+
+template <typename Iterator> double stddevSample(Iterator begin, Iterator end)
+{
+	return detail::stddevImpl(begin, end, -1);
+}
+
+/*!
+ * Return the nearest ordinal rank for the given percentile, in the given
+ * sorted list (it is up to the caller to ensure that the list is sorted).
+ *
+ * This function returns an iterator to the smallest value in the list such
+ * that p percent of the data is less than or equal to that value.
+ *
+ * \param p The percentile to compute.
+ * \param begin The start of the list.
+ * \param end The end of the list.
+ * \return The desired percentile value's iterator from the list.
+ */
+template <typename Iterator>
+Iterator percentileValue(unsigned int p, Iterator begin, Iterator end)
+{
+	if(begin == end)
+		return end;
+	auto distance = std::distance(begin, end);
+	const double percentile = static_cast<double>(p) / 100.0;
+	const double ordinalRank =
+	        percentile * static_cast<double>(std::distance(begin, end));
+	Iterator ret(begin);
+	std::advance(ret, std::min(static_cast<int>(distance - 1),
+	                           static_cast<int>(std::ceil(ordinalRank))));
+	return ret;
 }
 }
 }
