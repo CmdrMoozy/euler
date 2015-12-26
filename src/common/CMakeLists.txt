@@ -49,8 +49,6 @@ SET(euler-common_SOURCES
 	math/EPrimeSieve.cpp
 	math/EPrimeSieve.h
 
-	string/RegEx.cpp
-	string/RegEx.hpp
 	string/Util.cpp
 	string/Util.hpp
 

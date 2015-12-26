@@ -22,7 +22,8 @@
 #include <functional>
 #include <sstream>
 
-#include "common/string/RegEx.hpp"
+#include <bdrck/string/RegEx.hpp>
+
 #include "common/util/EString.h"
 
 namespace
@@ -237,7 +238,7 @@ bool ERomanNumeral::parse(const std::string &v)
 
 	// Execute the regular expression on our input string.
 
-	euler::string::RegEx regex(
+	bdrck::string::RegEx regex(
 	        "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?(L*)"
 	        "([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$");
 
@@ -338,7 +339,8 @@ bool ERomanNumeral::OVPairComparator::operator()(const OVPair &a,
  * \param v Will be set to the resulting value of the string, or 0 on error.
  * \return True if the input string was valid, or false otherwise.
  */
-bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
+bool ERomanNumeral::getAdditiveStringValue(const bdrck::string::StringRef &s,
+                                           uint64_t *v)
 {
 	// Set our total and value initially.
 
@@ -383,7 +385,8 @@ bool ERomanNumeral::getAdditiveStringValue(const std::string &s, uint64_t *v)
  * \param v Will be set to the resulting value of the string, or 0 on error.
  * \return True if the input string was valid, or false otherwise.
  */
-bool ERomanNumeral::getSubtractiveStringValue(const std::string &s, uint64_t *v)
+bool ERomanNumeral::getSubtractiveStringValue(const bdrck::string::StringRef &s,
+                                              uint64_t *v)
 {
 	// Reset the value initially.
 

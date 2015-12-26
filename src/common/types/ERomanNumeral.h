@@ -26,6 +26,8 @@
 #include <set>
 #include <utility>
 
+#include <bdrck/string/StringRef.hpp>
+
 typedef std::pair<std::string, uint64_t> OVPair;
 
 /*!
@@ -63,8 +65,9 @@ private:
 
 	static const std::map<char, uint64_t> VALUES;
 
-	static bool getAdditiveStringValue(const std::string &s, uint64_t *v);
-	static bool getSubtractiveStringValue(const std::string &s,
+	static bool getAdditiveStringValue(const bdrck::string::StringRef &s,
+	                                   uint64_t *v);
+	static bool getSubtractiveStringValue(const bdrck::string::StringRef &s,
 	                                      uint64_t *v);
 
 	uint64_t value;
