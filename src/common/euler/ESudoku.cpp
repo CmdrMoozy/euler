@@ -21,6 +21,7 @@
 #include <algorithm>
 
 #include "common/math/EExactCover.h"
+#include "common/util/Bitwise.hpp"
 #include "common/util/EBitwise.h"
 
 /*!
@@ -416,7 +417,7 @@ bool ESudoku::optimizePairs(std::vector<uint16_t> &m)
 	{
 		// Look for cells with exactly two possible values.
 
-		if(EBitwise::opop(m.at(i)) == 2)
+		if(euler::util::bitwise::opop(m.at(i)) == 2)
 		{
 			pmask = m.at(i);
 

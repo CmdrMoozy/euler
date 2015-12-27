@@ -71,7 +71,6 @@ public:
 	static uint64_t rmzPropR(uint64_t x);
 	static uint64_t rmosOff(uint64_t x);
 	static uint64_t rmzsOn(uint64_t x);
-	static int opop(uint64_t x);
 
 	static int nlz32(uint32_t x);
 	static int nlz64(uint64_t x);

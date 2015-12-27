@@ -24,6 +24,7 @@
 #include <stdexcept>
 
 #include "common/EDefines.h"
+#include "common/util/Bitwise.hpp"
 #include "common/util/EBitwise.h"
 
 /*!
@@ -285,7 +286,7 @@ bool EPoker::parse(const std::string &s)
  */
 bool EPoker::isValid() const
 {
-	return (EBitwise::opop(cards) == 5);
+	return (euler::util::bitwise::opop(cards) == 5);
 }
 
 /*!
@@ -947,7 +948,7 @@ int EPoker::compare(const EPoker &o) const
 			bb = EBitwise::lg64(o.values &
 			                    ~(1ULL << static_cast<int>(ba)));
 
-			if(EBitwise::opop(
+			if(euler::util::bitwise::opop(
 			           cards &
 			           getValueIsolator(
 			                   static_cast<EPoker::CardValue>(
@@ -958,7 +959,7 @@ int EPoker::compare(const EPoker &o) const
 				ab = hold;
 			}
 
-			if(EBitwise::opop(
+			if(euler::util::bitwise::opop(
 			           o.cards &
 			           getValueIsolator(
 			                   static_cast<EPoker::CardValue>(

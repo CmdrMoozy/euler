@@ -409,28 +409,6 @@ uint64_t EBitwise::rmzsOn(uint64_t x)
 }
 
 /*!
- * This function returns the number of one bits set in the given input value, or
- *it's "population count".
- *
- * Note that if you are just going to test if the number of one bits is exactly
- *one, it is somewhat faster
- * to call isPowTwo() instead.
- *
- * \param x Our input value.
- * \return The number of one bits in x.
- */
-int EBitwise::opop(uint64_t x)
-{
-	x = (x & 0x5555555555555555) + ((x >> 1) & 0x5555555555555555);
-	x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333);
-	x = (x & 0x0F0F0F0F0F0F0F0F) + ((x >> 4) & 0x0F0F0F0F0F0F0F0F);
-	x = (x & 0x00FF00FF00FF00FF) + ((x >> 8) & 0x00FF00FF00FF00FF);
-	x = (x & 0x0000FFFF0000FFFF) + ((x >> 16) & 0x0000FFFF0000FFFF);
-	x = (x & 0x00000000FFFFFFFF) + ((x >> 32) & 0x00000000FFFFFFFF);
-	return static_cast<int>(x);
-}
-
-/*!
  * This function returns the number of leading zeros for the given number.
  *
  * \param x The value to inspect.

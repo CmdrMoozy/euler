@@ -19,7 +19,7 @@
 #include "EByteArray.h"
 
 #include "common/EDefines.h"
-#include "common/util/EBitwise.h"
+#include "common/util/Bitwise.hpp"
 
 #include <cassert>
 
@@ -299,7 +299,10 @@ std::size_t EByteArray::population() const
 	try
 	{
 		for(std::size_t i = 0; i < getSize(); ++i)
-			pop += static_cast<std::size_t>(EBitwise::opop(at(i)));
+		{
+			pop += static_cast<std::size_t>(
+			        euler::util::bitwise::opop(at(i)));
+		}
 	}
 	catch(EOutOfBoundsException &)
 	{
