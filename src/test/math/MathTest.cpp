@@ -25,6 +25,62 @@
 #include "common/math/floatCompare.hpp"
 #include "common/math/Math.hpp"
 
+TEST_CASE("Test signed division", "[Math]")
+{
+	using TestCase = struct
+	{
+		int32_t dividend;
+		int32_t divisor;
+		int32_t quotient;
+		int32_t remainder;
+	};
+
+	static const std::vector<TestCase> TEST_CASES{
+	        {0, 100, 0, 0},     {0, -100, 0, 0},   {100, 1, 100, 0},
+	        {-100, 1, -100, 0}, {100, 3, 33, 1},   {100, -3, -33, 1},
+	        {-100, 3, -33, -1}, {-100, -3, 33, -1}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		auto resultA = euler::math::divide<int32_t>(testCase.dividend,
+		                                            testCase.divisor);
+		CHECK(resultA.first == testCase.quotient);
+		CHECK(resultA.second == testCase.remainder);
+
+		auto resultB = euler::math::divide<int64_t>(testCase.dividend,
+		                                            testCase.divisor);
+		CHECK(resultB.first == testCase.quotient);
+		CHECK(resultB.second == testCase.remainder);
+	}
+}
+
+TEST_CASE("Test unsigned division", "[Math]")
+{
+	using TestCase = struct
+	{
+		uint32_t dividend;
+		uint32_t divisor;
+		uint32_t quotient;
+		uint32_t remainder;
+	};
+
+	static const std::vector<TestCase> TEST_CASES{
+	        {0, 100, 0, 0}, {100, 1, 100, 0}, {100, 3, 33, 1}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		auto resultA = euler::math::divide<uint32_t>(testCase.dividend,
+		                                             testCase.divisor);
+		CHECK(resultA.first == testCase.quotient);
+		CHECK(resultA.second == testCase.remainder);
+
+		auto resultB = euler::math::divide<uint64_t>(testCase.dividend,
+		                                             testCase.divisor);
+		CHECK(resultB.first == testCase.quotient);
+		CHECK(resultB.second == testCase.remainder);
+	}
+}
+
 TEST_CASE("Test ipow function", "[Math]")
 {
 	for(unsigned int b = 0; b <= 10; ++b)
