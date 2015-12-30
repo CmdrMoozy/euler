@@ -18,6 +18,7 @@
 
 #include "ESpiral.h"
 
+#include <cassert>
 #include <stdexcept>
 
 #include "common/util/AbsoluteValue.h"
@@ -203,9 +204,11 @@ uint64_t ESpiral::diagonalValueAt(uint32_t o, ESpiral::Quadrant q)
 
 	// Start with the previous diagonal value, at (o-1, o-1).
 	r = diagonalValueAt(o - 1, ESpiral::I) + ((nS - 1) * 4);
-	;
 
 	// Determine the correct multiplier based on the quadrant.
+	assert((q == ESpiral::I) || (q == ESpiral::II) || (q == ESpiral::III) ||
+	       (q == ESpiral::IV));
+	m = 0;
 	switch(q)
 	{
 	case ESpiral::I:

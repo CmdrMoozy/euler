@@ -176,11 +176,11 @@ euler::util::process::ProblemResult<uint64_t> problem()
 
 		// Add the first two convergents to our lists.
 
-		mpz_set_si(Am2, cf[0]);
+		mpz_set_si(Am2, static_cast<long int>(cf[0]));
 		mpz_set_ui(Bm2, 1);
 
-		mpz_set_si(Am1, (cf[0] * cf[1]) + 1);
-		mpz_set_si(Bm1, cf[1]);
+		mpz_set_si(Am1, static_cast<long int>((cf[0] * cf[1]) + 1));
+		mpz_set_si(Bm1, static_cast<long int>(cf[1]));
 
 		// Test if this first convergent is our solution.
 

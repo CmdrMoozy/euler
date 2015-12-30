@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cctype>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <functional>
@@ -992,7 +993,7 @@ void EDigitInteger::rightDigitalShift(int p)
 	// Treat negative right-shifts as positive left-shifts.
 	if(p < 0)
 	{
-		leftDigitalShift(EABS(p));
+		leftDigitalShift(std::abs(p));
 		return;
 	}
 
@@ -1050,10 +1051,10 @@ bool EDigitInteger::rightDigitalRotate(int p)
 
 	// Treat negative right-rotations as positive left-rotations.
 	if(p < 0)
-		return leftDigitalRotate(EABS(p));
+		return leftDigitalRotate(std::abs(p));
 
 	// Don't do any full rotations.
-	p %= digitCount();
+	p %= static_cast<int>(digitCount());
 
 	// Rotation 0 places has no effect.
 	if(p == 0)
@@ -1115,7 +1116,7 @@ void EDigitInteger::leftDigitalShift(int p)
 	// Treat negative left-shifts as positive right-shifts.
 	if(p < 0)
 	{
-		rightDigitalShift(EABS(p));
+		rightDigitalShift(std::abs(p));
 		return;
 	}
 
@@ -1164,10 +1165,10 @@ bool EDigitInteger::leftDigitalRotate(int p)
 
 	// Treat negative left-rotations as positive right-rotations.
 	if(p < 0)
-		return rightDigitalRotate(EABS(p));
+		return rightDigitalRotate(std::abs(p));
 
 	// Don't do any full rotations.
-	p %= digitCount();
+	p %= static_cast<int>(digitCount());
 	assert(p < static_cast<int>(digitCount()));
 
 	// Rotation 0 places has no effect.

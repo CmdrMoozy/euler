@@ -18,6 +18,7 @@
 
 #include "EPoker.h"
 
+#include <cassert>
 #include <iostream>
 #include <map>
 #include <set>
@@ -989,6 +990,11 @@ int EPoker::compare(const EPoker &o) const
 			}
 		}
 		};
+
+		// If we get to this point, then our rank is invalid. This
+		// should never occur.
+		assert(false);
+		throw std::runtime_error("Invalid rank.");
 	}
 }
 

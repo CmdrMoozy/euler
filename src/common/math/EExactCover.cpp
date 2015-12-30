@@ -18,6 +18,8 @@
 
 #include "EExactCover.h"
 
+#include <cmath>
+
 #include "common/EDefines.h"
 
 /***********************************
@@ -767,7 +769,7 @@ void EExactCover::search(std::size_t k, std::vector<EExactCover::EECNode *> &o)
 		if(r->data)
 		{
 			// Set O[k] = r.
-			if(o.size() <= static_cast<unsigned int>(EABS(k)))
+			if(o.size() <= static_cast<unsigned int>(std::abs(k)))
 				o.resize(k + 1, NULL);
 			o[k] = r;
 

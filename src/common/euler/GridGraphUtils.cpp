@@ -27,14 +27,23 @@ movementDirectionToEdgeDirection(uint64_t movementFlags,
                                  GridGraphMovementDirection forward,
                                  GridGraphMovementDirection backward)
 {
-	if((movementFlags & (forward | backward)) == (forward | backward))
+	if((movementFlags & static_cast<uint64_t>(forward | backward)) ==
+	   static_cast<uint64_t>(forward | backward))
+	{
 		return euler::graph::EDGE_DIRECTION_BOTH;
-	else if(movementFlags & forward)
+	}
+	else if(movementFlags & static_cast<uint64_t>(forward))
+	{
 		return euler::graph::EDGE_DIRECTION_FORWARD;
-	else if(movementFlags & backward)
+	}
+	else if(movementFlags & static_cast<uint64_t>(backward))
+	{
 		return euler::graph::EDGE_DIRECTION_BACKWARD;
+	}
 	else
+	{
 		return euler::graph::EDGE_DIRECTION_NONE;
+	}
 }
 
 FauxTerminalVertex::FauxTerminalVertex(euler::graph::Vertex &v, std::size_t x,

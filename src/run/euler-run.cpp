@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -90,6 +91,7 @@ struct Timings
 	double minimum;
 	double maximum;
 	double stddev;
+	double total;
 
 	std::map<unsigned int, std::vector<double>::const_iterator> percentiles;
 
@@ -100,6 +102,7 @@ struct Timings
 	          minimum(),
 	          maximum(),
 	          stddev(),
+	          total(),
 	          percentiles()
 	{
 		for(auto const &result : results)
@@ -116,6 +119,7 @@ struct Timings
 		maximum = *times.rbegin();
 		stddev = euler::math::stddevPopulation(times.begin(),
 		                                       times.end());
+		total = std::accumulate(times.begin(), times.end(), double(0));
 
 		percentiles = computePercentiles(times);
 	}
@@ -151,9 +155,9 @@ int main(int, char const *const *)
 		          << " failures).\n";
 
 		std::printf("Execution time: average %0.9fs, min %0.9fs, max "
-		            "%0.9fs, stddev %0.9fs\n",
+		            "%0.9fs, stddev %0.9fs, total %0.9fs\n",
 		            timings.average, timings.minimum, timings.maximum,
-		            timings.stddev);
+		            timings.stddev, timings.total);
 
 		std::cout << "Time percentiles: ";
 		for(auto const &percentile : timings.percentiles)

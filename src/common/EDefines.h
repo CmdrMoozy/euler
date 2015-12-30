@@ -29,9 +29,6 @@
 #pragma warning(disable : 4290) // Exception specification on functions.
 #endif
 
-// We define a macro to get the absolute value of a number.
-#define EABS(a) ((a) < 0 ? (-(a)) : (a))
-
 /*
  * Define our ELUNUSED macro, which is used on win32 to suppress the
  * "unreferenced local

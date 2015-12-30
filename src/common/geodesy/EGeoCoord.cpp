@@ -442,7 +442,7 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA,
 
 	mpfr_init2(convergence, p);
 	mpfr_set_ui(convergence, 10, MPFR_RNDN);
-	mpfr_pow_si(convergence, convergence, -digitsFromPrecision(EABS(p)),
+	mpfr_pow_si(convergence, convergence, -digitsFromPrecision(std::abs(p)),
 	            MPFR_RNDN);
 
 	mpfr_init2(cDelta, p);

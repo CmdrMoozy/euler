@@ -74,7 +74,7 @@ TEST_CASE("Test modPowTwo", "[EBitwise]")
 	{
 		for(uint64_t s = 1; s < 32; ++s)
 		{
-			uint64_t d = (1 << s);
+			uint64_t d = (1UL << s);
 			uint64_t m = EBitwise::modPowTwo(
 			        n, static_cast<unsigned int>(s));
 			CHECK(m == (n % d));

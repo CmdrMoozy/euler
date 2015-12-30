@@ -57,7 +57,7 @@ euler::util::process::ProblemResult<int> problem()
 		while(n > 0)
 		{
 			if(j < 1000000)
-				digits[j] = n % 10;
+				digits[j] = static_cast<int>(n % 10);
 			--j;
 			n /= 10;
 		}
