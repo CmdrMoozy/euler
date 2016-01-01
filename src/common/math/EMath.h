@@ -70,7 +70,6 @@ public:
 	static uint32_t totient(uint32_t n);
 	static uint32_t repetendLength(uint32_t n, EFactorization &f);
 
-	static uint64_t greatestCommonDivisor(uint64_t u, uint64_t v);
 	static uint64_t leastCommonMultiple(uint64_t a, uint64_t b);
 	static uint64_t aliquotNumberDivisors(uint32_t n);
 	static uint64_t aliquotSumDivisors(uint64_t n);

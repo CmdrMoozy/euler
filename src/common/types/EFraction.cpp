@@ -24,6 +24,7 @@
 
 #include "common/EDefines.h"
 #include "common/math/EMath.h"
+#include "common/math/Math.hpp"
 
 /*!
  * This function tests if the given numerator and denominator are a reduced
@@ -340,8 +341,7 @@ bool EFraction::canReduce() const
  */
 bool EFraction::reduce()
 {
-	uint64_t gcd =
-	        EMath::greatestCommonDivisor(getNumerator(), getDenominator());
+	uint64_t gcd = euler::math::gcd(getNumerator(), getDenominator());
 
 	switch(gcd)
 	{

@@ -81,6 +81,31 @@ TEST_CASE("Test unsigned division", "[Math]")
 	}
 }
 
+TEST_CASE("Test greatestCommonDivisor", "[Math]")
+{
+	using TestCase = struct
+	{
+		uint64_t u;
+		uint64_t v;
+		uint64_t result;
+	};
+
+	static const std::vector<TestCase> TEST_CASES{
+	        {900, 736, 4}, {951, 474, 3},  {377, 540, 1},   {210, 818, 2},
+	        {832, 17, 1},  {986, 799, 17}, {855, 469, 1},   {990, 604, 2},
+	        {138, 827, 1}, {424, 203, 1},  {522, 813, 3},   {251, 26, 1},
+	        {329, 191, 1}, {965, 435, 5},  {759, 400, 1},   {53, 549, 1},
+	        {218, 678, 2}, {453, 767, 1},  {396, 594, 198}, {821, 615, 1},
+	        {104, 410, 2}, {725, 153, 1},  {744, 764, 4},   {765, 436, 1},
+	        {666, 86, 2}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		CHECK(euler::math::gcd(testCase.u, testCase.v) ==
+		      testCase.result);
+	}
+}
+
 TEST_CASE("Test ipow function", "[Math]")
 {
 	for(unsigned int b = 0; b <= 10; ++b)

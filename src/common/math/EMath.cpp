@@ -363,7 +363,7 @@ bool EMath::isPrime(const mpz_class &n, int p)
  */
 bool EMath::areCoprime(uint32_t a, uint32_t b)
 {
-	return (EMath::greatestCommonDivisor(a, b) == 1);
+	return (euler::math::gcd(a, b) == 1);
 }
 
 /*!
@@ -424,64 +424,6 @@ uint32_t EMath::repetendLength(uint32_t n, EFactorization &f)
 }
 
 /*!
- * This function implements Algorithm B from "The Art of Computer Programming -
- * Volume 2" pp. 338 to calculate the greatest common divisor of the two
- * integers provided, u and v.
- *
- * Note that this function returns x for gcd(0,x) and 0 for gcd(0,0).
- *
- * \param u The first integer.
- * \param v The second integer.
- * \return The greatest common divisor of u and v.
- */
-uint64_t EMath::greatestCommonDivisor(uint64_t u, uint64_t v)
-{
-	int k;
-
-	// gcd(0,x) = x and gcd(0,0) = 0
-	if((u == 0) || (v == 0))
-		return (u | v);
-
-	/*
-	 * Find the largest power of 2 that divides both u and v. That is,
-	 * divide u and v by the smallest 2^k value such that u and v are
-	 * not both even.
-	 */
-
-	for(k = 0; ((u | v) & 1) == 0; ++k)
-	{
-		u >>= 1;
-		v >>= 1;
-	}
-
-	// Keep halving u until it is odd.
-	while((u & 1) == 0)
-		u >>= 1;
-
-	do
-	{
-		while((v & 1) == 0)
-			v >>= 1;
-
-		if(u < v)
-		{
-			v -= u;
-		}
-		else
-		{
-			uint64_t d = u - v;
-			u = v;
-			v = d;
-		}
-
-		v >>= 1;
-	} while(v != 0);
-
-	// Return u * 2^k.
-	return (u << k);
-}
-
-/*!
  * This function returns the least common multiple of a and b. To make it easy,
  * we reduce this problem to being able to find the greatest common divisor,
  * which we can already do using the fast Euclidean algorithm.
@@ -497,7 +439,7 @@ uint64_t EMath::greatestCommonDivisor(uint64_t u, uint64_t v)
  */
 uint64_t EMath::leastCommonMultiple(uint64_t a, uint64_t b)
 {
-	uint64_t gcd = EMath::greatestCommonDivisor(a, b);
+	uint64_t gcd = euler::math::gcd(a, b);
 
 	if(gcd == 0)
 		return 0;

@@ -121,6 +121,16 @@ template <typename T> std::pair<T, T> divide(T dividend, T divisor)
 	return impl(dividend, divisor);
 }
 
+template <typename E> E gcd(E a, E b)
+{
+	while(b != E())
+	{
+		a = divide(a, b).second;
+		std::swap(a, b);
+	}
+	return a;
+}
+
 /*!
  * This function uses integer math to calculate the result of b^e. This is
  * significantly faster than std::pow, which operates on floating point
