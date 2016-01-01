@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <iterator>
 #include <type_traits>
@@ -31,6 +32,33 @@ namespace euler
 {
 namespace math
 {
+namespace detail
+{
+template <typename T> struct UnsignedAbsImpl
+{
+	T operator()(T v)
+	{
+		return v;
+	}
+};
+
+template <typename T> struct GenericAbsImpl
+{
+	T operator()(T v)
+	{
+		return v < T(0) ? -v : v;
+	}
+};
+}
+
+template <typename T> T abs(T v)
+{
+	typename std::conditional<std::is_unsigned<T>::value,
+	                          detail::UnsignedAbsImpl<T>,
+	                          detail::GenericAbsImpl<T>>::type impl;
+	return impl(v);
+}
+
 namespace detail
 {
 /*!
@@ -91,19 +119,6 @@ template <typename T> struct DivideImpl
 {
 	std::pair<T, T> operator()(T dividend, T divisor);
 };
-
-/*!
- * \brief A metafunction to select the division implementation type for a type.
- */
-template <typename T> struct DivideImplType
-{
-	typedef typename std::conditional<
-	        std::is_integral<T>::value,
-	        typename std::conditional<std::is_signed<T>::value,
-	                                  SignedIntegralDivideImpl<T>,
-	                                  UnsignedIntegralDivideImpl<T>>::type,
-	        DivideImpl<T>>::type type;
-};
 }
 
 /*!
@@ -117,18 +132,111 @@ template <typename T> struct DivideImplType
  */
 template <typename T> std::pair<T, T> divide(T dividend, T divisor)
 {
-	typename detail::DivideImplType<T>::type impl;
+	typename std::conditional<
+	        std::is_integral<T>::value,
+	        typename std::conditional<
+	                std::is_signed<T>::value,
+	                detail::SignedIntegralDivideImpl<T>,
+	                detail::UnsignedIntegralDivideImpl<T>>::type,
+	        detail::DivideImpl<T>>::type impl;
 	return impl(dividend, divisor);
 }
 
-template <typename E> E gcd(E a, E b)
+namespace detail
 {
-	while(b != E())
+/*!
+ * \brief Binary integer implementation of the GCD function.
+ *
+ * For more information on this algorithm, see:
+ * https://en.wikipedia.org/wiki/Binary_GCD_algorithm
+ */
+template <typename T> struct BinaryIntegerGcdImpl
+{
+	T operator()(T a, T b)
 	{
-		a = divide(a, b).second;
-		std::swap(a, b);
+		a = abs(a);
+		b = abs(b);
+		if(a == T(0))
+			return b;
+		if(b == T(0))
+			return a;
+
+		uint64_t u = static_cast<uint64_t>(a);
+		uint64_t v = static_cast<uint64_t>(b);
+
+		/*
+		 * Find the largest power of 2 that divides both u and v. That
+		 * is, divide u and v by the smallest 2^k value such that u and
+		 * v are not both even.
+		 */
+
+		std::size_t k;
+		for(k = 0; ((u | v) & 1) == 0; ++k)
+		{
+			u >>= 1;
+			v >>= 1;
+		}
+
+		// Keep halving u until it is odd.
+		while((u & 1) == 0)
+			u >>= 1;
+
+		do
+		{
+			while((v & 1) == 0)
+				v >>= 1;
+
+			if(u < v)
+			{
+				v -= u;
+			}
+			else
+			{
+				uint64_t d = u - v;
+				u = v;
+				v = d;
+			}
+
+			v >>= 1;
+		} while(v != 0);
+
+		// Return a * 2^k.
+		return static_cast<T>(u << k);
 	}
-	return a;
+};
+
+/*!
+ * \brief Euclidean implementation of the GCD function.
+ */
+template <typename T> struct EuclideanDomainGcdImpl
+{
+	T operator()(T a, T b)
+	{
+		while(b != T())
+		{
+			a = divide(a, b).second;
+			std::swap(a, b);
+		}
+		return a;
+	}
+};
+}
+
+/*!
+ * Compute the greatest common divisor of a and b. Supports any type T which is
+ * a Euclidean domain. In the case that T is an integral type, a faster binary
+ * GCD algorithm is used instead of the Euclidean algorithm.
+ *
+ * \param a The first value.
+ * \param b The second value.
+ * \return The greatest common divisor of a and b.
+ */
+template <typename T> T gcd(T a, T b)
+{
+	typename std::conditional<std::is_integral<T>::value,
+	                          detail::BinaryIntegerGcdImpl<T>,
+	                          detail::EuclideanDomainGcdImpl<T>>::type impl;
+	return impl(a, b);
 }
 
 /*!
