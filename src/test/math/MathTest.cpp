@@ -22,8 +22,9 @@
 #include <cstdint>
 #include <vector>
 
+#include <bdrck/util/floatCompare.hpp>
+
 #include "common/math/Math.hpp"
-#include "common/math/floatCompare.hpp"
 
 TEST_CASE("Test signed division", "[Math]")
 {
@@ -158,6 +159,6 @@ TEST_CASE("Test average function", "[Math]")
 	{
 		double avg = euler::math::average(testCase.values.begin(),
 		                                  testCase.values.end());
-		CHECK(euler::math::floatCompare(avg, testCase.expected) == 0);
+		CHECK(bdrck::util::floatCompare(avg, testCase.expected) == 0);
 	}
 }
