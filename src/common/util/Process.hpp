@@ -25,7 +25,7 @@
 #include <iostream>
 #include <type_traits>
 
-#include <bdrck/process/Terminal.hpp>
+#include <bdrck/process/Pipe.hpp>
 
 #include "common/util/Profiler.hpp"
 
@@ -64,10 +64,12 @@ template <typename R>
 int problemMain(std::function<ProblemResult<R>()> const &problem, int /*argc*/,
                 char const *const * /*argv*/)
 {
-	bool isInteractiveOut = bdrck::process::terminal::isInteractiveTerminal(
-	        bdrck::process::terminal::StdStream::Out);
-	bool isInteractiveErr = bdrck::process::terminal::isInteractiveTerminal(
-	        bdrck::process::terminal::StdStream::Err);
+	bool isInteractiveOut = bdrck::process::pipe::isInteractiveTerminal(
+	        bdrck::process::pipe::getStreamPipe(
+	                bdrck::process::StdStream::STDOUT));
+	bool isInteractiveErr = bdrck::process::pipe::isInteractiveTerminal(
+	        bdrck::process::pipe::getStreamPipe(
+	                bdrck::process::StdStream::STDERR));
 
 	euler::util::Profiler profiler(isInteractiveOut);
 

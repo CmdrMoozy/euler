@@ -29,8 +29,8 @@
 #include <vector>
 
 #include <bdrck/fs/Util.hpp>
+#include <bdrck/process/Pipe.hpp>
 #include <bdrck/process/Process.hpp>
-#include <bdrck/process/Terminal.hpp>
 
 #include "common/math/Math.hpp"
 #include "common/util/Profiler.hpp"
@@ -146,8 +146,9 @@ int main(int, char const *const *)
 
 	Timings timings(results);
 
-	if(bdrck::process::terminal::isInteractiveTerminal(
-	           bdrck::process::terminal::StdStream::Out))
+	if(bdrck::process::pipe::isInteractiveTerminal(
+	           bdrck::process::pipe::getStreamPipe(
+	                   bdrck::process::StdStream::STDOUT)))
 	{
 		std::cout << "Executed " << results.size() << " problems ("
 		          << timings.successes << " successes, "

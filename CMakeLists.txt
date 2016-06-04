@@ -21,6 +21,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Functions.cmake)
 
 # Find our dependencies.
 
+find_package(Boost REQUIRED)
 find_package(GMP REQUIRED)
 find_package(MPFR REQUIRED)
 
@@ -36,7 +37,14 @@ if(CMAKE_BUILD_TYPE_LOWER MATCHES debug)
 	add_definitions(-DEULER_DEBUG)
 endif()
 
-include_directories(3rdparty/include src)
+include_directories(src)
+
+include_directories(SYSTEM
+
+	3rdparty/include
+	${Boost_INCLUDE_DIRS}
+
+)
 
 # Set the libraries we'll use.
 
@@ -45,11 +53,11 @@ set(euler_LIBRARIES
 	m
 	rt
 	pthread
+	${Boost_LIBRARIES}
 	${GMP_LIBRARIES}
 	${GMPXX_LIBRARIES}
 	${MPFR_LIBRARIES}
 	${RE2_LIBRARIES}
-	bdrck-cwrap
 	bdrck-fs
 	bdrck-params
 	bdrck-process
