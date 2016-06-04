@@ -50,7 +50,8 @@ struct FloatingPointAbs
 template <typename T> struct AbsSignedFunctorWrapper
 {
 	typedef typename std::conditional<std::is_integral<T>::value,
-	                                  IntegralAbs, FloatingPointAbs> type;
+	                                  IntegralAbs, FloatingPointAbs>
+	        type;
 };
 
 struct UnsignedAbs

@@ -41,8 +41,7 @@ Edge::Edge(Vertex &va, Vertex &vb, int64_t w, EdgeDirection direction)
 	Vertex *vaPtr = &va;
 	Vertex *vbPtr = &vb;
 	cleanup = std::make_shared<bdrck::util::ScopeExit>(
-	        [vaPtr, vbPtr, direction]()
-	        {
+	        [vaPtr, vbPtr, direction]() {
 		        if(direction & EDGE_DIRECTION_FORWARD)
 			        vaPtr->removeConnection(*vbPtr);
 

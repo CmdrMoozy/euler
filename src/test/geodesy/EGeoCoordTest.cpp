@@ -26,9 +26,9 @@ TEST_CASE("Test EGeoCoord", "[EGeoCoord]")
 {
 	// Construct a bunch of geo coordinates.
 
-	EGeoCoord aA(ELatLonValue(48.8583, ELatLonValue::Degrees,
+	EGeoCoord aA(ELatLonValue(48.8583L, ELatLonValue::Degrees,
 	                          ELatLonValue::North),
-	             ELatLonValue(2.2945, ELatLonValue::Degrees,
+	             ELatLonValue(2.2945L, ELatLonValue::Degrees,
 	                          ELatLonValue::East));
 	EGeoCoord aB(ELatLonValue(43.0, 43.0, 24.0, ELatLonValue::North),
 	             ELatLonValue(10.0, 23.0, 39.0, ELatLonValue::East));
@@ -49,11 +49,12 @@ TEST_CASE("Test EGeoCoord", "[EGeoCoord]")
 	             ELatLonValue(58.0, 22.0, 54.0, ELatLonValue::West));
 
 	EGeoCoord eA(
-	        ELatLonValue(0.0, ELatLonValue::Radians, ELatLonValue::North),
-	        ELatLonValue(0.0, ELatLonValue::Radians, ELatLonValue::East));
+	        ELatLonValue(0.0L, ELatLonValue::Radians, ELatLonValue::North),
+	        ELatLonValue(0.0L, ELatLonValue::Radians, ELatLonValue::East));
 	EGeoCoord eB(
-	        ELatLonValue(0.5, ELatLonValue::Degrees, ELatLonValue::South),
-	        ELatLonValue(179.5, ELatLonValue::Degrees, ELatLonValue::West));
+	        ELatLonValue(0.5L, ELatLonValue::Degrees, ELatLonValue::South),
+	        ELatLonValue(179.5L, ELatLonValue::Degrees,
+	                     ELatLonValue::West));
 
 	// Test getHemisphere and inSameHemisphere.
 
@@ -78,23 +79,23 @@ TEST_CASE("Test EGeoCoord", "[EGeoCoord]")
 
 	aA.getDistanceTo(distance.get(), aB);
 	distanceDouble = mpfr_get_ld(distance.get(), MPFR_RNDN);
-	CHECK((distanceDouble / 1000.0 - 844.0) < 1.0);
+	CHECK((distanceDouble / 1000.0L - 844.0L) < 1.0L);
 
 	bA.getDistanceTo(distance.get(), bB);
 	distanceDouble = mpfr_get_ld(distance.get(), MPFR_RNDN);
-	CHECK((distanceDouble / 1000.0 - 6610.0) < 1.0);
+	CHECK((distanceDouble / 1000.0L - 6610.0L) < 1.0L);
 
 	cA.getDistanceTo(distance.get(), cB);
 	distanceDouble = mpfr_get_ld(distance.get(), MPFR_RNDN);
-	CHECK((distanceDouble / 1000.0 - 19994.0) < 1.0);
+	CHECK((distanceDouble / 1000.0L - 19994.0L) < 1.0L);
 
 	dA.getDistanceTo(distance.get(), dB);
 	distanceDouble = mpfr_get_ld(distance.get(), MPFR_RNDN);
-	CHECK((distanceDouble / 1000.0 - 19262.0) < 1.0);
+	CHECK((distanceDouble / 1000.0L - 19262.0L) < 1.0L);
 
 	eA.getDistanceTo(distance.get(), eB);
 	distanceDouble = mpfr_get_ld(distance.get(), MPFR_RNDN);
-	CHECK((distanceDouble / 1000.0 - 19942.0) < 1.0);
+	CHECK((distanceDouble / 1000.0L - 19942.0L) < 1.0L);
 
 	// Test assignment and equivalence operators.
 

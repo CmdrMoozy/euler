@@ -1230,10 +1230,7 @@ getSortedDigits(std::unordered_map<std::size_t, int> const &digits,
 	std::vector<int> sortedDigits;
 	std::transform(digits.begin(), digits.end(),
 	               std::back_inserter(sortedDigits),
-	               [](value_type const &v) -> int
-	               {
-		               return v.second;
-		       });
+	               [](value_type const &v) -> int { return v.second; });
 	std::sort(sortedDigits.begin(), sortedDigits.end(), comp);
 	return sortedDigits;
 }

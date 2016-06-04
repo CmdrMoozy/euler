@@ -108,10 +108,9 @@ std::string &EString::trim(std::string &s)
 std::string &EString::strtolower(std::string &s)
 {
 	std::locale locale;
-	std::transform(s.begin(), s.end(), s.begin(), [&](char const &c) -> char
-	               {
-		               return std::tolower(c, locale);
-		       });
+	std::transform(
+	        s.begin(), s.end(), s.begin(),
+	        [&](char const &c) -> char { return std::tolower(c, locale); });
 	return s;
 }
 
@@ -128,9 +127,8 @@ std::string &EString::strtolower(std::string &s)
 std::string &EString::strtoupper(std::string &s)
 {
 	std::locale locale;
-	std::transform(s.begin(), s.end(), s.begin(), [&](char const &c) -> char
-	               {
-		               return std::toupper(c, locale);
-		       });
+	std::transform(
+	        s.begin(), s.end(), s.begin(),
+	        [&](char const &c) -> char { return std::toupper(c, locale); });
 	return s;
 }

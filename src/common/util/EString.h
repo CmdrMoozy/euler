@@ -20,8 +20,8 @@
 #ifndef INCLUDE_LIBEULER_UTIL_STRING_H
 #define INCLUDE_LIBEULER_UTIL_STRING_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 /*!
  * \brief This class implements some simple string utilities.

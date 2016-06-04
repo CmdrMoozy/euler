@@ -138,11 +138,11 @@ int main(int, char const *const *)
 #endif
 
 	std::vector<ExecutionResult> results = executeProblems();
-	std::sort(results.begin(), results.end(),
-	          [](ExecutionResult const &a, ExecutionResult const &b) -> bool
-	          {
-		          return a.time < b.time;
-		  });
+	std::sort(
+	        results.begin(), results.end(),
+	        [](ExecutionResult const &a, ExecutionResult const &b) -> bool {
+		        return a.time < b.time;
+		});
 
 	Timings timings(results);
 

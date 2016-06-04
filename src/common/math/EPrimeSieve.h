@@ -20,8 +20,8 @@
 #ifndef INCLUDE_LIBEULER_MATH_PRIME_SIEVE_H
 #define INCLUDE_LIBEULER_MATH_PRIME_SIEVE_H
 
-#include <set>
 #include <cstdint>
+#include <set>
 
 /*!
  * \brief This class is a sieve that generates prime numbers.

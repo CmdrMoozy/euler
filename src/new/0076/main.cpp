@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cassert>
 #include <cstdint>
+#include <iostream>
 
 /*
  * It is possible to write five as a sum in exactly six different ways:

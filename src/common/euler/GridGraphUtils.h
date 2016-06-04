@@ -178,7 +178,8 @@ template <std::size_t Width, std::size_t Height> struct GridGraph
 	// A map which allows looking up a non-faux vertex's unadjusted
 	// position in the graph.
 	std::unordered_map<const euler::graph::Vertex *,
-	                   std::pair<std::size_t, std::size_t>> positionMap;
+	                   std::pair<std::size_t, std::size_t>>
+	        positionMap;
 
 	// The (X, Y) translation to apply to any non-faux vertex's position.
 	// This is useful so the faux vertices can occupy real positions in

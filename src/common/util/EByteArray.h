@@ -22,8 +22,8 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "common/util/EArray.h"
 #include "common/EExceptions.h"
+#include "common/util/EArray.h"
 
 // Typedef 'byte' for EByteArray.
 typedef uint8_t byte;

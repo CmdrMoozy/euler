@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
 
 #include "common/util/Process.hpp"
 

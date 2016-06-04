@@ -20,10 +20,10 @@
 #ifndef INCLUDE_LIBEULER_TYPES_ROMAN_NUMERAL_H
 #define INCLUDE_LIBEULER_TYPES_ROMAN_NUMERAL_H
 
-#include <string>
 #include <cstdint>
 #include <map>
 #include <set>
+#include <string>
 #include <utility>
 
 #include <bdrck/string/StringRef.hpp>

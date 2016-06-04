@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sstream>
-#include <cctype>
-#include <iostream>
 #include <cassert>
+#include <cctype>
 #include <cstdint>
+#include <iostream>
+#include <sstream>
 
 #include "common/types/EDigitInteger.h"
 #include "common/util/Process.hpp"

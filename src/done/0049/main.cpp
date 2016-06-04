@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <set>
 #include <cstdint>
 #include <iostream>
+#include <set>
 
 #include "common/math/EMath.h"
 #include "common/math/EPrimeSieve.h"

@@ -163,10 +163,7 @@ euler::util::process::ProblemResult<int> problem()
 	std::vector<std::shared_ptr<std::thread>> threads;
 	for(unsigned i = 0; i < std::thread::hardware_concurrency(); ++i)
 	{
-		auto work = [&context]()
-		{
-			solvePuzzles(context);
-		};
+		auto work = [&context]() { solvePuzzles(context); };
 		threads.push_back(std::make_shared<std::thread>(work));
 	}
 

@@ -19,8 +19,8 @@
 #include <cmath>
 #include <cstdint>
 
-#include "common/EExceptions.h"
 #include "common/EDefines.h"
+#include "common/EExceptions.h"
 #include "common/types/EFraction.h"
 #include "common/util/Process.hpp"
 

@@ -19,8 +19,8 @@
 #include <cstdint>
 #include <map>
 
-#include "common/math/EMath.h"
 #include "common/math/EFactorization.h"
+#include "common/math/EMath.h"
 #include "common/util/Process.hpp"
 
 /*

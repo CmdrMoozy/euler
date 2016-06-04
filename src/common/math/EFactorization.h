@@ -20,9 +20,9 @@
 #ifndef INCLUDE_LIBEULER_MATH_FACTORIZATION_H
 #define INCLUDE_LIBEULER_MATH_FACTORIZATION_H
 
+#include <cstdint>
 #include <map>
 #include <set>
-#include <cstdint>
 
 // Forward Declarations
 class EPrimeSieve;

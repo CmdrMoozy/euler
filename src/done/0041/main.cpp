@@ -18,8 +18,8 @@
 
 #include <cstdint>
 
-#include "common/types/EDigitInteger.h"
 #include "common/math/EMath.h"
+#include "common/types/EDigitInteger.h"
 #include "common/util/Process.hpp"
 
 /*

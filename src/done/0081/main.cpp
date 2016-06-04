@@ -21,8 +21,8 @@
 #include <functional>
 
 #include "common/euler/GridGraphUtils.h"
-#include "common/graph/astar.h"
 #include "common/graph/Edge.h"
+#include "common/graph/astar.h"
 #include "common/util/Path.hpp"
 #include "common/util/Process.hpp"
 
@@ -75,10 +75,9 @@ euler::util::process::ProblemResult<int64_t> problem()
 
 	// Find the shortest path, and we're done!
 
-	euler::graph::AStarHeuristicFunction_t heuristicFn = [&weights, &graph](
-	        const euler::graph::Vertex &a,
-	        const euler::graph::Vertex &b) -> int64_t
-	{
+	euler::graph::AStarHeuristicFunction_t heuristicFn =
+	        [&weights, &graph](const euler::graph::Vertex &a,
+	                           const euler::graph::Vertex &b) -> int64_t {
 		auto apos =
 		        euler::grid_graph_utils::getVertexPosition(graph, a);
 		auto bpos =

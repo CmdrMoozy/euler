@@ -20,8 +20,8 @@
 #define INCLUDE_LIBEULER_EULER_POKER_H
 
 #include <cstdint>
-#include <string>
 #include <iosfwd>
+#include <string>
 
 // Forward declarations.
 class EPoker;

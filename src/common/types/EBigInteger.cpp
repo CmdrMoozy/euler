@@ -337,8 +337,7 @@ void EBigInteger::nextPrime()
 
 std::string EBigInteger::toString() const
 {
-	auto deleter = [](char *p)
-	{
+	auto deleter = [](char *p) {
 		if(p != nullptr)
 			std::free(p);
 	};

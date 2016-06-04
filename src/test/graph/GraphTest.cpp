@@ -18,17 +18,17 @@
 
 #include <catch/catch.hpp>
 
-#include <cstddef>
 #include <cmath>
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <unordered_map>
 #include <utility>
 
-#include "common/graph/astar.h"
-#include "common/graph/dijkstra.h"
 #include "common/graph/Graph.h"
 #include "common/graph/Vertex.h"
+#include "common/graph/astar.h"
+#include "common/graph/dijkstra.h"
 
 namespace
 {
@@ -50,7 +50,8 @@ struct TestGraph
 	euler::graph::Vertex *end;
 
 	std::unordered_map<const euler::graph::Vertex *,
-	                   std::pair<std::size_t, std::size_t>> positionMap;
+	                   std::pair<std::size_t, std::size_t>>
+	        positionMap;
 };
 
 TestGraph createTestGraph()
@@ -138,10 +139,9 @@ TEST_CASE("Test A* heuristic consistency", "[Graph]")
 {
 	TestGraph test = createTestGraph();
 
-	euler::graph::AStarHeuristicFunction_t heuristicFn = [&test](
-	        const euler::graph::Vertex &a,
-	        const euler::graph::Vertex &b) -> int64_t
-	{
+	euler::graph::AStarHeuristicFunction_t heuristicFn =
+	        [&test](const euler::graph::Vertex &a,
+	                const euler::graph::Vertex &b) -> int64_t {
 		auto aposit = test.positionMap.find(&a);
 		auto bposit = test.positionMap.find(&b);
 		CHECK(aposit != test.positionMap.end());

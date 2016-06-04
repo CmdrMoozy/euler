@@ -18,8 +18,8 @@
 
 #include <cstdint>
 
-#include "common/math/EPrimeSieve.h"
 #include "common/math/EMath.h"
+#include "common/math/EPrimeSieve.h"
 #include "common/util/Process.hpp"
 
 /*

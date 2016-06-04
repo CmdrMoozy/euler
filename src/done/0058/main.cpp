@@ -22,8 +22,8 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "common/math/EMath.h"
 #include "common/euler/ESpiral.h"
+#include "common/math/EMath.h"
 #include "common/util/Process.hpp"
 
 /*

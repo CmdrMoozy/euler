@@ -525,8 +525,7 @@ TEST_CASE("Test comparison operators", "[EDigitInteger]")
 	std::random_device rd;
 	std::mt19937 engine(rd());
 
-	auto generate = [&]()
-	{
+	auto generate = [&]() {
 		auto v = engine();
 		EDigitInteger i;
 		i = v;

@@ -18,8 +18,8 @@
 
 #include "EGeoCoord.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 #include "common/EDefines.h"
 
@@ -822,7 +822,7 @@ void EGeoCoord::distanceCalculation(mpfr_t d, const EGeoCoord &cA,
  */
 int EGeoCoord::digitsFromPrecision(mpfr_prec_t p) const
 {
-	long double prec = (log10l(2.0) * p) - 1;
+	long double prec = (log10l(2.0L) * p) - 1;
 	return static_cast<int>(floorl(prec));
 }
 

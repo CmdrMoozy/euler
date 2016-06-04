@@ -19,8 +19,8 @@
 #include "EFastTotient.h"
 
 #include "common/math/EMath.h"
-#include "common/math/Math.hpp"
 #include "common/math/EPrimeSieve.h"
+#include "common/math/Math.hpp"
 
 EFastTotient::EFastTotient(EPrimeSieve *s, uint32_t l)
 {
