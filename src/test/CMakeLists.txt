@@ -18,6 +18,7 @@ set(euler-test_SOURCES
 	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp
 
+	structs/BitArrayTest.cpp
 	structs/EGridTest.cpp
 
 	types/EDigitIntegerTest.cpp
@@ -29,7 +30,6 @@ set(euler-test_SOURCES
 	util/EArrayTest.cpp
 	util/EArrayUtilitiesTest.cpp
 	util/EBitwiseTest.cpp
-	util/EByteArrayTest.cpp
 
 )
 

@@ -51,6 +51,8 @@ SET(euler-common_SOURCES
 	string/Util.cpp
 	string/Util.hpp
 
+	structs/BitArray.cpp
+	structs/BitArray.hpp
 	structs/EGrid.h
 
 	types/BigDecimal.cpp
