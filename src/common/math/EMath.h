@@ -76,7 +76,6 @@ public:
 	static uint64_t aliquotSumProperDivisors(uint64_t n);
 
 	static uint32_t logBaseTen(uint64_t n);
-	static uint64_t isqrt(uint64_t n);
 	static bool isSquare(uint64_t n);
 	static uint64_t icbrt(uint64_t n);
 	static bool isCube(uint64_t n);

@@ -18,8 +18,8 @@
 
 #include <cstdint>
 
-#include "common/math/EMath.h"
 #include "common/math/EPrimeSieve.h"
+#include "common/math/Math.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -35,7 +35,7 @@ constexpr uint32_t EXPECTED_RESULT = 6857;
 
 euler::util::process::ProblemResult<uint32_t> problem()
 {
-	uint64_t root = EMath::isqrt(VALUE_TO_FACTOR);
+	uint64_t root = euler::math::isqrt(VALUE_TO_FACTOR);
 	EPrimeSieve s;
 	s.setLimit(static_cast<uint32_t>(root));
 

@@ -111,5 +111,25 @@ uint64_t ipowmod(uint64_t b, uint64_t e, uint64_t m)
 	}
 	return result;
 }
+
+uint64_t isqrt(uint64_t n)
+{
+	if(n <= 1)
+		return n;
+
+	uint64_t a = 1;
+	uint64_t b = (n >> 6) + 16;
+	do
+	{
+		uint64_t m = (a + b) >> 1;
+		if((m * m) > n)
+			b = m - 1;
+		else
+			a = m + 1;
+
+	} while(b >= a);
+
+	return (a - 1);
+}
 }
 }

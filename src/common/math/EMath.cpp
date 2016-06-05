@@ -116,7 +116,7 @@ bool EMath::isPentagonal(uint64_t x)
 	if(!EMath::isSquare((x * 24) + 1))
 		return false;
 
-	x = EMath::isqrt((x * 24) + 1) + 1;
+	x = euler::math::isqrt((x * 24) + 1) + 1;
 
 	if(x & 1)
 		return false;
@@ -563,40 +563,6 @@ uint32_t EMath::logBaseTen(uint64_t n)
 }
 
 /*!
- * This function computes the integer square root of the given number. That is,
- * isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not use
- * any floating-point arithmetic for this result, it is faster than the
- * built-in sqrt() function.
- *
- * We implement the algorithm using a simple binary search. Note, though, that
- * the initial midpoint chosen works better for large n than small n.
- *
- * \param n The number to take the square root of.
- * \return The integer square root of the given number.
- */
-uint64_t EMath::isqrt(uint64_t n)
-{
-	uint64_t a, b, m;
-
-	if(n <= 1)
-		return n;
-
-	a = 1;
-	b = (n >> 6) + 16;
-	do
-	{
-		m = (a + b) >> 1;
-		if((m * m) > n)
-			b = m - 1;
-		else
-			a = m + 1;
-
-	} while(b >= a);
-
-	return (a - 1);
-}
-
-/*!
  * This function returns whether or not the given number is a perfect square.
  *
  * \param n The number to test.
@@ -604,7 +570,7 @@ uint64_t EMath::isqrt(uint64_t n)
  */
 bool EMath::isSquare(uint64_t n)
 {
-	uint64_t i = EMath::isqrt(n);
+	uint64_t i = euler::math::isqrt(n);
 
 	return ((i * i) == n);
 

@@ -264,6 +264,20 @@ uint64_t ipow(uint64_t b, uint8_t e);
 uint64_t ipowmod(uint64_t b, uint64_t e, uint64_t m);
 
 /*!
+ * This function computes the integer square root of the given number. That
+ * is, isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not
+ * use any floating-point arithmetic for this result, it is faster than the
+ * built-in sqrt() function.
+ *
+ * We implement the algorithm using a simple binary search. Note, though, that
+ * the initial midpoint chosen works better for large n than small n.
+ *
+ * \param n The number to take the square root of.
+ * \return The integer square root of the given number.
+ */
+uint64_t isqrt(uint64_t n);
+
+/*!
  * Compute the average of a collection of numbers. The numbers pointed to by
  * the given iterators must be able to be casted to double.
  *

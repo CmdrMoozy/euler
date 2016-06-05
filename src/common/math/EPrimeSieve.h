@@ -55,7 +55,6 @@ public:
 	std::set<uint32_t>::const_reverse_iterator rend() const;
 
 	std::set<uint32_t>::iterator lowerBound(const uint32_t &n) const;
-	std::set<uint32_t>::iterator upperBound(const uint32_t &n) const;
 
 protected:
 	virtual void generatePrimes();

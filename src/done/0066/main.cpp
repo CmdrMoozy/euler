@@ -23,6 +23,7 @@
 #include <gmp.h>
 
 #include "common/math/EMath.h"
+#include "common/math/Math.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -79,7 +80,7 @@ constexpr uint64_t EXPECTED_RESULT = 661;
 std::vector<uint64_t> getContinuedFraction(uint64_t D)
 {
 	std::vector<uint64_t> v;
-	uint64_t iroot = EMath::isqrt(D);
+	uint64_t iroot = euler::math::isqrt(D);
 
 	if(iroot * iroot == D)
 	{

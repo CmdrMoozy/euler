@@ -25,6 +25,7 @@ extern "C" {
 }
 
 #include "common/math/EMath.h"
+#include "common/math/Math.hpp"
 #include "common/util/Process.hpp"
 
 // Utilize (# processors) + 1 threads.
@@ -156,7 +157,7 @@ void *consumer(void *c)
 
 		for(int64_t a = 1;
 		    static_cast<uint64_t>(a) <=
-		    EMath::isqrt(static_cast<uint64_t>(factor * -1));
+		    euler::math::isqrt(static_cast<uint64_t>(factor * -1));
 		    ++a)
 		{
 			// See if we can stop.
@@ -296,7 +297,7 @@ euler::util::process::ProblemResult<uint64_t> problem()
 
 		for(int64_t a = 1;
 		    static_cast<uint64_t>(a) <=
-		    QMath::isqrt(static_cast<uint64_t>(factor * -1));
+		    euler::math::isqrt(static_cast<uint64_t>(factor * -1));
 		    ++a)
 		{
 			// See if this is a factor...

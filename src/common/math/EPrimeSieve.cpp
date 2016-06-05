@@ -19,7 +19,7 @@
 #include "EPrimeSieve.h"
 
 #include "common/EDefines.h"
-#include "common/math/EMath.h"
+#include "common/math/Math.hpp"
 #include "common/structs/BitArray.hpp"
 
 /*!
@@ -208,17 +208,6 @@ std::set<uint32_t>::iterator EPrimeSieve::lowerBound(const uint32_t &n) const
 }
 
 /*!
- * Returns an iterator to the first prime number that is greater than n.
- *
- * \param n The target number.
- * \return An iterator to the first prime > n.
- */
-std::set<uint32_t>::iterator EPrimeSieve::upperBound(const uint32_t &n) const
-{
-	return primes.upper_bound(n);
-}
-
-/*!
  * This is our behind-the-scenes worker function, which generates all of the
  * prime numbers >= limit,
  * and then inserts them into our binary search tree for the user to access.
@@ -226,7 +215,7 @@ std::set<uint32_t>::iterator EPrimeSieve::upperBound(const uint32_t &n) const
 void EPrimeSieve::generatePrimes()
 {
 	euler::structs::BitArray isPrime(limit + 1);
-	uint64_t root = EMath::isqrt(limit);
+	uint64_t root = euler::math::isqrt(limit);
 	uint32_t x, y, n, s, k;
 	uint32_t a, b, c;
 
