@@ -209,25 +209,25 @@ void BitArray::resize(std::size_t s, BitArrayFillPolicy p)
 
 	auto newChunkSize = getMinimumChunkSize(s);
 	decltype(data) newData(new chunk_type[newChunkSize], arrayDeleter);
-	for(std::size_t idx = 0; idx < s; ++idx)
+
+	chunk_type fill(0);
+	if(p == BitArrayFillPolicy::SET ||
+	   p == BitArrayFillPolicy::PRESERVE_SET)
 	{
-		bool v = false;
-		switch(p)
+		fill = ~fill;
+	}
+
+	for(std::size_t i = 0; i < newChunkSize; ++i)
+	{
+		chunk_type v = fill;
+		if(p == BitArrayFillPolicy::PRESERVE_SET ||
+		   p == BitArrayFillPolicy::PRESERVE_CLEAR)
 		{
-		case BitArrayFillPolicy::SET:
-			v = true;
-			break;
-		case BitArrayFillPolicy::CLEAR:
-			v = false;
-			break;
-		case BitArrayFillPolicy::PRESERVE_SET:
-			v = test(idx, true);
-			break;
-		case BitArrayFillPolicy::PRESERVE_CLEAR:
-			v = test(idx, false);
-			break;
+			auto chunk = chunkAt(i);
+			v = (chunk.first & chunk.second) |
+			    (fill & ~chunk.second);
 		}
-		setRaw(newData.get(), idx, v);
+		newData.get()[i] = v;
 	}
 
 	bitSize = s;
@@ -249,10 +249,7 @@ std::pair<BitArray::chunk_type, BitArray::chunk_type>
 BitArray::chunkAt(std::size_t p) const
 {
 	if(p >= chunkSize)
-	{
-		throw std::runtime_error(
-		        "BitArray chunk index is out of bounds.");
-	}
+		return std::make_pair<chunk_type, chunk_type>(0, 0);
 
 	chunk_type chunk = data.get()[p];
 	chunk_type mask = ~chunk_type(0);

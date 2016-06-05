@@ -81,7 +81,8 @@ public:
 	 * indicating which bits in the chunk are actually members of this
 	 * bit array.
 	 *
-	 * If the given position is out of bounds, an exception is thrown.
+	 * If the given position is out of bounds, an undefined value is
+	 * returned with a zero mask (indicating that it should be ignored).
 	 *
 	 * \param p The position of the chunk to retrieve.
 	 * \return A pair containing the chunk and its mask.
