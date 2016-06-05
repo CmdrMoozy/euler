@@ -77,8 +77,6 @@ SET(euler-common_SOURCES
 	util/EArrayUtilities.h
 	util/EBitwise.cpp
 	util/EBitwise.h
-	util/EByteArray.cpp
-	util/EByteArray.h
 	util/EDate.cpp
 	util/EDate.h
 	util/Path.cpp

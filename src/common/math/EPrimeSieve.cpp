@@ -20,7 +20,7 @@
 
 #include "common/EDefines.h"
 #include "common/math/EMath.h"
-#include "common/util/EByteArray.h"
+#include "common/structs/BitArray.hpp"
 
 /*!
  * This is our default constructor, which initializes a new EPrimeSieve object
@@ -225,8 +225,7 @@ std::set<uint32_t>::iterator EPrimeSieve::upperBound(const uint32_t &n) const
  */
 void EPrimeSieve::generatePrimes()
 {
-	EByteArray isPrime(EByteArray::getMinimumByteLength(limit + 1),
-	                   EByteArray::Clear);
+	euler::structs::BitArray isPrime(limit + 1);
 	uint64_t root = EMath::isqrt(limit);
 	uint32_t x, y, n, s, k;
 	uint32_t a, b, c;
@@ -246,25 +245,25 @@ void EPrimeSieve::generatePrimes()
 				n = a + c;
 				if((n <= limit) &&
 				   (((n % 12) == 1) || ((n % 12) == 5)))
-					isPrime.flipBitAt(n);
+					isPrime.flip(n);
 
 				n = b + c;
 				if((n <= limit) && ((n % 12) == 7))
-					isPrime.flipBitAt(n);
+					isPrime.flip(n);
 
 				n = b - c;
 				if((x > y) && (n <= limit) && ((n % 12) == 11))
-					isPrime.flipBitAt(n);
+					isPrime.flip(n);
 			}
 		}
 
 		for(n = 5; n <= root; n += 2)
 		{
-			if(isPrime.bitAt(n))
+			if(isPrime.test(n))
 			{
 				s = n * n;
 				for(k = s; k <= limit; k += s)
-					isPrime.setBitAt(k, false);
+					isPrime.set(k, false);
 			}
 		}
 
@@ -272,7 +271,7 @@ void EPrimeSieve::generatePrimes()
 		primes.insert(3);
 		for(n = 5; n <= limit; n += 2)
 		{
-			if(isPrime.bitAt(n))
+			if(isPrime.at(n))
 				primes.insert(n);
 		}
 	}
