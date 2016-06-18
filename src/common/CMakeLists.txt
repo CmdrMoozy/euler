@@ -47,6 +47,8 @@ SET(euler-common_SOURCES
 	math/Math.hpp
 	math/EPrimeSieve.cpp
 	math/EPrimeSieve.h
+	math/PrimeSieve.cpp
+	math/PrimeSieve.hpp
 
 	string/Util.cpp
 	string/Util.hpp
