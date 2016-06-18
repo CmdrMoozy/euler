@@ -19,7 +19,7 @@
 #include <cstdint>
 
 #include "common/math/EMath.h"
-#include "common/math/EPrimeSieve.h"
+#include "common/math/PrimeSieve.hpp"
 #include "common/util/Process.hpp"
 
 /*
@@ -64,11 +64,9 @@ int polynomial(int n, int a, int b)
 
 euler::util::process::ProblemResult<int> problem()
 {
-	EPrimeSieve sieve;
+	euler::math::PrimeSieve sieve(SIEVE_LIMIT);
 	int i, j, v;
 	int a = 0, b = 0, n, cc, mc = -1;
-
-	sieve.setLimit(SIEVE_LIMIT);
 
 	// Test each possible polynomial.
 	for(i = -999; i < 1000; i++)
@@ -88,11 +86,10 @@ euler::util::process::ProblemResult<int> problem()
 				if(v < static_cast<int>(SIEVE_LIMIT))
 				{
 					// If our value is inside our sieve
-					// limit,
-					// test it for primality that way.
-					if(sieve.find(static_cast<uint32_t>(
-					           v)) != sieve.end())
-						cc++;
+					// limit, test for primality that way.
+					if(sieve.contains(
+					           static_cast<uint64_t>(v)))
+						++cc;
 					else
 						break;
 				}
