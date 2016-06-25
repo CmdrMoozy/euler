@@ -20,6 +20,7 @@ set(euler-test_SOURCES
 	math/PrimeSieveTest.cpp
 
 	structs/BitArrayTest.cpp
+	structs/BitIteratorTest.cpp
 	structs/EGridTest.cpp
 
 	types/EDigitIntegerTest.cpp
