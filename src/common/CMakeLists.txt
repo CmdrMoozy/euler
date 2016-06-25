@@ -73,6 +73,8 @@ SET(euler-common_SOURCES
 	types/ETriangle.h
 
 	util/AbsoluteValue.h
+	util/benchmark.cpp
+	util/benchmark.hpp
 	util/Bitwise.cpp
 	util/Bitwise.hpp
 	util/EArray.h
