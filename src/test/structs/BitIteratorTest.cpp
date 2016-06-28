@@ -49,3 +49,53 @@ TEST_CASE("Test forward iteration", "[BitIterator]")
 		CHECK(output == testCase.second);
 	}
 }
+
+TEST_CASE("Test reverse iteration", "[BitIterator]")
+{
+	static const std::vector<std::pair<uint8_t, std::vector<bool>>>
+	        TEST_CASES{
+	                {0x00U,
+	                 {false, false, false, false, false, false, false,
+	                  false}},
+	                {0xFFU,
+	                 {true, true, true, true, true, true, true, true}},
+	                {0xAAU,
+	                 {true, false, true, false, true, false, true, false}},
+	                {0x55U,
+	                 {false, true, false, true, false, true, false, true}}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		euler::structs::BitIterator<uint8_t> it(testCase.first);
+		auto end = it + 8;
+		std::vector<bool> output;
+		std::copy(std::reverse_iterator<decltype(end)>(end),
+		          std::reverse_iterator<decltype(it)>(it),
+		          std::back_inserter(output));
+		CHECK(output == testCase.second);
+	}
+}
+
+TEST_CASE("Test distance computation", "[BitIterator]")
+{
+	typedef struct
+	{
+		euler::structs::BitIterator<uint8_t>::difference_type offsetA;
+		euler::structs::BitIterator<uint8_t>::difference_type offsetB;
+		euler::structs::BitIterator<uint8_t>::difference_type expected;
+	} TestCase;
+
+	constexpr uint8_t TEST_VALUE = 0xA5U;
+
+	static const std::vector<TestCase> TEST_CASES{
+	        {0, 4, 4}, {1, 3, 2}, {0, 10, 8}, {0, 0, 0}, {4, 4, 0}};
+
+	for(auto const &testCase : TEST_CASES)
+	{
+		euler::structs::BitIterator<uint8_t> a(TEST_VALUE);
+		auto b = a;
+		a += testCase.offsetA;
+		b += testCase.offsetB;
+		CHECK(std::distance(a, b) == testCase.expected);
+	}
+}
