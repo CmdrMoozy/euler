@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 use backtrace::Backtrace;
 use std::error::Error;
@@ -23,7 +22,6 @@ use std::result::Result;
 // #[derive(Clone, Debug, Eq, PartialEq)]
 // pub enum ErrorKind {
 // }
-//
 
 #[derive(Debug)]
 pub struct EulerError {
@@ -39,7 +37,6 @@ impl EulerError {
 // }
 //
 // impl Eq for EulerError {}
-//
 
 impl Error for EulerError {
     fn description(&self) -> &str { "Generic Euler error." }

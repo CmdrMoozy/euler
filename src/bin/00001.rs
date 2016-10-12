@@ -13,13 +13,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 // If we list all the natural numbers below 10 that are multiples of 3 or 5, we
 // get 3, 5, 6 and 9. The sum of these multiples is 23.
 //
 // Find the sum of all the multiples of 3 or 5 below 1000.
-//
 
 extern crate euler;
 use self::euler::util::error::*;
