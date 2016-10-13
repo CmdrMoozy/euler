@@ -14,13 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pub mod exp;
-pub mod sequence;
+/// This function computes the integer square root of the given number. That
+/// is, isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not
+/// use any floating-point arithmetic for this result, it is faster than the
+/// built-in sqrt() function.
+///
+/// We implement the algorithm using a simple binary search. Note, though, that
+/// the initial midpoint chosen works better for large n than small n.
+pub fn isqrt(n: u64) -> u64 {
+    if n <= 1 {
+        return n;
+    }
 
-use std::ops::{Div, Rem};
+    let mut a: u64 = 1;
+    let mut b: u64 = (n >> 6) + 16;
+    while {
+        let m: u64 = (a + b) >> 1;
+        if (m * m) > n {
+            b = m - 1;
+        } else {
+            a = m + 1;
+        }
 
-/// This function divides the given dividend by the given divisor, and returns
-/// a tuple of the resulting quoteient and remainder.
-pub fn divide<T: Copy + Div<Output = T> + Rem<Output = T>>(dividend: T, divisor: T) -> (T, T) {
-    (dividend / divisor, dividend % divisor)
+        b >= a
+    } {}
+
+    a - 1
 }
