@@ -16,3 +16,55 @@
 
 #[cfg(test)]
 mod sequence;
+
+use ::math;
+
+#[test]
+fn test_signed_divide() {
+    static TEST_CASES: &'static [(i64, i64, i64, i64)] = &[(0, 100, 0, 0),
+                                                           (0, -100, 0, 0),
+                                                           (100, 1, 100, 0),
+                                                           (-100, 1, -100, 0),
+                                                           (100, 3, 33, 1),
+                                                           (100, -3, -33, 1),
+                                                           (-100, 3, -33, -1),
+                                                           (-100, -3, 33, -1)];
+
+    for test_case in TEST_CASES {
+        let (quotient, remainder) = math::divide(test_case.0, test_case.1);
+        assert!(quotient == test_case.2,
+                "{} div {} = {} == {}",
+                test_case.0,
+                test_case.1,
+                quotient,
+                test_case.2);
+        assert!(remainder == test_case.3,
+                "{} rem {} = {} == {}",
+                test_case.0,
+                test_case.1,
+                remainder,
+                test_case.3);
+    }
+}
+
+#[test]
+fn test_unsigned_divide() {
+    static TEST_CASES: &'static [(u64, u64, u64, u64)] =
+        &[(0, 100, 0, 0), (100, 1, 100, 0), (100, 3, 33, 1)];
+
+    for test_case in TEST_CASES {
+        let (quotient, remainder) = math::divide(test_case.0, test_case.1);
+        assert!(quotient == test_case.2,
+                "{} div {} = {} == {}",
+                test_case.0,
+                test_case.1,
+                quotient,
+                test_case.2);
+        assert!(remainder == test_case.3,
+                "{} rem {} = {} == {}",
+                test_case.0,
+                test_case.1,
+                remainder,
+                test_case.3);
+    }
+}

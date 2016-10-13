@@ -15,3 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 pub mod sequence;
+
+use std::ops::{Div, Rem};
+
+/// This function divides the given dividend by the given divisor, and returns
+/// a tuple of the resulting quoteient and remainder.
+pub fn divide<T: Copy + Div<Output = T> + Rem<Output = T>>(dividend: T, divisor: T) -> (T, T) {
+    (dividend / divisor, dividend % divisor)
+}
