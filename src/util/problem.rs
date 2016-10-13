@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-use env_logger;
+use bdrck_log;
 use std::fmt::{self, Debug, Display};
 use std::process;
 
@@ -51,7 +51,7 @@ impl<R> fmt::Display for ProblemAnswer<R>
 pub fn main_impl<R, F: FnOnce() -> EulerResult<ProblemAnswer<R>>>(problem_impl: F) -> !
     where R: Debug + Display + Eq + PartialEq
 {
-    env_logger::init().unwrap();
+    bdrck_log::debug::init_debug_logger().unwrap();
 
     let return_code: i32;
 

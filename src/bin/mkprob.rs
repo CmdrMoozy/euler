@@ -25,7 +25,8 @@ use std::vec::Vec;
 
 #[macro_use]
 extern crate log;
-extern crate env_logger;
+
+extern crate bdrck_log;
 
 extern crate bdrck_params;
 use self::bdrck_params::argument::Argument;
@@ -91,7 +92,7 @@ fn mkprob(_: &HashMap<&str, String>,
 }
 
 fn main() {
-    env_logger::init().unwrap();
+    bdrck_log::debug::init_debug_logger().unwrap();
 
     let command = Command::new("mkprob".to_owned(),
                                "Create a new ProjectEuler problem".to_owned(),

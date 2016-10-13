@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern crate backtrace;
+extern crate bdrck_log;
 extern crate bdrck_params;
-extern crate env_logger;
 #[macro_use]
 extern crate log;
 
