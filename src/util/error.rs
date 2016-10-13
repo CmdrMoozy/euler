@@ -15,35 +15,71 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use backtrace::Backtrace;
+use std::convert::From;
 use std::error::Error;
 use std::fmt;
+use std::io;
+use std::num;
 use std::result::Result;
+use std::string::String;
 
-// #[derive(Clone, Debug, Eq, PartialEq)]
-// pub enum ErrorKind {
-// }
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ErrorKind {
+    InvalidArgument { message: String },
+    IoError { cause: String },
+}
 
 #[derive(Debug)]
 pub struct EulerError {
     backtrace: Backtrace,
+    kind: ErrorKind,
 }
 
 impl EulerError {
-    pub fn new() -> EulerError { EulerError { backtrace: Backtrace::new() } }
+    pub fn new(kind: ErrorKind) -> EulerError {
+        EulerError {
+            backtrace: Backtrace::new(),
+            kind: kind,
+        }
+    }
 }
 
-// impl PartialEq for EulerError {
-// fn eq(&self, other: &EulerError) -> bool { self.kind == other.kind }
-// }
-//
-// impl Eq for EulerError {}
+impl PartialEq for EulerError {
+    fn eq(&self, other: &EulerError) -> bool { self.kind == other.kind }
+}
+
+impl Eq for EulerError {}
+
+impl From<io::Error> for EulerError {
+    fn from(e: io::Error) -> EulerError {
+        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
+    }
+}
+
+impl From<num::ParseIntError> for EulerError {
+    fn from(e: num::ParseIntError) -> EulerError {
+        EulerError::new(ErrorKind::InvalidArgument { message: format!("{}", e) })
+    }
+}
 
 impl Error for EulerError {
-    fn description(&self) -> &str { "Generic Euler error." }
+    fn description(&self) -> &str {
+        match self.kind {
+            ErrorKind::InvalidArgument { message: _ } => "Invalid argument",
+            ErrorKind::IoError { cause: _ } => "Input/output error",
+        }
+    }
 }
 
 impl fmt::Display for EulerError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { f.write_str(self.description()) }
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self.kind {
+            ErrorKind::InvalidArgument { message: ref m } => {
+                write!(f, "{}: {}", self.description(), m)
+            },
+            ErrorKind::IoError { cause: ref c } => write!(f, "{}: {}", self.description(), c),
+        }
+    }
 }
 
 pub type EulerResult<T> = Result<T, EulerError>;
