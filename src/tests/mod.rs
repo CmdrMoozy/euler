@@ -16,3 +16,5 @@
 
 #[cfg(test)]
 mod math;
+#[cfg(test)]
+mod structs;

@@ -14,15 +14,5 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-extern crate backtrace;
-extern crate bdrck_log;
-extern crate bdrck_params;
-#[macro_use]
-extern crate log;
-
-pub mod math;
-pub mod structs;
-pub mod util;
-
 #[cfg(test)]
-mod tests;
+mod bit_array;
