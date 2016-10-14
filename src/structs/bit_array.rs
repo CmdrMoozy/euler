@@ -16,6 +16,7 @@
 
 
 use ::math;
+use std::iter::Iterator;
 use std::vec::Vec;
 
 pub enum FillPolicy {
@@ -95,6 +96,8 @@ impl BitArray {
 
     pub fn as_chunk_slice(&self) -> &[Chunk] { self.data.as_slice() }
 
+    pub fn iter(&self) -> Iter { Iter::new(self) }
+
     /// Returns the chunk at the given position, along with a mask indicating
     /// which bits in the chunk are actually members of this bit array. If the
     /// given position is out of bounds, None is returned instead.
@@ -134,6 +137,13 @@ impl BitArray {
         }
     }
 
+    /// Negate the value of the single bit at the given index. Like set(),
+    /// panics if the given index is out of bounds.
+    pub fn negate(&mut self, index: usize) {
+        let value: bool = !self.get(index).unwrap();
+        self.set(index, value);
+    }
+
     pub fn set_all(&mut self) {
         for c in self.data.iter_mut() {
             *c = ALL_CHUNK;
@@ -165,4 +175,42 @@ impl BitArray {
 
     /// Returns true if all bits are 0.
     pub fn none(&self) -> bool { !self.all() }
+}
+
+pub struct Iter<'a> {
+    array: &'a BitArray,
+    forward_index: usize,
+    reverse_index: usize,
+}
+
+impl<'a> Iter<'a> {
+    fn new(array: &'a BitArray) -> Iter<'a> {
+        Iter {
+            array: array,
+            forward_index: 0,
+            reverse_index: array.len(),
+        }
+    }
+}
+
+impl<'a> Iterator for Iter<'a> {
+    type Item = bool;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let item = self.array.get(self.forward_index);
+        self.forward_index += 1;
+        item
+    }
+}
+
+impl<'a> DoubleEndedIterator for Iter<'a> {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        if self.reverse_index == 0 {
+            return None;
+        }
+
+        let item = self.array.get(self.reverse_index - 1);
+        self.reverse_index -= 1;
+        item
+    }
 }
