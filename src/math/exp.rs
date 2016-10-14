@@ -18,26 +18,22 @@
 /// is, isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not
 /// use any floating-point arithmetic for this result, it is faster than the
 /// built-in sqrt() function.
-///
-/// We implement the algorithm using a simple binary search. Note, though, that
-/// the initial midpoint chosen works better for large n than small n.
-pub fn isqrt(n: u64) -> u64 {
-    if n <= 1 {
-        return n;
+pub fn isqrt(mut n: u64) -> u64 {
+    let mut res: u64 = 0;
+
+    let mut bit: u64 = 1 << 62;
+    while bit > n {
+        bit >>= 2;
     }
 
-    let mut a: u64 = 1;
-    let mut b: u64 = (n >> 6) + 16;
-    while {
-        let m: u64 = (a + b) >> 1;
-        if (m * m) > n {
-            b = m - 1;
+    while bit != 0 {
+        if n >= (res + bit) {
+            n -= res + bit;
+            res = (res >> 1) + bit;
         } else {
-            a = m + 1;
+            res >>= 1;
         }
-
-        b >= a
-    } {}
-
-    a - 1
+        bit >>= 2;
+    }
+    res
 }
