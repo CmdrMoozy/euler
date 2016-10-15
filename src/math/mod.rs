@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 pub mod exp;
+pub mod prime;
 pub mod sequence;
 
 use std::ops::{Div, Rem};

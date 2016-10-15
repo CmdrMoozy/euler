@@ -14,18 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#![feature(step_by)]
+use ::math::prime::*;
 
-extern crate backtrace;
-extern crate bdrck_log;
-extern crate bdrck_params;
-#[macro_use]
-extern crate log;
-extern crate rand;
+#[test]
+fn test_prime_number_sieve_functionality() {
+    const SIEVE_LIMIT: u64 = 10000;
+    const PRIME_TEST_PRECISION: u64 = 50;
 
-pub mod math;
-pub mod structs;
-pub mod util;
-
-#[cfg(test)]
-mod tests;
+    let sieve = Sieve::new(SIEVE_LIMIT);
+    for prime in sieve.iter() {
+        assert!(is_prime(prime, PRIME_TEST_PRECISION),
+                "{} should pass a primality test",
+                prime);
+    }
+}

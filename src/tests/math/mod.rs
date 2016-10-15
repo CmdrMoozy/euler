@@ -17,6 +17,8 @@
 #[cfg(test)]
 mod exp;
 #[cfg(test)]
+mod prime;
+#[cfg(test)]
 mod sequence;
 
 use ::math;

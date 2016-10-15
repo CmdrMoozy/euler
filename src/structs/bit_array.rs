@@ -194,12 +194,13 @@ impl<'a> Iter<'a> {
 }
 
 impl<'a> Iterator for Iter<'a> {
-    type Item = bool;
+    type Item = (usize, bool);
 
     fn next(&mut self) -> Option<Self::Item> {
+        let index = self.forward_index;
         let item = self.array.get(self.forward_index);
         self.forward_index += 1;
-        item
+        item.map(|v| (index, v))
     }
 }
 
@@ -209,8 +210,9 @@ impl<'a> DoubleEndedIterator for Iter<'a> {
             return None;
         }
 
+        let index = self.reverse_index - 1;
         let item = self.array.get(self.reverse_index - 1);
         self.reverse_index -= 1;
-        item
+        item.map(|v| (index, v))
     }
 }
