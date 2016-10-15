@@ -17,6 +17,16 @@
 use ::math::exp::*;
 
 #[test]
+fn test_ipowmod() {
+    const MODULUS: u64 = 5;
+    for b in 1_u64..6_u64 {
+        for e in 1_u64..6_u64 {
+            assert_eq!(b.pow(e as u32) % MODULUS, ipowmod(b, e, MODULUS));
+        }
+    }
+}
+
+#[test]
 fn test_isqrt() {
     static TEST_CASES: &'static [(u64, u64)] = &[(0, 0),
                                                  (1, 1),

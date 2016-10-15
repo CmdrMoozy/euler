@@ -14,6 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+/// This algorithm calculates b^e (mod m). This method is known as the
+/// "right-to-left binary method," which is explained in more detail here:
+/// http://en.wikipedia.org/wiki/Modular_exponentiation
+pub fn ipowmod(mut base: u64, mut exponent: u64, modulus: u64) -> u64 {
+    let mut result: u64 = 1;
+    while exponent > 0 {
+        if (exponent & 1) > 0 {
+            result = (result * base) % modulus;
+        }
+        exponent >>= 1;
+        base = (base * base) % modulus;
+    }
+    result
+}
+
 /// This function computes the integer square root of the given number. That
 /// is, isqrt(x) is equivalent to floor(sqrt(x)). Note that, because we do not
 /// use any floating-point arithmetic for this result, it is faster than the
