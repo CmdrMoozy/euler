@@ -20,6 +20,8 @@ mod exp;
 mod prime;
 #[cfg(test)]
 mod sequence;
+#[cfg(test)]
+mod stats;
 
 use ::math;
 

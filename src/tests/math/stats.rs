@@ -14,19 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#![feature(step_by)]
+use ::math::stats::*;
 
-extern crate backtrace;
-extern crate bdrck_log;
-extern crate bdrck_params;
-extern crate gmp;
-#[macro_use]
-extern crate log;
-extern crate rand;
+#[test]
+fn test_iaverage() {
+    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[292120540, 3243950, 2749270],
+                                                             99371253)];
 
-pub mod math;
-pub mod structs;
-pub mod util;
-
-#[cfg(test)]
-mod tests;
+    for test_case in TEST_CASES {
+        assert_eq!(test_case.1, iaverage(test_case.0.iter().cloned()).unwrap());
+    }
+}

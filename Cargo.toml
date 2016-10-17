@@ -9,3 +9,4 @@ bdrck_log = { path = "/home/ajr/workshop/rust/bdrck/bdrck_log", version = "0.1" 
 bdrck_params = { path = "/home/ajr/workshop/rust/bdrck/bdrck_params", version = "0.1" }
 log = "0.3"
 rand = "0.3"
+rust-gmp = "0.3"

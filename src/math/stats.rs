@@ -14,19 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#![feature(step_by)]
+use gmp::mpz::*;
+use std::option::Option;
 
-extern crate backtrace;
-extern crate bdrck_log;
-extern crate bdrck_params;
-extern crate gmp;
-#[macro_use]
-extern crate log;
-extern crate rand;
-
-pub mod math;
-pub mod structs;
-pub mod util;
-
-#[cfg(test)]
-mod tests;
+/// Returns the average of the given list of unsigned integers. If the average
+/// is too large to fit in a u64, None is returned instead. If the given list
+/// is empty, 0 is returned.
+pub fn iaverage<I, V>(iter: I) -> Option<u64>
+    where I: Iterator<Item = V>,
+          u64: From<V>
+{
+    let mut denominator: u64 = 0;
+    let mut result = Mpz::from(0);
+    for v in iter {
+        denominator += 1;
+        result = result + u64::from(v);
+    }
+    if denominator == 0 {
+        return Some(0);
+    }
+    result = result / denominator;
+    (&result).into()
+}

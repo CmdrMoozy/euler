@@ -17,6 +17,7 @@
 pub mod exp;
 pub mod prime;
 pub mod sequence;
+pub mod stats;
 
 use std::ops::{Div, Rem};
 
