@@ -19,6 +19,7 @@
 extern crate backtrace;
 extern crate bdrck_log;
 extern crate bdrck_params;
+extern crate glob;
 extern crate gmp;
 #[macro_use]
 extern crate log;

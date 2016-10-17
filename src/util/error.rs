@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use backtrace::Backtrace;
+use glob;
 use std::convert::From;
 use std::error::Error;
 use std::fmt;
@@ -49,6 +50,18 @@ impl PartialEq for EulerError {
 }
 
 impl Eq for EulerError {}
+
+impl From<glob::GlobError> for EulerError {
+    fn from(e: glob::GlobError) -> EulerError {
+        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
+    }
+}
+
+impl From<glob::PatternError> for EulerError {
+    fn from(e: glob::PatternError) -> EulerError {
+        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
+    }
+}
 
 impl From<io::Error> for EulerError {
     fn from(e: io::Error) -> EulerError {
