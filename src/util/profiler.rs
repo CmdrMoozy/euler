@@ -13,13 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 use std::string::String;
-use std::time::{Duration, Instant};
+use std::time;
+
+use ::util::duration;
 
 pub struct Profiler {
-    start: Instant,
+    start: time::Instant,
     log_on_drop: bool,
     log_prefix: String,
 }
@@ -27,20 +28,19 @@ pub struct Profiler {
 impl Profiler {
     pub fn new(log_on_drop: bool, log_prefix: &str) -> Profiler {
         Profiler {
-            start: Instant::now(),
+            start: time::Instant::now(),
             log_on_drop: log_on_drop,
             log_prefix: log_prefix.to_owned(),
         }
     }
 
-    pub fn get_elapsed(&self) -> Duration { Instant::now().duration_since(self.start) }
+    pub fn get_elapsed(&self) -> duration::Duration {
+        duration::Duration::from(time::Instant::now().duration_since(self.start))
+    }
 
     pub fn log_elapsed(&self) {
         let elapsed = self.get_elapsed();
-        info!("{}Elapsed time: {}s+{}ns",
-              self.log_prefix,
-              elapsed.as_secs(),
-              elapsed.subsec_nanos());
+        info!("{}Elapsed time: {}", self.log_prefix, elapsed);
     }
 }
 
