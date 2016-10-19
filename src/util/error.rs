@@ -22,7 +22,7 @@ use std::fmt;
 use std::io;
 use std::num;
 use std::result::Result;
-use std::string::String;
+use std::string::{self, String};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ErrorKind {
@@ -50,6 +50,12 @@ impl PartialEq for EulerError {
 }
 
 impl Eq for EulerError {}
+
+impl From<string::FromUtf8Error> for EulerError {
+    fn from(e: string::FromUtf8Error) -> EulerError {
+        EulerError::new(ErrorKind::InvalidArgument { message: format!("{}", e) })
+    }
+}
 
 impl From<glob::GlobError> for EulerError {
     fn from(e: glob::GlobError) -> EulerError {
