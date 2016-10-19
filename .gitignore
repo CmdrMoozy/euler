@@ -1,2 +1,4 @@
-/sandbox/
+/Cargo.lock
 /cpp/build/
+/sandbox/
+/target/
