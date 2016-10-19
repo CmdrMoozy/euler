@@ -25,3 +25,25 @@ fn test_iaverage() {
         assert_eq!(test_case.1, iaverage(test_case.0.iter().cloned()).unwrap());
     }
 }
+
+#[test]
+fn test_istddev_population() {
+    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[272601155, 1327834, 1063480],
+                                                             127941824)];
+
+    for test_case in TEST_CASES {
+        assert_eq!(test_case.1,
+                   istddev_population(test_case.0.iter().cloned()).unwrap());
+    }
+}
+
+#[test]
+fn test_istddev_sample() {
+    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[272601155, 1327834, 1063480],
+                                                             156696093)];
+
+    for test_case in TEST_CASES {
+        assert_eq!(test_case.1,
+                   istddev_sample(test_case.0.iter().cloned()).unwrap());
+    }
+}
