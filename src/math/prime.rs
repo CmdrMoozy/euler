@@ -87,12 +87,16 @@ impl Sieve {
 
     pub fn get_limit(&self) -> u64 { self.limit }
 
-    pub fn get_size(&self) -> usize {
-        0
-        // self.is_prime.iter().filter(|b| b).count()
-    }
+    pub fn get_size(&self) -> usize { self.is_prime.iter().filter(|pair| pair.1).count() }
 
     pub fn contains(&self, n: u64) -> Option<bool> { self.is_prime.get(n as usize) }
+
+    pub fn get_nth(&self, n: usize) -> Option<u64> {
+        if n == 0 {
+            return None;
+        }
+        self.is_prime.iter().filter(|pair| pair.1).nth(n - 1).map(|pair| pair.0 as u64)
+    }
 
     pub fn iter(&self) -> FilterMap<Iter, fn((usize, bool)) -> Option<u64>> {
         fn filterer(pair: (usize, bool)) -> Option<u64> {

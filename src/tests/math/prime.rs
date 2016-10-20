@@ -22,9 +22,15 @@ fn test_prime_number_sieve_functionality() {
     const PRIME_TEST_PRECISION: u64 = 50;
 
     let sieve = Sieve::new(SIEVE_LIMIT);
+    assert_eq!(SIEVE_LIMIT, sieve.get_limit());
     for prime in sieve.iter() {
         assert!(is_prime(prime, PRIME_TEST_PRECISION),
                 "{} should pass a primality test",
                 prime);
     }
+
+    assert_eq!(1229, sieve.get_size());
+    assert_eq!(2, sieve.get_nth(1).unwrap_or(0));
+    assert_eq!(9973, sieve.get_nth(1229).unwrap_or(0));
+    assert!(sieve.get_nth(1230).is_none());
 }
