@@ -60,8 +60,6 @@ SET(euler-common_SOURCES
 
 	types/BigDecimal.cpp
 	types/BigDecimal.hpp
-	types/EBigInteger.cpp
-	types/EBigInteger.h
 	types/EDigitInteger.cpp
 	types/EDigitInteger.h
 	types/EFraction.cpp
