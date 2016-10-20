@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pub mod exp;
-pub mod geometry;
-pub mod prime;
-pub mod sequence;
-pub mod stats;
+use ::math::geometry::*;
 
-use std::ops::{Div, Rem};
-
-/// This function divides the given dividend by the given divisor, and returns
-/// a tuple of the resulting quoteient and remainder.
-pub fn divide<T: Copy + Div<Output = T> + Rem<Output = T>>(dividend: T, divisor: T) -> (T, T) {
-    (dividend / divisor, dividend % divisor)
+#[test]
+fn test_get_pythagorean_triple() {
+    for m in 1..6 {
+        for n in 1..m {
+            for k in 1..6 {
+                let (a, b, c) = get_pythagorean_triple(m, n, k);
+                assert_eq!(a * a + b * b, c * c);
+            }
+        }
+    }
 }
