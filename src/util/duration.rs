@@ -72,9 +72,13 @@ impl<'a> Sum<&'a Duration> for Duration {
 
 impl fmt::Display for Duration {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let milliseconds: u32 = self.duration.subsec_nanos() / 1000000;
+        let submillisecond_nanos: u32 = self.duration.subsec_nanos() % 1000000;
+
         write!(f,
-               "{}s+{}ns",
+               "{}s+{}ms+{}ns",
                self.duration.as_secs(),
-               self.duration.subsec_nanos())
+               milliseconds,
+               submillisecond_nanos)
     }
 }
