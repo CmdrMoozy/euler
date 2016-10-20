@@ -19,7 +19,6 @@ use std::fmt::{self, Debug, Display};
 use std::process;
 
 use super::error::*;
-use super::profiler::*;
 
 pub const EXIT_SUCCESS: i32 = 0;
 pub const EXIT_FAILURE: i32 = 1;
@@ -51,26 +50,17 @@ pub fn main_impl<R, F: FnOnce() -> EulerResult<ProblemAnswer<R>>>(problem_impl: 
     where R: Debug + Display + Eq + PartialEq
 {
     bdrck_log::debug::init_debug_logger().unwrap();
-
-    let return_code: i32;
-
-    {
-        let _ = Profiler::new(true, "");
-
-        return_code = match problem_impl() {
-            Err(e) => {
-                info!("{}", e);
-                EXIT_FAILURE
-            },
-            Ok(r) => {
-                info!("{}", r);
-                match r.is_correct() {
-                    true => EXIT_SUCCESS,
-                    false => EXIT_FAILURE,
-                }
-            },
-        };
-    }
-
-    process::exit(return_code);
+    process::exit(match problem_impl() {
+        Err(e) => {
+            info!("{}", e);
+            EXIT_FAILURE
+        },
+        Ok(r) => {
+            info!("{}", r);
+            match r.is_correct() {
+                true => EXIT_SUCCESS,
+                false => EXIT_FAILURE,
+            }
+        },
+    });
 }
