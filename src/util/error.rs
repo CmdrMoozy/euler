@@ -28,6 +28,7 @@ use std::string::{self, String};
 pub enum ErrorKind {
     InvalidArgument { message: String },
     IoError { cause: String },
+    NoSolution,
 }
 
 #[derive(Debug)]
@@ -86,6 +87,7 @@ impl Error for EulerError {
         match self.kind {
             ErrorKind::InvalidArgument { message: _ } => "Invalid argument",
             ErrorKind::IoError { cause: _ } => "Input/output error",
+            ErrorKind::NoSolution => "No problem solution found",
         }
     }
 }
@@ -97,6 +99,7 @@ impl fmt::Display for EulerError {
                 write!(f, "{}: {}", self.description(), m)
             },
             ErrorKind::IoError { cause: ref c } => write!(f, "{}: {}", self.description(), c),
+            _ => write!(f, "{}", self.description()),
         }
     }
 }
