@@ -27,3 +27,32 @@ use std::ops::{Div, Rem};
 pub fn divide<T: Copy + Div<Output = T> + Rem<Output = T>>(dividend: T, divisor: T) -> (T, T) {
     (dividend / divisor, dividend % divisor)
 }
+
+/// This function returns the number of divisors of the given number. The
+/// definition for this function is provided by:
+/// http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+pub fn aliquot_number_divisors(n: u64) -> u64 {
+    if n == 0 {
+        return 0;
+    } else if n == 1 {
+        return 1;
+    }
+
+    let mut i: u64 = 1;
+    let mut limit: u64 = n;
+    let mut result: u64 = 0;
+    while i < limit {
+        if (n % i) == 0 {
+            limit = n / i;
+            result += 1;
+        }
+        i += 1;
+    }
+
+    result *= 2;
+    if exp::is_square(n) {
+        result -= 1;
+    }
+
+    result
+}

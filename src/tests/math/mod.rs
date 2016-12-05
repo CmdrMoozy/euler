@@ -76,3 +76,17 @@ fn test_unsigned_divide() {
                 test_case.3);
     }
 }
+
+#[test]
+fn test_aliquot_number_divisors() {
+    // Note that d(0) is undefined, so these cases are 1-indexed essentially.
+    static DIVISORS_OF_N: &'static [u64] =
+        &[1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6, 4, 4, 2, 8, 3, 4, 4, 6, 2,
+          8, 2, 6, 4, 4, 4, 9, 2, 4, 4, 8, 2, 8, 2, 6, 6, 4, 2, 10, 3, 6, 4, 6, 2, 8, 4, 8, 4, 4,
+          2, 12, 2, 4, 6, 7, 4, 8, 2, 6, 4, 8, 2, 12, 2, 4, 6, 6, 4, 8, 2, 10, 5, 4, 2, 12, 4, 4,
+          4, 8, 2, 12, 4, 6, 4, 4, 4, 12, 2, 6, 6, 9, 2, 8, 2, 8];
+
+    for test_case in DIVISORS_OF_N.iter().enumerate() {
+        assert!(math::aliquot_number_divisors(test_case.0 as u64 + 1) == *test_case.1);
+    }
+}
