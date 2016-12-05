@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #![feature(step_by)]
+#![feature(try_from)]
 
 extern crate backtrace;
 extern crate bdrck_log;

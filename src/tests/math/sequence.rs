@@ -29,3 +29,28 @@ fn test_get_nth_fibonacci_number() {
                 test_case.1);
     }
 }
+
+#[test]
+fn test_get_nth_triangle_number() {
+    static SEQUENCE: &'static [u64] =
+        &[0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210,
+          231, 253, 276, 300, 325, 351, 378, 406, 435, 465, 496, 528, 561, 595, 630, 666, 703,
+          741, 780, 820, 861, 903, 946, 990, 1035, 1081, 1128, 1176, 1225, 1275, 1326, 1378, 1431];
+    for test_case in SEQUENCE.iter().enumerate() {
+        assert!(get_nth_triangle_number(test_case.0 as u64) == *test_case.1,
+                "triangle_number({}) == {}",
+                test_case.0,
+                test_case.1);
+    }
+}
+
+#[test]
+fn test_sequence_search() {
+    static TEST_CASES: &'static [(u64, u64, u64)] =
+        &[(6764, 20, 6765), (6765, 20, 6765), (6766, 21, 10946)];
+    for test_case in TEST_CASES {
+        let (index, value) = sequence_search(0, test_case.0, get_nth_fibonacci_number);
+        assert!(index == test_case.1);
+        assert!(value == test_case.2);
+    }
+}
