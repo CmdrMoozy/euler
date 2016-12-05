@@ -52,3 +52,9 @@ pub fn isqrt(mut n: u64) -> u64 {
     }
     res
 }
+
+/// This function returns whether or not the given number is a perfect square.
+pub fn is_square(n: u64) -> bool {
+    let root = isqrt(n);
+    (root * root) == n
+}
