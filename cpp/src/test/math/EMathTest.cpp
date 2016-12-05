@@ -235,18 +235,6 @@ TEST_CASE("Test leastCommonMultiple", "[EMath]")
 	}
 }
 
-TEST_CASE("Test aliquotNumberDivisors", "[EMath]")
-{
-	EFactorization fac;
-
-	for(uint32_t i = 0; i < 1000; ++i)
-	{
-		fac.setNumber(i);
-		CHECK(fac.getAllFactorsCount() ==
-		      EMath::aliquotNumberDivisors(i));
-	}
-}
-
 TEST_CASE("Test aliquotSumDivisors and aliquotSumProperDivisors", "[EMath]")
 {
 	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{

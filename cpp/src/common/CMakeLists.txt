@@ -8,8 +8,6 @@ SET(euler-common_SOURCES
 	euler/ECircularPrimeSieve.h
 	euler/EFastTotient.cpp
 	euler/EFastTotient.h
-	euler/ENumberGrid.cpp
-	euler/ENumberGrid.h
 	euler/EPoker.cpp
 	euler/EPoker.h
 	euler/ESpiral.cpp

@@ -4,7 +4,6 @@ set(euler-test_SOURCES
 
 	euler/ECircularPrimeSieveTest.cpp
 	euler/EFastTotientTest.cpp
-	euler/ENumberGridTest.cpp
 	euler/EPokerTest.cpp
 	euler/ESpiralTest.cpp
 	euler/ETriangleStructureTest.cpp

@@ -448,39 +448,6 @@ uint64_t EMath::leastCommonMultiple(uint64_t a, uint64_t b)
 }
 
 /*!
- * This function returns the number of divisors of the given number. The
- * definition for this function is provided by:
- * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
- *
- * \param n The number to process.
- * \return The number of divisors of n.
- */
-uint64_t EMath::aliquotNumberDivisors(uint32_t n)
-{
-	uint32_t i, limit, r;
-
-	if(n == 0)
-		return 0;
-	if(n == 1)
-		return 1;
-
-	for(i = 1, limit = n, r = 0; i < limit; ++i)
-	{
-		if((n % i) == 0)
-		{
-			limit = n / i;
-			++r;
-		}
-	}
-
-	r *= 2;
-	if(EMath::isSquare(n))
-		r -= 1;
-
-	return r;
-}
-
-/*!
  * This function returns the sum of the divisors of the given number. The
  * definition for this function is provided by:
  * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
