@@ -90,3 +90,28 @@ fn test_aliquot_number_divisors() {
         assert!(math::aliquot_number_divisors(test_case.0 as u64 + 1) == *test_case.1);
     }
 }
+
+#[test]
+fn test_combinations() {
+    // Test that the precondition stating that n >= r is enforced.
+    assert!(math::combinations(10, 11).is_err());
+
+    static TEST_CASES: &'static [(u64, u64, u64)] = &[(10, 8, 45),
+                                                      (9, 3, 84),
+                                                      (4, 1, 4),
+                                                      (1, 1, 1),
+                                                      (6, 1, 6),
+                                                      (10, 6, 210),
+                                                      (9, 5, 126),
+                                                      (7, 2, 21),
+                                                      (9, 7, 36),
+                                                      (4, 3, 4)];
+
+    for test_case in TEST_CASES {
+        assert!(math::combinations(test_case.0, test_case.1).ok().unwrap() == test_case.2,
+                "combinations({}, {}) == {}",
+                test_case.0,
+                test_case.1,
+                test_case.2);
+    }
+}
