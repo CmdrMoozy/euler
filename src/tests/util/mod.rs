@@ -15,8 +15,4 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #[cfg(test)]
-mod math;
-#[cfg(test)]
-mod structs;
-#[cfg(test)]
-mod util;
+mod bitwise;
