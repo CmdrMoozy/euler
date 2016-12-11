@@ -20,45 +20,6 @@
 
 #include <climits>
 
-/*!
- * This function tests if the given value is a power of two or not.
- *
- * \param v The value to test.
- * \return True if v is a power of two, or false otherwise.
- */
-bool EBitwise::isPowerOfTwo(uint32_t v)
-{
-	return EBitwise::isPowTwo(v);
-}
-
-/*!
- * This function is similar to lg() in that it calculates the base-2 logarithm
- *of the given value,
- * except that it is designed to work only on values that are guaranteed to be
- *powers of 2.
- *
- * Note that this function is slightly faster than lg(), and as such should be
- *used where possible.
- *
- * \param v The value to take the lg() of.
- * \return The log2(v).
- */
-uint32_t EBitwise::lgPowerOfTwo(uint32_t v)
-{
-	return EBitwise::lg32(v);
-}
-
-/*!
- * This function returns the base-2 logarithm of the given value.
- *
- * \param v The value to take the lg() of.
- * \return The log2(v).
- */
-uint32_t EBitwise::lg(uint32_t v)
-{
-	return EBitwise::lg32(v);
-}
-
 uint32_t EBitwise::lg32(uint32_t v)
 {
 	return 31 - static_cast<uint32_t>(EBitwise::nlz32(v));
@@ -115,34 +76,6 @@ uint32_t EBitwise::reverseBits(uint32_t v)
 bool EBitwise::isPalindromic(uint32_t v)
 {
 	return (v == EBitwise::reverseBits(v));
-}
-
-/*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned
- *integer n by
- * p places to the left.
- *
- * \param n The value to operate on.
- * \param p The number of places to left-rotate n.
- * \return The result of n <<< p.
- */
-uint32_t EBitwise::rotateLeft(uint32_t n, int p)
-{
-	return EBitwise::rotl32(n, p);
-}
-
-/*!
- * This function does a circular shift (a rotation) of the 32-bit unsigned
- *integer n by
- * p places to the right.
- *
- * \param n The value to operate on.
- * \param p The number of places to right-rotate n.
- * \return The result of n >>> p.
- */
-uint32_t EBitwise::rotateRight(uint32_t n, int p)
-{
-	return EBitwise::rotr32(n, p);
 }
 
 /*!

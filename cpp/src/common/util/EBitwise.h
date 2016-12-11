@@ -28,10 +28,6 @@
 class EBitwise
 {
 public:
-	static bool isPowerOfTwo(uint32_t v) __attribute__((deprecated));
-	static uint32_t lgPowerOfTwo(uint32_t v) __attribute__((deprecated));
-	static uint32_t lg(uint32_t v) __attribute__((deprecated));
-
 	static uint32_t lg32(uint32_t v);
 	static uint32_t lg64(uint64_t v);
 
@@ -39,11 +35,6 @@ public:
 	static uint32_t reverseBits(uint32_t v);
 
 	static bool isPalindromic(uint32_t v);
-
-	static uint32_t rotateLeft(uint32_t n, int p)
-	        __attribute__((deprecated));
-	static uint32_t rotateRight(uint32_t n, int p)
-	        __attribute__((deprecated));
 
 	static uint32_t rotl32(uint32_t n, int p);
 	static uint32_t rotr32(uint32_t n, int p);
