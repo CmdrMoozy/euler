@@ -16,9 +16,13 @@
 
 use ::math::exp::{ipowmod, isqrt};
 use rand::{self, Rng};
+use std::cmp;
+use std::collections::HashMap;
+use std::collections::hash_map;
 use std::iter::FilterMap;
 use std::option::Option;
 use ::structs::bit_array::*;
+use ::util::error::*;
 
 pub const DEFAULT_PRIMALITY_TEST_PRECISION: u64 = 15;
 
@@ -106,5 +110,145 @@ impl Sieve {
         }
 
         self.is_prime.iter().filter_map(filterer)
+    }
+}
+
+#[derive(Clone)]
+pub struct Factorization {
+    number: u64,
+    factors: HashMap<u64, usize>,
+}
+
+impl Factorization {
+    pub fn new(n: u64,
+               sieve: &Sieve,
+               primality_test_precision: Option<u64>)
+               -> EulerResult<Factorization> {
+        let mut f = Factorization {
+            number: n,
+            factors: HashMap::new(),
+        };
+
+        // The values 0 or 1 don't have prime factors, so just return an empty factors
+        // list.
+        if n == 0 || n == 1 {
+            return Ok(f);
+        }
+
+        // If the number itself is prime, then it is its own prime factor.
+        if match sieve.get_limit() >= n {
+            true => sieve.contains(n).unwrap(),
+            false => {
+                is_prime(n,
+                         primality_test_precision.unwrap_or(DEFAULT_PRIMALITY_TEST_PRECISION))
+            },
+        } {
+            f.factors.insert(n, 1);
+            return Ok(f);
+        }
+
+        // Otherwise, the prime sieve must be large enough to check at least
+        // ceil(sqrt(n)).
+        if sieve.get_limit() <= isqrt(n) {
+            return Err(EulerError::new(ErrorKind::InvalidArgument {
+                message: "Prime number sieve limit is too small to factor the given integer."
+                    .to_owned(),
+            }));
+        }
+
+        let mut remaining: u64 = n;
+        for prime in sieve.iter() {
+            if remaining == 1 {
+                break;
+            }
+
+            while remaining % prime == 0 {
+                let entry = f.factors.entry(prime).or_insert(0);
+                *entry += 1;
+                remaining /= prime;
+            }
+        }
+
+        Ok(f)
+    }
+
+    pub fn new_from_iter<I>(mut iter: I,
+                            sieve: &Sieve,
+                            primality_test_precision: Option<u64>)
+                            -> EulerResult<Factorization>
+        where I: Iterator<Item = u64>
+    {
+        let mut f = try!(Factorization::new(iter.next().unwrap_or(0),
+                                            sieve,
+                                            primality_test_precision.clone()));
+        for i in iter {
+            f = f.product(&try!(Factorization::new(i, sieve, primality_test_precision.clone())));
+        }
+        Ok(f)
+    }
+
+    /// Reduces the rational number "numerator / denominator" by eliminating as
+    /// many common factors as possible, returning the new numerator and
+    /// denominator of the resulting fully reduced rational.
+    pub fn reduce(numerator: Factorization,
+                  denominator: Factorization)
+                  -> (Factorization, Factorization) {
+        let mut num_factors = numerator.factors;
+        let mut den_factors = denominator.factors;
+
+        for (factor, count) in num_factors.iter_mut() {
+            let den_entry = den_factors.entry(*factor).or_insert(0);
+            let common_count = cmp::min(*count, *den_entry);
+            *den_entry -= common_count;
+            *count -= common_count;
+        }
+
+        num_factors = num_factors.into_iter().filter(|pair| pair.1 > 0).collect();
+        den_factors = den_factors.into_iter().filter(|pair| pair.1 > 0).collect();
+
+        (Factorization {
+            number: num_factors.iter()
+                .map(|pair| pair.0.pow(*pair.1 as u32))
+                .fold(1, |acc, v| acc * v),
+            factors: num_factors,
+        },
+         Factorization {
+            number: den_factors.iter()
+                .map(|pair| pair.0.pow(*pair.1 as u32))
+                .fold(1, |acc, v| acc * v),
+            factors: den_factors,
+        })
+    }
+
+    /// Return the number which was factored for this Factorization.
+    pub fn get_number(&self) -> u64 { self.number }
+
+    /// Returns the number of distinct prime factors of this factorization's
+    /// number.
+    pub fn factor_count(&self) -> usize { self.factors.len() }
+
+    /// Return the exponent for the given factor. If the given factor is not
+    /// present at all, 0 is returned instead.
+    pub fn get_factor(&self, f: u64) -> usize { *self.factors.get(&f).unwrap_or(&0) }
+
+    /// Iterate over the prime factors of this factorization's number. Each
+    /// entry is a mapping from prime factor to exponent (which is always >= 1).
+    pub fn iter(&self) -> hash_map::Iter<u64, usize> { self.factors.iter() }
+
+    /// Consumes this factorization, and returns a new factorization which
+    /// contains all of the factors of this factorization multiplied by the
+    /// other given factorization.
+    pub fn product(self, other: &Factorization) -> Factorization {
+        let mut f = Factorization {
+            number: self.number,
+            factors: self.factors,
+        };
+
+        for (factor, count) in other.iter() {
+            let entry = f.factors.entry(*factor).or_insert(0);
+            *entry += *count;
+        }
+
+        f
     }
 }
