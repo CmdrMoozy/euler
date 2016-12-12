@@ -305,26 +305,6 @@ TEST_CASE("Test permutations", "[EMath]")
 	}
 }
 
-TEST_CASE("Test combinations", "[EMath]")
-{
-	using TestCase = struct
-	{
-		int n;
-		int r;
-		uint64_t result;
-	};
-
-	static const std::vector<TestCase> TEST_CASES{
-	        {10, 8, 45},  {9, 3, 84},  {4, 1, 4},  {1, 1, 1},  {6, 1, 6},
-	        {10, 6, 210}, {9, 5, 126}, {7, 2, 21}, {9, 7, 36}, {4, 3, 4}};
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		CHECK(EMath::combinations(testCase.n, testCase.r) ==
-		      testCase.result);
-	}
-}
-
 TEST_CASE("Test getPythagoreanTriple{A,B,C}", "[EMath]")
 {
 	for(uint64_t i = 1; i <= 5; ++i)

@@ -83,7 +83,6 @@ public:
 	static bool isPermutationOf(uint64_t a, uint64_t b);
 
 	static uint64_t permutations(int n, int r);
-	static uint64_t combinations(int n, int r);
 
 	static uint64_t getPythagoreanTripleA(uint64_t m, uint64_t n,
 	                                      uint64_t k);
