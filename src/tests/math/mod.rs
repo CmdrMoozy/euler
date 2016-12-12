@@ -15,6 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #[cfg(test)]
+mod combinatorics;
+#[cfg(test)]
+mod division;
+#[cfg(test)]
 mod exp;
 #[cfg(test)]
 mod geometry;
@@ -24,94 +28,3 @@ mod prime;
 mod sequence;
 #[cfg(test)]
 mod stats;
-
-use ::math;
-
-#[test]
-fn test_signed_divide() {
-    static TEST_CASES: &'static [(i64, i64, i64, i64)] = &[(0, 100, 0, 0),
-                                                           (0, -100, 0, 0),
-                                                           (100, 1, 100, 0),
-                                                           (-100, 1, -100, 0),
-                                                           (100, 3, 33, 1),
-                                                           (100, -3, -33, 1),
-                                                           (-100, 3, -33, -1),
-                                                           (-100, -3, 33, -1)];
-
-    for test_case in TEST_CASES {
-        let (quotient, remainder) = math::divide(test_case.0, test_case.1);
-        assert!(quotient == test_case.2,
-                "{} div {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                quotient,
-                test_case.2);
-        assert!(remainder == test_case.3,
-                "{} rem {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                remainder,
-                test_case.3);
-    }
-}
-
-#[test]
-fn test_unsigned_divide() {
-    static TEST_CASES: &'static [(u64, u64, u64, u64)] =
-        &[(0, 100, 0, 0), (100, 1, 100, 0), (100, 3, 33, 1)];
-
-    for test_case in TEST_CASES {
-        let (quotient, remainder) = math::divide(test_case.0, test_case.1);
-        assert!(quotient == test_case.2,
-                "{} div {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                quotient,
-                test_case.2);
-        assert!(remainder == test_case.3,
-                "{} rem {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                remainder,
-                test_case.3);
-    }
-}
-
-#[test]
-fn test_aliquot_number_divisors() {
-    // Note that d(0) is undefined, so these cases are 1-indexed essentially.
-    static DIVISORS_OF_N: &'static [u64] =
-        &[1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6, 4, 4, 2, 8, 3, 4, 4, 6, 2,
-          8, 2, 6, 4, 4, 4, 9, 2, 4, 4, 8, 2, 8, 2, 6, 6, 4, 2, 10, 3, 6, 4, 6, 2, 8, 4, 8, 4, 4,
-          2, 12, 2, 4, 6, 7, 4, 8, 2, 6, 4, 8, 2, 12, 2, 4, 6, 6, 4, 8, 2, 10, 5, 4, 2, 12, 4, 4,
-          4, 8, 2, 12, 4, 6, 4, 4, 4, 12, 2, 6, 6, 9, 2, 8, 2, 8];
-
-    for test_case in DIVISORS_OF_N.iter().enumerate() {
-        assert!(math::aliquot_number_divisors(test_case.0 as u64 + 1) == *test_case.1);
-    }
-}
-
-#[test]
-fn test_combinations() {
-    // Test that the precondition stating that n >= r is enforced.
-    assert!(math::combinations(10, 11).is_err());
-
-    static TEST_CASES: &'static [(u64, u64, u64)] = &[(10, 8, 45),
-                                                      (9, 3, 84),
-                                                      (4, 1, 4),
-                                                      (1, 1, 1),
-                                                      (6, 1, 6),
-                                                      (10, 6, 210),
-                                                      (9, 5, 126),
-                                                      (7, 2, 21),
-                                                      (9, 7, 36),
-                                                      (4, 3, 4)];
-
-    for test_case in TEST_CASES {
-        assert!(math::combinations(test_case.0, test_case.1).ok().unwrap() == test_case.2,
-                "combinations({}, {}) == {}",
-                test_case.0,
-                test_case.1,
-                test_case.2);
-    }
-}

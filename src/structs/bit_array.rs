@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-use ::math;
+use ::math::division;
 use std::iter::Iterator;
 use std::vec::Vec;
 
@@ -32,7 +32,7 @@ const CHUNK_BIT: usize = 64;
 const ALL_CHUNK: Chunk = !(0 as Chunk);
 
 /// Returns the index of the given bit as a (chunk index, bit offset) tuple.
-fn bit_to_chunk_index(index: usize) -> (usize, usize) { math::divide(index, CHUNK_BIT) }
+fn bit_to_chunk_index(index: usize) -> (usize, usize) { division::divide(index, CHUNK_BIT) }
 
 fn get_minimum_chunk_size(size: usize) -> usize {
     if size == 0 {

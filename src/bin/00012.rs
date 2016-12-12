@@ -34,7 +34,7 @@
 // divisors?
 
 extern crate euler;
-use self::euler::math;
+use self::euler::math::division;
 use self::euler::math::sequence;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -53,7 +53,7 @@ fn main() {
     main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
         let (mut idx, mut value) =
             sequence::sequence_search(1, MINIMUM_NUMBER, sequence::get_nth_triangle_number);
-        while math::aliquot_number_divisors(value) <= TARGET_NUM_DIVISORS {
+        while division::aliquot_number_divisors(value) <= TARGET_NUM_DIVISORS {
             idx += 1;
             value = sequence::get_nth_triangle_number(idx);
         }
