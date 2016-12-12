@@ -6,8 +6,6 @@ SET(euler-common_SOURCES
 
 	euler/ECircularPrimeSieve.cpp
 	euler/ECircularPrimeSieve.h
-	euler/EFastTotient.cpp
-	euler/EFastTotient.h
 	euler/EPoker.cpp
 	euler/EPoker.h
 	euler/ESpiral.cpp
@@ -18,11 +16,6 @@ SET(euler-common_SOURCES
 	euler/ETriangleStructure.h
 	euler/GridGraphUtils.cpp
 	euler/GridGraphUtils.h
-
-	geodesy/EGeoCoord.cpp
-	geodesy/EGeoCoord.h
-	geodesy/ELatLonValue.cpp
-	geodesy/ELatLonValue.h
 
 	graph/astar.cpp
 	graph/astar.h
@@ -54,10 +47,7 @@ SET(euler-common_SOURCES
 	structs/BitArray.cpp
 	structs/BitArray.hpp
 	structs/BitIterator.hpp
-	structs/EGrid.h
 
-	types/BigDecimal.cpp
-	types/BigDecimal.hpp
 	types/EDigitInteger.cpp
 	types/EDigitInteger.h
 	types/EFraction.cpp

@@ -3,12 +3,9 @@ set(euler-test_SOURCES
 	euler-test.cpp
 
 	euler/ECircularPrimeSieveTest.cpp
-	euler/EFastTotientTest.cpp
 	euler/EPokerTest.cpp
 	euler/ESpiralTest.cpp
 	euler/ETriangleStructureTest.cpp
-
-	geodesy/EGeoCoordTest.cpp
 
 	graph/GraphTest.cpp
 
@@ -20,7 +17,6 @@ set(euler-test_SOURCES
 
 	structs/BitArrayTest.cpp
 	structs/BitIteratorTest.cpp
-	structs/EGridTest.cpp
 
 	types/EDigitIntegerTest.cpp
 	types/EFractionTest.cpp
