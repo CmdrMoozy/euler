@@ -27,8 +27,6 @@
 
 #include <bdrck/process/Pipe.hpp>
 
-#include "common/util/Profiler.hpp"
-
 namespace euler
 {
 namespace util
@@ -70,8 +68,6 @@ int problemMain(std::function<ProblemResult<R>()> const &problem, int /*argc*/,
 	bool isInteractiveErr = bdrck::process::pipe::isInteractiveTerminal(
 	        bdrck::process::pipe::getStreamPipe(
 	                bdrck::process::StdStream::STDERR));
-
-	euler::util::Profiler profiler(isInteractiveOut);
 
 	try
 	{

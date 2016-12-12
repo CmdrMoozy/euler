@@ -70,8 +70,6 @@ SET(euler-common_SOURCES
 	types/ETriangle.h
 
 	util/AbsoluteValue.h
-	util/benchmark.cpp
-	util/benchmark.hpp
 	util/Bitwise.cpp
 	util/Bitwise.hpp
 	util/EArray.h
@@ -84,8 +82,6 @@ SET(euler-common_SOURCES
 	util/Path.hpp
 	util/Process.cpp
 	util/Process.hpp
-	util/Profiler.cpp
-	util/Profiler.hpp
 	util/EString.cpp
 	util/EString.h
 
