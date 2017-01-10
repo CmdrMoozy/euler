@@ -12,8 +12,6 @@ SET(euler-common_SOURCES
 	euler/ESpiral.h
 	euler/ESudoku.cpp
 	euler/ESudoku.h
-	euler/ETriangleStructure.cpp
-	euler/ETriangleStructure.h
 	euler/GridGraphUtils.cpp
 	euler/GridGraphUtils.h
 

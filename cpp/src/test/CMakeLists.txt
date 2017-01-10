@@ -5,7 +5,6 @@ set(euler-test_SOURCES
 	euler/ECircularPrimeSieveTest.cpp
 	euler/EPokerTest.cpp
 	euler/ESpiralTest.cpp
-	euler/ETriangleStructureTest.cpp
 
 	graph/GraphTest.cpp
 
