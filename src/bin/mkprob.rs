@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use std::boxed::Box;
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
 use std::io::{self, Write};
 use std::path::PathBuf;
-use std::string::String;
-use std::vec::Vec;
 
 #[macro_use]
 extern crate log;
@@ -29,10 +26,7 @@ extern crate log;
 extern crate bdrck_log;
 
 extern crate bdrck_params;
-use self::bdrck_params::argument::Argument;
-use self::bdrck_params::command::Command;
-use self::bdrck_params::command::ExecutableCommand;
-use self::bdrck_params::main_impl::main_impl_single_command;
+use self::bdrck_params::*;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -68,9 +62,10 @@ fn get_source_root() -> EulerResult<PathBuf> {
     Ok(path)
 }
 
-fn mkprob(_: &HashMap<&str, String>,
-          _: &HashMap<&str, bool>,
-          arguments: &HashMap<&str, Vec<String>>) {
+fn mkprob(_: HashMap<String, String>,
+          _: HashMap<String, bool>,
+          arguments: HashMap<String, Vec<String>>)
+          -> EulerResult<()> {
     let vs = arguments.get("number").unwrap();
     assert!(vs.len() == 1);
     let mut problem_file = to_problem_name(vs.first().unwrap().as_str()).unwrap();
@@ -89,23 +84,21 @@ fn mkprob(_: &HashMap<&str, String>,
 
     let mut f = File::create(problem_path.as_path()).unwrap();
     f.write_all(TEMPLATE.as_bytes()).unwrap();
+
+    Ok(())
 }
 
 fn main() {
     bdrck_log::debug::init_debug_logger().unwrap();
 
-    let command = Command::new("mkprob".to_owned(),
-                               "Create a new ProjectEuler problem".to_owned(),
-                               Vec::new(),
-                               vec![
-        Argument {
-            name: "number".to_owned(),
-            help: "The number of the problem to create".to_owned(),
-            default_value: None,
-        },
-    ],
-                               false)
-        .unwrap();
-
-    main_impl_single_command(ExecutableCommand::new(&command, Box::new(mkprob)));
+    main_impl_single_command(ExecutableCommand::new(Command::new("mkprob",
+                                                                 "Create a new ProjectEuler \
+                                                                  problem",
+                                                                 vec![],
+                                                                 vec![
+                Argument::new("number", "The number of the problem to create", None),
+            ],
+                                                                 false)
+                                                        .unwrap(),
+                                                    Box::new(mkprob)));
 }
