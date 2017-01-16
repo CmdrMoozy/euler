@@ -49,7 +49,7 @@ impl<R> fmt::Display for ProblemAnswer<R>
 pub fn main_impl<R, F: FnOnce() -> EulerResult<ProblemAnswer<R>>>(problem_impl: F) -> !
     where R: Debug + Display + Eq + PartialEq
 {
-    bdrck_log::debug::init_debug_logger().unwrap();
+    bdrck_log::init_debug_logger().unwrap();
     process::exit(match problem_impl() {
         Err(e) => {
             info!("{}", e);

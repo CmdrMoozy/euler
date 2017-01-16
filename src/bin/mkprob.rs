@@ -89,7 +89,7 @@ fn mkprob(_: HashMap<String, String>,
 }
 
 fn main() {
-    bdrck_log::debug::init_debug_logger().unwrap();
+    bdrck_log::init_debug_logger().unwrap();
 
     main_impl_single_command(ExecutableCommand::new(Command::new("mkprob",
                                                                  "Create a new ProjectEuler \

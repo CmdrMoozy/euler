@@ -134,7 +134,7 @@ fn execute_problems() -> EulerResult<Vec<ExecutionResult>> {
 }
 
 fn main() {
-    bdrck_log::debug::init_debug_logger().unwrap();
+    bdrck_log::init_debug_logger().unwrap();
 
     if cfg!(debug_assertions) {
         warn!("Problems were built in debug mode. Timings may not be useful.");

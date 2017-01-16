@@ -207,17 +207,17 @@ impl Factorization {
         den_factors = den_factors.into_iter().filter(|pair| pair.1 > 0).collect();
 
         (Factorization {
-            number: num_factors.iter()
-                .map(|pair| pair.0.pow(*pair.1 as u32))
-                .fold(1, |acc, v| acc * v),
-            factors: num_factors,
-        },
+             number: num_factors.iter()
+                 .map(|pair| pair.0.pow(*pair.1 as u32))
+                 .fold(1, |acc, v| acc * v),
+             factors: num_factors,
+         },
          Factorization {
-            number: den_factors.iter()
-                .map(|pair| pair.0.pow(*pair.1 as u32))
-                .fold(1, |acc, v| acc * v),
-            factors: den_factors,
-        })
+             number: den_factors.iter()
+                 .map(|pair| pair.0.pow(*pair.1 as u32))
+                 .fold(1, |acc, v| acc * v),
+             factors: den_factors,
+         })
     }
 
     /// Return the number which was factored for this Factorization.
