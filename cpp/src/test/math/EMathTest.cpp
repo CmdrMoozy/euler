@@ -235,34 +235,6 @@ TEST_CASE("Test leastCommonMultiple", "[EMath]")
 	}
 }
 
-TEST_CASE("Test aliquotSumDivisors and aliquotSumProperDivisors", "[EMath]")
-{
-	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{
-	        {1, 0},   {2, 1},   {3, 1},   {4, 3},   {5, 1},   {6, 6},
-	        {7, 1},   {8, 7},   {9, 4},   {10, 8},  {11, 1},  {12, 16},
-	        {13, 1},  {14, 10}, {15, 9},  {16, 15}, {17, 1},  {18, 21},
-	        {19, 1},  {20, 22}, {21, 11}, {22, 14}, {23, 1},  {24, 36},
-	        {25, 6},  {26, 16}, {27, 13}, {28, 28}, {29, 1},  {30, 42},
-	        {31, 1},  {32, 31}, {33, 15}, {34, 20}, {35, 13}, {36, 55},
-	        {37, 1},  {38, 22}, {39, 17}, {40, 50}, {41, 1},  {42, 54},
-	        {43, 1},  {44, 40}, {45, 33}, {46, 26}, {47, 1},  {48, 76},
-	        {49, 8},  {50, 43}, {51, 21}, {52, 46}, {53, 1},  {54, 66},
-	        {55, 17}, {56, 64}, {57, 23}, {58, 32}, {59, 1},  {60, 108},
-	        {61, 1},  {62, 34}, {63, 41}, {64, 63}, {65, 19}, {66, 78},
-	        {67, 1},  {68, 58}, {69, 27}, {70, 74}, {71, 1},  {72, 123},
-	        {73, 1},  {74, 40}, {75, 49}, {76, 64}, {77, 19}, {78, 90},
-	        {79, 1},  {80, 106}};
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		uint64_t result =
-		        EMath::aliquotSumProperDivisors(testCase.first);
-		CHECK(result == testCase.second);
-		CHECK(result + testCase.first ==
-		      EMath::aliquotSumDivisors(testCase.first));
-	}
-}
-
 TEST_CASE("Test logBaseTen", "[EMath]")
 {
 	for(uint32_t i = 1; i < 10000; ++i)

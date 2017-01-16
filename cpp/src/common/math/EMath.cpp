@@ -448,55 +448,6 @@ uint64_t EMath::leastCommonMultiple(uint64_t a, uint64_t b)
 }
 
 /*!
- * This function returns the sum of the divisors of the given number. The
- * definition for this function is provided by:
- * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
- *
- * \param n The number to process.
- * \return The sum of the divisors of n.
- */
-uint64_t EMath::aliquotSumDivisors(uint64_t n)
-{
-	return EMath::aliquotSumProperDivisors(n) + n;
-}
-
-/*!
- * This function returns the sum of the proper divisors of the given number. The
- * definition for this function is provided by:
- * http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
- *
- * \param n The number to process.
- * \return The sum of the proper divisors of n.
- */
-uint64_t EMath::aliquotSumProperDivisors(uint64_t n)
-{
-	uint64_t i, j;
-	uint64_t limit =
-	        static_cast<uint64_t>(floor(sqrt(static_cast<double>(n))));
-	uint64_t sum = 1;
-
-	if(n == 0)
-		return 0;
-	if(n == 1)
-		return 0;
-
-	for(i = 2; i <= limit; ++i)
-	{
-		if((n % i) == 0)
-		{
-			sum += i;
-
-			j = n / i;
-			j = (j == i ? 0 : j);
-
-			sum += j;
-		}
-	}
-
-	return sum;
-}
-
-/*!
  * This function returns the floor of the base-10 logarithm of the given number.
  * It should be extremely fast, depending on how quickly the processor branches.
  *

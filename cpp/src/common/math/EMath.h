@@ -71,8 +71,6 @@ public:
 	static uint32_t repetendLength(uint32_t n, EFactorization &f);
 
 	static uint64_t leastCommonMultiple(uint64_t a, uint64_t b);
-	static uint64_t aliquotSumDivisors(uint64_t n);
-	static uint64_t aliquotSumProperDivisors(uint64_t n);
 
 	static uint32_t logBaseTen(uint64_t n);
 	static bool isSquare(uint64_t n);
