@@ -51,3 +51,31 @@ pub fn aliquot_number_divisors(n: u64) -> u64 {
 
     result
 }
+
+/// This function returns the sum of the proper divisors of the given number.
+/// The definition for this function is provided by:
+/// http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+pub fn aliquot_sum_proper_divisors(n: u64) -> u64 {
+    if n <= 1 {
+        return 0;
+    }
+
+    let mut sum: u64 = 1;
+    for i in 2..(exp::isqrt(n) + 1) {
+        if (n % i) == 0 {
+            sum += i;
+
+            let mut j: u64 = n / i;
+            j = if j == i { 0 } else { j };
+
+            sum += j;
+        }
+    }
+
+    sum
+}
+
+/// This function returns the sum of the divisors of the given number. The
+/// definition of this function is provided by:
+/// http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
+pub fn aliquot_sum_divisors(n: u64) -> u64 { aliquot_sum_proper_divisors(n) + n }
