@@ -48,15 +48,13 @@ fn alphabetical_value(s: &str) -> EulerResult<u64> {
 fn main() {
     main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
         let mut names: Vec<String> = try!(NAMES_FILE.split(',')
-            .map(|name| {
-                match name.starts_with('"') && name.ends_with('"') {
-                    false => {
-                        Err(EulerError::new(ErrorKind::InvalidArgument {
-                            message: "Corrupt problem input file".to_owned(),
-                        }))
-                    },
-                    true => Ok(String::from(&name[1..(name.len() - 1)])),
-                }
+            .map(|name| match name.starts_with('"') && name.ends_with('"') {
+                false => {
+                    Err(EulerError::new(ErrorKind::InvalidArgument {
+                        message: "Corrupt problem input file".to_owned(),
+                    }))
+                },
+                true => Ok(String::from(&name[1..(name.len() - 1)])),
             })
             .collect());
         names.sort();

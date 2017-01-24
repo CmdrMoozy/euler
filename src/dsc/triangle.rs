@@ -16,7 +16,7 @@
 
 use std::fmt::Debug;
 use std::ops::Add;
-use ::util::error::{ErrorKind, EulerError, EulerResult};
+use util::error::{ErrorKind, EulerError, EulerResult};
 
 #[derive(Clone, Debug)]
 pub struct Triangle<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> {

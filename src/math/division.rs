@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use ::math::exp;
+use math::exp;
 use std::ops::{Div, Rem};
 
 /// This function divides the given dividend by the given divisor, and returns

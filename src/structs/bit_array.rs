@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-use ::math::division;
+use math::division;
 use std::iter::Iterator;
 use std::vec::Vec;
 
