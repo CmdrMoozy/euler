@@ -26,6 +26,7 @@ extern crate gmp;
 extern crate log;
 extern crate rand;
 
+pub mod algorithm;
 pub mod dsc;
 pub mod math;
 pub mod structs;
