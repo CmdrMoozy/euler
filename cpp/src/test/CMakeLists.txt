@@ -23,7 +23,6 @@ set(euler-test_SOURCES
 	types/ETriangleTest.cpp
 
 	util/BitwiseTest.cpp
-	util/EArrayTest.cpp
 	util/EArrayUtilitiesTest.cpp
 	util/EBitwiseTest.cpp
 

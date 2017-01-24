@@ -60,7 +60,6 @@ SET(euler-common_SOURCES
 	util/AbsoluteValue.h
 	util/Bitwise.cpp
 	util/Bitwise.hpp
-	util/EArray.h
 	util/EArrayUtilities.h
 	util/EBitwise.cpp
 	util/EBitwise.h

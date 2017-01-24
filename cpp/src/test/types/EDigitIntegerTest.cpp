@@ -26,7 +26,6 @@
 #include <gmpxx.h>
 
 #include "common/types/EDigitInteger.h"
-#include "common/util/EArray.h"
 
 TEST_CASE("Test construction and assignment", "[EDigitInteger]")
 {
@@ -463,40 +462,6 @@ TEST_CASE("Test reverseDigits", "[EDigitInteger]")
 	a = 123456789;
 	a.reverseDigits(1, 7);
 	CHECK(a.toInteger() == 187654329);
-}
-
-TEST_CASE("Test permutateDigits", "[EDigitInteger]")
-{
-	EDigitInteger a(321);
-	EArray<int> array(3);
-	array.at(0) = 1;
-	array.at(1) = 2;
-	array.at(2) = 3;
-
-	do
-	{
-		for(std::size_t i = 0; i < a.digitCount(); ++i)
-		{
-			CHECK(a.get(i) == array.at(i));
-		}
-	} while(array.permutate() && a.permutateDigits());
-}
-
-TEST_CASE("Test reversePermutateDigits", "[EDigitInteger]")
-{
-	EDigitInteger a(789);
-	EArray<int> array(3);
-	array.at(0) = 9;
-	array.at(1) = 8;
-	array.at(2) = 7;
-
-	do
-	{
-		for(std::size_t i = 0; i < a.digitCount(); ++i)
-		{
-			CHECK(a.get(i) == array.at(i));
-		}
-	} while(array.reversePermutate() && a.reversePermutateDigits());
 }
 
 TEST_CASE("Test digit sorting", "[EDigitInteger]")
