@@ -23,6 +23,70 @@ pub fn divide<T: Copy + Div<Output = T> + Rem<Output = T>>(dividend: T, divisor:
     (dividend / divisor, dividend % divisor)
 }
 
+/// Returns the greatest common divisor of a and b.
+pub fn gcd(a: u64, b: u64) -> u64 {
+    if a == 0 {
+        return b;
+    } else if b == 0 {
+        return a;
+    }
+
+    let mut u: u64 = a;
+    let mut v: u64 = b;
+
+    // Find the largest power of 2 that divides both u and v. That is, divide u and
+    // v by the smallest 2^k value such that u and v are not both even.
+    let mut k: u64 = 0;
+    while (u | v) & 1 == 0 {
+        u /= 2;
+        v /= 2;
+        k += 1;
+    }
+
+    // Keep halving u until it is odd.
+    while u % 2 == 0 {
+        u /= 2;
+    }
+
+    while v != 0 {
+        while v % 2 == 0 {
+            v /= 2;
+        }
+
+        if u < v {
+            v -= u;
+        } else {
+            let d = u - v;
+            u = v;
+            v = d;
+        }
+
+        v /= 2;
+    }
+
+    // Return u * 2^k.
+    u << k
+}
+
+/// This function tests if the two given integers, a and b, are coprime. Two
+/// integers are considered coprime if their greatest common divisor is equal
+/// to 1.
+pub fn are_coprime(a: u64, b: u64) -> bool { gcd(a, b) == 1 }
+
+/// The totient of anumber (also called phi(n)) is defined as the number of
+/// positive integers less than or equal to n that are coprime to n. Note that,
+/// for anything but small values of n, this function involves computing many
+/// divisions, so it is in general expensive.
+pub fn totient(n: u64) -> u64 {
+    let mut r: u64 = 0;
+    for i in 1..(n + 1) {
+        if are_coprime(i, n) {
+            r += 1;
+        }
+    }
+    r
+}
+
 /// This function returns the number of divisors of the given number. The
 /// definition for this function is provided by:
 /// http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
