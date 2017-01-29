@@ -23,7 +23,6 @@
 #include <map>
 
 #include "common/EDefines.h"
-#include "common/math/EFactorization.h"
 #include "common/math/Math.hpp"
 #include "common/util/EBitwise.h"
 
@@ -334,44 +333,6 @@ uint32_t EMath::totient(uint32_t n)
 			++r;
 
 	return r;
-}
-
-/*!
- * This function returns the length of the repeating portion of the decimal part
- * of the reciprocal of n.
- *
- * This function's behavior is explained in-depth here:
- *     http://mathforum.org/library/drmath/view/67018.html
- *
- * \param n The number to calculate (i.e., 1/n).
- * \param f The factorization object to use to perform our prime factorizations.
- * \return The length of the repetend of the reciprocal of n.
- */
-uint32_t EMath::repetendLength(uint32_t n, EFactorization &f)
-{
-	std::map<uint32_t, uint32_t> factors;
-	std::map<uint32_t, uint32_t>::const_iterator it;
-	uint32_t d;
-
-	// Remove all factors of 10 from our number.
-	while((n % 2) == 0)
-		n /= 2;
-	while((n % 5) == 0)
-		n /= 5;
-
-	// Make it so numbers that do not repeat return 0.
-	if(n == 1)
-		return 0;
-
-	d = EMath::totient(n);
-	f.setNumber(d);
-	factors = f.getPrimeFactors();
-
-	for(it = factors.begin(); it != factors.end(); ++it)
-		if(euler::math::ipowmod(10, (d / it->first), n) == 1)
-			d /= it->first;
-
-	return d;
 }
 
 /*!

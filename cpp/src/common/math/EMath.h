@@ -38,9 +38,6 @@
 
 #include "common/EExceptions.h"
 
-// Forward Declarations
-class EFactorization;
-
 /*!
  * \brief This class provides math utility functions.
  */
@@ -66,7 +63,6 @@ public:
 
 	static bool areCoprime(uint32_t a, uint32_t b);
 	static uint32_t totient(uint32_t n);
-	static uint32_t repetendLength(uint32_t n, EFactorization &f);
 
 	static uint64_t leastCommonMultiple(uint64_t a, uint64_t b);
 

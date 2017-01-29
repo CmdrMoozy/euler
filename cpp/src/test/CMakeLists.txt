@@ -8,7 +8,6 @@ set(euler-test_SOURCES
 
 	graph/GraphTest.cpp
 
-	math/EFactorizationTest.cpp
 	math/EMathTest.cpp
 	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp

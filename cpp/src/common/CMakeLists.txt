@@ -28,8 +28,6 @@ SET(euler-common_SOURCES
 
 	math/EExactCover.cpp
 	math/EExactCover.h
-	math/EFactorization.cpp
-	math/EFactorization.h
 	math/EMath.cpp
 	math/EMath.h
 	math/Math.cpp

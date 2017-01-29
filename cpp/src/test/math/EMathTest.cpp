@@ -27,7 +27,6 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
-#include "common/math/EFactorization.h"
 #include "common/math/EMath.cpp"
 #include "common/math/Math.hpp"
 
@@ -158,21 +157,6 @@ TEST_CASE("Test totient", "[EMath]")
 	for(auto const &testCase : TEST_CASES)
 	{
 		CHECK(EMath::totient(testCase.first) == testCase.second);
-	}
-}
-
-TEST_CASE("Test repetendLength", "[EMath]")
-{
-	static const std::vector<std::pair<uint32_t, uint32_t>> TEST_CASES{
-	        {2, 0}, {3, 1}, {4, 0}, {5, 0}, {6, 1},
-	        {7, 6}, {8, 0}, {9, 1}, {10, 0}};
-
-	EFactorization fac;
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		CHECK(EMath::repetendLength(testCase.first, fac) ==
-		      testCase.second);
 	}
 }
 
