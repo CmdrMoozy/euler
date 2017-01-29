@@ -32,9 +32,6 @@
 //
 // NOTE: Once the chain starts the terms are allowed to go above one million.
 
-#[macro_use]
-extern crate log;
-
 extern crate euler;
 use self::euler::util::bitwise;
 use self::euler::util::error::*;
