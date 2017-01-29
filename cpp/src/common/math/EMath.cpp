@@ -180,25 +180,6 @@ uint64_t EMath::getOctagonalNumberN(uint64_t n)
  * \param n The nth Fibonacci number will be generated.
  * \return The value of the nth Fibonacci number.
  */
-uint64_t EMath::getFibonacciNumberN_UI(uint32_t n)
-{
-	return EMath::getFibonacciNumberN(n).get_ui();
-}
-
-/*!
- * This function returns the nth Fibonacci number.
- *
- * The Fibonacci sequence is defined such that F(0) = 0, F(1) = 1, and F(n) =
- *F(n-1) + F(n-2).
- * For this function, however, we use a closed-form solution to the Fibonacci
- *sequence, so we can
- * avoid unnecessary recursion.
- *
- * Note that precision is only guaranteed up to n = 5000.
- *
- * \param n The nth Fibonacci number will be generated.
- * \return The value of the nth Fibonacci number.
- */
 mpz_class EMath::getFibonacciNumberN(uint32_t n)
 {
 	/*
@@ -236,36 +217,6 @@ mpz_class EMath::getFibonacciNumberN(uint32_t n)
 	mpf_floor(ret.get_mpf_t(), ret.get_mpf_t());
 
 	return mpz_class(ret);
-}
-
-/*!
- * This function finds the smallest Fibonacci number that is greater than the
- *given target number
- * t. This function does a binary search, using the given start index s, which
- *should (ideally) be
- * the index of a number less than the target, but reasonably close to it.
- *
- * \param s The starting index with which to begin our binary search.
- * \param t The target number we are searching for.
- * \return The index of the smallest number greater than the target number.
- */
-uint64_t EMath::fibonacciSearch(uint32_t s, const mpz_class &t)
-{
-	mpz_class ln, un;
-	uint32_t li, ui;
-
-	ln = EMath::getFibonacciNumberN((li = s));
-
-	while(ln > t)
-		ln = EMath::getFibonacciNumberN((li /= 2));
-
-	ui = li;
-	do
-	{
-		un = EMath::getFibonacciNumberN((ui *= 2));
-	} while(un <= t);
-
-	return EMath::binaryFibonacciSearch(li, ui, t);
 }
 
 /*!

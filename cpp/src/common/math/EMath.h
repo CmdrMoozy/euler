@@ -59,9 +59,7 @@ public:
 	static uint64_t getHeptagonalNumberN(uint64_t n);
 	static uint64_t getOctagonalNumberN(uint64_t n);
 
-	static uint64_t getFibonacciNumberN_UI(uint32_t n);
 	static mpz_class getFibonacciNumberN(uint32_t n);
-	static uint64_t fibonacciSearch(uint32_t s, const mpz_class &t);
 
 	static bool isPrime_UI(uint64_t n, int p = 15);
 	static bool isPrime(const mpz_class &n, int p = 15);
