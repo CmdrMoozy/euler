@@ -15,10 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-use super::error::*;
 use bdrck_log;
 use std::fmt::{self, Debug, Display};
 use std::process;
+use super::error::*;
 
 pub const EXIT_SUCCESS: i32 = 0;
 pub const EXIT_FAILURE: i32 = 1;
