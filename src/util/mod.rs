@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 pub mod bitwise;
+pub mod convert;
 pub mod duration;
 pub mod error;
 pub mod problem;

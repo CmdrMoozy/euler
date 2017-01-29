@@ -24,6 +24,7 @@
 
 extern crate euler;
 use self::euler::math::sequence;
+use self::euler::util::convert::*;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -34,14 +35,14 @@ fn main() {
     main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
         let mut total: u64 = 0;
         let mut n: u64 = 0;
-        let mut fib: u64 = sequence::get_nth_fibonacci_number(n);
+        let mut fib: u64 = try!(mpz_to_u64(&sequence::get_nth_fibonacci_number(n)));
         while fib <= UPPER_BOUND {
             if (fib & 1) == 0 {
                 total += fib;
             }
 
             n += 1;
-            fib = sequence::get_nth_fibonacci_number(n);
+            fib = try!(mpz_to_u64(&sequence::get_nth_fibonacci_number(n)));
         }
 
         Ok(ProblemAnswer {

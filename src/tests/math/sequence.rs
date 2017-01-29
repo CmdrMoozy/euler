@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use ::math::sequence::*;
+use gmp::mpz::Mpz;
+use math::sequence::*;
+use util::convert::*;
 
 #[test]
 fn test_get_nth_fibonacci_number() {
@@ -23,7 +25,7 @@ fn test_get_nth_fibonacci_number() {
           6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040,
           1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169];
     for test_case in SEQUENCE.iter().enumerate() {
-        assert!(get_nth_fibonacci_number(test_case.0 as u64) == *test_case.1,
+        assert!(mpz_to_u64(&get_nth_fibonacci_number(test_case.0 as u64)).unwrap() == *test_case.1,
                 "fib({}) == {}",
                 test_case.0,
                 test_case.1);
@@ -49,8 +51,8 @@ fn test_sequence_search() {
     static TEST_CASES: &'static [(u64, u64, u64)] =
         &[(6764, 20, 6765), (6765, 20, 6765), (6766, 21, 10946)];
     for test_case in TEST_CASES {
-        let (index, value) = sequence_search(0, test_case.0, get_nth_fibonacci_number);
+        let (index, value) = sequence_search(0, Mpz::from(test_case.0), get_nth_fibonacci_number);
         assert!(index == test_case.1);
-        assert!(value == test_case.2);
+        assert!(mpz_to_u64(&value).unwrap() == test_case.2);
     }
 }

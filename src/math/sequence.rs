@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use gmp::mpz::Mpz;
+use mpfr::mpfr::Mpfr;
 use std::cmp::max;
 use std::convert::TryFrom;
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
@@ -25,18 +27,19 @@ use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 /// to the Fibonacci sequence, so we can avoid unnecessary recursion.
 ///
 /// Note that precision is only guaranteed up to n = 5000.
-pub fn get_nth_fibonacci_number(n: u64) -> u64 {
+pub fn get_nth_fibonacci_number(n: u64) -> Mpz {
     // We use the closed-form solution called "Binet's Formula," defined here:
     // http://en.wikipedia.org/wiki/Fibonacci_number#Relation_to_the_golden_ratio
     //
     // The formula is: F(n) = (p^n - (1 - p)^n) / sqrt(5) where p is phi, the
     // Golden Ratio: p = (1 + sqrt(5)) / 2
 
-    let sqrt_five: f64 = (5.0_f64).sqrt();
-    let phi: f64 = (1.0 + sqrt_five) / 2.0;
-    let psi: f64 = (1.0 - sqrt_five) / 2.0;
-    let fib: f64 = (phi.powf(n as f64) - psi.powf(n as f64)) / sqrt_five;
-    fib as u64
+    let sqrt_five = Mpfr::from(5 as i64).sqrt();
+    let phi = (1.0 + &sqrt_five) / 2.0;
+    let psi = (1.0 - &sqrt_five) / 2.0;
+    let fib = (phi.pow(&Mpfr::from(n)) - psi.pow(&Mpfr::from(n))) / &sqrt_five;
+
+    (&fib).into()
 }
 
 /// This function returns the nth triangle number.
@@ -55,7 +58,7 @@ fn binary_sequence_search<Index, Value, SequenceFn>(
         where Index: Copy + PartialEq + Add<Output = Index> + AddAssign +
                 Sub<Output = Index> + SubAssign + Mul<Output = Index> + MulAssign +
                 Div<Output = Index> + DivAssign + TryFrom<usize> + Ord,
-              Value: Copy + PartialOrd,
+              Value: Clone + PartialOrd,
               SequenceFn: Fn(Index) -> Value {
     let mut midpoint: Index = lower + ((upper - lower) / Index::try_from(2 as usize).ok().unwrap());
     let mut value: Value = sequence(midpoint);
@@ -101,7 +104,7 @@ pub fn sequence_search<Index, Value, SequenceFn>(
         where Index: Copy + PartialEq + Add<Output = Index> + AddAssign +
                 Sub<Output = Index> + SubAssign + Mul<Output = Index> + MulAssign +
                 Div<Output = Index> + DivAssign + TryFrom<usize> + Ord,
-              Value: Copy + PartialOrd,
+              Value: Clone + PartialOrd,
               SequenceFn: Fn(Index) -> Value {
     let mut lower_index: Index = start;
     let mut lower_value: Value = sequence(lower_index);

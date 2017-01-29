@@ -14,24 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#![feature(step_by)]
-#![feature(try_from)]
+use gmp::mpz::Mpz;
+use util::error::EulerResult;
 
-extern crate backtrace;
-extern crate bdrck_log;
-extern crate bdrck_params;
-extern crate glob;
-extern crate gmp;
-#[macro_use]
-extern crate log;
-extern crate rand;
-extern crate rust_mpfr as mpfr;
-
-pub mod algorithm;
-pub mod dsc;
-pub mod math;
-pub mod structs;
-pub mod util;
-
-#[cfg(test)]
-mod tests;
+pub fn mpz_to_u64(n: &Mpz) -> EulerResult<u64> {
+    let n_str: String = format!("{}", n);
+    Ok(try!(n_str.parse::<u64>()))
+}
