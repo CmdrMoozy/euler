@@ -15,7 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use math::exp;
+use math::prime;
 use std::ops::{Div, Rem};
+use util::error::EulerResult;
 
 /// This function divides the given dividend by the given divisor, and returns
 /// a tuple of the resulting quoteient and remainder.
@@ -85,6 +87,44 @@ pub fn totient(n: u64) -> u64 {
         }
     }
     r
+}
+
+/// This function returns the length of the repeating portion of the decimal
+/// part of the reciprocal of n.
+///
+/// This function's behavior is explained in-depth here:
+///     http://mathforum.org/library/drmath/view/67018.html
+///
+/// It is a requirement that the given prime number sieve's limit must be at
+/// least equivalent to isqrt(totient(x)), where x is equal to n with all
+/// factors of 10 divided out. Otherwise, an error will be returned.
+pub fn repetend_length(mut n: u64,
+                       sieve: &prime::Sieve,
+                       primality_test_precision: Option<u64>)
+                       -> EulerResult<u64> {
+    // Remove all factors of 10 from our number.
+    while n % 2 == 0 {
+        n /= 2;
+    }
+    while n % 5 == 0 {
+        n /= 5;
+    }
+
+    // For numbers that simply do not repeat, we return 0.
+    if n == 1 {
+        return Ok(0);
+    }
+
+    let mut d: u64 = totient(n);
+    let f = try!(prime::Factorization::new(d, sieve, primality_test_precision));
+
+    for (factor, _) in f.iter() {
+        if exp::ipowmod(10, d / factor, n) == 1 {
+            d /= *factor;
+        }
+    }
+
+    Ok(d)
 }
 
 /// This function returns the number of divisors of the given number. The

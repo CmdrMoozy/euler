@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use ::math::division::*;
+use ::math::prime::Sieve;
 
 #[test]
 fn test_signed_divide() {
@@ -117,6 +118,18 @@ fn test_totient() {
 
     for test_case in TEST_CASES {
         assert_eq!(test_case.1, totient(test_case.0));
+    }
+}
+
+#[test]
+fn test_repetend_length() {
+    static TEST_CASES: &'static [(u64, u64)] = &[(2, 0), (3, 1), (4, 0), (5, 0), (6, 1), (7, 6),
+                                                 (8, 0), (9, 1), (10, 0)];
+
+    let sieve = Sieve::new(100);
+    for test_case in TEST_CASES {
+        assert_eq!(test_case.1,
+                   repetend_length(test_case.0, &sieve, None).unwrap());
     }
 }
 
