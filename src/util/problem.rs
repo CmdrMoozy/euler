@@ -18,7 +18,7 @@
 use bdrck_log;
 use std::fmt::{self, Debug, Display};
 use std::process;
-use super::error::*;
+use util::error::*;
 
 pub const EXIT_SUCCESS: i32 = 0;
 pub const EXIT_FAILURE: i32 = 1;

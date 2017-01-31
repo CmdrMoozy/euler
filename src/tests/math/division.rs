@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use ::math::division::*;
-use ::math::prime::Sieve;
+use math::prime::Sieve;
 
 #[test]
 fn test_signed_divide() {
