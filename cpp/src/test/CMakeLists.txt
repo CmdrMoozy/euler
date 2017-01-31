@@ -11,7 +11,6 @@ set(euler-test_SOURCES
 	math/EMathTest.cpp
 	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp
-	math/PrimeSieveTest.cpp
 
 	structs/BitArrayTest.cpp
 	structs/BitIteratorTest.cpp
