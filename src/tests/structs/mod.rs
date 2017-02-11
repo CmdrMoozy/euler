@@ -16,3 +16,5 @@
 
 #[cfg(test)]
 mod bit_array;
+#[cfg(test)]
+mod fraction;
