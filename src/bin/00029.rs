@@ -43,7 +43,7 @@ use gmp::mpz::Mpz;
 const EXPECTED_RESULT: usize = 9183;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<usize>> {
+    main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut result: HashSet<Mpz> = HashSet::new();
         for i in 2..101 {
             for j in 2..101 {

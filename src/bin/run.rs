@@ -16,13 +16,15 @@
 
 use std::collections::HashMap;
 use std::env;
-use std::io;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::process;
 use std::string::String;
 use std::time;
 use std::vec::Vec;
+
+#[macro_use]
+extern crate error_chain;
 
 extern crate glob;
 
@@ -99,16 +101,15 @@ impl Timings {
     }
 }
 
-fn get_target_root() -> EulerResult<PathBuf> {
+fn get_target_root() -> Result<PathBuf> {
     let mut path = try!(try!(env::current_exe()).canonicalize());
     if !path.pop() {
-        return Err(EulerError::from(io::Error::new(io::ErrorKind::NotFound,
-                                                   "Failed to locate targets directory")));
+        bail!("Failed to locate targets directory");
     }
     Ok(path)
 }
 
-fn execute_problems() -> EulerResult<Vec<ExecutionResult>> {
+fn execute_problems() -> Result<Vec<ExecutionResult>> {
     let mut results: Vec<ExecutionResult> = Vec::new();
     for p in try!(glob::glob(format!("{}/?????", try!(get_target_root()).to_str().unwrap())
         .as_str())) {

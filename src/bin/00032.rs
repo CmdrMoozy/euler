@@ -45,7 +45,7 @@ fn collect_digits(digits: &[u64]) -> u64 {
 }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         // Use a set to eliminate any duplicate products.
         let mut products: HashSet<u64> = HashSet::new();
 

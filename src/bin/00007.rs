@@ -30,7 +30,7 @@ const SIEVE_SCALING_FACTOR: u64 = 2;
 const EXPECTED_RESULT: u64 = 104743;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut result: u64 = 0;
         let mut limit: u64 = INITIAL_SIEVE_LIMIT;
         while result == 0 {

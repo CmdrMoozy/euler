@@ -32,7 +32,7 @@ const UPPER_BOUND: u64 = 4000000;
 const EXPECTED_RESULT: u64 = 4613732;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut total: u64 = 0;
         let mut n: u64 = 0;
         let mut fib: u64 = try!(mpz_to_u64(&sequence::get_nth_fibonacci_number(n)));

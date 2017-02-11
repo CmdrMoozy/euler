@@ -42,7 +42,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 983;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let sieve = prime::Sieve::new(1000);
         let mut max_n: u64 = 0;
         let mut max_repetend_length: u64 = 0;

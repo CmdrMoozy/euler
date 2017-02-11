@@ -65,7 +65,7 @@ static DIGIT_FIFTH_POWERS: &'static [u64] = &[0, 1, 32, 243, 1024, 3125, 7776, 1
 const EXPECTED_RESULT: u64 = 443839;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut result: u64 = 0;
         for i in LOWER_BOUND..(UPPER_BOUND + 1) {
             // Compute the sum of the fifth powers of this number's digits.

@@ -46,7 +46,7 @@ const LIMIT: u64 = 20161;
 const EXPECTED_RESULT: u64 = 4179871;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut abundant_numbers: HashSet<u64> = HashSet::new();
         // Build a set of all abundant numbers in range. 12 is the smallest abundant
         // number, so start there.

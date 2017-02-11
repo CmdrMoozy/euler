@@ -71,7 +71,7 @@ const NUMBER_DIGITS: &'static [u64] =
       5, 2, 9, 6, 3, 4, 5, 0];
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut greatest: u64 = 0;
         for i in 0..(NUMBER_DIGITS.len() - 4) {
             let mut n: u64 = 1;

@@ -46,7 +46,7 @@ impl<R> fmt::Display for ProblemAnswer<R>
     }
 }
 
-pub fn main_impl<R, F: FnOnce() -> EulerResult<ProblemAnswer<R>>>(problem_impl: F) -> !
+pub fn main_impl<R, F: FnOnce() -> Result<ProblemAnswer<R>>>(problem_impl: F) -> !
     where R: Debug + Display + Eq + PartialEq
 {
     bdrck_log::init_debug_logger().unwrap();

@@ -17,9 +17,10 @@
 #![feature(step_by)]
 #![feature(try_from)]
 
-extern crate backtrace;
 extern crate bdrck_log;
 extern crate bdrck_params;
+#[macro_use]
+extern crate error_chain;
 extern crate glob;
 extern crate gmp;
 #[macro_use]

@@ -123,7 +123,7 @@ impl Factorization {
     pub fn new(n: u64,
                sieve: &Sieve,
                primality_test_precision: Option<u64>)
-               -> EulerResult<Factorization> {
+               -> Result<Factorization> {
         let mut f = Factorization {
             number: n,
             factors: HashMap::new(),
@@ -150,10 +150,7 @@ impl Factorization {
         // Otherwise, the prime sieve must be large enough to check at least
         // ceil(sqrt(n)).
         if sieve.get_limit() <= isqrt(n) {
-            return Err(EulerError::new(ErrorKind::InvalidArgument {
-                message: "Prime number sieve limit is too small to factor the given integer."
-                    .to_owned(),
-            }));
+            bail!("Prime number sieve limit is too small to factor {}", n);
         }
 
         let mut remaining: u64 = n;
@@ -175,7 +172,7 @@ impl Factorization {
     pub fn new_from_iter<I>(mut iter: I,
                             sieve: &Sieve,
                             primality_test_precision: Option<u64>)
-                            -> EulerResult<Factorization>
+                            -> Result<Factorization>
         where I: Iterator<Item = u64>
     {
         let mut f = try!(Factorization::new(iter.next().unwrap_or(0),

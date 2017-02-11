@@ -38,7 +38,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: usize = 171;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<usize>> {
+    main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut current_date = Date::new(1900, 1, 1, Some(DayOfWeek::Monday));
         let end_date = Date::new(2000, 12, 31, None);
 

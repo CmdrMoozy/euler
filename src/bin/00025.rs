@@ -48,7 +48,7 @@ use gmp::mpz::Mpz;
 const EXPECTED_RESULT: u64 = 4782;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let target: Mpz = Mpz::from(10).pow(999);
         let (index, _) = sequence_search(1, target, get_nth_fibonacci_number);
         Ok(ProblemAnswer {

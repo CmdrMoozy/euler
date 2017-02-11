@@ -31,7 +31,7 @@ const EXPECTED_RESULT: u64 = 232792560;
 const FACTORS: &'static [u64] = &[20, 19, 18, 17, 16, 15, 14, 13, 12, 11];
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut result: u64 = 0;
         // We can start with 20, since clearly any number smaller would not be
         // divisible by 20.

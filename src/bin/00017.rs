@@ -244,7 +244,7 @@ fn number_to_literal(n: u64) -> String {
 }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<usize>> {
+    main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut count: usize = 0;
         for n in 1..1001 {
             let literal = number_to_literal(n);

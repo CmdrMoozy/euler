@@ -16,7 +16,7 @@
 
 use std::fmt::Debug;
 use std::ops::Add;
-use util::error::{ErrorKind, EulerError, EulerResult};
+use util::error::*;
 
 #[derive(Clone, Debug)]
 pub struct Triangle<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> {
@@ -50,13 +50,9 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
     /// Returns the value stored in the Triangle cell at the given coordinates.
     /// The row is a 0-indexed offset from the top row of the triangle, and the
     /// col is a 0-indexed offset from the left-most cell of that row.
-    pub fn get(&self, row: usize, col: usize) -> EulerResult<T> {
+    pub fn get(&self, row: usize, col: usize) -> Result<T> {
         match self.is_in_bounds(row, col) {
-            false => {
-                Err(EulerError::new(ErrorKind::InvalidArgument {
-                    message: "Index out of bounds".to_owned(),
-                }))
-            },
+            false => bail!("Index out of bounds"),
             true => Ok(self.values[row][col].clone()),
         }
     }
@@ -64,13 +60,9 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
     /// Sets the value stored in the Triangle cell at the given coordinates.
     /// The row is a 0-indexed offset from the top row of the triangle, and the
     /// col is a 0-indexed offset from the left-most cell of that row.
-    pub fn set(&mut self, row: usize, col: usize, value: T) -> EulerResult<()> {
+    pub fn set(&mut self, row: usize, col: usize, value: T) -> Result<()> {
         match self.is_in_bounds(row, col) {
-            false => {
-                Err(EulerError::new(ErrorKind::InvalidArgument {
-                    message: "Index out of bounds".to_owned(),
-                }))
-            },
+            false => bail!("Index out of bounds"),
             true => {
                 self.values[row][col] = value;
                 Ok(())
@@ -78,18 +70,16 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
         }
     }
 
-    fn get_left_child_value(&self, row: usize, col: usize) -> EulerResult<T> {
-        self.get(row + 1, col)
-    }
+    fn get_left_child_value(&self, row: usize, col: usize) -> Result<T> { self.get(row + 1, col) }
 
-    fn get_right_child_value(&self, row: usize, col: usize) -> EulerResult<T> {
+    fn get_right_child_value(&self, row: usize, col: usize) -> Result<T> {
         self.get(row + 1, col + 1)
     }
 
     /// This function returns the largest possible sum of a path through the
     /// cells of the triangle, from top to bottom. This function operates in
     /// O(h^2) time, where h is the height of the triangle.
-    pub fn get_largest_path_sum(&self) -> EulerResult<T> {
+    pub fn get_largest_path_sum(&self) -> Result<T> {
         if self.get_height() == 0 {
             return Ok(T::default());
         }

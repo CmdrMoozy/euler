@@ -40,7 +40,7 @@ const END_NUMBER: u64 = 100;
 const EXPECTED_RESULT: u64 = 25164150;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut result: Mpz = Mpz::from(0);
 
         for n in START_NUMBER..(END_NUMBER + 1) {

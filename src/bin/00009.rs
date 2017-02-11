@@ -26,6 +26,9 @@
 
 #![feature(step_by)]
 
+#[macro_use]
+extern crate error_chain;
+
 extern crate euler;
 use self::euler::math::geometry;
 use self::euler::util::error::*;
@@ -42,7 +45,7 @@ fn check_solution(m: u64, n: u64, k: u64) -> Option<u64> {
 }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         for range_max in (5..1000).step_by(5) {
             for m in 1..(range_max + 1) {
                 for n in 1..m {
@@ -58,6 +61,6 @@ fn main() {
             }
         }
 
-        Err(EulerError::new(ErrorKind::NoSolution))
+        bail!("No solution found");
     });
 }

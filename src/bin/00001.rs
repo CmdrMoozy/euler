@@ -26,7 +26,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: i64 = 233168;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<i64>> {
+    main_impl(|| -> Result<ProblemAnswer<i64>> {
         let mut total: i64 = 0;
         for i in 0..1000 {
             if ((i % 5) == 0) || ((i % 3) == 0) {

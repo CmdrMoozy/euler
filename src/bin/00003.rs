@@ -28,7 +28,7 @@ const VALUE_TO_FACTOR: u64 = 600851475143;
 const EXPECTED_RESULT: u64 = 6857;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let sieve = prime::Sieve::new(exp::isqrt(VALUE_TO_FACTOR));
         let mut answer: u64 = 0;
         for prime in sieve.iter().rev() {

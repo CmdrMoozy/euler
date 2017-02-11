@@ -34,7 +34,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 31626;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut b_set: HashSet<u64> = HashSet::new();
 
         let mut sum: u64 = 0;

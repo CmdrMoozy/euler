@@ -44,7 +44,7 @@ const TRIANGLE_VALUES: &'static str = include_str!("00067.txt");
 const EXPECTED_RESULT: u64 = 7273;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut triangle: Triangle<u64> = Triangle::new(TRIANGLE_VALUES.split('\n').count());
         for row_pair in TRIANGLE_VALUES.split('\n').enumerate() {
             for value_pair in row_pair.1.split(' ').enumerate() {

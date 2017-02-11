@@ -17,8 +17,11 @@
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
-use std::io::{self, Write};
+use std::io::Write;
 use std::path::PathBuf;
+
+#[macro_use]
+extern crate error_chain;
 
 #[macro_use]
 extern crate log;
@@ -35,28 +38,24 @@ static TEMPLATE: &'static str = include_str!("problem_template.rs.txt");
 
 const MAX_PROBLEM: u64 = 99999;
 
-fn to_problem_name(problem_arg: &str) -> EulerResult<String> {
+fn to_problem_name(problem_arg: &str) -> Result<String> {
     let n: u64 = try!(problem_arg.parse());
     if n > MAX_PROBLEM {
-        return Err(EulerError::new(ErrorKind::InvalidArgument {
-            message: "problem number too large".to_owned(),
-        }));
+        bail!("Problem number {} is too large", n);
     }
     Ok(format!("{:05}", n))
 }
 
-fn get_source_root() -> EulerResult<PathBuf> {
+fn get_source_root() -> Result<PathBuf> {
     let mut path = try!(try!(env::current_exe()).canonicalize());
     while !path.ends_with("target") {
         if !path.pop() {
-            return Err(EulerError::from(io::Error::new(io::ErrorKind::NotFound,
-                                                       "Failed to locate source directory")));
+            bail!("Failed to locate source directory");
         }
     }
 
     if !path.pop() {
-        return Err(EulerError::from(io::Error::new(io::ErrorKind::NotFound,
-                                                   "Failed to locate source directory")));
+        bail!("Failed to locate source directory");
     }
 
     Ok(path)
@@ -65,7 +64,7 @@ fn get_source_root() -> EulerResult<PathBuf> {
 fn mkprob(_: HashMap<String, String>,
           _: HashMap<String, bool>,
           arguments: HashMap<String, Vec<String>>)
-          -> EulerResult<()> {
+          -> Result<()> {
     let vs = arguments.get("number").unwrap();
     assert!(vs.len() == 1);
     let mut problem_file = to_problem_name(vs.first().unwrap().as_str()).unwrap();
@@ -77,9 +76,7 @@ fn mkprob(_: HashMap<String, String>,
     problem_path.push(problem_file);
     info!("Writing problem: {}", problem_path.to_str().unwrap());
     if problem_path.exists() {
-        panic!("{}",
-               EulerError::from(io::Error::new(io::ErrorKind::AlreadyExists,
-                                               "Problem already exists")));
+        bail!("Problem already exists");
     }
 
     let mut f = File::create(problem_path.as_path()).unwrap();

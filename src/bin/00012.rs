@@ -50,7 +50,7 @@ const MINIMUM_NUMBER: u64 = 62370000;
 const TARGET_NUM_DIVISORS: u64 = 500;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let (mut idx, mut value) =
             sequence::sequence_search(1, MINIMUM_NUMBER, sequence::get_nth_triangle_number);
         while division::aliquot_number_divisors(value) <= TARGET_NUM_DIVISORS {

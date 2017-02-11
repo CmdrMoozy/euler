@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use gmp::mpz::Mpz;
-use util::error::EulerResult;
+use util::error::*;
 
-pub fn mpz_to_u64(n: &Mpz) -> EulerResult<u64> {
+pub fn mpz_to_u64(n: &Mpz) -> Result<u64> {
     let n_str: String = format!("{}", n);
     Ok(try!(n_str.parse::<u64>()))
 }

@@ -14,94 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use backtrace::Backtrace;
-use glob;
-use std::convert::From;
-use std::error::Error;
-use std::fmt;
-use std::io;
-use std::num;
-use std::result::Result;
-use std::string::{self, String};
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub enum ErrorKind {
-    InvalidArgument { message: String },
-    IoError { cause: String },
-    NoSolution,
-}
-
-#[derive(Debug)]
-pub struct EulerError {
-    backtrace: Backtrace,
-    kind: ErrorKind,
-}
-
-impl EulerError {
-    pub fn new(kind: ErrorKind) -> EulerError {
-        EulerError {
-            backtrace: Backtrace::new(),
-            kind: kind,
-        }
+error_chain! {
+    foreign_links {
+        Utf8(::std::string::FromUtf8Error);
+        Glob(::glob::GlobError);
+        GlobPattern(::glob::PatternError);
+        Io(::std::io::Error);
+        ParseInt(::std::num::ParseIntError);
     }
 }
-
-impl PartialEq for EulerError {
-    fn eq(&self, other: &EulerError) -> bool { self.kind == other.kind }
-}
-
-impl Eq for EulerError {}
-
-impl From<string::FromUtf8Error> for EulerError {
-    fn from(e: string::FromUtf8Error) -> EulerError {
-        EulerError::new(ErrorKind::InvalidArgument { message: format!("{}", e) })
-    }
-}
-
-impl From<glob::GlobError> for EulerError {
-    fn from(e: glob::GlobError) -> EulerError {
-        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
-    }
-}
-
-impl From<glob::PatternError> for EulerError {
-    fn from(e: glob::PatternError) -> EulerError {
-        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
-    }
-}
-
-impl From<io::Error> for EulerError {
-    fn from(e: io::Error) -> EulerError {
-        EulerError::new(ErrorKind::IoError { cause: format!("{}", e) })
-    }
-}
-
-impl From<num::ParseIntError> for EulerError {
-    fn from(e: num::ParseIntError) -> EulerError {
-        EulerError::new(ErrorKind::InvalidArgument { message: format!("{}", e) })
-    }
-}
-
-impl Error for EulerError {
-    fn description(&self) -> &str {
-        match self.kind {
-            ErrorKind::InvalidArgument { message: _ } => "Invalid argument",
-            ErrorKind::IoError { cause: _ } => "Input/output error",
-            ErrorKind::NoSolution => "No problem solution found",
-        }
-    }
-}
-
-impl fmt::Display for EulerError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self.kind {
-            ErrorKind::InvalidArgument { message: ref m } => {
-                write!(f, "{}: {}", self.description(), m)
-            },
-            ErrorKind::IoError { cause: ref c } => write!(f, "{}: {}", self.description(), c),
-            _ => write!(f, "{}", self.description()),
-        }
-    }
-}
-
-pub type EulerResult<T> = Result<T, EulerError>;

@@ -29,7 +29,7 @@ const PRIME_SIEVE_LIMIT: u64 = 2000000;
 const EXPECTED_RESULT: u64 = 142913828922;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let sieve = prime::Sieve::new(PRIME_SIEVE_LIMIT);
         Ok(ProblemAnswer {
             actual: sieve.iter().sum(),

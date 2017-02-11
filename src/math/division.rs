@@ -17,7 +17,7 @@
 use math::exp;
 use math::prime;
 use std::ops::{Div, Rem};
-use util::error::EulerResult;
+use util::error::*;
 
 /// This function divides the given dividend by the given divisor, and returns
 /// a tuple of the resulting quoteient and remainder.
@@ -101,7 +101,7 @@ pub fn totient(n: u64) -> u64 {
 pub fn repetend_length(mut n: u64,
                        sieve: &prime::Sieve,
                        primality_test_precision: Option<u64>)
-                       -> EulerResult<u64> {
+                       -> Result<u64> {
     // Remove all factors of 10 from our number.
     while n % 2 == 0 {
         n /= 2;

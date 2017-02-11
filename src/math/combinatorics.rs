@@ -20,12 +20,10 @@ use ::util::error::*;
 
 /// This function returns the number of ways r objects can be drawn from n
 /// objects, assuming that order doesn't make any difference.
-pub fn combinations(n: u64, r: u64) -> EulerResult<u64> {
+pub fn combinations(n: u64, r: u64) -> Result<u64> {
     // We cannot draw r objects from n objects of r > n.
     if r > n {
-        return Err(EulerError::new(ErrorKind::InvalidArgument {
-            message: "Undefined combination.".to_owned(),
-        }));
+        bail!("Undefined combination '{} choose {}'", n, r);
     }
 
     // The number of ways r objects can be drawn from n objects, assuming order

@@ -56,11 +56,9 @@ pub struct Spiral {
 impl Spiral {
     pub fn new() -> Spiral { Spiral { contents: HashMap::new() } }
 
-    pub fn get_diagonal_value(&mut self, addr: &Address) -> EulerResult<u64> {
+    pub fn get_diagonal_value(&mut self, addr: &Address) -> Result<u64> {
         if addr.x.abs() != addr.y.abs() {
-            return Err(EulerError::new(ErrorKind::InvalidArgument {
-                message: "Non-diagonal address passed to diagonal_value_at.".to_owned(),
-            }));
+            bail!("Non-diagonal address passed to diagonal_value_at");
         }
 
         if addr.x == 0 && addr.y == 0 {

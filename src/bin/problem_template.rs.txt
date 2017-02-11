@@ -21,7 +21,7 @@ use self::euler::util::problem::*;
 
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<>> {
+    main_impl(|| -> Result<ProblemAnswer<>> {
 
         Ok(ProblemAnswer {
             actual: ,

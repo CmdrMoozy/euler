@@ -31,7 +31,7 @@ const EXPONENT: u32 = 1000;
 const EXPECTED_RESULT: u64 = 1366;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut value: Mpz = Mpz::from(BASE);
         value = value.pow(EXPONENT);
 

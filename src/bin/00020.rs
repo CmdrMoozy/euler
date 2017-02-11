@@ -28,7 +28,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 648;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut factorial: Mpz = Mpz::from(2);
         for n in 3..101 {
             factorial = factorial * (n as u64);

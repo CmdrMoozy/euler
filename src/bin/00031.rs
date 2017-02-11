@@ -62,7 +62,7 @@ fn count_coin_combinations(coins: &[i64], existing_value: i64, target: i64) -> u
 }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<usize>> {
+    main_impl(|| -> Result<ProblemAnswer<usize>> {
         // Just calculate the answer using brute force, skipping the interior loops if
         // the total produced by the outer loops is already too great. This is a stupid
         // solution, but it is acceptably fast.

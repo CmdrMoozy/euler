@@ -29,7 +29,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 906609;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         // Formulate a list of all of the products of two three-digit numbers.
         let mut products: BTreeSet<u64> = BTreeSet::new();
         for a in 100..1000 {

@@ -118,6 +118,9 @@
 //     20849603980134001723930671666823555245252804609722
 //     53503534226472524250874054075591789781264330331690
 
+#[macro_use]
+extern crate error_chain;
+
 extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -129,20 +132,16 @@ const EXPECTED_NUMBER_LENGTH: usize = 50;
 const EXPECTED_RESULT: &'static str = "5537376230";
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<String>> {
+    main_impl(|| -> Result<ProblemAnswer<String>> {
         if NUMBERS.lines().count() != EXPECTED_NUMBERS_COUNT {
-            return Err(EulerError::new(ErrorKind::InvalidArgument {
-                message: "Found incorrect number of lines in problem data file.".to_owned(),
-            }));
+            bail!("Found incorrect number of lines in problem data file");
         }
 
         // Collect the sum of the digits in each position.
         let mut result: [u64; EXPECTED_NUMBER_LENGTH] = [0; EXPECTED_NUMBER_LENGTH];
         for line in NUMBERS.lines() {
             if line.len() != EXPECTED_NUMBER_LENGTH {
-                return Err(EulerError::new(ErrorKind::InvalidArgument {
-                    message: "Found malformed line in problem data file.".to_owned(),
-                }));
+                bail!("Found malformed line in problem data file");
             }
 
             for (i, c) in line.chars().enumerate() {

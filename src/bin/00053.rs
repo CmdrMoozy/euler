@@ -41,7 +41,7 @@ const OUTPUT_TARGET: u64 = 1000000;
 const EXPECTED_RESULT: u64 = 4075;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut count: u64 = 0;
 
         for n in 1..N_MAX + 1 {

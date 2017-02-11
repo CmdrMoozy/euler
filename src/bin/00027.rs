@@ -50,7 +50,7 @@ const EXPECTED_RESULT: i64 = -59231;
 fn polynomial(n: i64, a: i64, b: i64) -> i64 { (n * n) + (a * n) + b }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<i64>> {
+    main_impl(|| -> Result<ProblemAnswer<i64>> {
         let sieve = prime::Sieve::new(SIEVE_LIMIT);
 
         let mut result_a: i64 = 0;

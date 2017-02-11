@@ -111,7 +111,7 @@ fn get_vertical_line_product(grid: &[&[u64]], origin: (usize, usize), length: us
 }
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut greatest: u64 = 0;
 
         // Test all of the normal paths.

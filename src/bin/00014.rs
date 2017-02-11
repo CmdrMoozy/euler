@@ -43,7 +43,7 @@ const MAX_NUMBER: u64 = 1000000;
 const EXPECTED_RESULT: u64 = 837799;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut length_cache: [u64; MAX_NUMBER as usize] = [0; MAX_NUMBER as usize];
         let mut answer_number: u64 = 0;
         let mut answer_length: u64 = 0;

@@ -36,7 +36,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 669171001;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut spiral = spiral::Spiral::new();
         let mut result: u64 = 1;
         let mut i: i64 = 1;

@@ -29,7 +29,7 @@ use self::euler::util::problem::*;
 const EXPECTED_RESULT: u64 = 137846528820;
 
 fn main() {
-    main_impl(|| -> EulerResult<ProblemAnswer<u64>> {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
         // It is well-defined that the number of paths (without backtracking) through
         // an m by n grid is: (m + n) combinations of n.
         Ok(ProblemAnswer {
