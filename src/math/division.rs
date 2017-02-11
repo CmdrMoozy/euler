@@ -70,6 +70,23 @@ pub fn gcd(a: u64, b: u64) -> u64 {
     u << k
 }
 
+/// This function returns the least common multiple of a and b. To make it
+/// easy, we reduce this problem to being able to find the greatest common
+/// divisor, which we have a relatively efficient algorithm for. For more
+/// information:
+///
+/// http://en.wikipedia.
+/// org/wiki/Least_common_multiple#Reduction_by_the_greatest_common_divisor
+///
+/// If both a and b are zero, then zero is returned.
+pub fn lcm(a: u64, b: u64) -> u64 {
+    let gcd = gcd(a, b);
+    match gcd {
+        0 => 0,
+        _ => (a * b) / gcd,
+    }
+}
+
 /// This function tests if the two given integers, a and b, are coprime. Two
 /// integers are considered coprime if their greatest common divisor is equal
 /// to 1.
