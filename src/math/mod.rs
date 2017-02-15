@@ -20,4 +20,5 @@ pub mod exp;
 pub mod geometry;
 pub mod prime;
 pub mod sequence;
+pub mod sieve;
 pub mod stats;

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use math::exp::{ipowmod, isqrt};
+use math::sieve::Sieve;
 use rand::{self, Rng};
 use std::cmp;
 use std::collections::HashMap;
@@ -57,7 +58,7 @@ pub fn is_prime(n: u64, precision: u64) -> bool {
     true
 }
 
-fn sieve(limit: u64) -> BitArray {
+fn prime_sieve(limit: u64) -> BitArray {
     let mut is_prime = BitArray::new((limit + 1) as usize, FillPolicy::Set);
     let root = isqrt(limit);
 
@@ -75,30 +76,17 @@ fn sieve(limit: u64) -> BitArray {
     is_prime
 }
 
-pub struct Sieve {
+pub struct PrimeSieve {
     limit: u64,
     is_prime: BitArray,
 }
 
-impl Sieve {
-    pub fn new(limit: u64) -> Sieve {
-        Sieve {
+impl PrimeSieve {
+    pub fn new(limit: u64) -> PrimeSieve {
+        PrimeSieve {
             limit: limit,
-            is_prime: sieve(limit),
+            is_prime: prime_sieve(limit),
         }
-    }
-
-    pub fn get_limit(&self) -> u64 { self.limit }
-
-    pub fn get_size(&self) -> usize { self.is_prime.iter().filter(|pair| pair.1).count() }
-
-    pub fn contains(&self, n: u64) -> Option<bool> { self.is_prime.get(n as usize) }
-
-    pub fn get_nth(&self, n: usize) -> Option<u64> {
-        if n == 0 {
-            return None;
-        }
-        self.is_prime.iter().filter(|pair| pair.1).nth(n - 1).map(|pair| pair.0 as u64)
     }
 
     pub fn iter(&self) -> FilterMap<Iter, fn((usize, bool)) -> Option<u64>> {
@@ -113,6 +101,23 @@ impl Sieve {
     }
 }
 
+impl Sieve for PrimeSieve {
+    type Item = u64;
+
+    fn get_limit(&self) -> Self::Item { self.limit }
+
+    fn get_size(&self) -> usize { self.is_prime.iter().filter(|pair| pair.1).count() }
+
+    fn contains(&self, n: Self::Item) -> Option<bool> { self.is_prime.get(n as usize) }
+
+    fn get_nth(&self, n: usize) -> Option<Self::Item> {
+        if n == 0 {
+            return None;
+        }
+        self.is_prime.iter().filter(|pair| pair.1).nth(n - 1).map(|pair| pair.0 as u64)
+    }
+}
+
 #[derive(Clone)]
 pub struct Factorization {
     number: u64,
@@ -121,7 +126,7 @@ pub struct Factorization {
 
 impl Factorization {
     pub fn new(n: u64,
-               sieve: &Sieve,
+               sieve: &PrimeSieve,
                primality_test_precision: Option<u64>)
                -> Result<Factorization> {
         let mut f = Factorization {
@@ -170,7 +175,7 @@ impl Factorization {
     }
 
     pub fn new_from_iter<I>(mut iter: I,
-                            sieve: &Sieve,
+                            sieve: &PrimeSieve,
                             primality_test_precision: Option<u64>)
                             -> Result<Factorization>
         where I: Iterator<Item = u64>

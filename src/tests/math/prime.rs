@@ -15,13 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use ::math::prime::*;
+use math::sieve::Sieve;
 
 #[test]
 fn test_prime_number_sieve_functionality() {
     const SIEVE_LIMIT: u64 = 10000;
     const PRIME_TEST_PRECISION: u64 = 50;
 
-    let sieve = Sieve::new(SIEVE_LIMIT);
+    let sieve = PrimeSieve::new(SIEVE_LIMIT);
     assert_eq!(SIEVE_LIMIT, sieve.get_limit());
     for prime in sieve.iter() {
         assert!(is_prime(prime, PRIME_TEST_PRECISION),
@@ -40,7 +41,7 @@ fn test_factorization_functionality() {
     const SIEVE_LIMIT: u64 = 150;
     const PRIME_TEST_PRECISION: u64 = 50;
 
-    let sieve = Sieve::new(SIEVE_LIMIT);
+    let sieve = PrimeSieve::new(SIEVE_LIMIT);
 
     static TEST_CASES: &'static [(u64, &'static [(u64, usize)])] =
         &[(56, &[(2, 3), (7, 1)]), (150, &[(2, 1), (3, 1), (5, 2)])];
@@ -68,7 +69,7 @@ fn test_factorization_product() {
     const SIEVE_LIMIT: u64 = 150;
     const PRIME_TEST_PRECISION: u64 = 50;
 
-    let sieve = Sieve::new(SIEVE_LIMIT);
+    let sieve = PrimeSieve::new(SIEVE_LIMIT);
 
     let a = Factorization::new(56, &sieve, Some(PRIME_TEST_PRECISION)).ok().unwrap();
     let b = Factorization::new(150, &sieve, Some(PRIME_TEST_PRECISION)).ok().unwrap();

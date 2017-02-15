@@ -20,7 +20,8 @@
 // What is the 10001st prime number?
 
 extern crate euler;
-use self::euler::math::prime;
+use self::euler::math::prime::PrimeSieve;
+use self::euler::math::sieve::Sieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -34,7 +35,7 @@ fn main() {
         let mut result: u64 = 0;
         let mut limit: u64 = INITIAL_SIEVE_LIMIT;
         while result == 0 {
-            let sieve = prime::Sieve::new(limit);
+            let sieve = PrimeSieve::new(limit);
             if let Some(p) = sieve.get_nth(TARGET_PRIME) {
                 result = p;
                 break;

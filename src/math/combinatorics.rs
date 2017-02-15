@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use math::prime::{Factorization, Sieve};
+use math::prime::{Factorization, PrimeSieve};
 use std::cmp;
 use ::util::error::*;
 
@@ -41,7 +41,7 @@ pub fn combinations(n: u64, r: u64) -> Result<u64> {
     let x: u64 = cmp::max(n - r, r);
     let y: u64 = cmp::min(n - r, r);
 
-    let sieve = Sieve::new(n + 1);
+    let sieve = PrimeSieve::new(n + 1);
     let num = try!(Factorization::new_from_iter(x + 1..n + 1, &sieve, None));
     let den = try!(Factorization::new_from_iter(1..y + 1, &sieve, None));
 

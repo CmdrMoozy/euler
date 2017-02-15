@@ -19,7 +19,7 @@
 // Find the sum of all the primes below two million.
 
 extern crate euler;
-use self::euler::math::prime;
+use self::euler::math::prime::PrimeSieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -30,7 +30,7 @@ const EXPECTED_RESULT: u64 = 142913828922;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let sieve = prime::Sieve::new(PRIME_SIEVE_LIMIT);
+        let sieve = PrimeSieve::new(PRIME_SIEVE_LIMIT);
         Ok(ProblemAnswer {
             actual: sieve.iter().sum(),
             expected: EXPECTED_RESULT,

@@ -35,7 +35,7 @@
 
 extern crate euler;
 use self::euler::math::division;
-use self::euler::math::prime;
+use self::euler::math::prime::PrimeSieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -43,7 +43,7 @@ const EXPECTED_RESULT: u64 = 983;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let sieve = prime::Sieve::new(1000);
+        let sieve = PrimeSieve::new(1000);
         let mut max_n: u64 = 0;
         let mut max_repetend_length: u64 = 0;
         for n in 2..1000 {

@@ -36,7 +36,8 @@
 // n, starting with n=0.
 
 extern crate euler;
-use self::euler::math::prime;
+use self::euler::math::prime::{self, PrimeSieve};
+use self::euler::math::sieve::Sieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -51,7 +52,7 @@ fn polynomial(n: i64, a: i64, b: i64) -> i64 { (n * n) + (a * n) + b }
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<i64>> {
-        let sieve = prime::Sieve::new(SIEVE_LIMIT);
+        let sieve = PrimeSieve::new(SIEVE_LIMIT);
 
         let mut result_a: i64 = 0;
         let mut result_b: i64 = 0;
