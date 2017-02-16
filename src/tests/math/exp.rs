@@ -27,6 +27,17 @@ fn test_ipowmod() {
 }
 
 #[test]
+fn test_log10() {
+    static TEST_CASES: &'static [(u64, u64)] = &[(0, 0), (9, 0), (10, 1), (11, 1), (99, 1),
+                                                 (100, 2), (101, 2), (999, 2), (1000, 3),
+                                                 (1001, 3), (9999, 3), (10000, 4), (10001, 4)];
+
+    for test_case in TEST_CASES {
+        assert_eq!(test_case.1, log10(test_case.0));
+    }
+}
+
+#[test]
 fn test_isqrt() {
     static TEST_CASES: &'static [(u64, u64)] = &[(0, 0),
                                                  (1, 1),
