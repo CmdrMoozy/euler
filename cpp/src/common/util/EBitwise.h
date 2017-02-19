@@ -31,11 +31,6 @@ public:
 	static uint32_t lg32(uint32_t v);
 	static uint32_t lg64(uint64_t v);
 
-	static uint32_t reverseAllBits(uint32_t v);
-	static uint32_t reverseBits(uint32_t v);
-
-	static bool isPalindromic(uint32_t v);
-
 	static uint32_t rotl32(uint32_t n, int p);
 	static uint32_t rotr32(uint32_t n, int p);
 	static uint64_t rotl64(uint64_t n, int p);

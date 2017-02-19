@@ -31,54 +31,6 @@ uint32_t EBitwise::lg64(uint64_t v)
 }
 
 /*!
- * This function reverses the order of ALL of the bits in v (including leading
- *0's).
- *
- * \param v The value to reverse.
- * \return A value which is bit-reversed v.
- */
-uint32_t EBitwise::reverseAllBits(uint32_t v)
-{
-	uint32_t r = v;
-	int s = sizeof(v) * CHAR_BIT - 1;
-
-	for(v >>= 1; v; v >>= 1)
-	{
-		r <<= 1;
-		r |= v & 1;
-		s--;
-	}
-	r <<= s;
-
-	return r;
-}
-
-/*!
- * This function reverses the order of the bits in v, excluding any leading
- *zeros.
- *
- * \param v The value to reverse.
- * \return A value which is bit-reversed v.
- */
-uint32_t EBitwise::reverseBits(uint32_t v)
-{
-	return (EBitwise::reverseAllBits(v) >> (31 - EBitwise::lg32(v)));
-}
-
-/*!
- * This is a convenience function, which tests if v is palindromic in base 2.
- *This test
- * just compares if v is equal to reverseBits(v).
- *
- * \param v The value to test.
- * \return True if v is a palindrome, or false otherwise.
- */
-bool EBitwise::isPalindromic(uint32_t v)
-{
-	return (v == EBitwise::reverseBits(v));
-}
-
-/*!
  * This function does a circular shift (a rotation) of the 32-bit unsigned
  *integer n by
  * p places to the left.

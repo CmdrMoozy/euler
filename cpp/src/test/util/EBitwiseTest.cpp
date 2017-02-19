@@ -41,24 +41,6 @@ TEST_CASE("Test isPowerOfTwo", "[EBitwise]")
 	CHECK(!EBitwise::isPowTwo(1023));
 }
 
-TEST_CASE("Test reverseBits and reverseAllBits", "[EBitwise]")
-{
-	CHECK(EBitwise::reverseAllBits(0xFFFF0000) == 0x0000FFFF);
-	CHECK(EBitwise::reverseAllBits(0x0000FFFF) == 0xFFFF0000);
-	CHECK(EBitwise::reverseAllBits(0xFA37A0B1) == 0x8D05EC5F);
-
-	CHECK(EBitwise::reverseBits(0x0000FFFF) == 0x0000FFFF);
-	CHECK(EBitwise::reverseBits(0x000000AA) == 0x00000055);
-	CHECK(EBitwise::reverseAllBits(0xFA37A0B1) ==
-	      EBitwise::reverseBits(0xFA37A0B1));
-}
-
-TEST_CASE("Test isPalindromic", "[EBitwise]")
-{
-	CHECK(EBitwise::isPalindromic(0x909909));
-	CHECK(!EBitwise::isPalindromic(0xA0AA0A));
-}
-
 TEST_CASE("Test left and right rotations", "[EBitwise]")
 {
 	uint32_t i = 0xFA7D9017;
