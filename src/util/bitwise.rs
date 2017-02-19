@@ -39,6 +39,31 @@ pub fn nlz(mut x: u64) -> u64 {
 /// fractional portion of the result is truncated.
 pub fn lg(x: u64) -> u64 { 63 - nlz(x) }
 
+/// This function reverses the order of ALL of the bits in the given number,
+/// including any leading zeros.
+pub fn reverse_all_bits(mut n: u64) -> u64 {
+    let mut result = n;
+    n >>= 1;
+    let mut remaining_shift: usize = 63;
+
+
+    while n > 0 {
+        result <<= 1;
+        result |= n & 1;
+        remaining_shift -= 1;
+        n >>= 1;
+    }
+
+    result << remaining_shift
+}
+
+/// This function reverses the order of the bits in the given number, ignoring
+/// any leading zeros.
+pub fn reverse_bits(n: u64) -> u64 { reverse_all_bits(n) >> (63 - lg(n)) }
+
+/// This function tests if the given 64-bit integer is palindromic in base 2.
+pub fn is_bitwise_palindromic(n: u64) -> bool { n == reverse_bits(n) }
+
 /// This function returns the input value with the right-most one bit turned
 /// off.
 pub fn rmo_off(x: u64) -> u64 {

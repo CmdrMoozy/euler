@@ -43,6 +43,24 @@ fn test_lg() {
 }
 
 #[test]
+fn test_reverse_bits() {
+    assert_eq!(0x000000000000ffff, reverse_all_bits(0xffff000000000000));
+    assert_eq!(0xffff000000000000, reverse_all_bits(0x000000000000ffff));
+    assert_eq!(0x8d05ec5f8d05ec5f, reverse_all_bits(0xfa37a0b1fa37a0b1));
+
+    assert_eq!(0x000000000000ffff, reverse_bits(0x000000000000ffff));
+    assert_eq!(0x0000000000000055, reverse_bits(0x00000000000000aa));
+    assert_eq!(reverse_all_bits(0xfa37a0b1fa37a0b1),
+               reverse_bits(0xfa37a0b1fa37a0b1));
+}
+
+#[test]
+fn test_is_bitwise_palindromic() {
+    assert!(is_bitwise_palindromic(0x909909909909));
+    assert!(!is_bitwise_palindromic(0xa0aa0aa0aa0a));
+}
+
+#[test]
 fn test_rmo_off() {
     static TEST_CASES: &'static [(u64, u64)] = &[(0, 0), (1, 0), (2, 0), (3, 2), (32768, 0),
                                                  (7, 6), (6, 4)];
