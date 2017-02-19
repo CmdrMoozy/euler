@@ -23,7 +23,7 @@
 // How many circular primes are there below one million?
 
 extern crate euler;
-use self::euler::math::prime::CircularPrimeSieve;
+use self::euler::dsc::circular_prime_sieve::CircularPrimeSieve;
 use self::euler::math::sieve::Sieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
