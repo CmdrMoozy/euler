@@ -63,6 +63,12 @@ impl BitArray {
 
     pub fn len_chunks(&self) -> usize { self.data.len() }
 
+    pub fn truncate(&mut self, size: usize) {
+        let new_chunk_size = get_minimum_chunk_size(size);
+        self.data.truncate(new_chunk_size);
+        self.bits = size;
+    }
+
     pub fn resize(&mut self, size: usize, policy: FillPolicy) {
         if size == 0 {
             self.bits = 0;
