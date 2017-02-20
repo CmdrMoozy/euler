@@ -16,8 +16,6 @@ set(euler-test_SOURCES
 
 	types/EDigitIntegerTest.cpp
 	types/EFractionTest.cpp
-	types/ERightTriangleTest.cpp
-	types/ETriangleTest.cpp
 
 	util/BitwiseTest.cpp
 	util/EArrayUtilitiesTest.cpp

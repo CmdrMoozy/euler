@@ -44,12 +44,8 @@ SET(euler-common_SOURCES
 	types/EDigitInteger.h
 	types/EFraction.cpp
 	types/EFraction.h
-	types/ERightTriangle.cpp
-	types/ERightTriangle.h
 	types/ERomanNumeral.cpp
 	types/ERomanNumeral.h
-	types/ETriangle.cpp
-	types/ETriangle.h
 
 	util/AbsoluteValue.h
 	util/Bitwise.cpp
