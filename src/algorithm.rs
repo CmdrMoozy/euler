@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use std::cmp::Ordering;
+
 /// This is an implementation of Knuth's "Algorithm L", which permutates a
-/// given vector of elements in lexicographic order. Note that because the
-/// permutations are performed in lexicographic order, if the Vec is sorted in
-/// ascending order, then it contains the "first" permutation.
+/// given vector of elements in lexicographic order according to the given
+/// comparator. That is, because of this ordering, if the Vec is sorted in
+/// ascending order according to the given comparator, then it contains the
+/// "first" permutation.
 ///
 /// More information:
 /// http://en.wikipedia.
@@ -26,7 +29,7 @@
 ///
 /// This function returns true if the Vec was permutated, or false if it
 /// already contained the last permutation.
-pub fn permutate<T: PartialOrd>(v: &mut Vec<T>) -> bool {
+pub fn permutate<T, F: FnMut(&T, &T) -> Ordering>(v: &mut Vec<T>, mut compare: F) -> bool {
     // Vecs of size 0 or 1 have no other permutations.
     if v.len() < 2 {
         return false;
@@ -36,7 +39,7 @@ pub fn permutate<T: PartialOrd>(v: &mut Vec<T>) -> bool {
     // exists, then the existing Vec contains the last permutation.
     let mut k: Option<usize> = None;
     for i in (0..(v.len() - 1)).rev() {
-        if v[i] < v[i + 1] {
+        if compare(&v[i], &v[i + 1]) == Ordering::Less {
             k = Some(i);
             break;
         }
@@ -50,7 +53,7 @@ pub fn permutate<T: PartialOrd>(v: &mut Vec<T>) -> bool {
     // an index, l is well defined and satisfies k < l.
     let mut l: usize = k + 1;
     for i in ((k + 2)..v.len()).rev() {
-        if v[k] < v[i] {
+        if compare(&v[k], &v[i]) == Ordering::Less {
             l = i;
             break;
         }
@@ -65,3 +68,7 @@ pub fn permutate<T: PartialOrd>(v: &mut Vec<T>) -> bool {
 
     true
 }
+
+/// This is a convenient shorthand to call permutate() with a standard <
+/// comparator.
+pub fn permutate_lt<T: Ord>(v: &mut Vec<T>) -> bool { permutate(v, |a, b| a.cmp(b)) }

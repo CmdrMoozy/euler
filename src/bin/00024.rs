@@ -37,7 +37,7 @@ fn main() {
 
         // Permutate until we are at the millionth permutation.
         for _iteration in 1..1000000 {
-            algorithm::permutate(&mut permutator);
+            algorithm::permutate_lt(&mut permutator);
         }
 
         Ok(ProblemAnswer {

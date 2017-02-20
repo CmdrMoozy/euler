@@ -83,7 +83,7 @@ fn main() {
             }
 
             // Permutate the digits we test, stopping if there are no more permutations.
-            if !algorithm::permutate(&mut digits) {
+            if !algorithm::permutate_lt(&mut digits) {
                 break;
             }
         }
