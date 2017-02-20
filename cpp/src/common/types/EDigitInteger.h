@@ -129,8 +129,6 @@ public:
 
 	void sortDigitsAscending();
 	bool sortDigitsDescending();
-	bool permutateDigits();
-	bool reversePermutateDigits();
 
 	bool
 	reverseDigits(std::size_t l = 0,
