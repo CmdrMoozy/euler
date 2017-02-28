@@ -68,23 +68,6 @@ mpf_class EMath::int64ToBigFloat(uint64_t n, mp_bitcnt_t p)
 #endif
 
 /*!
- * This function returns the nth triangle number.
- *
- * A triangle number is equal to the sum of the positive integers less than or
- *equal to
- * its place, i.e., the 7th triangle number = 7 + 6 + 5 + 4 + 3 + 2 + 1.
- *
- * \param n The nth triangle number will be generated.
- * \return The value of the nth triangle number.
- */
-uint64_t EMath::getTriangleNumberN(uint64_t n)
-{
-	// Using Faulhaber's Formula we can express triangle numbers as the
-	// statement below:
-	return ((n * (n + 1)) / 2);
-}
-
-/*!
  * This function returns the nth pentagonal number.
  *
  * Pentagonal numbers extend the idea of triangle numbers; more information can
@@ -123,22 +106,6 @@ bool EMath::isPentagonal(uint64_t x)
 	x >>= 1;
 
 	return EMath::isMultipleThree(x);
-}
-
-/*!
- * This function returns the nth hexagonal number.
- *
- * Hexagonal numbers extend the idea of triangle numbers; more information can
- *be found here:
- *     http://en.wikipedia.org/wiki/Hexagonal_number
- *
- * \param n The nth hexagonal number will be generated.
- * \return The value of the nth hexagonal number.
- */
-uint64_t EMath::getHexagonalNumberN(uint64_t n)
-{
-	// The hexagonal number Hn is given by Hn = n(2n - 1)
-	return (n * ((n << 1) - 1));
 }
 
 /*!

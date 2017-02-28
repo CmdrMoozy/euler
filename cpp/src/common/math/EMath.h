@@ -49,10 +49,8 @@ public:
 	static mpf_class int64ToBigFloat(uint64_t n, mp_bitcnt_t p);
 #endif
 
-	static uint64_t getTriangleNumberN(uint64_t n);
 	static uint64_t getPentagonalNumberN(uint64_t n);
 	static bool isPentagonal(uint64_t x);
-	static uint64_t getHexagonalNumberN(uint64_t n);
 	static uint64_t getHeptagonalNumberN(uint64_t n);
 	static uint64_t getOctagonalNumberN(uint64_t n);
 

@@ -30,28 +30,6 @@
 #include "common/math/EMath.cpp"
 #include "common/math/Math.hpp"
 
-TEST_CASE("Test getTriangleNumberN", "[EMath]")
-{
-	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{
-	        {0, 0},     {1, 1},     {2, 3},     {3, 6},     {4, 10},
-	        {5, 15},    {6, 21},    {7, 28},    {8, 36},    {9, 45},
-	        {10, 55},   {11, 66},   {12, 78},   {13, 91},   {14, 105},
-	        {15, 120},  {16, 136},  {17, 153},  {18, 171},  {19, 190},
-	        {20, 210},  {21, 231},  {22, 253},  {23, 276},  {24, 300},
-	        {25, 325},  {26, 351},  {27, 378},  {28, 406},  {29, 435},
-	        {30, 465},  {31, 496},  {32, 528},  {33, 561},  {34, 595},
-	        {35, 630},  {36, 666},  {37, 703},  {38, 741},  {39, 780},
-	        {40, 820},  {41, 861},  {42, 903},  {43, 946},  {44, 990},
-	        {45, 1035}, {46, 1081}, {47, 1128}, {48, 1176}, {49, 1225},
-	        {50, 1275}, {51, 1326}, {52, 1378}, {53, 1431}};
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		CHECK(EMath::getTriangleNumberN(testCase.first) ==
-		      testCase.second);
-	}
-}
-
 TEST_CASE("Test getPentagonalNumberN", "[EMath]")
 {
 	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{
@@ -69,27 +47,6 @@ TEST_CASE("Test getPentagonalNumberN", "[EMath]")
 	for(auto const &testCase : TEST_CASES)
 	{
 		CHECK(EMath::getPentagonalNumberN(testCase.first) ==
-		      testCase.second);
-	}
-}
-
-TEST_CASE("Test getHexagonalNumberN", "[EMath]")
-{
-	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{
-	        {0, 0},     {1, 1},     {2, 6},     {3, 15},    {4, 28},
-	        {5, 45},    {6, 66},    {7, 91},    {8, 120},   {9, 153},
-	        {10, 190},  {11, 231},  {12, 276},  {13, 325},  {14, 378},
-	        {15, 435},  {16, 496},  {17, 561},  {18, 630},  {19, 703},
-	        {20, 780},  {21, 861},  {22, 946},  {23, 1035}, {24, 1128},
-	        {25, 1225}, {26, 1326}, {27, 1431}, {28, 1540}, {29, 1653},
-	        {30, 1770}, {31, 1891}, {32, 2016}, {33, 2145}, {34, 2278},
-	        {35, 2415}, {36, 2556}, {37, 2701}, {38, 2850}, {39, 3003},
-	        {40, 3160}, {41, 3321}, {42, 3486}, {43, 3655}, {44, 3828},
-	        {45, 4005}, {46, 4186}, {47, 4371}, {48, 4560}};
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		CHECK(EMath::getHexagonalNumberN(testCase.first) ==
 		      testCase.second);
 	}
 }
