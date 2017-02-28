@@ -53,6 +53,14 @@ pub fn get_nth_triangle_number(n: u64) -> u64 {
     (n * (n + 1)) / 2
 }
 
+/// This function returns the nth pentagonal number. For details, see:
+/// https://en.wikipedia.org/wiki/Pentagonal_number
+pub fn get_nth_pentagonal_number(n: u64) -> u64 { (3 * n * n - n) / 2 }
+
+/// This function returns the nth hexagonal number. For details, see:
+/// https://en.wikipedia.org/wiki/Hexagonal_number
+pub fn get_nth_hexagonal_number(n: u64) -> u64 { 2 * n * n - n }
+
 fn binary_sequence_search<Index, Value, SequenceFn>(
     lower: Index, upper: Index, target: Value, sequence: SequenceFn) -> (Index, Value)
         where Index: Copy + PartialEq + Add<Output = Index> + AddAssign +

@@ -47,6 +47,34 @@ fn test_get_nth_triangle_number() {
 }
 
 #[test]
+fn test_get_nth_pentagonal_number() {
+    static SEQUENCE: &'static [u64] =
+        &[0, 1, 5, 12, 22, 35, 51, 70, 92, 117, 145, 176, 210, 247, 287, 330, 376, 425, 477, 532,
+          590, 651, 715, 782, 852, 925, 1001, 1080, 1162, 1247, 1335, 1426, 1520, 1617, 1717,
+          1820, 1926, 2035, 2147, 2262, 2380, 2501, 2625, 2752, 2882, 3015, 3151];
+    for test_case in SEQUENCE.iter().enumerate() {
+        assert!(get_nth_pentagonal_number(test_case.0 as u64) == *test_case.1,
+                "pentagonal_number({}) = {}",
+                test_case.0,
+                test_case.1);
+    }
+}
+
+#[test]
+fn test_get_nth_hexagonal_number() {
+    static SEQUENCE: &'static [u64] =
+        &[0, 1, 6, 15, 28, 45, 66, 91, 120, 153, 190, 231, 276, 325, 378, 435, 496, 561, 630, 703,
+          780, 861, 946, 1035, 1128, 1225, 1326, 1431, 1540, 1653, 1770, 1891, 2016, 2145, 2278,
+          2415, 2556, 2701, 2850, 3003, 3160, 3321, 3486, 3655, 3828, 4005, 4186, 4371, 4560];
+    for test_case in SEQUENCE.iter().enumerate() {
+        assert!(get_nth_hexagonal_number(test_case.0 as u64) == *test_case.1,
+                "hexagonal_number({}) == {}",
+                test_case.0,
+                test_case.1);
+    }
+}
+
+#[test]
 fn test_sequence_search() {
     static TEST_CASES: &'static [(u64, u64, u64)] =
         &[(6764, 20, 6765), (6765, 20, 6765), (6766, 21, 10946)];
