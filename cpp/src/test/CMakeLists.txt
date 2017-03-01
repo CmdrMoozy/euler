@@ -18,7 +18,6 @@ set(euler-test_SOURCES
 	types/EFractionTest.cpp
 
 	util/BitwiseTest.cpp
-	util/EArrayUtilitiesTest.cpp
 	util/EBitwiseTest.cpp
 
 )
