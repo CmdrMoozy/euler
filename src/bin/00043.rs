@@ -1,0 +1,89 @@
+// euler - A collection of ProjectEuler libraries, tools, and solutions.
+// Copyright (C) 2013 Axel Rasmussen
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// The number, 1406357289, is a 0 to 9 pandigital number because it is made up
+// of each of the digits 0 to 9 in some order, but it also has a rather
+// interesting sub-string divisibility property.
+//
+// Let d1 be the 1st digit, d2 be the 2nd digit, and so on. In this way, we
+// note the following:
+//
+//     - d2d3d4  = 406 is divisible by 2
+//     - d3d4d5  = 063 is divisible by 3
+//     - d4d5d6  = 635 is divisible by 5
+//     - d5d6d7  = 357 is divisible by 7
+//     - d6d7d8  = 572 is divisible by 11
+//     - d7d8d9  = 728 is divisible by 13
+//     - d8d9d10 = 289 is divisible by 17
+//
+// Find the sum of all 0 to 9 pandigital numbers with this property.
+
+extern crate euler;
+use self::euler::algorithm;
+use self::euler::util::error::*;
+use self::euler::util::problem::*;
+
+static DIVISORS: &'static [u64] = &[2, 3, 5, 7, 11, 13, 17];
+
+const EXPECTED_RESULT: u64 = 16695334890;
+
+fn collect_digits(digits: &[u64]) -> u64 {
+    let mut n: u64 = 0;
+    for digit in digits {
+        n = (n * 10) + digit;
+    }
+    n
+}
+
+fn number_matches(digits: &[u64]) -> bool {
+    for (idx, divisor) in DIVISORS.iter().enumerate() {
+        // The first divisor index is 0, but the first digit index we want to check is
+        // 1 (per the problem description - keep in mind that the problem description
+        // uses 1-indexed digits).
+        let idx = idx + 1;
+        // Check if the number containing these three digits is divisible by this
+        // divisor.
+        if collect_digits(&digits[idx..idx + 3]) % divisor != 0 {
+            return false;
+        }
+    }
+    true
+}
+
+fn main() {
+    main_impl(|| -> Result<ProblemAnswer<u64>> {
+        let mut sum: u64 = 0;
+        // We start with the number 1023456789 because numbers with leading zeros are
+        // actually NOT 0-9 pandigital, and this is the smallest number which doesn't
+        // have a leading zero.
+        let mut digits: Vec<u64> = vec![1, 0, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        loop {
+            if number_matches(digits.as_slice()) {
+                sum += collect_digits(digits.as_slice());
+            }
+
+            if !algorithm::permutate_lt(&mut digits) {
+                break;
+            }
+        }
+
+        Ok(ProblemAnswer {
+            actual: sum,
+            expected: EXPECTED_RESULT,
+        })
+    });
+}
