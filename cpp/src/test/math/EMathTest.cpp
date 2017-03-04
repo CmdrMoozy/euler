@@ -30,27 +30,6 @@
 #include "common/math/EMath.cpp"
 #include "common/math/Math.hpp"
 
-TEST_CASE("Test getPentagonalNumberN", "[EMath]")
-{
-	static const std::vector<std::pair<uint64_t, uint64_t>> TEST_CASES{
-	        {0, 0},     {1, 1},     {2, 5},     {3, 12},    {4, 22},
-	        {5, 35},    {6, 51},    {7, 70},    {8, 92},    {9, 117},
-	        {10, 145},  {11, 176},  {12, 210},  {13, 247},  {14, 287},
-	        {15, 330},  {16, 376},  {17, 425},  {18, 477},  {19, 532},
-	        {20, 590},  {21, 651},  {22, 715},  {23, 782},  {24, 852},
-	        {25, 925},  {26, 1001}, {27, 1080}, {28, 1162}, {29, 1247},
-	        {30, 1335}, {31, 1426}, {32, 1520}, {33, 1617}, {34, 1717},
-	        {35, 1820}, {36, 1926}, {37, 2035}, {38, 2147}, {39, 2262},
-	        {40, 2380}, {41, 2501}, {42, 2625}, {43, 2752}, {44, 2882},
-	        {45, 3015}, {46, 3151}};
-
-	for(auto const &testCase : TEST_CASES)
-	{
-		CHECK(EMath::getPentagonalNumberN(testCase.first) ==
-		      testCase.second);
-	}
-}
-
 TEST_CASE("Test isPrime_UI and isPrime", "[EMath]")
 {
 	static const std::set<uint64_t> KNOWN_PRIMES{

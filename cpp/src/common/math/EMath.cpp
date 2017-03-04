@@ -68,47 +68,6 @@ mpf_class EMath::int64ToBigFloat(uint64_t n, mp_bitcnt_t p)
 #endif
 
 /*!
- * This function returns the nth pentagonal number.
- *
- * Pentagonal numbers extend the idea of triangle numbers; more information can
- *be found here:
- *     http://en.wikipedia.org/wiki/Pentagonal_number
- *
- * \param n The nth pentagonal number will be generated.
- * \return The value of the nth pentagonal number.
- */
-uint64_t EMath::getPentagonalNumberN(uint64_t n)
-{
-	// The pentagonal number Pn is given by Pn = n(3n-1)/2
-	return (n * ((3 * n) - 1)) >> 1;
-}
-
-/*!
- * A given number, x, can be shown to be pentagonal iff (sqrt(24*x + 1) + 1) / 6
- *is a natural
- * number. Thus, we test if (24*x + 1) is a perfect square, and if so then we
- *test if sqrt(24*x + 1) + 1
- * is evenly divisible by 6.
- *
- * \param x The number to test.
- * \return True if x is pentagonal, or false otherwise.
- */
-bool EMath::isPentagonal(uint64_t x)
-{
-	if(!EMath::isSquare((x * 24) + 1))
-		return false;
-
-	x = euler::math::isqrt((x * 24) + 1) + 1;
-
-	if(x & 1)
-		return false;
-
-	x >>= 1;
-
-	return EMath::isMultipleThree(x);
-}
-
-/*!
  * This function returns the nth heptagonal number.
  *
  * \param n The nth heptagonal number will be generated.
