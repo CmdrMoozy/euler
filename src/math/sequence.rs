@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use gmp::mpz::Mpz;
+use math::exp::{is_square, isqrt};
 use mpfr::mpfr::Mpfr;
 use std::cmp::max;
 use std::convert::TryFrom;
@@ -56,6 +57,23 @@ pub fn get_nth_triangle_number(n: u64) -> u64 {
 /// This function returns the nth pentagonal number. For details, see:
 /// https://en.wikipedia.org/wiki/Pentagonal_number
 pub fn get_nth_pentagonal_number(n: u64) -> u64 { (3 * n * n - n) / 2 }
+
+/// A given number, n, can be shown to be pentagonal if and only if (sqrt(24 *
+/// n + 1) + 1) / 6 is a natural number. Thus, we test if (24 * n + 1) is a
+/// perfect square, and if so then we test if sqrt(24 * n + 1) + 1 is evenly
+/// divisible by 6.
+pub fn is_pentagonal_number(n: u64) -> bool {
+    let square = (n * 24) + 1;
+    if !is_square(square) {
+        return false;
+    }
+
+    let root = isqrt(square) + 1;
+    if root & 1 > 0 {
+        return false;
+    }
+    root % 3 == 0
+}
 
 /// This function returns the nth hexagonal number. For details, see:
 /// https://en.wikipedia.org/wiki/Hexagonal_number
