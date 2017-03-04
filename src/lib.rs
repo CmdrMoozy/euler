@@ -25,6 +25,7 @@ extern crate glob;
 extern crate gmp;
 #[macro_use]
 extern crate log;
+extern crate num_cpus;
 extern crate rand;
 extern crate rust_mpfr as mpfr;
 
