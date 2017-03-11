@@ -14,13 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#[cfg(test)]
-mod algorithm;
-#[cfg(test)]
-mod dsc;
-#[cfg(test)]
-mod math;
-#[cfg(test)]
-mod structs;
-#[cfg(test)]
-mod util;
+use ::algorithm::*;
+
+#[test]
+fn test_is_permutation_of() {
+    static TEST_CASES: &'static [(u64, u64, bool)] =
+        &[(123, 321, true), (0, 0, true), (100, 1, false)];
+
+    for test_case in TEST_CASES {
+        assert!(is_permutation_of(&test_case.0, &test_case.1) == test_case.2);
+    }
+}

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use std::cmp::Ordering;
+use std::fmt::Display;
 
 /// This is an implementation of Knuth's "Algorithm L", which permutates a
 /// given vector of elements in lexicographic order according to the given
@@ -72,3 +73,14 @@ pub fn permutate<T, F: FnMut(&T, &T) -> Ordering>(v: &mut Vec<T>, mut compare: F
 /// This is a convenient shorthand to call permutate() with a standard <
 /// comparator.
 pub fn permutate_lt<T: Ord>(v: &mut Vec<T>) -> bool { permutate(v, |a, b| a.cmp(b)) }
+
+/// Returns true if the characters in a and b's string representations are
+/// permutations of each other. This works for strings, but can also be used
+/// for e.g. integers.
+pub fn is_permutation_of<T: Display>(a: &T, b: &T) -> bool {
+    let mut a = a.to_string().chars().collect::<Vec<char>>();
+    let mut b = b.to_string().chars().collect::<Vec<char>>();
+    a.sort();
+    b.sort();
+    a == b
+}
