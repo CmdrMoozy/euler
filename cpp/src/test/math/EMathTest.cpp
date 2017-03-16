@@ -123,16 +123,6 @@ TEST_CASE("Test leastCommonMultiple", "[EMath]")
 	}
 }
 
-TEST_CASE("Test logBaseTen", "[EMath]")
-{
-	for(uint32_t i = 1; i < 10000; ++i)
-	{
-		CHECK(EMath::logBaseTen(i) ==
-		      static_cast<uint32_t>(
-		              std::floor(std::log10(static_cast<double>(i)))));
-	}
-}
-
 TEST_CASE("Test isSquare", "[EMath]")
 {
 	constexpr double TEST_CASE_EPSILON = 0.000001;

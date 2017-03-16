@@ -286,39 +286,6 @@ uint64_t EMath::leastCommonMultiple(uint64_t a, uint64_t b)
 }
 
 /*!
- * This function returns the floor of the base-10 logarithm of the given number.
- * It should be extremely fast, depending on how quickly the processor branches.
- *
- * \param n The number to process.
- * \return log10(n)
- */
-uint32_t EMath::logBaseTen(uint64_t n)
-{
-	// clang-format off
-	return ((n >= 10000000000000000000ULL) ? 19 :
-		(n >= 1000000000000000000ULL) ? 18 :
-		(n >= 100000000000000000ULL) ? 17 :
-		(n >= 10000000000000000ULL) ? 16 :
-		(n >= 1000000000000000ULL) ? 15 :
-		(n >= 100000000000000ULL) ? 14 :
-		(n >= 10000000000000ULL) ? 13 :
-		(n >= 1000000000000ULL) ? 12 :
-		(n >= 100000000000ULL) ? 11 :
-		(n >= 10000000000ULL) ? 10 :
-		(n >= 1000000000) ? 9 :
-		(n >= 100000000) ? 8 :
-		(n >= 10000000) ? 7 :
-		(n >= 1000000) ? 6 :
-		(n >= 100000) ? 5 :
-		(n >= 10000) ? 4 :
-		(n >= 1000) ? 3 :
-		(n >= 100) ? 2 :
-		(n >= 10) ? 1 :
-		0);
-	// clang-format on
-}
-
-/*!
  * This function returns whether or not the given number is a perfect square.
  *
  * \param n The number to test.
