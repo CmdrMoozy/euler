@@ -17,6 +17,14 @@
 use std::cmp::Ordering;
 use std::fmt::Display;
 
+/// Returns whether or not the given value is a palindrome. This works as
+/// expected e.g. for integers, because we compare the string representations
+/// provided by Display.
+pub fn is_palindrome<T: Display>(x: &T) -> bool {
+    let s = x.to_string();
+    s == s.chars().rev().collect::<String>()
+}
+
 /// This is an implementation of Knuth's "Algorithm L", which permutates a
 /// given vector of elements in lexicographic order according to the given
 /// comparator. That is, because of this ordering, if the Vec is sorted in

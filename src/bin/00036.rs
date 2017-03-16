@@ -23,21 +23,18 @@
 // leading zeros.)
 
 extern crate euler;
+use self::euler::algorithm::is_palindrome;
 use self::euler::util::bitwise::is_bitwise_palindromic;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 872187;
 
-fn is_digital_palindrome(n: u64) -> bool {
-    n == n.to_string().chars().rev().collect::<String>().parse::<u64>().unwrap()
-}
-
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut sum: u64 = 0;
         for n in 1..1000000 {
-            if is_bitwise_palindromic(n) && is_digital_palindrome(n) {
+            if is_bitwise_palindromic(n) && is_palindrome(&n) {
                 sum += n;
             }
         }
