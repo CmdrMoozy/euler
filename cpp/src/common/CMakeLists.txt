@@ -40,8 +40,6 @@ SET(euler-common_SOURCES
 	structs/BitArray.hpp
 	structs/BitIterator.hpp
 
-	types/EDigitInteger.cpp
-	types/EDigitInteger.h
 	types/EFraction.cpp
 	types/EFraction.h
 	types/ERomanNumeral.cpp

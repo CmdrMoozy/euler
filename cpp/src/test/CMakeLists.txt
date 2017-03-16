@@ -14,7 +14,6 @@ set(euler-test_SOURCES
 	structs/BitArrayTest.cpp
 	structs/BitIteratorTest.cpp
 
-	types/EDigitIntegerTest.cpp
 	types/EFractionTest.cpp
 
 	util/BitwiseTest.cpp
