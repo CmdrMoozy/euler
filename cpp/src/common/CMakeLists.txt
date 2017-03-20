@@ -4,8 +4,6 @@ SET(euler-common_SOURCES
 	EExceptions.cpp
 	EExceptions.h
 
-	euler/EPoker.cpp
-	euler/EPoker.h
 	euler/ESpiral.cpp
 	euler/ESpiral.h
 	euler/ESudoku.cpp

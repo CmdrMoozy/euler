@@ -2,7 +2,6 @@ set(euler-test_SOURCES
 
 	euler-test.cpp
 
-	euler/EPokerTest.cpp
 	euler/ESpiralTest.cpp
 
 	graph/GraphTest.cpp
