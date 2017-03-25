@@ -27,7 +27,7 @@
 // sequence?
 
 extern crate euler;
-use self::euler::algorithm::is_permutation_of;
+use self::euler::algorithm::integer_is_permutation_of;
 use self::euler::math::prime::PrimeSieve;
 use self::euler::math::sieve::Sieve;
 use self::euler::util::error::*;
@@ -52,8 +52,8 @@ fn main() {
                     let third_prime = prime + addition * 2;
                     if sieve.contains(third_prime).unwrap_or(false) {
                         // If these primes are permutations of each other...
-                        if is_permutation_of(&prime, &second_prime) &&
-                           is_permutation_of(&prime, &third_prime) {
+                        if try!(integer_is_permutation_of(prime, second_prime)) &&
+                           try!(integer_is_permutation_of(prime, third_prime)) {
                             // If this isn't the sequence given in the problem description...
                             if prime != 1487 && second_prime != 1487 && third_prime != 1487 {
                                 result.push(prime);

@@ -21,7 +21,7 @@
 // contain the same digits.
 
 extern crate euler;
-use self::euler::algorithm::is_permutation_of;
+use self::euler::algorithm::integer_is_permutation_of;
 use self::euler::math::exp::log10;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -40,10 +40,11 @@ fn main() {
             }
 
             // If x contains the same digits as [2, 6]x, then we have found the answer.
-            let all_are_permutations = (2..7)
-                .map(|multiple| is_permutation_of(&x, &(x * multiple)))
-                .fold(true, |acc, is_permutation| acc && is_permutation);
-            if all_are_permutations {
+            let all_are_permutations: Result<bool> = (2..7)
+                .map(|multiple| integer_is_permutation_of(x, x * multiple))
+                .fold(Ok(true),
+                      |acc, is_permutation| Ok(try!(acc) && try!(is_permutation)));
+            if try!(all_are_permutations) {
                 break;
             }
 
