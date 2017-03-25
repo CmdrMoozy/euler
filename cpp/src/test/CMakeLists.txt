@@ -2,8 +2,6 @@ set(euler-test_SOURCES
 
 	euler-test.cpp
 
-	euler/ESpiralTest.cpp
-
 	graph/GraphTest.cpp
 
 	math/EMathTest.cpp
@@ -11,7 +9,6 @@ set(euler-test_SOURCES
 	math/MathTest.cpp
 
 	structs/BitArrayTest.cpp
-	structs/BitIteratorTest.cpp
 
 	types/EFractionTest.cpp
 

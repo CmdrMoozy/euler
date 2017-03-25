@@ -4,8 +4,6 @@ SET(euler-common_SOURCES
 	EExceptions.cpp
 	EExceptions.h
 
-	euler/ESpiral.cpp
-	euler/ESpiral.h
 	euler/ESudoku.cpp
 	euler/ESudoku.h
 	euler/GridGraphUtils.cpp
@@ -31,19 +29,14 @@ SET(euler-common_SOURCES
 	math/EPrimeSieve.cpp
 	math/EPrimeSieve.h
 
-	string/Util.cpp
-	string/Util.hpp
-
 	structs/BitArray.cpp
 	structs/BitArray.hpp
-	structs/BitIterator.hpp
 
 	types/EFraction.cpp
 	types/EFraction.h
 	types/ERomanNumeral.cpp
 	types/ERomanNumeral.h
 
-	util/AbsoluteValue.h
 	util/Bitwise.cpp
 	util/Bitwise.hpp
 	util/EBitwise.cpp
