@@ -21,8 +21,8 @@ use std::cmp;
 use std::collections::{hash_map, HashMap};
 use std::iter::FilterMap;
 use std::option::Option;
-use ::structs::bit_array::*;
-use ::util::error::*;
+use structs::bit_array::*;
+use util::error::*;
 
 pub const DEFAULT_PRIMALITY_TEST_PRECISION: u64 = 15;
 

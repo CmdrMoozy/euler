@@ -42,7 +42,7 @@ use self::euler::util::problem::*;
 
 // This value is sufficiently high enough for us to get the correct answer, and
 // sufficiently low enough to find the answer very quickly.
-const PRIMALITY_TEST_PRECISION: u64 = 25;
+const PRIMALITY_TEST_PRECISION: u64 = 50;
 
 const EXPECTED_RESULT: usize = 26241;
 
