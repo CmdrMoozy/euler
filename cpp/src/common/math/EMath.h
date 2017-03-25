@@ -63,8 +63,6 @@ public:
 	static uint64_t leastCommonMultiple(uint64_t a, uint64_t b);
 
 	static bool isSquare(uint64_t n);
-	static uint64_t icbrt(uint64_t n);
-	static bool isCube(uint64_t n);
 	static bool isMultipleThree(uint64_t n);
 
 	static bool isPermutationOf(uint64_t a, uint64_t b);

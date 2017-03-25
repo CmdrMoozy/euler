@@ -442,48 +442,6 @@ bool EMath::isSquare(uint64_t n)
 }
 
 /*!
- * This function returns the integer cube root of the given number. In general,
- *this
- * is equivalent to floor(cbrt(n)), but is in theory much faster because it uses
- *no
- * floating point arithmetic.
- *
- * \param n The number to compute the integer cube root of.
- * \return The integer cube root of n.
- */
-uint64_t EMath::icbrt(uint64_t n)
-{
-	int s;
-	uint64_t y = 0, b;
-
-	for(s = 63; s >= 0; s -= 3)
-	{
-		y += y;
-		b = 3 * y * (y + 1) + 1;
-
-		if((n >> s) >= b)
-		{
-			n -= b << s;
-			++y;
-		}
-	}
-
-	return y;
-}
-
-/*!
- * This function tests whether or not the given number is a perfect cube.
- *
- * \param n The number to test.
- * \return True if n is a perfect cube, or false otherwise.
- */
-bool EMath::isCube(uint64_t n)
-{
-	uint64_t r = EMath::icbrt(n);
-	return ((r * r * r) == n);
-}
-
-/*!
  * This function tests if the given number is a multiple of three. We use a very
  *simple finite
  * state machine and only bitwish shifts and ANDs, so this should in theory be
