@@ -18,11 +18,9 @@ use std::collections::HashMap;
 use util::error::*;
 
 /// Represents the address of a single value in a Spiral. The center value,
-/// which is always 1, is
-/// considered to be at address (0, 0). The x address increases for values to
-/// the right, and
-/// decreases for values to the left. The y address increases for values above,
-/// and decreases for
+/// which is always 1, is considered to be at address (0, 0). The x address
+/// increases for values to the right, and decreases for values to the
+/// left. The y address increases for values above, and decreases for
 /// values below.
 #[derive(Clone, Hash, PartialEq, Eq)]
 pub struct Address {
@@ -38,17 +36,14 @@ pub struct Address {
 pub fn diagonal_size_to_edge_size(diagonal_size: i64) -> i64 { 1 + (diagonal_size.abs() * 2) }
 
 /// Spiral denotes a grid of numbers, where the center value is 1, and each
-/// other address is filled
-/// in with consecutive integers in clockwise order, starting with the cell
-/// immediately to the
-/// right of cell (0, 0) (the origin).
+/// other address is filled in with consecutive integers in clockwise order,
+/// starting with the cell immediately to the right of cell (0, 0) (the
+/// origin).
 ///
 /// This data structure is lazy - that is, the spiral is functionally infinite,
-/// but its contents
-/// are only computed when retrieved. As such, accessor functions generally
-/// require a mutable
-/// borrow of the data structure itself, so the new values can be computed and
-/// filled in.
+/// but its contents are only computed when retrieved. As such, accessor
+/// functions generally require a mutable borrow of the data structure itself,
+/// so the new values can be computed and filled in.
 pub struct Spiral {
     contents: HashMap<Address, u64>,
 }
@@ -70,18 +65,14 @@ impl Spiral {
         }
 
         // We need the size of the edges, because the value at this cell is the value
-        // of the
-        // previous cell along the same diagonal, plus the length of the sides
+        // of the previous cell along the same diagonal, plus the length of the sides
         // in-between.
         let edge_size = diagonal_size_to_edge_size(addr.x);
 
         // Compute the value of the cell on the diagonal in the *first quadrant* that's
-        // one cell
-        // closer to the origin than the desired value. From this cell, we need to add
-        // some number
-        // of extra side lengths (at least one) to get to the next-biggest spiral
-        // perimeter which
-        // contains the desired cell.
+        // one cell closer to the origin than the desired value. From this cell, we
+        // need to add some number of extra side lengths (at least one) to get to the
+        // next-biggest spiral perimeter which contains the desired cell.
         let previous_diagonal = try!(self.get_diagonal_value(&Address {
             x: addr.x.abs() - 1,
             y: addr.y.abs() - 1,
@@ -103,5 +94,45 @@ impl Spiral {
         }
 
         Ok(*self.contents.get(&addr).unwrap())
+    }
+}
+
+/// This structure provides an Iterator interface to a Spiral's diagonal values.
+pub struct SpiralIterator {
+    spiral: Spiral,
+    current_address: Address,
+}
+
+impl SpiralIterator {
+    pub fn new() -> SpiralIterator {
+        SpiralIterator {
+            spiral: Spiral::new(),
+            current_address: Address { x: 0, y: 0 },
+        }
+    }
+}
+
+impl Iterator for SpiralIterator {
+    type Item = Result<u64>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let result = self.spiral.get_diagonal_value(&self.current_address);
+
+        if self.current_address.x > 0 && self.current_address.y > 0 {
+            self.current_address.x *= -1;
+        } else if self.current_address.x < 0 && self.current_address.y > 0 {
+            self.current_address.y *= -1;
+        } else if self.current_address.x < 0 && self.current_address.y < 0 {
+            self.current_address.x *= -1;
+        } else if self.current_address.x > 0 && self.current_address.y < 0 {
+            self.current_address.y *= -1;
+            self.current_address.x += 1;
+            self.current_address.y += 1;
+        } else {
+            self.current_address.x = 1;
+            self.current_address.y = 1;
+        }
+
+        Some(result)
     }
 }
