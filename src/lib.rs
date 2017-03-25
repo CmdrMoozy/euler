@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#![feature(sort_unstable)]
 #![feature(step_by)]
 #![feature(try_from)]
 
@@ -23,6 +24,7 @@ extern crate bdrck_params;
 extern crate error_chain;
 extern crate glob;
 extern crate gmp;
+extern crate itoa;
 #[macro_use]
 extern crate log;
 extern crate num_cpus;

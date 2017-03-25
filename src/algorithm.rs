@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use itoa::{self, Integer};
 use std::cmp::Ordering;
 use std::fmt::Display;
+use util::error::*;
 
 /// Returns whether or not the given value is a palindrome. This works as
 /// expected e.g. for integers, because we compare the string representations
@@ -88,7 +90,33 @@ pub fn permutate_lt<T: Ord>(v: &mut Vec<T>) -> bool { permutate(v, |a, b| a.cmp(
 pub fn is_permutation_of<T: Display>(a: &T, b: &T) -> bool {
     let mut a = a.to_string().chars().collect::<Vec<char>>();
     let mut b = b.to_string().chars().collect::<Vec<char>>();
-    a.sort();
-    b.sort();
+    a.sort_unstable();
+    b.sort_unstable();
     a == b
+}
+
+/// This function is equivalent to `is_permutation_of`, but since it is
+/// restricted to working only with integers we can enable some optimizations
+/// which drastically improve performance.
+pub fn integer_is_permutation_of<I: Integer>(a: I, b: I) -> Result<bool> {
+    // We assume that I is at most 64-bits in length, so its string representation
+    // is at most 20 digits long (i.e., bytes).
+    let mut abuf = [0_u8; 20];
+    try!(itoa::write(&mut abuf[..], a));
+    let mut bbuf = [0_u8; 20];
+    try!(itoa::write(&mut bbuf[..], b));
+
+    // Check using a parity bit first to avoid doing an expensive sort.
+    if (abuf[0] ^ abuf[1] ^ abuf[2] ^ abuf[3] ^ abuf[4] ^ abuf[5] ^ abuf[6] ^
+        abuf[7] ^ abuf[8] ^ abuf[9] ^ abuf[10] ^ abuf[11] ^ abuf[12] ^
+        abuf[13] ^ abuf[14] ^ abuf[15] ^ abuf[16] ^ abuf[17] ^ abuf[18] ^ abuf[19]) & 1 !=
+       (bbuf[0] ^ bbuf[1] ^ bbuf[2] ^ bbuf[3] ^ bbuf[4] ^ bbuf[5] ^ bbuf[6] ^
+        bbuf[7] ^ bbuf[8] ^ bbuf[9] ^ bbuf[10] ^ bbuf[11] ^ bbuf[12] ^
+        bbuf[13] ^ bbuf[14] ^ bbuf[15] ^ bbuf[16] ^ bbuf[17] ^ bbuf[18] ^ bbuf[19]) & 1 {
+        return Ok(false);
+    }
+
+    abuf.sort_unstable();
+    bbuf.sort_unstable();
+    Ok(abuf == bbuf)
 }

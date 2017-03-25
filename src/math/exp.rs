@@ -124,6 +124,28 @@ pub fn isqrt(mut n: u64) -> u64 {
     res
 }
 
+/// This function returns the integer cube root of the given number. In
+/// general, this is equivalent to floor(cbrt(n)), but is in theory much faster
+/// because it uses no floating point arithmetic.
+pub fn icbrt(mut n: u64) -> u64 {
+    let mut s: i64 = 63;
+    let mut y: u64 = 0;
+
+    while s >= 0 {
+        y += y;
+        let b: u64 = 3 * y * (y + 1) + 1;
+
+        if n >> s >= b {
+            n -= b << s;
+            y += 1;
+        }
+
+        s -= 3;
+    }
+
+    y
+}
+
 /// This function returns whether or not the given number is a perfect square.
 pub fn is_square(n: u64) -> bool {
     let root = isqrt(n);
