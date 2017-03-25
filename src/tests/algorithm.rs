@@ -23,5 +23,6 @@ fn test_is_permutation_of() {
 
     for test_case in TEST_CASES {
         assert!(is_permutation_of(&test_case.0, &test_case.1) == test_case.2);
+        assert!(integer_is_permutation_of(test_case.0, test_case.1).unwrap() == test_case.2);
     }
 }
