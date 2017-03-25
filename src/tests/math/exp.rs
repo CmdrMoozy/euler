@@ -17,6 +17,17 @@
 use ::math::exp::*;
 
 #[test]
+fn test_checked_ipow() {
+    for b in 1..16 {
+        for e in 1..16 {
+            assert_eq!(checked_ipow(b, e).unwrap(), b.pow(e as u32));
+        }
+    }
+
+    assert!(checked_ipow(17, 17).is_none());
+}
+
+#[test]
 fn test_ipowmod() {
     const MODULUS: u64 = 5;
     for b in 1_u64..6_u64 {

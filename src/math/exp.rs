@@ -14,6 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+/// Returns x ^ n, or None if the computation overflowed. The result is
+/// computed using exponentiation by squaring, just like the "pow" functions in
+/// the standard library.
+pub fn checked_ipow(x: u64, n: u64) -> Option<u64> {
+    if n == 0 {
+        Some(1)
+    } else if n == 1 {
+        Some(x)
+    } else {
+        match x.checked_mul(x) {
+            Some(x_squared) => {
+                if n & 1 == 0 {
+                    checked_ipow(x_squared, n / 2)
+                } else {
+                    match checked_ipow(x_squared, (n - 1) / 2) {
+                        Some(exp) => x.checked_mul(exp),
+                        None => None,
+                    }
+                }
+            },
+            None => None,
+        }
+    }
+}
+
 /// This algorithm calculates b^e (mod m). This method is known as the
 /// "right-to-left binary method," which is explained in more detail here:
 /// http://en.wikipedia.org/wiki/Modular_exponentiation
