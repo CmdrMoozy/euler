@@ -75,4 +75,18 @@ impl Fraction {
             (Fraction(self.0 / gcd, self.1 / gcd), true)
         }
     }
+
+    /// This function returns a new Fraction whose value is the mediant of this
+    /// Fraction and the given other one. For more information, see:
+    ///
+    ///     http://en.wikipedia.org/wiki/Mediant_(mathematics)
+    ///
+    /// The result is automatically reduced to its lowest common terms, and we
+    /// return a boolean to indicate whether or not the reduction resulted in
+    /// any change.
+    pub fn mediant(&self, other: &Fraction) -> Result<(Fraction, bool)> {
+        Ok(try!(Fraction::new(self.numerator() + other.numerator(),
+                              self.denominator() + other.denominator()))
+            .reduce())
+    }
 }
