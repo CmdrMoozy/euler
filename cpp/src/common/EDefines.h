@@ -22,28 +22,6 @@
 
 #include <iostream>
 
-#include "EExceptions.h"
-
-// Disable some warnings we don't care about on win32.
-#ifdef _WIN32
-#pragma warning(disable : 4290) // Exception specification on functions.
-#endif
-
-/*
- * Define our ELUNUSED macro, which is used on win32 to suppress the
- * "unreferenced local
- * variable" warning (4101) in cases where we are very intentionally NOT
- * referencing said
- * variable.
- */
-#ifndef ELUNUSED
-#ifdef _WIN32
-#define ELUNUSED(x) x;
-#else
-#define ELUNUSED(x)
-#endif
-#endif
-
 // Define our EUNUSED() macro
 #ifndef EUNUSED
 #if defined(__GNUC__)
@@ -59,12 +37,6 @@
 	std::cerr << "\nDEBUG: LOGIC ERROR: " << __PRETTY_FUNCTION__           \
 	          << " EXCEPTION: " << exception.what() << "\n";               \
 	abort();
-
-// Replacement for cassert that doesn't abort() on failure.
-#define EASSERT(assertion)                                                     \
-	if(!(assertion))                                                       \
-		throw EAssertionException("Assertion '" #assertion             \
-		                          "' failed.\n");
 
 // Define the EFALLTHROUGH annotation, which is used to silence compiler
 // warnings when we intentionally want switch() fallthrough behavior.

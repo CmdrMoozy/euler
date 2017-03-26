@@ -1,8 +1,6 @@
 SET(euler-common_SOURCES
 
 	EDefines.h
-	EExceptions.cpp
-	EExceptions.h
 
 	euler/ESudoku.cpp
 	euler/ESudoku.h
@@ -32,8 +30,6 @@ SET(euler-common_SOURCES
 	structs/BitArray.cpp
 	structs/BitArray.hpp
 
-	types/EFraction.cpp
-	types/EFraction.h
 	types/ERomanNumeral.cpp
 	types/ERomanNumeral.h
 

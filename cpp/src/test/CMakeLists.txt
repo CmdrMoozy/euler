@@ -10,8 +10,6 @@ set(euler-test_SOURCES
 
 	structs/BitArrayTest.cpp
 
-	types/EFractionTest.cpp
-
 	util/BitwiseTest.cpp
 	util/EBitwiseTest.cpp
 

@@ -21,6 +21,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <map>
+#include <stdexcept>
 
 #include "common/EDefines.h"
 #include "common/math/Math.hpp"
@@ -551,7 +552,7 @@ uint64_t EMath::permutations(int n, int r)
 	 *   - r >= 0
 	 */
 	if((r > n) || (n < 0) || (r < 0))
-		throw EValueRangeException("Undefined permutation.");
+        throw std::runtime_error("Undefined premutation");
 
 	/*
 	 * The number of permutations of r objects from n objects is:

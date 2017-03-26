@@ -36,8 +36,6 @@
 #pragma warning(pop)
 #endif
 
-#include "common/EExceptions.h"
-
 /*!
  * \brief This class provides math utility functions.
  */
