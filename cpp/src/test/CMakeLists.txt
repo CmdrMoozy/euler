@@ -5,10 +5,7 @@ set(euler-test_SOURCES
 	graph/GraphTest.cpp
 
 	math/EMathTest.cpp
-	math/EPrimeSieveTest.cpp
 	math/MathTest.cpp
-
-	structs/BitArrayTest.cpp
 
 	util/BitwiseTest.cpp
 	util/EBitwiseTest.cpp

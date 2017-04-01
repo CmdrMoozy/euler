@@ -31,13 +31,6 @@
 #endif
 #endif
 
-// This macro prints out information about the given exception and then aborts()
-// (for debugging purposes).
-#define EDIE_LOGIC(exception)                                                  \
-	std::cerr << "\nDEBUG: LOGIC ERROR: " << __PRETTY_FUNCTION__           \
-	          << " EXCEPTION: " << exception.what() << "\n";               \
-	abort();
-
 // Define the EFALLTHROUGH annotation, which is used to silence compiler
 // warnings when we intentionally want switch() fallthrough behavior.
 #ifdef __clang__

@@ -24,11 +24,6 @@ SET(euler-common_SOURCES
 	math/EMath.h
 	math/Math.cpp
 	math/Math.hpp
-	math/EPrimeSieve.cpp
-	math/EPrimeSieve.h
-
-	structs/BitArray.cpp
-	structs/BitArray.hpp
 
 	types/ERomanNumeral.cpp
 	types/ERomanNumeral.h

@@ -55,12 +55,8 @@ public:
 	static bool isPrime_UI(uint64_t n, int p = 15);
 	static bool isPrime(const mpz_class &n, int p = 15);
 
-	static bool areCoprime(uint32_t a, uint32_t b);
-	static uint32_t totient(uint32_t n);
-
 	static uint64_t leastCommonMultiple(uint64_t a, uint64_t b);
 
-	static bool isSquare(uint64_t n);
 	static bool isMultipleThree(uint64_t n);
 
 	static bool isPermutationOf(uint64_t a, uint64_t b);
