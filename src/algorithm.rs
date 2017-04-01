@@ -120,3 +120,55 @@ pub fn integer_is_permutation_of<I: Integer>(a: I, b: I) -> Result<bool> {
     bbuf.sort_unstable();
     Ok(abuf == bbuf)
 }
+
+/// Returns the index of the first element in the given sorted vector that is
+/// *not less* than (i.e. greater or equal to) the given value x. If no such
+/// element could be found, returns v.len() instead.
+///
+/// This function is logarithmic in the length of the given vector. If the
+/// given vector is not sorted in ascending order, the result is undefined.
+pub fn lower_bound<T: Ord>(v: &Vec<T>, x: &T) -> usize {
+    let mut first = 0;
+    let mut count = v.len();
+    let mut idx;
+
+    while count > 0 {
+        idx = first;
+        let step = count / 2;
+        idx += step;
+        if v[idx] < *x {
+            first = idx + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+
+    first
+}
+
+/// Returns the index of the first element in the given sorted vector that is
+/// *greater* than the given value x. If no such element could be found,
+/// returns v.len() instead.
+///
+/// This function is logarithmic in the length of the given vector. If the
+/// given vector is not sorted in ascending order, the result is undefined.
+pub fn upper_bound<T: Ord>(v: &Vec<T>, x: &T) -> usize {
+    let mut first = 0;
+    let mut count = v.len();
+    let mut idx;
+
+    while count > 0 {
+        idx = first;
+        let step = count / 2;
+        idx += step;
+        if *x >= v[idx] {
+            first = idx + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+
+    first
+}
