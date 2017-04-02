@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#![feature(sort_unstable)]
-#![feature(step_by)]
-#![feature(try_from)]
-
+extern crate atomic;
 extern crate bdrck_log;
 extern crate bdrck_params;
 #[macro_use]
@@ -27,7 +24,9 @@ extern crate gmp;
 extern crate itoa;
 #[macro_use]
 extern crate log;
+extern crate num;
 extern crate num_cpus;
+extern crate pdqsort;
 extern crate rand;
 extern crate rust_mpfr as mpfr;
 

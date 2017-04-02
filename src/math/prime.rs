@@ -66,8 +66,10 @@ fn prime_sieve(limit: u64) -> BitArray {
 
     for i in 2..(root + 1) {
         if is_prime.get(i as usize).unwrap() {
-            for j in ((i * i)..(limit + 1)).step_by(i) {
+            let mut j = i * i;
+            while j <= limit {
                 is_prime.set(j as usize, false);
+                j += i;
             }
         }
     }

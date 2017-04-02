@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use itoa::{self, Integer};
+use pdqsort;
 use std::cmp::Ordering;
 use std::fmt::Display;
 use util::error::*;
@@ -90,8 +91,8 @@ pub fn permutate_lt<T: Ord>(v: &mut Vec<T>) -> bool { permutate(v, |a, b| a.cmp(
 pub fn is_permutation_of<T: Display>(a: &T, b: &T) -> bool {
     let mut a = a.to_string().chars().collect::<Vec<char>>();
     let mut b = b.to_string().chars().collect::<Vec<char>>();
-    a.sort_unstable();
-    b.sort_unstable();
+    pdqsort::sort(a.as_mut_slice());
+    pdqsort::sort(b.as_mut_slice());
     a == b
 }
 
@@ -116,8 +117,8 @@ pub fn integer_is_permutation_of<I: Integer>(a: I, b: I) -> Result<bool> {
         return Ok(false);
     }
 
-    abuf.sort_unstable();
-    bbuf.sort_unstable();
+    pdqsort::sort(&mut abuf[..]);
+    pdqsort::sort(&mut bbuf[..]);
     Ok(abuf == bbuf)
 }
 

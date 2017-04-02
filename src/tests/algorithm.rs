@@ -29,7 +29,7 @@ fn test_is_permutation_of() {
 
 #[test]
 fn test_lower_bound() {
-    static TEST_CASES: &'static [(&[u64], u64, usize)] =
+    static TEST_CASES: &'static [(&'static [u64], u64, usize)] =
         &[(&[], 123, 0), (&[1, 2, 3], 4, 3), (&[1, 2, 3], 0, 0), (&[1, 2, 2, 3], 2, 1)];
 
     for test_case in TEST_CASES {
@@ -40,11 +40,11 @@ fn test_lower_bound() {
 
 #[test]
 fn test_upper_bound() {
-    static TEST_CASES: &'static [(&[u64], u64, usize)] = &[(&[], 123, 0),
-                                                           (&[1, 2, 3], 0, 0),
-                                                           (&[1, 2, 3], 1, 1),
-                                                           (&[1, 2, 2, 3], 1, 1),
-                                                           (&[1, 2, 2, 3], 2, 3)];
+    static TEST_CASES: &'static [(&'static [u64], u64, usize)] = &[(&[], 123, 0),
+                                                                   (&[1, 2, 3], 0, 0),
+                                                                   (&[1, 2, 3], 1, 1),
+                                                                   (&[1, 2, 2, 3], 1, 1),
+                                                                   (&[1, 2, 2, 3], 2, 3)];
 
     for test_case in TEST_CASES {
         assert_eq!(test_case.2,

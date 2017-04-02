@@ -26,12 +26,12 @@
 // difference is pentagonal and D = |P(k) - P(j)| is minimised; what is the
 // value of D?
 
-#![feature(integer_atomics)]
-
 use std::mem;
 use std::sync::Arc;
-use std::sync::atomic::{AtomicU64, Ordering};
 use std::thread;
+
+extern crate atomic;
+use atomic::{Atomic, Ordering};
 
 extern crate num_cpus;
 
@@ -40,6 +40,8 @@ use self::euler::math::exp::isqrt;
 use self::euler::math::sequence::{get_nth_pentagonal_number, is_pentagonal_number};
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+type AtomicU64 = Atomic<u64>;
 
 const EXPECTED_RESULT: u64 = 1912;
 

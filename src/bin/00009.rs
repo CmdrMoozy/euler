@@ -24,8 +24,6 @@
 // There exists a Pythagorean triplet for which a + b + c = 1000. Find the
 // product abc.
 
-#![feature(step_by)]
-
 #[macro_use]
 extern crate error_chain;
 
@@ -46,7 +44,8 @@ fn check_solution(m: u64, n: u64, k: u64) -> Option<u64> {
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        for range_max in (5..1000).step_by(5) {
+        let mut range_max = 5;
+        while range_max < 1000 {
             for m in 1..(range_max + 1) {
                 for n in 1..m {
                     for k in 1..(range_max + 1) {
@@ -59,6 +58,7 @@ fn main() {
                     }
                 }
             }
+            range_max += 5;
         }
 
         bail!("No solution found");

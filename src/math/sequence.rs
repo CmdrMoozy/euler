@@ -17,9 +17,8 @@
 use gmp::mpz::Mpz;
 use math::exp::{is_square, isqrt};
 use mpfr::mpfr::Mpfr;
+use num::{Num, One};
 use std::cmp::max;
-use std::convert::TryFrom;
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 
 /// This function returns the nth Fibonacci number.
 ///
@@ -79,25 +78,27 @@ pub fn is_pentagonal_number(n: u64) -> bool {
 /// https://en.wikipedia.org/wiki/Hexagonal_number
 pub fn get_nth_hexagonal_number(n: u64) -> u64 { 2 * n * n - n }
 
-fn binary_sequence_search<Index, Value, SequenceFn>(
-    lower: Index, upper: Index, target: Value, sequence: SequenceFn) -> (Index, Value)
-        where Index: Copy + PartialEq + Add<Output = Index> + AddAssign +
-                Sub<Output = Index> + SubAssign + Mul<Output = Index> + MulAssign +
-                Div<Output = Index> + DivAssign + TryFrom<usize> + Ord,
-              Value: Clone + PartialOrd,
-              SequenceFn: Fn(Index) -> Value {
-    let mut midpoint: Index = lower + ((upper - lower) / Index::try_from(2 as usize).ok().unwrap());
+fn binary_sequence_search<Index, Value, SequenceFn>(lower: Index,
+                                                    upper: Index,
+                                                    target: Value,
+                                                    sequence: SequenceFn)
+                                                    -> (Index, Value)
+    where Index: Copy + Num + One + Ord,
+          Value: Clone + PartialOrd,
+          SequenceFn: Fn(Index) -> Value
+{
+    let mut midpoint: Index = lower + ((upper - lower) / (Index::one() + Index::one()));
     let mut value: Value = sequence(midpoint);
 
     if lower == midpoint {
         if value < target {
             while value < target {
-                midpoint += Index::try_from(1 as usize).ok().unwrap();
+                midpoint = midpoint + Index::one();
                 value = sequence(midpoint);
             }
         } else if value > target {
             while value >= target {
-                midpoint -= Index::try_from(1 as usize).ok().unwrap();
+                midpoint = midpoint - Index::one();
                 value = sequence(midpoint);
             }
         }
@@ -125,25 +126,26 @@ fn binary_sequence_search<Index, Value, SequenceFn>(
 /// Ideally, the caller should provide a start index which points to a sequence
 /// value less than the target, but as close to it as possible. However, any
 /// starting index will still produce a correct result.
-pub fn sequence_search<Index, Value, SequenceFn>(
-    start: Index, target: Value, sequence: SequenceFn) -> (Index, Value)
-        where Index: Copy + PartialEq + Add<Output = Index> + AddAssign +
-                Sub<Output = Index> + SubAssign + Mul<Output = Index> + MulAssign +
-                Div<Output = Index> + DivAssign + TryFrom<usize> + Ord,
-              Value: Clone + PartialOrd,
-              SequenceFn: Fn(Index) -> Value {
+pub fn sequence_search<Index, Value, SequenceFn>(start: Index,
+                                                 target: Value,
+                                                 sequence: SequenceFn)
+                                                 -> (Index, Value)
+    where Index: Copy + Num + One + Ord,
+          Value: Clone + PartialOrd,
+          SequenceFn: Fn(Index) -> Value
+{
     let mut lower_index: Index = start;
     let mut lower_value: Value = sequence(lower_index);
 
     while lower_value > target {
-        lower_index /= Index::try_from(2 as usize).ok().unwrap();
+        lower_index = lower_index / (Index::one() + Index::one());
         lower_value = sequence(lower_index);
     }
 
-    let mut upper_index: Index = max(lower_index, Index::try_from(1 as usize).ok().unwrap());
+    let mut upper_index: Index = max(lower_index, Index::one());
     let mut upper_value: Value = lower_value;
     while upper_value <= target {
-        upper_index *= Index::try_from(2 as usize).ok().unwrap();
+        upper_index = upper_index * (Index::one() + Index::one());
         upper_value = sequence(upper_index);
     }
 
