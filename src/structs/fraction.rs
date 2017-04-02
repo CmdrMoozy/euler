@@ -79,7 +79,7 @@ impl Fraction {
     /// This function returns a new Fraction whose value is the mediant of this
     /// Fraction and the given other one. For more information, see:
     ///
-    ///     http://en.wikipedia.org/wiki/Mediant_(mathematics)
+    /// http://en.wikipedia.org/wiki/Mediant_(mathematics)
     ///
     /// The result is automatically reduced to its lowest common terms, and we
     /// return a boolean to indicate whether or not the reduction resulted in
