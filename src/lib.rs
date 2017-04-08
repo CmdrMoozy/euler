@@ -23,11 +23,14 @@ extern crate glob;
 extern crate gmp;
 extern crate itoa;
 #[macro_use]
+extern crate lazy_static;
+#[macro_use]
 extern crate log;
 extern crate num;
 extern crate num_cpus;
 extern crate pdqsort;
 extern crate rand;
+extern crate regex;
 extern crate rust_mpfr as mpfr;
 
 pub mod algorithm;

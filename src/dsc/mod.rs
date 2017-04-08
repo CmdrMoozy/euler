@@ -17,5 +17,6 @@
 pub mod circular_prime_sieve;
 pub mod date;
 pub mod poker;
+pub mod roman_numeral;
 pub mod spiral;
 pub mod triangle;
