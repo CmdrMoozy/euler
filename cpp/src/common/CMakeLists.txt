@@ -25,9 +25,6 @@ SET(euler-common_SOURCES
 	math/Math.cpp
 	math/Math.hpp
 
-	types/ERomanNumeral.cpp
-	types/ERomanNumeral.h
-
 	util/Bitwise.cpp
 	util/Bitwise.hpp
 	util/EBitwise.cpp
