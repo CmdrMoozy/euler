@@ -24,6 +24,7 @@ extern crate gmp;
 extern crate itoa;
 #[macro_use]
 extern crate lazy_static;
+extern crate libc;
 #[macro_use]
 extern crate log;
 extern crate num;
