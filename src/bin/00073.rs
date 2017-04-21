@@ -47,13 +47,13 @@ const EXPECTED_RESULT: usize = 7295372;
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut lower: Fraction;
-        let mut hold = try!(Fraction::new(LOWER_TARGET_N, LOWER_TARGET_D));
-        let upper = try!(Fraction::new(UPPER_TARGET_N, UPPER_TARGET_D));
+        let mut hold = Fraction::new(LOWER_TARGET_N, LOWER_TARGET_D)?;
+        let upper = Fraction::new(UPPER_TARGET_N, UPPER_TARGET_D)?;
 
         // Find the fraction immediately less than our upper limit.
         while hold.denominator() <= DENOMINATOR_LIMIT {
             lower = hold;
-            hold = try!(lower.mediant(&upper)).0;
+            hold = lower.mediant(&upper)?.0;
         }
 
         // At this point, we just continuously calculate the next term until we reach
@@ -61,12 +61,12 @@ fn main() {
         //
         //     http://en.wikipedia.org/wiki/Farey_sequence#Next_term
         let mut count: usize = 0;
-        lower = try!(Fraction::new(LOWER_TARGET_N, LOWER_TARGET_D));
+        lower = Fraction::new(LOWER_TARGET_N, LOWER_TARGET_D)?;
         let mut a = UPPER_TARGET_N;
         let mut b = UPPER_TARGET_D;
         let mut c = hold.numerator();
         let mut d = hold.denominator();
-        while try!(Fraction::new(c, d)) > lower {
+        while Fraction::new(c, d)? > lower {
             count += 1;
 
             let k: u64 = ((DENOMINATOR_LIMIT + b) as f64 / d as f64).floor() as u64;

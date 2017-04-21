@@ -181,11 +181,11 @@ impl Factorization {
                             -> Result<Factorization>
         where I: Iterator<Item = u64>
     {
-        let mut f = try!(Factorization::new(iter.next().unwrap_or(0),
-                                            sieve,
-                                            primality_test_precision.clone()));
+        let mut f = Factorization::new(iter.next().unwrap_or(0),
+                                       sieve,
+                                       primality_test_precision.clone())?;
         for i in iter {
-            f = f.product(&try!(Factorization::new(i, sieve, primality_test_precision.clone())));
+            f = f.product(&Factorization::new(i, sieve, primality_test_precision.clone())?);
         }
         Ok(f)
     }

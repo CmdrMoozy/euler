@@ -103,9 +103,9 @@ pub fn integer_is_permutation_of<I: Integer>(a: I, b: I) -> Result<bool> {
     // We assume that I is at most 64-bits in length, so its string representation
     // is at most 20 digits long (i.e., bytes).
     let mut abuf = [0_u8; 20];
-    try!(itoa::write(&mut abuf[..], a));
+    itoa::write(&mut abuf[..], a)?;
     let mut bbuf = [0_u8; 20];
-    try!(itoa::write(&mut bbuf[..], b));
+    itoa::write(&mut bbuf[..], b)?;
 
     // Check using a parity bit first to avoid doing an expensive sort.
     if (abuf[0] ^ abuf[1] ^ abuf[2] ^ abuf[3] ^ abuf[4] ^ abuf[5] ^ abuf[6] ^

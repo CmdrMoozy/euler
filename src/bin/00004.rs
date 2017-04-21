@@ -45,7 +45,7 @@ fn main() {
             let str_n: String = format!("{}", n);
             // Since this string only contains the characters 0-9, just reverse the bytes.
             let rev_str_n: String =
-                try!(String::from_utf8(str_n.as_bytes().iter().rev().cloned().collect()));
+                String::from_utf8(str_n.as_bytes().iter().rev().cloned().collect())?;
             if str_n == rev_str_n {
                 result = *n;
                 break;

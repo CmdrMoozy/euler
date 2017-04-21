@@ -63,7 +63,7 @@ fn main() {
             in_chars += line.len();
 
             // Parse this line, and get the output length.
-            let rn = try!(line.parse::<RomanNumeral>());
+            let rn = line.parse::<RomanNumeral>()?;
             out_chars += rn.to_string().len();
         }
 

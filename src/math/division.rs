@@ -133,7 +133,7 @@ pub fn repetend_length(mut n: u64,
     }
 
     let mut d: u64 = totient(n);
-    let f = try!(prime::Factorization::new(d, sieve, primality_test_precision));
+    let f = prime::Factorization::new(d, sieve, primality_test_precision)?;
 
     for (factor, _) in f.iter() {
         if exp::ipowmod(10, d / factor, n) == 1 {

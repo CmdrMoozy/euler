@@ -73,10 +73,10 @@ impl Spiral {
         // one cell closer to the origin than the desired value. From this cell, we
         // need to add some number of extra side lengths (at least one) to get to the
         // next-biggest spiral perimeter which contains the desired cell.
-        let previous_diagonal = try!(self.get_diagonal_value(&Address {
-            x: addr.x.abs() - 1,
-            y: addr.y.abs() - 1,
-        }));
+        let previous_diagonal = self.get_diagonal_value(&Address {
+                x: addr.x.abs() - 1,
+                y: addr.y.abs() - 1,
+            })?;
 
         // Cache all the diagonal values at this new diagonal size, and then return the
         // relevant one.

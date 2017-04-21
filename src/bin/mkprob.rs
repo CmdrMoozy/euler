@@ -39,7 +39,7 @@ static TEMPLATE: &'static str = include_str!("problem_template.rs.txt");
 const MAX_PROBLEM: u64 = 99999;
 
 fn to_problem_name(problem_arg: &str) -> Result<String> {
-    let n: u64 = try!(problem_arg.parse());
+    let n: u64 = problem_arg.parse()?;
     if n > MAX_PROBLEM {
         bail!("Problem number {} is too large", n);
     }
@@ -47,7 +47,7 @@ fn to_problem_name(problem_arg: &str) -> Result<String> {
 }
 
 fn get_source_root() -> Result<PathBuf> {
-    let mut path = try!(try!(env::current_exe()).canonicalize());
+    let mut path = env::current_exe()?.canonicalize()?;
     while !path.ends_with("target") {
         if !path.pop() {
             bail!("Failed to locate source directory");

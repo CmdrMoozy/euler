@@ -165,7 +165,7 @@ fn main() {
         big_b = big_b.ceil();
 
         Ok(ProblemAnswer {
-            actual: try!(mpf_to_string(&mut big_b, 10).parse::<usize>()),
+            actual: mpf_to_string(&mut big_b, 10).parse::<usize>()?,
             expected: EXPECTED_RESULT,
         })
     });

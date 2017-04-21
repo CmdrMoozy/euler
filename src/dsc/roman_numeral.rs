@@ -203,9 +203,9 @@ impl FromStr for RomanNumeral {
                 for idx in 1..captures.len() {
                     if let Some(capture) = captures.get(idx) {
                         if ADDITIVE_CAPTURE_GROUPS.contains(&idx) {
-                            total += try!(get_additive_string_value(capture.as_str())) as i64;
+                            total += get_additive_string_value(capture.as_str())? as i64;
                         } else if SUBTRACTIVE_CAPTURE_GROUPS.contains(&idx) {
-                            total += try!(get_subtractive_string_value(capture.as_str())) as i64;
+                            total += get_subtractive_string_value(capture.as_str())? as i64;
                         } else {
                             bail!("Encountered unexpected capture group index");
                         }
@@ -228,7 +228,7 @@ impl fmt::Display for RomanNumeral {
         let mut v: u64 = self.value;
         for ov in OUTPUT_VALUES.iter().rev() {
             while v >= ov.value {
-                try!(write!(f, "{}", ov.text));
+                write!(f, "{}", ov.text)?;
                 v -= ov.value;
             }
         }

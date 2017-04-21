@@ -59,7 +59,7 @@ fn main() {
                quoted_word.len() < 3 {
                 bail!("Encountered invalid word in 00042.txt");
             }
-            let score = try!(get_word_score(&quoted_word[1..quoted_word.len() - 1]));
+            let score = get_word_score(&quoted_word[1..quoted_word.len() - 1])?;
             if score > max_score {
                 max_score = score;
             }

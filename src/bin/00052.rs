@@ -42,9 +42,8 @@ fn main() {
             // If x contains the same digits as [2, 6]x, then we have found the answer.
             let all_are_permutations: Result<bool> = (2..7)
                 .map(|multiple| integer_is_permutation_of(x, x * multiple))
-                .fold(Ok(true),
-                      |acc, is_permutation| Ok(try!(acc) && try!(is_permutation)));
-            if try!(all_are_permutations) {
+                .fold(Ok(true), |acc, is_permutation| Ok(acc? && is_permutation?));
+            if all_are_permutations? {
                 break;
             }
 

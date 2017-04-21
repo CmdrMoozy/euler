@@ -43,7 +43,7 @@ fn main() {
         while spiral::diagonal_size_to_edge_size(i) <= 1001 {
             for x in vec![-i, i] {
                 for y in vec![-i, i] {
-                    result += try!(spiral.get_diagonal_value(&spiral::Address { x: x, y: y }));
+                    result += spiral.get_diagonal_value(&spiral::Address { x: x, y: y })?;
                 }
             }
 

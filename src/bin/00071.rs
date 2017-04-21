@@ -45,13 +45,13 @@ const EXPECTED_RESULT: u64 = 428570;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let mut lower = try!(Fraction::new(0, 1));
-        let mut mediant = try!(Fraction::new(0, 1));
-        let upper = try!(Fraction::new(TARGET_N, TARGET_D));
+        let mut lower = Fraction::new(0, 1)?;
+        let mut mediant = Fraction::new(0, 1)?;
+        let upper = Fraction::new(TARGET_N, TARGET_D)?;
 
         while mediant.denominator() <= DENOMINATOR_LIMIT {
             lower = mediant;
-            mediant = try!(lower.mediant(&upper)).0;
+            mediant = lower.mediant(&upper)?.0;
         }
 
         Ok(ProblemAnswer {

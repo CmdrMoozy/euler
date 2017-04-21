@@ -48,12 +48,12 @@ fn alphabetical_value(s: &str) -> Result<u64> {
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let mut names: Vec<String> = try!(NAMES_FILE.split(',')
+        let mut names: Vec<String> = NAMES_FILE.split(',')
             .map(|name| match name.starts_with('"') && name.ends_with('"') {
                 false => bail!("Corrupt problem input file"),
                 true => Ok(String::from(&name[1..(name.len() - 1)])),
             })
-            .collect::<Result<Vec<String>>>());
+            .collect::<Result<Vec<String>>>()?;
         names.sort();
 
         let result: Result<u64> = names.iter()
@@ -61,10 +61,10 @@ fn main() {
             .map(|name_pair| {
                 alphabetical_value(name_pair.1.as_str()).map(|v| v * ((name_pair.0 + 1) as u64))
             })
-            .fold(Ok(0 as u64), |acc, v| Ok(try!(acc) + try!(v)));
+            .fold(Ok(0 as u64), |acc, v| Ok(acc? + v?));
 
         Ok(ProblemAnswer {
-            actual: try!(result),
+            actual: result?,
             expected: EXPECTED_RESULT,
         })
     });

@@ -69,8 +69,8 @@ fn main() {
             if pieces.len() != 2 {
                 bail!("Line isn't a valid base,exponent pair");
             }
-            let base = try!(pieces[0].parse::<u32>());
-            let exponent = try!(pieces[1].parse::<u32>());
+            let base = pieces[0].parse::<u32>()?;
+            let exponent = pieces[1].parse::<u32>()?;
             if base == 0 || exponent == 0 {
                 bail!("Encountered invalid 0 base or exponent");
             }

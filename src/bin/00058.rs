@@ -50,7 +50,7 @@ fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut it = SpiralIterator::new();
         // Skip the center value, 1.
-        try!(it.next().unwrap());
+        it.next().unwrap()?;
 
         let mut primes: usize = 0;
         let mut iteration: usize = 0;
@@ -58,7 +58,7 @@ fn main() {
             iteration += 1;
 
             for _ in 0..4 {
-                let p = try!(it.next().unwrap());
+                let p = it.next().unwrap()?;
                 if is_prime(p, PRIMALITY_TEST_PRECISION) {
                     primes += 1;
                 }

@@ -102,7 +102,7 @@ impl Timings {
 }
 
 fn get_target_root() -> Result<PathBuf> {
-    let mut path = try!(try!(env::current_exe()).canonicalize());
+    let mut path = env::current_exe()?.canonicalize()?;
     if !path.pop() {
         bail!("Failed to locate targets directory");
     }
@@ -111,16 +111,15 @@ fn get_target_root() -> Result<PathBuf> {
 
 fn execute_problems() -> Result<Vec<ExecutionResult>> {
     let mut results: Vec<ExecutionResult> = Vec::new();
-    for p in try!(glob::glob(format!("{}/?????", try!(get_target_root()).to_str().unwrap())
-        .as_str())) {
-        let path = try!(p);
-        let metadata = try!(path.metadata());
+    for p in glob::glob(format!("{}/?????", get_target_root()?.to_str().unwrap()).as_str())? {
+        let path = p?;
+        let metadata = path.metadata()?;
         if metadata.is_dir() || metadata.permissions().mode() & 0o111 == 0 {
             continue;
         }
 
         let profiler = Profiler::new(false, "");
-        let output = try!(process::Command::new(path.to_str().unwrap()).output());
+        let output = process::Command::new(path.to_str().unwrap()).output()?;
         if !output.status.success() {
             warn!("PROBLEM FAILED: {}",
                   path.file_name().unwrap().to_str().unwrap());

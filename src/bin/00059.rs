@@ -96,10 +96,9 @@ fn main() {
                         .collect();
 
                     if let Ok(plaintext) = plaintext {
-                        let r: Result<u64> = plaintext.iter().fold(Ok(0_u64), |acc, c| {
-                            Ok(try!(acc) + try!(char_to_byte(*c)) as u64)
-                        });
-                        result = Some(try!(r));
+                        let r: Result<u64> = plaintext.iter()
+                            .fold(Ok(0_u64), |acc, c| Ok(acc? + char_to_byte(*c)? as u64));
+                        result = Some(r?);
                         break;
                     }
                 }

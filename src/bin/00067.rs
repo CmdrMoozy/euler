@@ -48,12 +48,12 @@ fn main() {
         let mut triangle: Triangle<u64> = Triangle::new(TRIANGLE_VALUES.split('\n').count());
         for row_pair in TRIANGLE_VALUES.split('\n').enumerate() {
             for value_pair in row_pair.1.split(' ').enumerate() {
-                try!(triangle.set(row_pair.0, value_pair.0, try!(value_pair.1.parse::<u64>())));
+                triangle.set(row_pair.0, value_pair.0, value_pair.1.parse::<u64>()?)?;
             }
         }
 
         Ok(ProblemAnswer {
-            actual: try!(triangle.get_largest_path_sum()),
+            actual: triangle.get_largest_path_sum()?,
             expected: EXPECTED_RESULT,
         })
     });

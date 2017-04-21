@@ -41,7 +41,7 @@ fn main() {
         let prime = prime << 7830457;
         let prime = prime + 1;
         let last_ten_digits = prime.modulus(&Mpz::from(10000000000_u64));
-        let last_ten_digits = try!(last_ten_digits.to_str_radix(10).parse::<u64>());
+        let last_ten_digits = last_ten_digits.to_str_radix(10).parse::<u64>()?;
 
         Ok(ProblemAnswer {
             actual: last_ten_digits,

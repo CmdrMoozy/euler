@@ -42,8 +42,8 @@ pub fn combinations(n: u64, r: u64) -> Result<u64> {
     let y: u64 = cmp::min(n - r, r);
 
     let sieve = PrimeSieve::new(n + 1);
-    let num = try!(Factorization::new_from_iter(x + 1..n + 1, &sieve, None));
-    let den = try!(Factorization::new_from_iter(1..y + 1, &sieve, None));
+    let num = Factorization::new_from_iter(x + 1..n + 1, &sieve, None)?;
+    let den = Factorization::new_from_iter(1..y + 1, &sieve, None)?;
 
     let (num, den) = Factorization::reduce(num, den);
     Ok(num.iter().map(|pair| pair.0.pow(*pair.1 as u32)).fold(1, |acc, v| acc * v) /

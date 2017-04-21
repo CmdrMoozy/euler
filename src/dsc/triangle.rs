@@ -89,17 +89,17 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
         for row in (0..(triangle.get_height() - 1)).rev() {
             // For each column in this row...
             for col in 0..(row + 1) {
-                let current_value = try!(triangle.get(row, col));
-                let left_child = try!(triangle.get_left_child_value(row, col));
-                let right_child = try!(triangle.get_right_child_value(row, col));
+                let current_value = triangle.get(row, col)?;
+                let left_child = triangle.get_left_child_value(row, col)?;
+                let right_child = triangle.get_right_child_value(row, col)?;
 
-                try!(triangle.set(row,
-                                  col,
-                                  current_value +
-                                  match left_child < right_child {
-                                      false => left_child,
-                                      true => right_child,
-                                  }));
+                triangle.set(row,
+                         col,
+                         current_value +
+                         match left_child < right_child {
+                             false => left_child,
+                             true => right_child,
+                         })?;
             }
         }
 

@@ -19,5 +19,5 @@ use util::error::*;
 
 pub fn mpz_to_u64(n: &Mpz) -> Result<u64> {
     let n_str: String = format!("{}", n);
-    Ok(try!(n_str.parse::<u64>()))
+    Ok(n_str.parse::<u64>()?)
 }

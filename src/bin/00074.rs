@@ -74,7 +74,7 @@ fn factorial_of_digit(digit: u64) -> Result<u64> {
 fn digit_factorial(mut v: u64) -> Result<u64> {
     let mut result: u64 = 0;
     while v > 0 {
-        result += try!(factorial_of_digit(v % 10));
+        result += factorial_of_digit(v % 10)?;
         v /= 10;
     }
     Ok(result)
@@ -106,7 +106,7 @@ fn main() {
                 }
 
                 chain.push(v);
-                v = try!(digit_factorial(v));
+                v = digit_factorial(v)?;
             }
 
             // We know the chain length of every number in this chain up to the first

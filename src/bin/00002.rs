@@ -35,14 +35,14 @@ fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
         let mut total: u64 = 0;
         let mut n: u64 = 0;
-        let mut fib: u64 = try!(mpz_to_u64(&sequence::get_nth_fibonacci_number(n)));
+        let mut fib: u64 = mpz_to_u64(&sequence::get_nth_fibonacci_number(n))?;
         while fib <= UPPER_BOUND {
             if (fib & 1) == 0 {
                 total += fib;
             }
 
             n += 1;
-            fib = try!(mpz_to_u64(&sequence::get_nth_fibonacci_number(n)));
+            fib = mpz_to_u64(&sequence::get_nth_fibonacci_number(n))?;
         }
 
         Ok(ProblemAnswer {

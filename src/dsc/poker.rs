@@ -283,24 +283,24 @@ impl Hand {
         }
 
         Ok(Self::new([Card {
-                          value: try!(Value::from_char(char_at(s, 0))),
-                          suit: try!(Suit::from_char(char_at(s, 1))),
+                          value: Value::from_char(char_at(s, 0))?,
+                          suit: Suit::from_char(char_at(s, 1))?,
                       },
                       Card {
-                          value: try!(Value::from_char(char_at(s, 3))),
-                          suit: try!(Suit::from_char(char_at(s, 4))),
+                          value: Value::from_char(char_at(s, 3))?,
+                          suit: Suit::from_char(char_at(s, 4))?,
                       },
                       Card {
-                          value: try!(Value::from_char(char_at(s, 6))),
-                          suit: try!(Suit::from_char(char_at(s, 7))),
+                          value: Value::from_char(char_at(s, 6))?,
+                          suit: Suit::from_char(char_at(s, 7))?,
                       },
                       Card {
-                          value: try!(Value::from_char(char_at(s, 9))),
-                          suit: try!(Suit::from_char(char_at(s, 10))),
+                          value: Value::from_char(char_at(s, 9))?,
+                          suit: Suit::from_char(char_at(s, 10))?,
                       },
                       Card {
-                          value: try!(Value::from_char(char_at(s, 12))),
-                          suit: try!(Suit::from_char(char_at(s, 13))),
+                          value: Value::from_char(char_at(s, 12))?,
+                          suit: Suit::from_char(char_at(s, 13))?,
                       }]))
     }
 
@@ -311,8 +311,8 @@ impl Hand {
         if s.len() != 2 * HAND_DESC_LENGTH + 1 {
             bail!("Invalid hand pair description '{}'", s);
         }
-        Ok((try!(Self::parse_hand(&s[0..HAND_DESC_LENGTH])),
-            try!(Self::parse_hand(&s[HAND_DESC_LENGTH + 1..]))))
+        Ok((Self::parse_hand(&s[0..HAND_DESC_LENGTH])?,
+            Self::parse_hand(&s[HAND_DESC_LENGTH + 1..])?))
     }
 
     pub fn get_rank(&self) -> Rank { self.rank }

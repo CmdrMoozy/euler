@@ -80,7 +80,7 @@ fn main() {
                     let other_value = other_base * other_base * other_base;
 
                     // If this other value is a permutation, add it to the list and continue.
-                    if try!(algorithm::integer_is_permutation_of(value, other_value)) {
+                    if algorithm::integer_is_permutation_of(value, other_value)? {
                         permutation_idxes.push(other_idx);
                     }
                 }

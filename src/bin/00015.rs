@@ -33,7 +33,7 @@ fn main() {
         // It is well-defined that the number of paths (without backtracking) through
         // an m by n grid is: (m + n) combinations of n.
         Ok(ProblemAnswer {
-            actual: try!(combinatorics::combinations(40, 20)),
+            actual: combinatorics::combinations(40, 20)?,
             expected: EXPECTED_RESULT,
         })
     });

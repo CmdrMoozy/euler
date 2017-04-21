@@ -59,19 +59,18 @@ fn common_digits(a: u64, b: u64) -> HashSet<char> {
 /// instead.
 fn filter_digits(v: u64, exclude: &HashSet<char>) -> Result<u64> {
     let filtered: String = v.to_string().chars().filter(|d| !exclude.contains(d)).collect();
-    Ok(try!((match filtered.is_empty() {
+    Ok((match filtered.is_empty() {
             false => filtered.as_str(),
             true => "0",
-        })
-        .parse()))
+        }).parse()?)
 }
 
 /// "Cancel" all of the digits in the given fraction's numerator and
 /// denominator, according to the problem statement above.
 fn cancel_all(f: &Fraction) -> Result<Fraction> {
     let common_digits = common_digits(f.numerator(), f.denominator());
-    Fraction::new(try!(filter_digits(f.numerator(), &common_digits)),
-                  try!(filter_digits(f.denominator(), &common_digits)))
+    Fraction::new(filter_digits(f.numerator(), &common_digits)?,
+                  filter_digits(f.denominator(), &common_digits)?)
 }
 
 fn main() {
@@ -80,7 +79,7 @@ fn main() {
 
         for denominator in 10..100 {
             for numerator in 10..denominator {
-                let a = try!(Fraction::new(numerator, denominator));
+                let a = Fraction::new(numerator, denominator)?;
                 if is_trivial(&a) {
                     continue;
                 }
@@ -98,12 +97,13 @@ fn main() {
         }
 
         Ok(ProblemAnswer {
-            actual: try!(Fraction::new(fractions.iter()
-                                           .map(|f| f.numerator())
-                                           .fold(1, |acc, n| acc * n),
-                                       fractions.iter()
-                                           .map(|f| f.denominator())
-                                           .fold(1, |acc, d| acc * d)))
+            actual: Fraction::new(fractions.iter()
+                                      .map(|f| f.numerator())
+                                      .fold(1, |acc, n| acc * n),
+                                  fractions.iter()
+                                      .map(|f| f.denominator())
+                                      .fold(1, |acc, d| acc * d))
+                ?
                 .reduce()
                 .0
                 .denominator(),

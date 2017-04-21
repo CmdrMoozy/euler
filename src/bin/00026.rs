@@ -47,7 +47,7 @@ fn main() {
         let mut max_n: u64 = 0;
         let mut max_repetend_length: u64 = 0;
         for n in 2..1000 {
-            let repetend_length = try!(division::repetend_length(n, &sieve, None));
+            let repetend_length = division::repetend_length(n, &sieve, None)?;
             if repetend_length > max_repetend_length {
                 max_n = n;
                 max_repetend_length = repetend_length;

@@ -85,8 +85,9 @@ impl Fraction {
     /// return a boolean to indicate whether or not the reduction resulted in
     /// any change.
     pub fn mediant(&self, other: &Fraction) -> Result<(Fraction, bool)> {
-        Ok(try!(Fraction::new(self.numerator() + other.numerator(),
-                              self.denominator() + other.denominator()))
+        Ok(Fraction::new(self.numerator() + other.numerator(),
+                         self.denominator() + other.denominator())
+            ?
             .reduce())
     }
 }
