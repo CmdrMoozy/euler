@@ -14,3 +14,4 @@
 
 pub mod bit_array;
 pub mod fraction;
+pub mod graph;
