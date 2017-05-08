@@ -23,7 +23,7 @@
 // 5, 6, 7, 8 and 9?
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -35,7 +35,7 @@ fn main() {
 
         // Permutate until we are at the millionth permutation.
         for _iteration in 1..1000000 {
-            algorithm::permutate_lt(&mut permutator);
+            sequence::permutate_lt(&mut permutator);
         }
 
         Ok(ProblemAnswer {

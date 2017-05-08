@@ -28,7 +28,7 @@
 use std::collections::HashSet;
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -81,7 +81,7 @@ fn main() {
             }
 
             // Permutate the digits we test, stopping if there are no more permutations.
-            if !algorithm::permutate_lt(&mut digits) {
+            if !sequence::permutate_lt(&mut digits) {
                 break;
             }
         }

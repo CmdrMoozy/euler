@@ -21,7 +21,7 @@
 // leading zeros.)
 
 extern crate euler;
-use self::euler::algorithm::is_palindrome;
+use self::euler::algorithm::sequence::is_palindrome;
 use self::euler::util::bitwise::is_bitwise_palindromic;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;

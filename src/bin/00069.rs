@@ -35,7 +35,7 @@
 // Find the value of n <= 1,000,000 for which n / phi(n) is a maximum.
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::math::prime::PrimeSieve;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -56,8 +56,8 @@ fn get_composites(primes: &Vec<u64>, n: u64, minimum_prime_factor: u64) -> Vec<V
         return Vec::new();
     }
 
-    let start_idx = algorithm::lower_bound(primes, &minimum_prime_factor);
-    let end_idx = algorithm::upper_bound(primes, &n);
+    let start_idx = sequence::lower_bound(primes, &minimum_prime_factor);
+    let end_idx = sequence::upper_bound(primes, &n);
 
     let mut result: Vec<Vec<u64>> = Vec::new();
     for &prime in &primes[start_idx..end_idx] {

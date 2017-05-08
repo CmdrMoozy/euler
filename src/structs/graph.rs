@@ -103,3 +103,8 @@ impl Graph {
 impl Default for Graph {
     fn default() -> Self { Graph { vertices: vec![] } }
 }
+
+pub struct SearchResult {
+    pub path: Vec<VertexId>,
+    pub sum: i64,
+}

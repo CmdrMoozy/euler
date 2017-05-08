@@ -46,7 +46,7 @@ extern crate gmp;
 use gmp::mpz::Mpz;
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -70,7 +70,7 @@ fn main() {
                 current = current + rev;
 
                 iterations += 1;
-                is_palindrome = algorithm::is_palindrome(&current);
+                is_palindrome = sequence::is_palindrome(&current);
             }
 
             if !is_palindrome {

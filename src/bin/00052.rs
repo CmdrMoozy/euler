@@ -19,7 +19,7 @@
 // contain the same digits.
 
 extern crate euler;
-use self::euler::algorithm::integer_is_permutation_of;
+use self::euler::algorithm::sequence::integer_is_permutation_of;
 use self::euler::math::exp::log10;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;

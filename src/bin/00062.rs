@@ -20,7 +20,7 @@
 // cube.
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::math::exp;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -78,7 +78,7 @@ fn main() {
                     let other_value = other_base * other_base * other_base;
 
                     // If this other value is a permutation, add it to the list and continue.
-                    if algorithm::integer_is_permutation_of(value, other_value)? {
+                    if sequence::integer_is_permutation_of(value, other_value)? {
                         permutation_idxes.push(other_idx);
                     }
                 }

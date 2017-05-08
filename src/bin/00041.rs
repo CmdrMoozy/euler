@@ -22,7 +22,7 @@
 extern crate lazy_static;
 
 extern crate euler;
-use self::euler::algorithm;
+use self::euler::algorithm::sequence;
 use self::euler::math::prime;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
@@ -63,7 +63,7 @@ fn main() {
                     result = j;
                 }
 
-                if !algorithm::permutate(&mut digits, |a, b| a.cmp(b).reverse()) {
+                if !sequence::permutate(&mut digits, |a, b| a.cmp(b).reverse()) {
                     break;
                 }
             }

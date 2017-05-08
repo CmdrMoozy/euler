@@ -25,7 +25,7 @@
 // sequence?
 
 extern crate euler;
-use self::euler::algorithm::integer_is_permutation_of;
+use self::euler::algorithm::sequence::integer_is_permutation_of;
 use self::euler::math::prime::PrimeSieve;
 use self::euler::math::sieve::Sieve;
 use self::euler::util::error::*;
