@@ -75,7 +75,6 @@ pub struct GridGraph {
     graph: Graph,
     faux_start_vertex: VertexId,
     faux_end_vertex: VertexId,
-    vertices: Vec<Vec<VertexId>>,
 }
 
 impl GridGraph {
@@ -111,7 +110,7 @@ impl GridGraph {
                 if x + 1 < weights.get_width() {
                     graph.connect(vertices[x][y],
                                   vertices[x + 1][y],
-                                  weights.get(x, y).unwrap(),
+                                  weights.get(x + 1, y).unwrap(),
                                   horizontal_direction);
                 }
 
@@ -119,7 +118,7 @@ impl GridGraph {
                 if y + 1 < weights.get_height() {
                     graph.connect(vertices[x][y],
                                   vertices[x][y + 1],
-                                  weights.get(x, y).unwrap(),
+                                  weights.get(x, y + 1).unwrap(),
                                   vertical_direction);
                 }
             }
@@ -132,14 +131,18 @@ impl GridGraph {
                       Direction::Forward);
         graph.connect(vertices[end.0][end.1],
                       faux_end_vertex,
-                      weights.get(end.0, end.1).unwrap(),
+                      0,
                       Direction::Forward);
 
         GridGraph {
-            graph: Graph::new(),
+            graph: graph,
             faux_start_vertex: faux_start_vertex,
             faux_end_vertex: faux_end_vertex,
-            vertices: vec![],
         }
     }
+
+    pub fn get_graph(&self) -> &Graph { &self.graph }
+
+    pub fn get_start_vertex(&self) -> VertexId { self.faux_start_vertex }
+    pub fn get_end_vertex(&self) -> VertexId { self.faux_end_vertex }
 }

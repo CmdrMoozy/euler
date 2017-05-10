@@ -17,7 +17,6 @@ use structs::graph::{Graph, SearchResult, VertexId};
 
 #[derive(Clone, Copy, Eq, PartialEq)]
 enum VisitState {
-    NoState,
     Open,
     Closed,
 }
@@ -30,8 +29,6 @@ struct VertexState {
 }
 
 impl VertexState {
-    pub fn new() -> Self { Self::default() }
-
     pub fn with_initial_state(initial_state: VisitState) -> Self {
         VertexState {
             heuristic_score: i64::max_value(),
@@ -48,10 +45,6 @@ impl VertexState {
         self.heuristic_score = score;
         self.actual_score = score;
     }
-}
-
-impl Default for VertexState {
-    fn default() -> Self { Self::with_initial_state(VisitState::NoState) }
 }
 
 type VertexStateMap = HashMap<VertexId, VertexState>;

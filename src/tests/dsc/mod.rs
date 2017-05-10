@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #[cfg(test)]
+mod grid_graph;
+#[cfg(test)]
 mod poker;
 #[cfg(test)]
 mod triangle;
