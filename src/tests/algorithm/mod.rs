@@ -13,4 +13,6 @@
 // limitations under the License.
 
 #[cfg(test)]
+mod graph;
+#[cfg(test)]
 mod sequence;
