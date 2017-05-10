@@ -13,17 +13,17 @@
 // limitations under the License.
 
 use std::cell::{Ref, RefCell};
+use std::rc::Rc;
 
 pub type VertexId = usize;
 
-#[derive(Clone)]
 pub struct Vertex {
     id: VertexId,
     edges: Vec<Edge>,
 }
 
 impl Vertex {
-    pub fn new(id: VertexId) -> Self {
+    fn new(id: VertexId) -> Self {
         Vertex {
             id: id,
             edges: vec![],
@@ -41,6 +41,10 @@ impl Vertex {
         None
     }
 
+    pub fn get_neighbors(&self) -> Vec<VertexId> {
+        self.edges.iter().map(|e| e.to.borrow().id).collect()
+    }
+
     pub fn is_connected_to(&self, o: VertexId) -> bool { self.distance_to(o).is_some() }
 
     fn add_edge(&mut self, edge: Edge) { self.edges.push(edge) }
@@ -49,7 +53,7 @@ impl Vertex {
 #[derive(Clone)]
 struct Edge {
     pub distance: i64,
-    pub to: RefCell<Vertex>,
+    pub to: Rc<RefCell<Vertex>>,
 }
 
 #[derive(Clone, Copy, Eq, PartialEq)]
@@ -61,7 +65,7 @@ pub enum Direction {
 
 #[derive(Clone)]
 pub struct Graph {
-    vertices: Vec<RefCell<Vertex>>,
+    vertices: Vec<Rc<RefCell<Vertex>>>,
 }
 
 impl Graph {
@@ -69,10 +73,12 @@ impl Graph {
 
     pub fn add_vertex(&mut self) -> VertexId {
         let id: VertexId = self.vertices.len();
-        let v = RefCell::new(Vertex::new(id));
+        let v = Rc::new(RefCell::new(Vertex::new(id)));
         self.vertices.push(v);
         id
     }
+
+    pub fn all_vertices(&self) -> Vec<VertexId> { (0..self.vertices.len()).collect() }
 
     pub fn get(&self, id: VertexId) -> Ref<Vertex> { self.vertices.get(id).unwrap().borrow() }
 
