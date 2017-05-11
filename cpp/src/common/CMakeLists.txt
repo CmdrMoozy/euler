@@ -4,26 +4,9 @@ SET(euler-common_SOURCES
 
 	euler/ESudoku.cpp
 	euler/ESudoku.h
-	euler/GridGraphUtils.cpp
-	euler/GridGraphUtils.h
-
-	graph/astar.cpp
-	graph/astar.h
-	graph/dijkstra.cpp
-	graph/dijkstra.h
-	graph/Edge.cpp
-	graph/Edge.h
-	graph/Graph.cpp
-	graph/Graph.h
-	graph/Vertex.cpp
-	graph/Vertex.h
 
 	math/EExactCover.cpp
 	math/EExactCover.h
-	math/EMath.cpp
-	math/EMath.h
-	math/Math.cpp
-	math/Math.hpp
 
 	util/Bitwise.cpp
 	util/Bitwise.hpp
@@ -33,8 +16,6 @@ SET(euler-common_SOURCES
 	util/Path.hpp
 	util/Process.cpp
 	util/Process.hpp
-	util/EString.cpp
-	util/EString.h
 
 )
 

@@ -2,11 +2,6 @@ set(euler-test_SOURCES
 
 	euler-test.cpp
 
-	graph/GraphTest.cpp
-
-	math/EMathTest.cpp
-	math/MathTest.cpp
-
 	util/BitwiseTest.cpp
 	util/EBitwiseTest.cpp
 
