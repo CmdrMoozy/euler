@@ -14,7 +14,7 @@
 
 use algorithm::graph::dijkstra;
 use dsc::grid_graph::*;
-use structs::graph::Direction;
+use structs::graph::{Direction, VertexId};
 
 const TEST_GRID_GRAPH: &'static str = include_str!("data/test_grid_graph.txt");
 
@@ -60,4 +60,13 @@ fn test_grid_graph_pathfinding() {
         .unwrap();
     assert_eq!(EXPECTED_MINIMAL_PATH_LENGTH, search_result.path.len());
     assert_eq!(EXPECTED_MINIMAL_PATH_SUM, search_result.sum);
+
+    let mut expected_path: Vec<VertexId> = vec![(0, 0), (0, 1), (1, 1), (2, 1), (2, 2), (3, 2),
+                                                (3, 3), (3, 4), (4, 4)]
+        .into_iter()
+        .map(|point| graph.get(point.0, point.1).unwrap())
+        .collect();
+    expected_path.insert(0, graph.get_start_vertex());
+    expected_path.push(graph.get_end_vertex());
+    assert_eq!(expected_path, search_result.path);
 }

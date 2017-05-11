@@ -75,6 +75,7 @@ pub struct GridGraph {
     graph: Graph,
     faux_start_vertex: VertexId,
     faux_end_vertex: VertexId,
+    vertices: Vec<Vec<VertexId>>,
 }
 
 impl GridGraph {
@@ -138,6 +139,7 @@ impl GridGraph {
             graph: graph,
             faux_start_vertex: faux_start_vertex,
             faux_end_vertex: faux_end_vertex,
+            vertices: vertices,
         }
     }
 
@@ -145,4 +147,11 @@ impl GridGraph {
 
     pub fn get_start_vertex(&self) -> VertexId { self.faux_start_vertex }
     pub fn get_end_vertex(&self) -> VertexId { self.faux_end_vertex }
+
+    pub fn get(&self, x: usize, y: usize) -> Option<VertexId> {
+        match self.vertices.get(x) {
+            Some(col) => col.get(y).map(|id| *id),
+            None => None,
+        }
+    }
 }

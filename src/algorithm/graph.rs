@@ -136,5 +136,6 @@ pub fn dijkstra(graph: &Graph, start_id: VertexId, end_id: VertexId) -> Option<S
             break;
         }
     }
+    result.path.reverse();
     Some(result)
 }
