@@ -17,4 +17,6 @@ mod grid_graph;
 #[cfg(test)]
 mod poker;
 #[cfg(test)]
+mod sudoku;
+#[cfg(test)]
 mod triangle;

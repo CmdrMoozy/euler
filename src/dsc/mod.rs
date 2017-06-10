@@ -18,4 +18,5 @@ pub mod grid_graph;
 pub mod poker;
 pub mod roman_numeral;
 pub mod spiral;
+pub mod sudoku;
 pub mod triangle;
