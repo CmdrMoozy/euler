@@ -15,12 +15,94 @@
 use util::error::*;
 
 const PUZZLE_SIZE: usize = 9;
+const BOX_SIZE: usize = 3;
 // Each puzzle should have one line per row of numbers, plus an extra line for
 // the puzzle's name.
 const LINES_PER_PUZZLE: usize = PUZZLE_SIZE + 1;
 
 type PuzzleRow = [u8; PUZZLE_SIZE];
 type PuzzleValues = [PuzzleRow; PUZZLE_SIZE];
+
+#[derive(Clone, Copy)]
+struct DigitState(u16);
+
+impl DigitState {
+    pub fn new() -> Self { Self::default() }
+
+    pub fn is_closed(&self, digit: u8) -> Result<bool> {
+        if digit < 1 || digit > 9 {
+            bail!("Invalid digit '{}'", digit);
+        }
+        let mask: u16 = 1;
+        let mask: u16 = mask << (digit - 1);
+        Ok(self.0 & mask == 0)
+    }
+
+    pub fn set_closed(&mut self, digit: u8) -> Result<()> {
+        if digit < 1 || digit > 9 {
+            bail!("Invalid digit '{}'", digit);
+        }
+        let mask: u16 = 1;
+        let mask: u16 = !(mask << (digit - 1));
+        self.0 &= mask;
+        Ok(())
+    }
+
+    pub fn get_open_digits(&self) -> Vec<u8> {
+        (1_u8..10_u8).filter(|d| !self.is_closed(*d).unwrap()).collect()
+    }
+
+    /// Returns the single digit that is valid given this state. If zero or
+    /// more than one digits are valid, None is returned instead.
+    pub fn get_single_digit(&self) -> Option<u8> {
+        let digits = self.get_open_digits();
+        if digits.len() == 1 {
+            Some(*digits.first().unwrap())
+        } else {
+            None
+        }
+    }
+}
+
+impl Default for DigitState {
+    fn default() -> Self { DigitState(0xFFFF) }
+}
+
+struct PuzzleDigitStates([[DigitState; PUZZLE_SIZE]; PUZZLE_SIZE]);
+
+impl PuzzleDigitStates {
+    pub fn new(values: &PuzzleValues) -> Result<PuzzleDigitStates> {
+        let mut states = PuzzleDigitStates([[DigitState::new(); PUZZLE_SIZE]; PUZZLE_SIZE]);
+        for x in 0..PUZZLE_SIZE {
+            for y in 0..PUZZLE_SIZE {
+                let value = values[x][y];
+                if value != 0 {
+                    states.set_closed(x, y, values[x][y])?;
+                }
+            }
+        }
+        Ok(states)
+    }
+
+    pub fn set_closed(&mut self, x: usize, y: usize, digit: u8) -> Result<()> {
+        // Mark this digit as closed for this cell's row and column...
+        for i in 0..PUZZLE_SIZE {
+            self.0[x][i].set_closed(digit)?;
+            self.0[i][y].set_closed(digit)?;
+        }
+
+        // ... and for this cell's box.
+        let box_x: usize = x / BOX_SIZE;
+        let box_y: usize = y / BOX_SIZE;
+        for i in (box_x * BOX_SIZE)..((box_x + 1) * BOX_SIZE) {
+            for j in (box_y * BOX_SIZE)..((box_y + 1) * BOX_SIZE) {
+                self.0[i][j].set_closed(digit)?;
+            }
+        }
+
+        Ok(())
+    }
+}
 
 fn parse_puzzle_row(line: &str) -> Result<PuzzleRow> {
     if line.len() != 9 {
@@ -69,20 +151,23 @@ fn parse_puzzle_values(text: &str) -> Result<Vec<(String, PuzzleValues)>> {
 pub struct Puzzle {
     name: String,
     values: PuzzleValues,
+    states: PuzzleDigitStates,
 }
 
 impl Puzzle {
-    fn new(name: String, values: PuzzleValues) -> Puzzle {
-        Puzzle {
+    fn new(name: String, values: PuzzleValues) -> Result<Puzzle> {
+        let states = PuzzleDigitStates::new(&values)?;
+        Ok(Puzzle {
             name: name,
             values: values,
-        }
+            states: states,
+        })
     }
 
     pub fn from_text(text: &str) -> Result<Vec<Puzzle>> {
         let mut puzzles: Vec<Puzzle> = vec![];
         for (name, values) in parse_puzzle_values(text)?.into_iter() {
-            puzzles.push(Puzzle::new(name, values));
+            puzzles.push(Puzzle::new(name, values)?);
         }
         Ok(puzzles)
     }
@@ -94,5 +179,13 @@ impl Puzzle {
     pub fn get_value(&self, x: usize, y: usize) -> Option<u8> {
         let value: u8 = self.values[x][y];
         if value != 0 { Some(value) } else { None }
+    }
+
+    pub fn get_open_digits(&self, x: usize, y: usize) -> Vec<u8> {
+        self.states.0[x][y].get_open_digits()
+    }
+
+    pub fn get_single_digit(&self, x: usize, y: usize) -> Option<u8> {
+        self.states.0[x][y].get_single_digit()
     }
 }

@@ -15,10 +15,12 @@
 use dsc::sudoku::*;
 
 const NO_NAME_INPUT: &'static str = include_str!("data/sudoku/no_name.txt");
-const MISSING_NUMBER_INPUT: &'static str = include_str!("data/sudoku/missing_number.txt");
-const MISSING_LINE_INPUT: &'static str = include_str!("data/sudoku/missing_line.txt");
-const VALID_PUZZLES_INPUT: &'static str = include_str!("data/sudoku/valid_puzzles.txt");
 
+const MISSING_NUMBER_INPUT: &'static str = include_str!("data/sudoku/missing_number.txt");
+
+const MISSING_LINE_INPUT: &'static str = include_str!("data/sudoku/missing_line.txt");
+
+const VALID_PUZZLES_INPUT: &'static str = include_str!("data/sudoku/valid_puzzles.txt");
 const EXPECTED_VALID_PUZZLES: &'static [(&'static str, &'static [&'static [u8; 9]; 9])] =
     &[("Grid 01",
        &[&[0, 9, 0, 0, 7, 0, 0, 8, 0],
@@ -40,6 +42,11 @@ const EXPECTED_VALID_PUZZLES: &'static [(&'static str, &'static [&'static [u8; 9
          &[3, 0, 2, 4, 0, 0, 0, 0, 0],
          &[0, 8, 0, 0, 0, 0, 4, 6, 0],
          &[0, 4, 9, 8, 0, 0, 0, 0, 3]])];
+
+const EMPTY_PUZZLE_INPUT: &'static str = include_str!("data/sudoku/empty_puzzle.txt");
+const SINGLE_OPEN_COLUMN_INPUT: &'static str = include_str!("data/sudoku/single_open_column.txt");
+const SINGLE_OPEN_ROW_INPUT: &'static str = include_str!("data/sudoku/single_open_row.txt");
+const SINGLE_OPEN_BOX_INPUT: &'static str = include_str!("data/sudoku/single_open_box.txt");
 
 #[test]
 fn test_no_name() {
@@ -78,4 +85,45 @@ fn test_valid_puzzles() {
             }
         }
     }
+}
+
+#[test]
+fn test_open_digits_empty_puzzle() {
+    // In an empty puzzle, all digits should be "open".
+    let puzzles = Puzzle::from_text(EMPTY_PUZZLE_INPUT).unwrap();
+    let puzzle = puzzles.into_iter().nth(0).unwrap();
+    for x in 0..puzzle.get_size() {
+        for y in 0..puzzle.get_size() {
+            assert_eq!(vec![1, 2, 3, 4, 5, 6, 7, 8, 9],
+                       puzzle.get_open_digits(x, y));
+            assert!(puzzle.get_single_digit(x, y).is_none());
+        }
+    }
+}
+
+#[test]
+fn test_single_open_column() {
+    // Test that a column with only one missing value has the right open digit.
+    let puzzles = Puzzle::from_text(SINGLE_OPEN_COLUMN_INPUT).unwrap();
+    let puzzle = puzzles.into_iter().nth(0).unwrap();
+    assert_eq!(vec![5], puzzle.get_open_digits(3, 3));
+    assert_eq!(5, puzzle.get_single_digit(3, 3).unwrap());
+}
+
+#[test]
+fn test_single_open_row() {
+    // Test that a row with only one missing value has the right open digit.
+    let puzzles = Puzzle::from_text(SINGLE_OPEN_ROW_INPUT).unwrap();
+    let puzzle = puzzles.into_iter().nth(0).unwrap();
+    assert_eq!(vec![5], puzzle.get_open_digits(5, 3));
+    assert_eq!(5, puzzle.get_single_digit(5, 3).unwrap());
+}
+
+#[test]
+fn test_single_open_box() {
+    // Test that a box with only one missing value has the right open digit.
+    let puzzles = Puzzle::from_text(SINGLE_OPEN_BOX_INPUT).unwrap();
+    let puzzle = puzzles.into_iter().nth(0).unwrap();
+    assert_eq!(vec![5], puzzle.get_open_digits(4, 4));
+    assert_eq!(5, puzzle.get_single_digit(4, 4).unwrap());
 }
