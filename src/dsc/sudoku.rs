@@ -172,19 +172,32 @@ impl Puzzle {
         Ok(puzzles)
     }
 
+    /// Return the name associated with this puzzle.
     pub fn get_name(&self) -> &str { self.name.as_str() }
 
+    /// Return the size (both the width and height) of this puzzle.
     pub fn get_size(&self) -> usize { PUZZLE_SIZE }
 
+    /// Return the value in the given cell, or None if the given cell is empty.
+    /// Cells in a puzzle are numbered according to a semi-standard x/y
+    /// coordinate plane, where the origin is in the top left, while x and y
+    /// increase while moving right or down, respectively.
     pub fn get_value(&self, x: usize, y: usize) -> Option<u8> {
         let value: u8 = self.values[x][y];
         if value != 0 { Some(value) } else { None }
     }
 
+    /// Return the list of digits which are valid (accordingly to the row,
+    /// column, and box constraints) to place in the given empty cell. If the
+    /// cell is already filled in, an empty Vec is returned instead.
     pub fn get_open_digits(&self, x: usize, y: usize) -> Vec<u8> {
         self.states.0[x][y].get_open_digits()
     }
 
+    /// Return the single digit which is valid to place in the given empty
+    /// cell. If the cell is already filled in, or if more than one digit is
+    /// possibly valid (purely by the row, column, and box constraints), then
+    /// None is returned instead.
     pub fn get_single_digit(&self, x: usize, y: usize) -> Option<u8> {
         self.states.0[x][y].get_single_digit()
     }
