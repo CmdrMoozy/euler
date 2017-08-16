@@ -113,7 +113,11 @@ impl Sieve for PrimeSieve {
         if n == 0 {
             return None;
         }
-        self.is_prime.iter().filter(|pair| pair.1).nth(n - 1).map(|pair| pair.0 as u64)
+        self.is_prime
+            .iter()
+            .filter(|pair| pair.1)
+            .nth(n - 1)
+            .map(|pair| pair.0 as u64)
     }
 }
 
@@ -124,10 +128,11 @@ pub struct Factorization {
 }
 
 impl Factorization {
-    pub fn new(n: u64,
-               sieve: &PrimeSieve,
-               primality_test_precision: Option<u64>)
-               -> Result<Factorization> {
+    pub fn new(
+        n: u64,
+        sieve: &PrimeSieve,
+        primality_test_precision: Option<u64>,
+    ) -> Result<Factorization> {
         let mut f = Factorization {
             number: n,
             factors: HashMap::new(),
@@ -142,10 +147,10 @@ impl Factorization {
         // If the number itself is prime, then it is its own prime factor.
         if match sieve.get_limit() >= n {
             true => sieve.contains(n).unwrap(),
-            false => {
-                is_prime(n,
-                         primality_test_precision.unwrap_or(DEFAULT_PRIMALITY_TEST_PRECISION))
-            },
+            false => is_prime(
+                n,
+                primality_test_precision.unwrap_or(DEFAULT_PRIMALITY_TEST_PRECISION),
+            ),
         } {
             f.factors.insert(n, 1);
             return Ok(f);
@@ -173,17 +178,25 @@ impl Factorization {
         Ok(f)
     }
 
-    pub fn new_from_iter<I>(mut iter: I,
-                            sieve: &PrimeSieve,
-                            primality_test_precision: Option<u64>)
-                            -> Result<Factorization>
-        where I: Iterator<Item = u64>
+    pub fn new_from_iter<I>(
+        mut iter: I,
+        sieve: &PrimeSieve,
+        primality_test_precision: Option<u64>,
+    ) -> Result<Factorization>
+    where
+        I: Iterator<Item = u64>,
     {
-        let mut f = Factorization::new(iter.next().unwrap_or(0),
-                                       sieve,
-                                       primality_test_precision.clone())?;
+        let mut f = Factorization::new(
+            iter.next().unwrap_or(0),
+            sieve,
+            primality_test_precision.clone(),
+        )?;
         for i in iter {
-            f = f.product(&Factorization::new(i, sieve, primality_test_precision.clone())?);
+            f = f.product(&Factorization::new(
+                i,
+                sieve,
+                primality_test_precision.clone(),
+            )?);
         }
         Ok(f)
     }
@@ -191,9 +204,10 @@ impl Factorization {
     /// Reduces the rational number "numerator / denominator" by eliminating as
     /// many common factors as possible, returning the new numerator and
     /// denominator of the resulting fully reduced rational.
-    pub fn reduce(numerator: Factorization,
-                  denominator: Factorization)
-                  -> (Factorization, Factorization) {
+    pub fn reduce(
+        numerator: Factorization,
+        denominator: Factorization,
+    ) -> (Factorization, Factorization) {
         let mut num_factors = numerator.factors;
         let mut den_factors = denominator.factors;
 
@@ -207,18 +221,22 @@ impl Factorization {
         num_factors = num_factors.into_iter().filter(|pair| pair.1 > 0).collect();
         den_factors = den_factors.into_iter().filter(|pair| pair.1 > 0).collect();
 
-        (Factorization {
-             number: num_factors.iter()
-                 .map(|pair| pair.0.pow(*pair.1 as u32))
-                 .fold(1, |acc, v| acc * v),
-             factors: num_factors,
-         },
-         Factorization {
-             number: den_factors.iter()
-                 .map(|pair| pair.0.pow(*pair.1 as u32))
-                 .fold(1, |acc, v| acc * v),
-             factors: den_factors,
-         })
+        (
+            Factorization {
+                number: num_factors
+                    .iter()
+                    .map(|pair| pair.0.pow(*pair.1 as u32))
+                    .fold(1, |acc, v| acc * v),
+                factors: num_factors,
+            },
+            Factorization {
+                number: den_factors
+                    .iter()
+                    .map(|pair| pair.0.pow(*pair.1 as u32))
+                    .fold(1, |acc, v| acc * v),
+                factors: den_factors,
+            },
+        )
     }
 
     /// Return the number which was factored for this Factorization.

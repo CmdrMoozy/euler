@@ -43,7 +43,13 @@ fn is_ltr_truncatable_prime(n: u64, sieve: &PrimeSieve) -> bool {
 
     let digits: VecDeque<char> = n.to_string().chars().collect();
     for skip in 1..digits.len() {
-        let truncated: u64 = digits.iter().skip(skip).cloned().collect::<String>().parse().unwrap();
+        let truncated: u64 = digits
+            .iter()
+            .skip(skip)
+            .cloned()
+            .collect::<String>()
+            .parse()
+            .unwrap();
         if !sieve.contains(truncated).unwrap() {
             return false;
         }
@@ -62,11 +68,12 @@ fn is_rtl_truncatable_prime(mut n: u64, sieve: &PrimeSieve) -> bool {
     true
 }
 
-fn find_truncatable_primes(limit: u64,
-                           old_limit: u64,
-                           mut count: usize,
-                           mut sum: u64)
-                           -> (usize, u64) {
+fn find_truncatable_primes(
+    limit: u64,
+    old_limit: u64,
+    mut count: usize,
+    mut sum: u64,
+) -> (usize, u64) {
     let sieve = PrimeSieve::new(limit);
     let mut iter = sieve.iter().skip_while(move |p| *p <= old_limit).peekable();
     while count < TARGET_COUNT && iter.peek().is_some() {

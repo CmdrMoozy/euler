@@ -36,7 +36,8 @@ fn main() {
         let value_string: String = format!("{}", value);
 
         Ok(ProblemAnswer {
-            actual: value_string.chars()
+            actual: value_string
+                .chars()
                 .map(|c| c.to_digit(10).unwrap() as u64)
                 .fold(0, |acc, d| acc + d),
             expected: EXPECTED_RESULT,

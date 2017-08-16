@@ -18,7 +18,7 @@ use math::sieve::Sieve;
 use std::collections::VecDeque;
 use std::iter::FilterMap;
 use std::option::Option;
-use ::structs::bit_array::*;
+use structs::bit_array::*;
 
 #[derive(Debug)]
 struct DigitalRotationIterator {
@@ -48,7 +48,14 @@ impl Iterator for DigitalRotationIterator {
 
             // Skip items with leading zeros.
             let item: Option<u64> = if self.digits[0] != '0' {
-                Some(self.digits.iter().cloned().collect::<String>().parse::<u64>().unwrap())
+                Some(
+                    self.digits
+                        .iter()
+                        .cloned()
+                        .collect::<String>()
+                        .parse::<u64>()
+                        .unwrap(),
+                )
             } else {
                 None
             };
@@ -109,7 +116,7 @@ impl CircularPrimeSieve {
             let has_divisible_digits = it.iter_digits()
                 .map(|digit| {
                     *digit == '0' || *digit == '2' || *digit == '4' || *digit == '5' ||
-                    *digit == '6' || *digit == '8'
+                        *digit == '6' || *digit == '8'
                 })
                 .fold(false, |acc, dd| acc || dd);
             if has_divisible_digits {
@@ -163,6 +170,10 @@ impl Sieve for CircularPrimeSieve {
         if n == 0 {
             return None;
         }
-        self.is_prime.iter().filter(|pair| pair.1).nth(n - 1).map(|pair| pair.0 as u64)
+        self.is_prime
+            .iter()
+            .filter(|pair| pair.1)
+            .nth(n - 1)
+            .map(|pair| pair.0 as u64)
     }
 }

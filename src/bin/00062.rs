@@ -43,7 +43,7 @@ fn main() {
             // Build the range of numbers we'll be testing for this digit count.
             let min = exp::icbrt(10_u64.pow(digits as u32 - 1)) + 1;
             let max = exp::icbrt(10_u64.pow(digits as u32));
-            let mut bases = vec![0_u64; (max-min) as usize];
+            let mut bases = vec![0_u64; (max - min) as usize];
             for base in min..max {
                 bases[(base - min) as usize] = base;
             }

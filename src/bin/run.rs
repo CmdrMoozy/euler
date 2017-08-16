@@ -67,8 +67,10 @@ fn compute_percentiles(results: &Vec<ExecutionResult>) -> HashMap<usize, Duratio
 
     let mut percentiles: HashMap<usize, Duration> = HashMap::new();
     for percentile in PERCENTILES {
-        percentiles.insert(*percentile,
-                           results[(percentile * results.len()) / 100].time.clone());
+        percentiles.insert(
+            *percentile,
+            results[(percentile * results.len()) / 100].time.clone(),
+        );
     }
     percentiles
 }
@@ -78,20 +80,23 @@ impl Timings {
         Timings {
             successes: results.iter().filter(|r| r.success).count(),
 
-            average: Duration::from_total_nanos(stats::iaverage(results.iter()
-                    .map(|r| r.time.total_nanos()))
-                .unwrap_or(0)),
-            minimum: results.iter()
+            average: Duration::from_total_nanos(
+                stats::iaverage(results.iter().map(|r| r.time.total_nanos())).unwrap_or(0),
+            ),
+            minimum: results
+                .iter()
                 .map(|r| r.time.clone())
                 .min()
                 .unwrap_or(Duration::from(time::Duration::new(0, 0))),
-            maximum: results.iter()
+            maximum: results
+                .iter()
                 .map(|r| r.time.clone())
                 .max()
                 .unwrap_or(Duration::from(time::Duration::new(0, 0))),
-            stddev: Duration::from_total_nanos(stats::istddev_population(results.iter()
-                    .map(|r| r.time.total_nanos()))
-                .unwrap_or(0)),
+            stddev: Duration::from_total_nanos(
+                stats::istddev_population(results.iter().map(|r| r.time.total_nanos()))
+                    .unwrap_or(0),
+            ),
             total: results.iter().map(|r| &r.time).sum(),
 
             percentiles: compute_percentiles(&results),
@@ -109,7 +114,9 @@ fn get_target_root() -> Result<PathBuf> {
 
 fn execute_problems() -> Result<Vec<ExecutionResult>> {
     let mut results: Vec<ExecutionResult> = Vec::new();
-    for p in glob::glob(format!("{}/?????", get_target_root()?.to_str().unwrap()).as_str())? {
+    for p in glob::glob(
+        format!("{}/?????", get_target_root()?.to_str().unwrap()).as_str(),
+    )? {
         let path = p?;
         let metadata = path.metadata()?;
         if metadata.is_dir() || metadata.permissions().mode() & 0o111 == 0 {
@@ -119,8 +126,10 @@ fn execute_problems() -> Result<Vec<ExecutionResult>> {
         let profiler = Profiler::new(false, "");
         let output = process::Command::new(path.to_str().unwrap()).output()?;
         if !output.status.success() {
-            warn!("PROBLEM FAILED: {}",
-                  path.file_name().unwrap().to_str().unwrap());
+            warn!(
+                "PROBLEM FAILED: {}",
+                path.file_name().unwrap().to_str().unwrap()
+            );
         }
         results.push(ExecutionResult {
             problem: path.file_name().unwrap().to_str().unwrap().to_owned(),
@@ -142,20 +151,26 @@ fn main() {
     results.sort_by(|a, b| a.time.cmp(&b.time));
     let timings = Timings::new(&results);
 
-    info!("Executed {} problems ({} successes, {} failures).",
-          results.len(),
-          timings.successes,
-          results.len() - timings.successes);
-    info!("Execution time: average {}, min {}, max {}, stddev {}, total {}",
-          timings.average,
-          timings.minimum,
-          timings.maximum,
-          timings.stddev,
-          timings.total);
+    info!(
+        "Executed {} problems ({} successes, {} failures).",
+        results.len(),
+        timings.successes,
+        results.len() - timings.successes
+    );
+    info!(
+        "Execution time: average {}, min {}, max {}, stddev {}, total {}",
+        timings.average,
+        timings.minimum,
+        timings.maximum,
+        timings.stddev,
+        timings.total
+    );
     for percentile in PERCENTILES {
-        info!("{}th percentile execution time: {}",
-              percentile,
-              timings.percentiles.get(percentile).unwrap());
+        info!(
+            "{}th percentile execution time: {}",
+            percentile,
+            timings.percentiles.get(percentile).unwrap()
+        );
     }
 
     info!("Top {} slowest problems:", TOP_N_SLOWEST);

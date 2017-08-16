@@ -47,7 +47,11 @@ pub struct Spiral {
 }
 
 impl Spiral {
-    pub fn new() -> Spiral { Spiral { contents: HashMap::new() } }
+    pub fn new() -> Spiral {
+        Spiral {
+            contents: HashMap::new(),
+        }
+    }
 
     pub fn get_diagonal_value(&mut self, addr: &Address) -> Result<u64> {
         if addr.x.abs() != addr.y.abs() {
@@ -72,23 +76,27 @@ impl Spiral {
         // need to add some number of extra side lengths (at least one) to get to the
         // next-biggest spiral perimeter which contains the desired cell.
         let previous_diagonal = self.get_diagonal_value(&Address {
-                x: addr.x.abs() - 1,
-                y: addr.y.abs() - 1,
-            })?;
+            x: addr.x.abs() - 1,
+            y: addr.y.abs() - 1,
+        })?;
 
         // Cache all the diagonal values at this new diagonal size, and then return the
         // relevant one.
         let diagonal: i64 = addr.x.abs();
-        for new_diagonal in vec![(diagonal, -diagonal, 1),
-                                 (-diagonal, -diagonal, 2),
-                                 (-diagonal, diagonal, 3),
-                                 (diagonal, diagonal, 4)] {
+        for new_diagonal in vec![
+            (diagonal, -diagonal, 1),
+            (-diagonal, -diagonal, 2),
+            (-diagonal, diagonal, 3),
+            (diagonal, diagonal, 4),
+        ] {
             let value: u64 = previous_diagonal + (edge_size as u64 - 1) * new_diagonal.2 as u64;
-            self.contents.insert(Address {
-                                     x: new_diagonal.0,
-                                     y: new_diagonal.1,
-                                 },
-                                 value);
+            self.contents.insert(
+                Address {
+                    x: new_diagonal.0,
+                    y: new_diagonal.1,
+                },
+                value,
+            );
         }
 
         Ok(*self.contents.get(&addr).unwrap())

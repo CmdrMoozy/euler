@@ -20,8 +20,9 @@ use std::vec::Vec;
 /// is too large to fit in a u64, None is returned instead. If the given list
 /// is empty, 0 is returned.
 pub fn iaverage<I, V>(iter: I) -> Option<u64>
-    where I: Iterator<Item = V>,
-          V: Into<u64>
+where
+    I: Iterator<Item = V>,
+    V: Into<u64>,
 {
     let mut denominator: u64 = 0;
     let mut result = Mpz::from(0);
@@ -37,8 +38,9 @@ pub fn iaverage<I, V>(iter: I) -> Option<u64>
 }
 
 fn istddev_impl<I, V>(iter: I, is_population: bool) -> Option<u64>
-    where I: Iterator<Item = V>,
-          V: Into<u64>
+where
+    I: Iterator<Item = V>,
+    V: Into<u64>,
 {
     let items: Vec<u64> = iter.map(|v| v.into()).collect();
     if items.len() == 0 {
@@ -55,8 +57,7 @@ fn istddev_impl<I, V>(iter: I, is_population: bool) -> Option<u64>
     for item in &items {
         stddev = stddev + (Mpz::from(*item) - average).pow(2);
     }
-    stddev = stddev /
-             (match is_population {
+    stddev = stddev / (match is_population {
         false => items.len() - 1,
         true => items.len(),
     } as u64);
@@ -65,15 +66,17 @@ fn istddev_impl<I, V>(iter: I, is_population: bool) -> Option<u64>
 }
 
 pub fn istddev_population<I, V>(iter: I) -> Option<u64>
-    where I: Iterator<Item = V>,
-          V: Into<u64>
+where
+    I: Iterator<Item = V>,
+    V: Into<u64>,
 {
     istddev_impl(iter, true)
 }
 
 pub fn istddev_sample<I, V>(iter: I) -> Option<u64>
-    where I: Iterator<Item = V>,
-          V: Into<u64>
+where
+    I: Iterator<Item = V>,
+    V: Into<u64>,
 {
     istddev_impl(iter, false)
 }

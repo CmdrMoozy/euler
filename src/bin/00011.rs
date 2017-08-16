@@ -48,6 +48,7 @@ use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 70600674;
+#[cfg_attr(rustfmt, rustfmt_skip)]
 const GRID_VALUES: &'static [&'static [u64]] =
     &[&[8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
       &[49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0],
@@ -81,10 +82,11 @@ fn get_back_diagonal_line_product(grid: &[&[u64]], origin: (usize, usize), lengt
     product
 }
 
-fn get_forward_diagonal_line_product(grid: &[&[u64]],
-                                     origin: (usize, usize),
-                                     length: usize)
-                                     -> u64 {
+fn get_forward_diagonal_line_product(
+    grid: &[&[u64]],
+    origin: (usize, usize),
+    length: usize,
+) -> u64 {
     let mut product: u64 = grid[origin.1 + (length - 1)][origin.0];
     for off in 1..length {
         product *= grid[origin.1 + (length - 1 - off)][origin.0 + off];
@@ -115,16 +117,22 @@ fn main() {
         // Test all of the normal paths.
         for x in 0..(GRID_SIZE - LINE_LENGTH + 1) {
             for y in 0..(GRID_SIZE - LINE_LENGTH + 1) {
-                greatest =
-                    cmp::max(greatest,
-                             get_back_diagonal_line_product(GRID_VALUES, (x, y), LINE_LENGTH));
-                greatest =
-                    cmp::max(greatest,
-                             get_forward_diagonal_line_product(GRID_VALUES, (x, y), LINE_LENGTH));
-                greatest = cmp::max(greatest,
-                                    get_horizontal_line_product(GRID_VALUES, (x, y), LINE_LENGTH));
-                greatest = cmp::max(greatest,
-                                    get_vertical_line_product(GRID_VALUES, (x, y), LINE_LENGTH));
+                greatest = cmp::max(
+                    greatest,
+                    get_back_diagonal_line_product(GRID_VALUES, (x, y), LINE_LENGTH),
+                );
+                greatest = cmp::max(
+                    greatest,
+                    get_forward_diagonal_line_product(GRID_VALUES, (x, y), LINE_LENGTH),
+                );
+                greatest = cmp::max(
+                    greatest,
+                    get_horizontal_line_product(GRID_VALUES, (x, y), LINE_LENGTH),
+                );
+                greatest = cmp::max(
+                    greatest,
+                    get_vertical_line_product(GRID_VALUES, (x, y), LINE_LENGTH),
+                );
             }
         }
 
@@ -133,12 +141,14 @@ fn main() {
         // Test the horizontal ones.
         for origin in (GRID_SIZE - LINE_LENGTH + 1)..GRID_SIZE {
             let anchor = GRID_SIZE - LINE_LENGTH;
-            greatest =
-                cmp::max(greatest,
-                         get_horizontal_line_product(GRID_VALUES, (anchor, origin), LINE_LENGTH));
-            greatest =
-                cmp::max(greatest,
-                         get_vertical_line_product(GRID_VALUES, (origin, anchor), LINE_LENGTH));
+            greatest = cmp::max(
+                greatest,
+                get_horizontal_line_product(GRID_VALUES, (anchor, origin), LINE_LENGTH),
+            );
+            greatest = cmp::max(
+                greatest,
+                get_vertical_line_product(GRID_VALUES, (origin, anchor), LINE_LENGTH),
+            );
         }
 
         Ok(ProblemAnswer {

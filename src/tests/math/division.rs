@@ -12,34 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ::math::division::*;
+use math::division::*;
 use math::prime::PrimeSieve;
 
 #[test]
 fn test_signed_divide() {
-    static TEST_CASES: &'static [(i64, i64, i64, i64)] = &[(0, 100, 0, 0),
-                                                           (0, -100, 0, 0),
-                                                           (100, 1, 100, 0),
-                                                           (-100, 1, -100, 0),
-                                                           (100, 3, 33, 1),
-                                                           (100, -3, -33, 1),
-                                                           (-100, 3, -33, -1),
-                                                           (-100, -3, 33, -1)];
+    static TEST_CASES: &'static [(i64, i64, i64, i64)] = &[
+        (0, 100, 0, 0),
+        (0, -100, 0, 0),
+        (100, 1, 100, 0),
+        (-100, 1, -100, 0),
+        (100, 3, 33, 1),
+        (100, -3, -33, 1),
+        (-100, 3, -33, -1),
+        (-100, -3, 33, -1),
+    ];
 
     for test_case in TEST_CASES {
         let (quotient, remainder) = divide(test_case.0, test_case.1);
-        assert!(quotient == test_case.2,
-                "{} div {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                quotient,
-                test_case.2);
-        assert!(remainder == test_case.3,
-                "{} rem {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                remainder,
-                test_case.3);
+        assert!(
+            quotient == test_case.2,
+            "{} div {} = {} == {}",
+            test_case.0,
+            test_case.1,
+            quotient,
+            test_case.2
+        );
+        assert!(
+            remainder == test_case.3,
+            "{} rem {} = {} == {}",
+            test_case.0,
+            test_case.1,
+            remainder,
+            test_case.3
+        );
     }
 }
 
@@ -50,48 +56,54 @@ fn test_unsigned_divide() {
 
     for test_case in TEST_CASES {
         let (quotient, remainder) = divide(test_case.0, test_case.1);
-        assert!(quotient == test_case.2,
-                "{} div {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                quotient,
-                test_case.2);
-        assert!(remainder == test_case.3,
-                "{} rem {} = {} == {}",
-                test_case.0,
-                test_case.1,
-                remainder,
-                test_case.3);
+        assert!(
+            quotient == test_case.2,
+            "{} div {} = {} == {}",
+            test_case.0,
+            test_case.1,
+            quotient,
+            test_case.2
+        );
+        assert!(
+            remainder == test_case.3,
+            "{} rem {} = {} == {}",
+            test_case.0,
+            test_case.1,
+            remainder,
+            test_case.3
+        );
     }
 }
 
 #[test]
 fn test_gcd() {
-    static TEST_CASES: &'static [(u64, u64, u64)] = &[(900, 736, 4),
-                                                      (951, 474, 3),
-                                                      (377, 540, 1),
-                                                      (210, 818, 2),
-                                                      (832, 17, 1),
-                                                      (986, 799, 17),
-                                                      (855, 469, 1),
-                                                      (990, 604, 2),
-                                                      (138, 827, 1),
-                                                      (424, 203, 1),
-                                                      (522, 813, 3),
-                                                      (251, 26, 1),
-                                                      (329, 191, 1),
-                                                      (965, 435, 5),
-                                                      (759, 400, 1),
-                                                      (53, 549, 1),
-                                                      (218, 678, 2),
-                                                      (453, 767, 1),
-                                                      (396, 594, 198),
-                                                      (821, 615, 1),
-                                                      (104, 410, 2),
-                                                      (725, 153, 1),
-                                                      (744, 764, 4),
-                                                      (765, 436, 1),
-                                                      (666, 86, 2)];
+    static TEST_CASES: &'static [(u64, u64, u64)] = &[
+        (900, 736, 4),
+        (951, 474, 3),
+        (377, 540, 1),
+        (210, 818, 2),
+        (832, 17, 1),
+        (986, 799, 17),
+        (855, 469, 1),
+        (990, 604, 2),
+        (138, 827, 1),
+        (424, 203, 1),
+        (522, 813, 3),
+        (251, 26, 1),
+        (329, 191, 1),
+        (965, 435, 5),
+        (759, 400, 1),
+        (53, 549, 1),
+        (218, 678, 2),
+        (453, 767, 1),
+        (396, 594, 198),
+        (821, 615, 1),
+        (104, 410, 2),
+        (725, 153, 1),
+        (744, 764, 4),
+        (765, 436, 1),
+        (666, 86, 2),
+    ];
 
     for test_case in TEST_CASES {
         assert_eq!(test_case.2, gcd(test_case.0, test_case.1));
@@ -100,31 +112,33 @@ fn test_gcd() {
 
 #[test]
 fn test_lcm() {
-    static TEST_CASES: &'static [(u64, u64, u64)] = &[(900, 736, 165600),
-                                                      (951, 474, 150258),
-                                                      (377, 540, 203580),
-                                                      (210, 818, 85890),
-                                                      (832, 17, 14144),
-                                                      (986, 799, 46342),
-                                                      (855, 469, 400995),
-                                                      (990, 604, 298980),
-                                                      (138, 827, 114126),
-                                                      (424, 203, 86072),
-                                                      (522, 813, 141462),
-                                                      (251, 26, 6526),
-                                                      (329, 191, 62839),
-                                                      (965, 435, 83955),
-                                                      (759, 400, 303600),
-                                                      (53, 549, 29097),
-                                                      (218, 678, 73902),
-                                                      (453, 767, 347451),
-                                                      (396, 594, 1188),
-                                                      (821, 615, 504915),
-                                                      (104, 410, 21320),
-                                                      (725, 153, 110925),
-                                                      (744, 764, 142104),
-                                                      (765, 436, 333540),
-                                                      (666, 86, 28638)];
+    static TEST_CASES: &'static [(u64, u64, u64)] = &[
+        (900, 736, 165600),
+        (951, 474, 150258),
+        (377, 540, 203580),
+        (210, 818, 85890),
+        (832, 17, 14144),
+        (986, 799, 46342),
+        (855, 469, 400995),
+        (990, 604, 298980),
+        (138, 827, 114126),
+        (424, 203, 86072),
+        (522, 813, 141462),
+        (251, 26, 6526),
+        (329, 191, 62839),
+        (965, 435, 83955),
+        (759, 400, 303600),
+        (53, 549, 29097),
+        (218, 678, 73902),
+        (453, 767, 347451),
+        (396, 594, 1188),
+        (821, 615, 504915),
+        (104, 410, 21320),
+        (725, 153, 110925),
+        (744, 764, 142104),
+        (765, 436, 333540),
+        (666, 86, 28638),
+    ];
 
     for test_case in TEST_CASES {
         assert_eq!(test_case.2, lcm(test_case.0, test_case.1));
@@ -133,6 +147,7 @@ fn test_lcm() {
 
 #[test]
 fn test_totient() {
+    #[cfg_attr(rustfmt, rustfmt_skip)]
     static TEST_CASES: &'static [(u64, u64)] =
         &[(1, 1), (2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (9, 6), (10, 4),
           (11, 10), (12, 4), (13, 12), (14, 6), (15, 8), (16, 8), (17, 16), (18, 6), (19, 18),
@@ -154,19 +169,31 @@ fn test_totient() {
 
 #[test]
 fn test_repetend_length() {
-    static TEST_CASES: &'static [(u64, u64)] = &[(2, 0), (3, 1), (4, 0), (5, 0), (6, 1), (7, 6),
-                                                 (8, 0), (9, 1), (10, 0)];
+    static TEST_CASES: &'static [(u64, u64)] = &[
+        (2, 0),
+        (3, 1),
+        (4, 0),
+        (5, 0),
+        (6, 1),
+        (7, 6),
+        (8, 0),
+        (9, 1),
+        (10, 0),
+    ];
 
     let sieve = PrimeSieve::new(100);
     for test_case in TEST_CASES {
-        assert_eq!(test_case.1,
-                   repetend_length(test_case.0, &sieve, None).unwrap());
+        assert_eq!(
+            test_case.1,
+            repetend_length(test_case.0, &sieve, None).unwrap()
+        );
     }
 }
 
 #[test]
 fn test_aliquot_number_divisors() {
     // Note that d(0) is undefined, so these cases are 1-indexed essentially.
+    #[cfg_attr(rustfmt, rustfmt_skip)]
     static DIVISORS_OF_N: &'static [u64] =
         &[1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6, 4, 4, 2, 8, 3, 4, 4, 6, 2,
           8, 2, 6, 4, 4, 4, 9, 2, 4, 4, 8, 2, 8, 2, 6, 6, 4, 2, 10, 3, 6, 4, 6, 2, 8, 4, 8, 4, 4,
@@ -180,6 +207,7 @@ fn test_aliquot_number_divisors() {
 
 #[test]
 fn test_aliquot_sum_proper_divisors() {
+    #[cfg_attr(rustfmt, rustfmt_skip)]
     static TEST_CASES: &'static [(u64, u64)] =
         &[(1, 0), (2, 1), (3, 1), (4, 3), (5, 1), (6, 6), (7, 1), (8, 7), (9, 4), (10, 8),
           (11, 1), (12, 16), (13, 1), (14, 10), (15, 9), (16, 15), (17, 1), (18, 21), (19, 1),

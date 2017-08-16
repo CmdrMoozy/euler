@@ -91,13 +91,14 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
                 let left_child = triangle.get_left_child_value(row, col)?;
                 let right_child = triangle.get_right_child_value(row, col)?;
 
-                triangle.set(row,
-                         col,
-                         current_value +
-                         match left_child < right_child {
-                             false => left_child,
-                             true => right_child,
-                         })?;
+                triangle.set(
+                    row,
+                    col,
+                    current_value + match left_child < right_child {
+                        false => left_child,
+                        true => right_child,
+                    },
+                )?;
             }
         }
 

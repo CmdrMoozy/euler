@@ -16,28 +16,22 @@ use std::cmp::Ordering;
 
 fn days_in_year(year: i64) -> u64 {
     match year % 100 {
-        0 => {
-            match year % 400 {
-                0 => 366,
-                _ => 365,
-            }
+        0 => match year % 400 {
+            0 => 366,
+            _ => 365,
         },
-        _ => {
-            match year % 4 {
-                0 => 366,
-                _ => 365,
-            }
+        _ => match year % 4 {
+            0 => 366,
+            _ => 365,
         },
     }
 }
 
 fn days_in_month(year: i64, month: i64) -> u64 {
     match month {
-        2 => {
-            match days_in_year(year) {
-                365 => 28,
-                _ => 29,
-            }
+        2 => match days_in_year(year) {
+            365 => 28,
+            _ => 29,
         },
         4 => 30,
         6 => 30,

@@ -128,8 +128,12 @@ fn get_subtractive_string_value(s: &str) -> Result<u64> {
         bail!("Valid subtractive pairs must contain at least two numerals");
     }
 
-    let sub: u64 = *ROMAN_NUMERAL_VALUES.get(&s.chars().nth(0).unwrap()).unwrap();
-    let val: u64 = *ROMAN_NUMERAL_VALUES.get(&s.chars().nth(1).unwrap()).unwrap();
+    let sub: u64 = *ROMAN_NUMERAL_VALUES
+        .get(&s.chars().nth(0).unwrap())
+        .unwrap();
+    let val: u64 = *ROMAN_NUMERAL_VALUES
+        .get(&s.chars().nth(1).unwrap())
+        .unwrap();
     if val < sub {
         bail!("Invalid subtractive pair '{}'", s);
     }
@@ -214,7 +218,9 @@ impl FromStr for RomanNumeral {
                     bail!("Roman numerals cannot have negative values");
                 }
 
-                Ok(RomanNumeral { value: total as u64 })
+                Ok(RomanNumeral {
+                    value: total as u64,
+                })
             },
             None => bail!("Failed to match input string against roman numeral regex"),
         }

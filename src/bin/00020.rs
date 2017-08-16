@@ -34,7 +34,8 @@ fn main() {
         let factorial_str = factorial.to_string();
 
         Ok(ProblemAnswer {
-            actual: factorial_str.chars()
+            actual: factorial_str
+                .chars()
                 .map(|c| c.to_string().parse::<u64>().unwrap())
                 .fold(0, |sum, d| sum + d),
             expected: EXPECTED_RESULT,

@@ -83,12 +83,13 @@ impl GridGraph {
     /// indicate which directions of movement are allowed, horizontally or
     /// vertically, between nodes. Forward / Backward mean Right / Left and
     /// Down / Up for horizontal and vertical, respectively.
-    pub fn new(weights: GridGraphWeights,
-               horizontal_direction: Direction,
-               vertical_direction: Direction,
-               start: (usize, usize),
-               end: (usize, usize))
-               -> GridGraph {
+    pub fn new(
+        weights: GridGraphWeights,
+        horizontal_direction: Direction,
+        vertical_direction: Direction,
+        start: (usize, usize),
+        end: (usize, usize),
+    ) -> GridGraph {
         let mut graph = Graph::new();
 
         // We need to create a graph with one vertex for each weight, plus two extra
@@ -109,31 +110,39 @@ impl GridGraph {
             for x in 0..weights.get_width() {
                 // Make the horizontal connection.
                 if x + 1 < weights.get_width() {
-                    graph.connect(vertices[x][y],
-                                  vertices[x + 1][y],
-                                  weights.get(x + 1, y).unwrap(),
-                                  horizontal_direction);
+                    graph.connect(
+                        vertices[x][y],
+                        vertices[x + 1][y],
+                        weights.get(x + 1, y).unwrap(),
+                        horizontal_direction,
+                    );
                 }
 
                 // Make the vertical connection.
                 if y + 1 < weights.get_height() {
-                    graph.connect(vertices[x][y],
-                                  vertices[x][y + 1],
-                                  weights.get(x, y + 1).unwrap(),
-                                  vertical_direction);
+                    graph.connect(
+                        vertices[x][y],
+                        vertices[x][y + 1],
+                        weights.get(x, y + 1).unwrap(),
+                        vertical_direction,
+                    );
                 }
             }
         }
 
         // Connect the start and end nodes.
-        graph.connect(faux_start_vertex,
-                      vertices[start.0][start.1],
-                      weights.get(start.0, start.1).unwrap(),
-                      Direction::Forward);
-        graph.connect(vertices[end.0][end.1],
-                      faux_end_vertex,
-                      0,
-                      Direction::Forward);
+        graph.connect(
+            faux_start_vertex,
+            vertices[start.0][start.1],
+            weights.get(start.0, start.1).unwrap(),
+            Direction::Forward,
+        );
+        graph.connect(
+            vertices[end.0][end.1],
+            faux_end_vertex,
+            0,
+            Direction::Forward,
+        );
 
         GridGraph {
             graph: graph,

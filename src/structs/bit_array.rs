@@ -126,7 +126,9 @@ impl BitArray {
             return None;
         }
         let chunk_index = bit_to_chunk_index(index);
-        Some(self.data.get(chunk_index.0).unwrap() & ((1 as Chunk) << chunk_index.1) != 0)
+        Some(
+            self.data.get(chunk_index.0).unwrap() & ((1 as Chunk) << chunk_index.1) != 0,
+        )
     }
 
     /// Sets the value of the bit at the given index to the given value. Panics

@@ -49,7 +49,9 @@ impl DigitState {
     }
 
     pub fn get_open_digits(&self) -> Vec<u8> {
-        (1_u8..10_u8).filter(|d| !self.is_closed(*d).unwrap()).collect()
+        (1_u8..10_u8)
+            .filter(|d| !self.is_closed(*d).unwrap())
+            .collect()
     }
 
     /// Returns the single digit that is valid given this state. If zero or
@@ -123,16 +125,18 @@ fn parse_puzzle_row(line: &str) -> Result<PuzzleRow> {
 fn parse_puzzle_values(text: &str) -> Result<Vec<(String, PuzzleValues)>> {
     let lines: Vec<&str> = text.lines().collect();
     if lines.len() % LINES_PER_PUZZLE != 0 {
-        bail!("Expected exactly {} lines per puzzle, found {} lines",
-              LINES_PER_PUZZLE,
-              lines.len());
+        bail!(
+            "Expected exactly {} lines per puzzle, found {} lines",
+            LINES_PER_PUZZLE,
+            lines.len()
+        );
     }
 
     let mut puzzles: Vec<(String, PuzzleValues)> = vec![];
     for puzzle in 0..(lines.len() / LINES_PER_PUZZLE) {
         let puzzle_first_line: usize = puzzle * LINES_PER_PUZZLE;
-        let puzzle_lines: &[&str] = &lines[puzzle_first_line..
-                                     (puzzle_first_line + LINES_PER_PUZZLE)];
+        let puzzle_lines: &[&str] =
+            &lines[puzzle_first_line..(puzzle_first_line + LINES_PER_PUZZLE)];
 
         let name: String = puzzle_lines[0].to_owned();
         let mut values: PuzzleValues = [[0; PUZZLE_SIZE]; PUZZLE_SIZE];
@@ -184,7 +188,11 @@ impl Puzzle {
     /// increase while moving right or down, respectively.
     pub fn get_value(&self, x: usize, y: usize) -> Option<u8> {
         let value: u8 = self.values[x][y];
-        if value != 0 { Some(value) } else { None }
+        if value != 0 {
+            Some(value)
+        } else {
+            None
+        }
     }
 
     /// Return the list of digits which are valid (accordingly to the row,

@@ -68,11 +68,9 @@ const EXPECTED_RESULT: u64 = 272;
 fn get_nth_b_n_denominator(n: u64) -> u64 {
     match n {
         0 => 2,
-        _ => {
-            match n % 3 {
-                2 => 2 * ((n + 1) / 3),
-                _ => 1,
-            }
+        _ => match n % 3 {
+            2 => 2 * ((n + 1) / 3),
+            _ => 1,
         },
     }
 }
@@ -125,7 +123,8 @@ fn main() {
         // A (big_a) now contains the numerator of the 100th convergent. Add its digits
         // to get our answer.
         Ok(ProblemAnswer {
-            actual: big_a.to_string()
+            actual: big_a
+                .to_string()
                 .chars()
                 .fold(0_u64, |acc, c| acc + c.to_digit(10).unwrap() as u64),
             expected: EXPECTED_RESULT,

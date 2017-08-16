@@ -113,10 +113,11 @@ pub fn totient(n: u64) -> u64 {
 /// It is a requirement that the given prime number sieve's limit must be at
 /// least equivalent to isqrt(totient(x)), where x is equal to n with all
 /// factors of 10 divided out. Otherwise, an error will be returned.
-pub fn repetend_length(mut n: u64,
-                       sieve: &prime::PrimeSieve,
-                       primality_test_precision: Option<u64>)
-                       -> Result<u64> {
+pub fn repetend_length(
+    mut n: u64,
+    sieve: &prime::PrimeSieve,
+    primality_test_precision: Option<u64>,
+) -> Result<u64> {
     // Remove all factors of 10 from our number.
     while n % 2 == 0 {
         n /= 2;

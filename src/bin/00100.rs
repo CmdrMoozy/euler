@@ -158,7 +158,7 @@ fn main() {
         big_n.set_z(&xprime);
 
         let mut big_b = (((big_n.clone() - mpf_from_int(1)) * big_n) / mpf_from_int(2)) +
-                        (mpf_from_int(1) / mpf_from_int(4));
+            (mpf_from_int(1) / mpf_from_int(4));
         big_b = big_b.sqrt() + (mpf_from_int(1) / mpf_from_int(2));
         big_b = big_b.ceil();
 

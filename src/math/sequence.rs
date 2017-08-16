@@ -76,14 +76,16 @@ pub fn is_pentagonal_number(n: u64) -> bool {
 /// https://en.wikipedia.org/wiki/Hexagonal_number
 pub fn get_nth_hexagonal_number(n: u64) -> u64 { 2 * n * n - n }
 
-fn binary_sequence_search<Index, Value, SequenceFn>(lower: Index,
-                                                    upper: Index,
-                                                    target: Value,
-                                                    sequence: SequenceFn)
-                                                    -> (Index, Value)
-    where Index: Copy + Num + One + Ord,
-          Value: Clone + PartialOrd,
-          SequenceFn: Fn(Index) -> Value
+fn binary_sequence_search<Index, Value, SequenceFn>(
+    lower: Index,
+    upper: Index,
+    target: Value,
+    sequence: SequenceFn,
+) -> (Index, Value)
+where
+    Index: Copy + Num + One + Ord,
+    Value: Clone + PartialOrd,
+    SequenceFn: Fn(Index) -> Value,
 {
     let mut midpoint: Index = lower + ((upper - lower) / (Index::one() + Index::one()));
     let mut value: Value = sequence(midpoint);
@@ -124,13 +126,15 @@ fn binary_sequence_search<Index, Value, SequenceFn>(lower: Index,
 /// Ideally, the caller should provide a start index which points to a sequence
 /// value less than the target, but as close to it as possible. However, any
 /// starting index will still produce a correct result.
-pub fn sequence_search<Index, Value, SequenceFn>(start: Index,
-                                                 target: Value,
-                                                 sequence: SequenceFn)
-                                                 -> (Index, Value)
-    where Index: Copy + Num + One + Ord,
-          Value: Clone + PartialOrd,
-          SequenceFn: Fn(Index) -> Value
+pub fn sequence_search<Index, Value, SequenceFn>(
+    start: Index,
+    target: Value,
+    sequence: SequenceFn,
+) -> (Index, Value)
+where
+    Index: Copy + Num + One + Ord,
+    Value: Clone + PartialOrd,
+    SequenceFn: Fn(Index) -> Value,
 {
     let mut lower_index: Index = start;
     let mut lower_value: Value = sequence(lower_index);

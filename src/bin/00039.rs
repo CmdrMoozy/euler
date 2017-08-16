@@ -34,7 +34,11 @@ const EXPECTED_RESULT: u64 = 840;
 fn normalized_triple(a: u64, b: u64, c: u64) -> (u64, u64, u64) {
     let normalized_c = cmp::max(cmp::max(a, b), c);
     let normalized_a = cmp::min(cmp::min(a, b), c);
-    (normalized_a, (a + b + c) - (normalized_a + normalized_c), normalized_c)
+    (
+        normalized_a,
+        (a + b + c) - (normalized_a + normalized_c),
+        normalized_c,
+    )
 }
 
 fn main() {

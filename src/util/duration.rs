@@ -30,8 +30,10 @@ pub struct Duration {
 impl Duration {
     pub fn from_total_nanos(nanos: u64) -> Duration {
         Duration {
-            duration: time::Duration::new(nanos / NANOS_PER_SECOND,
-                                          (nanos % NANOS_PER_SECOND) as u32),
+            duration: time::Duration::new(
+                nanos / NANOS_PER_SECOND,
+                (nanos % NANOS_PER_SECOND) as u32,
+            ),
         }
     }
 
@@ -62,9 +64,13 @@ impl Ord for Duration {
 
 impl<'a> Sum<&'a Duration> for Duration {
     fn sum<I>(iter: I) -> Duration
-        where I: Iterator<Item = &'a Duration>
+    where
+        I: Iterator<Item = &'a Duration>,
     {
-        Duration::from(iter.map(|d| d.duration).fold(time::Duration::new(0, 0), |acc, d| acc + d))
+        Duration::from(
+            iter.map(|d| d.duration)
+                .fold(time::Duration::new(0, 0), |acc, d| acc + d),
+        )
     }
 }
 
@@ -73,10 +79,12 @@ impl fmt::Display for Duration {
         let milliseconds: u32 = self.duration.subsec_nanos() / 1000000;
         let submillisecond_nanos: u32 = self.duration.subsec_nanos() % 1000000;
 
-        write!(f,
-               "{}s+{}ms+{}ns",
-               self.duration.as_secs(),
-               milliseconds,
-               submillisecond_nanos)
+        write!(
+            f,
+            "{}s+{}ms+{}ns",
+            self.duration.as_secs(),
+            milliseconds,
+            submillisecond_nanos
+        )
     }
 }

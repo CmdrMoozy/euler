@@ -170,7 +170,8 @@ fn main() {
         }
 
         Ok(ProblemAnswer {
-            actual: result.iter()
+            actual: result
+                .iter()
                 .take(EXPECTED_RESULT.len())
                 .map(|digit| format!("{}", digit))
                 .collect(),

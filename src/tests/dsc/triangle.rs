@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ::dsc::triangle::*;
+use dsc::triangle::*;
 
 #[test]
 fn test_get_largest_path_sum_empty_triangle() {

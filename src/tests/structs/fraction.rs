@@ -41,8 +41,10 @@ fn test_reduction() {
 
         // Test that the "was reduced" function return value is what we expect (it
         // should be true if the numerator or denominator changed).
-        assert_eq!(test_case.0 != test_case.2 || test_case.1 != test_case.3,
-                   was_reduced);
+        assert_eq!(
+            test_case.0 != test_case.2 || test_case.1 != test_case.3,
+            was_reduced
+        );
         // Test that the original, reduced, and expected fractions are all equivalent
         // (but not necessarily identical).
         assert_eq!(expected, reduced);
@@ -54,12 +56,13 @@ fn test_reduction() {
 
 #[test]
 fn test_ordering() {
-    static TEST_CASES: &'static [(u64, u64, u64, u64, Ordering)] =
-        &[(0, 10, 0, 1, Ordering::Equal),
-          (123, 123, 1, 1, Ordering::Equal),
-          (4, 8, 1, 2, Ordering::Equal),
-          (4, 8, 2, 10, Ordering::Greater),
-          (10, 100, 1, 5, Ordering::Less)];
+    static TEST_CASES: &'static [(u64, u64, u64, u64, Ordering)] = &[
+        (0, 10, 0, 1, Ordering::Equal),
+        (123, 123, 1, 1, Ordering::Equal),
+        (4, 8, 1, 2, Ordering::Equal),
+        (4, 8, 2, 10, Ordering::Greater),
+        (10, 100, 1, 5, Ordering::Less),
+    ];
 
     for test_case in TEST_CASES {
         let a = Fraction::new(test_case.0, test_case.1).unwrap();

@@ -63,23 +63,25 @@ impl Value {
 
 impl fmt::Display for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "{}",
-               match *self {
-                   Value::Two => '2',
-                   Value::Three => '3',
-                   Value::Four => '4',
-                   Value::Five => '5',
-                   Value::Six => '6',
-                   Value::Seven => '7',
-                   Value::Eight => '8',
-                   Value::Nine => '9',
-                   Value::Ten => 'T',
-                   Value::Jack => 'J',
-                   Value::Queen => 'Q',
-                   Value::King => 'K',
-                   Value::Ace => 'A',
-               })
+        write!(
+            f,
+            "{}",
+            match *self {
+                Value::Two => '2',
+                Value::Three => '3',
+                Value::Four => '4',
+                Value::Five => '5',
+                Value::Six => '6',
+                Value::Seven => '7',
+                Value::Eight => '8',
+                Value::Nine => '9',
+                Value::Ten => 'T',
+                Value::Jack => 'J',
+                Value::Queen => 'Q',
+                Value::King => 'K',
+                Value::Ace => 'A',
+            }
+        )
     }
 }
 
@@ -107,14 +109,16 @@ impl Suit {
 
 impl fmt::Display for Suit {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "{}",
-               match *self {
-                   Suit::Clubs => 'C',
-                   Suit::Diamonds => 'D',
-                   Suit::Hearts => 'H',
-                   Suit::Spades => 'S',
-               })
+        write!(
+            f,
+            "{}",
+            match *self {
+                Suit::Clubs => 'C',
+                Suit::Diamonds => 'D',
+                Suit::Hearts => 'H',
+                Suit::Spades => 'S',
+            }
+        )
     }
 }
 
@@ -148,11 +152,21 @@ fn is_straight(sorted_values: &[Value], value_counts: &HashMap<Value, usize>) ->
     let max = sorted_values[0];
 
     (min == Value::Two && max == Value::Six) || (min == Value::Three && max == Value::Seven) ||
-    (min == Value::Four && max == Value::Eight) || (min == Value::Five && max == Value::Nine) ||
-    (min == Value::Six && max == Value::Ten) || (min == Value::Seven && max == Value::Jack) ||
-    (min == Value::Eight && max == Value::Queen) ||
-    (min == Value::Nine && max == Value::King) || (min == Value::Ten && max == Value::Ace) ||
-    (sorted_values == &[Value::Ace, Value::Five, Value::Four, Value::Three, Value::Two])
+        (min == Value::Four && max == Value::Eight) ||
+        (min == Value::Five && max == Value::Nine) ||
+        (min == Value::Six && max == Value::Ten) ||
+        (min == Value::Seven && max == Value::Jack) ||
+        (min == Value::Eight && max == Value::Queen) ||
+        (min == Value::Nine && max == Value::King) ||
+        (min == Value::Ten && max == Value::Ace) ||
+        (sorted_values ==
+            &[
+                Value::Ace,
+                Value::Five,
+                Value::Four,
+                Value::Three,
+                Value::Two,
+            ])
 }
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
@@ -169,10 +183,11 @@ pub enum Rank {
 }
 
 impl Rank {
-    fn rank(sorted_values: &[Value],
-            value_counts: &HashMap<Value, usize>,
-            suit_counts: &HashMap<Suit, usize>)
-            -> Rank {
+    fn rank(
+        sorted_values: &[Value],
+        value_counts: &HashMap<Value, usize>,
+        suit_counts: &HashMap<Suit, usize>,
+    ) -> Rank {
         let is_flush = suit_counts.len() == 1;
         let is_straight = is_straight(sorted_values, value_counts);
 
@@ -201,18 +216,35 @@ impl Rank {
     }
 }
 
-fn get_rank_value_counts(rank: Rank,
-                         value_counts: &HashMap<Value, usize>)
-                         -> HashMap<Value, usize> {
+fn get_rank_value_counts(
+    rank: Rank,
+    value_counts: &HashMap<Value, usize>,
+) -> HashMap<Value, usize> {
     match rank {
         Rank::StraightFlush => value_counts.clone(),
-        Rank::FourOfAKind => value_counts.clone().into_iter().filter(|pair| pair.1 == 4).collect(),
+        Rank::FourOfAKind => value_counts
+            .clone()
+            .into_iter()
+            .filter(|pair| pair.1 == 4)
+            .collect(),
         Rank::FullHouse => value_counts.clone(),
         Rank::Flush => value_counts.clone(),
         Rank::Straight => value_counts.clone(),
-        Rank::ThreeOfAKind => value_counts.clone().into_iter().filter(|pair| pair.1 == 3).collect(),
-        Rank::TwoPair => value_counts.clone().into_iter().filter(|pair| pair.1 == 2).collect(),
-        Rank::OnePair => value_counts.clone().into_iter().filter(|pair| pair.1 == 2).collect(),
+        Rank::ThreeOfAKind => value_counts
+            .clone()
+            .into_iter()
+            .filter(|pair| pair.1 == 3)
+            .collect(),
+        Rank::TwoPair => value_counts
+            .clone()
+            .into_iter()
+            .filter(|pair| pair.1 == 2)
+            .collect(),
+        Rank::OnePair => value_counts
+            .clone()
+            .into_iter()
+            .filter(|pair| pair.1 == 2)
+            .collect(),
         Rank::HighCard => {
             let mut rvc = HashMap::new();
             let value = value_counts.iter().map(|pair| *pair.0).max().unwrap();
@@ -222,9 +254,10 @@ fn get_rank_value_counts(rank: Rank,
     }
 }
 
-fn get_other_value_counts(value_counts: &HashMap<Value, usize>,
-                          rank_value_counts: &HashMap<Value, usize>)
-                          -> HashMap<Value, usize> {
+fn get_other_value_counts(
+    value_counts: &HashMap<Value, usize>,
+    rank_value_counts: &HashMap<Value, usize>,
+) -> HashMap<Value, usize> {
     let mut ovc = value_counts.clone();
     for (value, count) in rank_value_counts {
         *ovc.get_mut(&value).unwrap() -= *count;
@@ -280,26 +313,28 @@ impl Hand {
             bail!("Invalid hand description '{}'", s);
         }
 
-        Ok(Self::new([Card {
-                          value: Value::from_char(char_at(s, 0))?,
-                          suit: Suit::from_char(char_at(s, 1))?,
-                      },
-                      Card {
-                          value: Value::from_char(char_at(s, 3))?,
-                          suit: Suit::from_char(char_at(s, 4))?,
-                      },
-                      Card {
-                          value: Value::from_char(char_at(s, 6))?,
-                          suit: Suit::from_char(char_at(s, 7))?,
-                      },
-                      Card {
-                          value: Value::from_char(char_at(s, 9))?,
-                          suit: Suit::from_char(char_at(s, 10))?,
-                      },
-                      Card {
-                          value: Value::from_char(char_at(s, 12))?,
-                          suit: Suit::from_char(char_at(s, 13))?,
-                      }]))
+        Ok(Self::new([
+            Card {
+                value: Value::from_char(char_at(s, 0))?,
+                suit: Suit::from_char(char_at(s, 1))?,
+            },
+            Card {
+                value: Value::from_char(char_at(s, 3))?,
+                suit: Suit::from_char(char_at(s, 4))?,
+            },
+            Card {
+                value: Value::from_char(char_at(s, 6))?,
+                suit: Suit::from_char(char_at(s, 7))?,
+            },
+            Card {
+                value: Value::from_char(char_at(s, 9))?,
+                suit: Suit::from_char(char_at(s, 10))?,
+            },
+            Card {
+                value: Value::from_char(char_at(s, 12))?,
+                suit: Suit::from_char(char_at(s, 13))?,
+            },
+        ]))
     }
 
     /// This is a convenience function which parses a pair of two hands,
@@ -309,15 +344,17 @@ impl Hand {
         if s.len() != 2 * HAND_DESC_LENGTH + 1 {
             bail!("Invalid hand pair description '{}'", s);
         }
-        Ok((Self::parse_hand(&s[0..HAND_DESC_LENGTH])?,
-            Self::parse_hand(&s[HAND_DESC_LENGTH + 1..])?))
+        Ok((
+            Self::parse_hand(&s[0..HAND_DESC_LENGTH])?,
+            Self::parse_hand(&s[HAND_DESC_LENGTH + 1..])?,
+        ))
     }
 
     pub fn get_rank(&self) -> Rank { self.rank }
 
     fn is_steel_wheel(&self) -> bool {
         (self.rank == Rank::Straight || self.rank == Rank::StraightFlush) &&
-        self.sorted_values[4] == Value::Two && self.sorted_values[0] == Value::Ace
+            self.sorted_values[4] == Value::Two && self.sorted_values[0] == Value::Ace
     }
 }
 
@@ -351,8 +388,8 @@ impl Ord for Hand {
                 self.sorted_values.cmp(&other.sorted_values)
             };
         } else if self.rank == Rank::OnePair || self.rank == Rank::TwoPair ||
-                  self.rank == Rank::ThreeOfAKind ||
-                  self.rank == Rank::FourOfAKind {
+            self.rank == Rank::ThreeOfAKind || self.rank == Rank::FourOfAKind
+        {
             let mut a_rank_values: Vec<Value> = self.rank_value_counts.keys().cloned().collect();
             a_rank_values.sort_by(|a, b| b.cmp(a));
             let mut b_rank_values: Vec<Value> = other.rank_value_counts.keys().cloned().collect();
@@ -368,19 +405,37 @@ impl Ord for Hand {
             b_other_values.sort_by(|a, b| b.cmp(a));
             return a_other_values.cmp(&b_other_values);
         } else if self.rank == Rank::FullHouse {
-            let a_three_value =
-                self.rank_value_counts.iter().filter(|pair| *pair.1 == 3).next().unwrap().0;
-            let b_three_value =
-                other.rank_value_counts.iter().filter(|pair| *pair.1 == 3).next().unwrap().0;
+            let a_three_value = self.rank_value_counts
+                .iter()
+                .filter(|pair| *pair.1 == 3)
+                .next()
+                .unwrap()
+                .0;
+            let b_three_value = other
+                .rank_value_counts
+                .iter()
+                .filter(|pair| *pair.1 == 3)
+                .next()
+                .unwrap()
+                .0;
             let ordering = a_three_value.cmp(&b_three_value);
             if ordering != Ordering::Equal {
                 return ordering;
             }
 
-            let a_two_value =
-                self.rank_value_counts.iter().filter(|pair| *pair.1 == 2).next().unwrap().0;
-            let b_two_value =
-                other.rank_value_counts.iter().filter(|pair| *pair.1 == 2).next().unwrap().0;
+            let a_two_value = self.rank_value_counts
+                .iter()
+                .filter(|pair| *pair.1 == 2)
+                .next()
+                .unwrap()
+                .0;
+            let b_two_value = other
+                .rank_value_counts
+                .iter()
+                .filter(|pair| *pair.1 == 2)
+                .next()
+                .unwrap()
+                .0;
             return a_two_value.cmp(&b_two_value);
         }
 
@@ -390,12 +445,14 @@ impl Ord for Hand {
 
 impl fmt::Display for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "{} {} {} {} {}",
-               self.cards[0],
-               self.cards[1],
-               self.cards[2],
-               self.cards[3],
-               self.cards[4])
+        write!(
+            f,
+            "{} {} {} {} {}",
+            self.cards[0],
+            self.cards[1],
+            self.cards[2],
+            self.cards[3],
+            self.cards[4]
+        )
     }
 }

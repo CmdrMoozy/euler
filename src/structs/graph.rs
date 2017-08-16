@@ -82,11 +82,7 @@ impl Graph {
 
     pub fn get(&self, id: VertexId) -> Ref<Vertex> { self.vertices.get(id).unwrap().borrow() }
 
-    pub fn connect(&self,
-                   from_id: VertexId,
-                   to_id: VertexId,
-                   distance: i64,
-                   direction: Direction) {
+    pub fn connect(&self, from_id: VertexId, to_id: VertexId, distance: i64, direction: Direction) {
         let from = self.vertices.get(from_id).unwrap().clone();
         let to = self.vertices.get(to_id).unwrap().clone();
 

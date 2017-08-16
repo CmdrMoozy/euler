@@ -44,7 +44,12 @@ fn get_word_score(word: &str) -> Result<u64> {
     if !word.chars().fold(true, |acc, c| acc && c.is_alphabetic()) {
         bail!("Encountered non-alphabetic character in word");
     }
-    Ok(word.to_uppercase().bytes().map(|c| c - b'A' + 1).fold(0, |acc, v| acc + (v as u64)))
+    Ok(
+        word.to_uppercase()
+            .bytes()
+            .map(|c| c - b'A' + 1)
+            .fold(0, |acc, v| acc + (v as u64)),
+    )
 }
 
 fn main() {
@@ -54,7 +59,8 @@ fn main() {
         let mut scores: Vec<u64> = vec![];
         for quoted_word in WORDS_FILE.split(',') {
             if !quoted_word.starts_with('"') || !quoted_word.ends_with('"') ||
-               quoted_word.len() < 3 {
+                quoted_word.len() < 3
+            {
                 bail!("Encountered invalid word in 00042.txt");
             }
             let score = get_word_score(&quoted_word[1..quoted_word.len() - 1])?;
@@ -77,7 +83,10 @@ fn main() {
         }
 
         Ok(ProblemAnswer {
-            actual: scores.iter().filter(|s| triangle_numbers.contains(s)).count(),
+            actual: scores
+                .iter()
+                .filter(|s| triangle_numbers.contains(s))
+                .count(),
             expected: EXPECTED_RESULT,
         })
     });

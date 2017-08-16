@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ::math::stats::*;
+use math::stats::*;
 
 #[test]
 fn test_iaverage() {
-    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[292120540, 3243950, 2749270],
-                                                             99371253)];
+    static TEST_CASES: &'static [(&'static [u64], u64)] =
+        &[(&[292120540, 3243950, 2749270], 99371253)];
 
     for test_case in TEST_CASES {
         assert_eq!(test_case.1, iaverage(test_case.0.iter().cloned()).unwrap());
@@ -26,22 +26,26 @@ fn test_iaverage() {
 
 #[test]
 fn test_istddev_population() {
-    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[272601155, 1327834, 1063480],
-                                                             127941824)];
+    static TEST_CASES: &'static [(&'static [u64], u64)] =
+        &[(&[272601155, 1327834, 1063480], 127941824)];
 
     for test_case in TEST_CASES {
-        assert_eq!(test_case.1,
-                   istddev_population(test_case.0.iter().cloned()).unwrap());
+        assert_eq!(
+            test_case.1,
+            istddev_population(test_case.0.iter().cloned()).unwrap()
+        );
     }
 }
 
 #[test]
 fn test_istddev_sample() {
-    static TEST_CASES: &'static [(&'static [u64], u64)] = &[(&[272601155, 1327834, 1063480],
-                                                             156696093)];
+    static TEST_CASES: &'static [(&'static [u64], u64)] =
+        &[(&[272601155, 1327834, 1063480], 156696093)];
 
     for test_case in TEST_CASES {
-        assert_eq!(test_case.1,
-                   istddev_sample(test_case.0.iter().cloned()).unwrap());
+        assert_eq!(
+            test_case.1,
+            istddev_sample(test_case.0.iter().cloned()).unwrap()
+        );
     }
 }

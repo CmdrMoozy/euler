@@ -52,7 +52,10 @@ fn main() {
         sum[0] %= 10;
 
         Ok(ProblemAnswer {
-            actual: sum.iter().map(|d| d.to_string()).collect::<Vec<String>>().join(""),
+            actual: sum.iter()
+                .map(|d| d.to_string())
+                .collect::<Vec<String>>()
+                .join(""),
             expected: EXPECTED_RESULT.to_owned(),
         })
     });

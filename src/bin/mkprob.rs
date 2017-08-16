@@ -59,10 +59,11 @@ fn get_source_root() -> Result<PathBuf> {
     Ok(path)
 }
 
-fn mkprob(_: HashMap<String, String>,
-          _: HashMap<String, bool>,
-          arguments: HashMap<String, Vec<String>>)
-          -> Result<()> {
+fn mkprob(
+    _: HashMap<String, String>,
+    _: HashMap<String, bool>,
+    arguments: HashMap<String, Vec<String>>,
+) -> Result<()> {
     let vs = arguments.get("number").unwrap();
     assert!(vs.len() == 1);
     let mut problem_file = to_problem_name(vs.first().unwrap().as_str()).unwrap();
@@ -86,14 +87,17 @@ fn mkprob(_: HashMap<String, String>,
 fn main() {
     bdrck_log::init_debug_logger().unwrap();
 
-    main_impl_single_command(ExecutableCommand::new(Command::new("mkprob",
-                                                                 "Create a new ProjectEuler \
-                                                                  problem",
-                                                                 vec![],
-                                                                 vec![
+    main_impl_single_command(ExecutableCommand::new(
+        Command::new(
+            "mkprob",
+            "Create a new ProjectEuler \
+             problem",
+            vec![],
+            vec![
                 Argument::new("number", "The number of the problem to create", None),
             ],
-                                                                 false)
-                                                        .unwrap(),
-                                                    Box::new(mkprob)));
+            false,
+        ).unwrap(),
+        Box::new(mkprob),
+    ));
 }

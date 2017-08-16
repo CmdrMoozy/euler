@@ -78,7 +78,10 @@ const EXPECTED_RESULT: u64 = 40730;
 
 /// Returns the sum of the factorials of the digits in the given integer.
 fn factorion(n: u64) -> u64 {
-    n.to_string().chars().map(|c| FACTORIALS.get(&c).unwrap()).fold(0, |acc, f| acc + f)
+    n.to_string()
+        .chars()
+        .map(|c| FACTORIALS.get(&c).unwrap())
+        .fold(0, |acc, f| acc + f)
 }
 
 fn main() {

@@ -60,13 +60,15 @@ fn main() {
             let mut iterations: usize = 0;
             let mut is_palindrome: bool = false;
             while !is_palindrome && iterations <= 50 {
-                let rev = Mpz::from_str_radix(current.to_str_radix(10)
-                                                  .chars()
-                                                  .rev()
-                                                  .collect::<String>()
-                                                  .as_str(),
-                                              10)
-                    .unwrap();
+                let rev = Mpz::from_str_radix(
+                    current
+                        .to_str_radix(10)
+                        .chars()
+                        .rev()
+                        .collect::<String>()
+                        .as_str(),
+                    10,
+                ).unwrap();
                 current = current + rev;
 
                 iterations += 1;

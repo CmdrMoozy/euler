@@ -28,24 +28,29 @@ pub struct ProblemAnswer<R: Debug + Display + Eq + PartialEq> {
 }
 
 impl<R> ProblemAnswer<R>
-    where R: Debug + Display + Eq + PartialEq
+where
+    R: Debug + Display + Eq + PartialEq,
 {
     pub fn is_correct(&self) -> bool { self.actual == self.expected }
 }
 
 impl<R> fmt::Display for ProblemAnswer<R>
-    where R: Debug + Display + Eq + PartialEq
+where
+    R: Debug + Display + Eq + PartialEq,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "Actual result: {} / Expected result: {}",
-               self.actual,
-               self.expected)
+        write!(
+            f,
+            "Actual result: {} / Expected result: {}",
+            self.actual,
+            self.expected
+        )
     }
 }
 
 pub fn main_impl<R, F: FnOnce() -> Result<ProblemAnswer<R>>>(problem_impl: F) -> !
-    where R: Debug + Display + Eq + PartialEq
+where
+    R: Debug + Display + Eq + PartialEq,
 {
     bdrck_log::init_debug_logger().unwrap();
     process::exit(match problem_impl() {

@@ -35,7 +35,11 @@ fn main() {
         // divisible by 20.
         let mut n: u64 = 20;
         while result == 0 {
-            if FACTORS.iter().map(|f| n % *f == 0).fold(true, |acc, is_factor| acc && is_factor) {
+            if FACTORS
+                .iter()
+                .map(|f| n % *f == 0)
+                .fold(true, |acc, is_factor| acc && is_factor)
+            {
                 result = n;
             }
             // We know the answer must be a multiple of 20, so we can increase by that step.

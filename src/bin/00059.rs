@@ -49,9 +49,34 @@ use self::euler::util::problem::*;
 static CIPHERTEXT: &'static str = include_str!("00059.txt");
 
 static PUNCTUATION: &'static [char] = &['\'', '"', '.', ',', ':', ';', '(', ')', '!', '?'];
-static ENCRYPTION_KEYSPACE: &'static [char] = &['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                                                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                                                'u', 'v', 'w', 'x', 'y', 'z'];
+static ENCRYPTION_KEYSPACE: &'static [char] = &[
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+];
 
 const EXPECTED_RESULT: u64 = 107359;
 
@@ -72,15 +97,18 @@ fn char_to_byte(c: char) -> Result<u8> {
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let ciphertext: Vec<u8> =
-            CIPHERTEXT.split(',').map(|b| b.trim().parse::<u8>().unwrap()).collect();
+        let ciphertext: Vec<u8> = CIPHERTEXT
+            .split(',')
+            .map(|b| b.trim().parse::<u8>().unwrap())
+            .collect();
         let mut result: Option<u64> = None;
 
         for key_a in ENCRYPTION_KEYSPACE.iter() {
             for key_b in ENCRYPTION_KEYSPACE.iter() {
                 for key_c in ENCRYPTION_KEYSPACE.iter() {
                     let key = vec![key_a, key_b, key_c];
-                    let plaintext: Result<Vec<char>> = ciphertext.iter()
+                    let plaintext: Result<Vec<char>> = ciphertext
+                        .iter()
                         .enumerate()
                         .map(|pair| {
                             let k = char_to_byte(*key[pair.0 % key.len()]).unwrap();
@@ -94,7 +122,8 @@ fn main() {
                         .collect();
 
                     if let Ok(plaintext) = plaintext {
-                        let r: Result<u64> = plaintext.iter()
+                        let r: Result<u64> = plaintext
+                            .iter()
                             .fold(Ok(0_u64), |acc, c| Ok(acc? + char_to_byte(*c)? as u64));
                         result = Some(r?);
                         break;

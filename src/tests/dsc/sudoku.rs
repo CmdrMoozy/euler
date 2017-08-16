@@ -21,27 +21,36 @@ const MISSING_NUMBER_INPUT: &'static str = include_str!("data/sudoku/missing_num
 const MISSING_LINE_INPUT: &'static str = include_str!("data/sudoku/missing_line.txt");
 
 const VALID_PUZZLES_INPUT: &'static str = include_str!("data/sudoku/valid_puzzles.txt");
-const EXPECTED_VALID_PUZZLES: &'static [(&'static str, &'static [&'static [u8; 9]; 9])] =
-    &[("Grid 01",
-       &[&[0, 9, 0, 0, 7, 0, 0, 8, 0],
-         &[0, 0, 0, 0, 0, 0, 0, 0, 0],
-         &[3, 0, 1, 8, 0, 6, 2, 0, 5],
-         &[0, 3, 8, 1, 0, 7, 6, 2, 0],
-         &[2, 0, 0, 0, 0, 0, 0, 0, 1],
-         &[0, 5, 6, 2, 0, 8, 9, 3, 0],
-         &[6, 0, 4, 9, 0, 2, 5, 0, 3],
-         &[0, 0, 0, 0, 0, 0, 0, 0, 0],
-         &[0, 1, 0, 0, 8, 0, 0, 9, 0]]),
-      ("Grid 02",
-       &[&[2, 0, 0, 0, 0, 4, 3, 7, 0],
-         &[0, 6, 3, 0, 0, 0, 0, 2, 0],
-         &[0, 0, 0, 0, 0, 2, 1, 0, 4],
-         &[0, 0, 5, 1, 0, 7, 0, 0, 0],
-         &[8, 7, 0, 0, 0, 0, 0, 4, 1],
-         &[0, 0, 0, 5, 0, 6, 7, 0, 0],
-         &[3, 0, 2, 4, 0, 0, 0, 0, 0],
-         &[0, 8, 0, 0, 0, 0, 4, 6, 0],
-         &[0, 4, 9, 8, 0, 0, 0, 0, 3]])];
+const EXPECTED_VALID_PUZZLES: &'static [(&'static str, &'static [&'static [u8; 9]; 9])] = &[
+    (
+        "Grid 01",
+        &[
+            &[0, 9, 0, 0, 7, 0, 0, 8, 0],
+            &[0, 0, 0, 0, 0, 0, 0, 0, 0],
+            &[3, 0, 1, 8, 0, 6, 2, 0, 5],
+            &[0, 3, 8, 1, 0, 7, 6, 2, 0],
+            &[2, 0, 0, 0, 0, 0, 0, 0, 1],
+            &[0, 5, 6, 2, 0, 8, 9, 3, 0],
+            &[6, 0, 4, 9, 0, 2, 5, 0, 3],
+            &[0, 0, 0, 0, 0, 0, 0, 0, 0],
+            &[0, 1, 0, 0, 8, 0, 0, 9, 0],
+        ],
+    ),
+    (
+        "Grid 02",
+        &[
+            &[2, 0, 0, 0, 0, 4, 3, 7, 0],
+            &[0, 6, 3, 0, 0, 0, 0, 2, 0],
+            &[0, 0, 0, 0, 0, 2, 1, 0, 4],
+            &[0, 0, 5, 1, 0, 7, 0, 0, 0],
+            &[8, 7, 0, 0, 0, 0, 0, 4, 1],
+            &[0, 0, 0, 5, 0, 6, 7, 0, 0],
+            &[3, 0, 2, 4, 0, 0, 0, 0, 0],
+            &[0, 8, 0, 0, 0, 0, 4, 6, 0],
+            &[0, 4, 9, 8, 0, 0, 0, 0, 3],
+        ],
+    ),
+];
 
 const EMPTY_PUZZLE_INPUT: &'static str = include_str!("data/sudoku/empty_puzzle.txt");
 const SINGLE_OPEN_COLUMN_INPUT: &'static str = include_str!("data/sudoku/single_open_column.txt");
@@ -80,8 +89,10 @@ fn test_valid_puzzles() {
         assert_eq!(EXPECTED_VALID_PUZZLES[idx].1.len(), puzzle.get_size());
         for x in 0..EXPECTED_VALID_PUZZLES[idx].1.len() {
             for y in 0..EXPECTED_VALID_PUZZLES[idx].1[x].len() {
-                assert_eq!(EXPECTED_VALID_PUZZLES[idx].1[x][y],
-                           puzzle.get_value(x, y).unwrap_or(0));
+                assert_eq!(
+                    EXPECTED_VALID_PUZZLES[idx].1[x][y],
+                    puzzle.get_value(x, y).unwrap_or(0)
+                );
             }
         }
     }
@@ -94,8 +105,10 @@ fn test_open_digits_empty_puzzle() {
     let puzzle = puzzles.into_iter().nth(0).unwrap();
     for x in 0..puzzle.get_size() {
         for y in 0..puzzle.get_size() {
-            assert_eq!(vec![1, 2, 3, 4, 5, 6, 7, 8, 9],
-                       puzzle.get_open_digits(x, y));
+            assert_eq!(
+                vec![1, 2, 3, 4, 5, 6, 7, 8, 9],
+                puzzle.get_open_digits(x, y)
+            );
             assert!(puzzle.get_single_digit(x, y).is_none());
         }
     }

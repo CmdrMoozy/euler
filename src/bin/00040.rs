@@ -57,7 +57,7 @@ fn main() {
 
         Ok(ProblemAnswer {
             actual: digits[0] * digits[9] * digits[99] * digits[999] * digits[9999] *
-                    digits[99999] * digits[999999],
+                digits[99999] * digits[999999],
             expected: EXPECTED_RESULT,
         })
     });

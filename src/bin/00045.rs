@@ -24,8 +24,8 @@
 // Find the next triangle number that is also pentagonal and hexagonal.
 
 extern crate euler;
-use self::euler::math::sequence::{get_nth_triangle_number, get_nth_pentagonal_number,
-                                  get_nth_hexagonal_number, sequence_search};
+use self::euler::math::sequence::{get_nth_hexagonal_number, get_nth_pentagonal_number,
+                                  get_nth_triangle_number, sequence_search};
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
@@ -38,7 +38,8 @@ fn main() {
         loop {
             result = get_nth_triangle_number(t_idx);
             if sequence_search(t_idx, result, get_nth_pentagonal_number).1 == result &&
-               sequence_search(t_idx, result, get_nth_hexagonal_number).1 == result {
+                sequence_search(t_idx, result, get_nth_hexagonal_number).1 == result
+            {
                 break;
             }
             t_idx += 1;

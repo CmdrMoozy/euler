@@ -27,25 +27,35 @@ fn test_is_permutation_of() {
 
 #[test]
 fn test_lower_bound() {
-    static TEST_CASES: &'static [(&'static [u64], u64, usize)] =
-        &[(&[], 123, 0), (&[1, 2, 3], 4, 3), (&[1, 2, 3], 0, 0), (&[1, 2, 2, 3], 2, 1)];
+    static TEST_CASES: &'static [(&'static [u64], u64, usize)] = &[
+        (&[], 123, 0),
+        (&[1, 2, 3], 4, 3),
+        (&[1, 2, 3], 0, 0),
+        (&[1, 2, 2, 3], 2, 1),
+    ];
 
     for test_case in TEST_CASES {
-        assert_eq!(test_case.2,
-                   lower_bound(&Vec::from(test_case.0), &test_case.1));
+        assert_eq!(
+            test_case.2,
+            lower_bound(&Vec::from(test_case.0), &test_case.1)
+        );
     }
 }
 
 #[test]
 fn test_upper_bound() {
-    static TEST_CASES: &'static [(&'static [u64], u64, usize)] = &[(&[], 123, 0),
-                                                                   (&[1, 2, 3], 0, 0),
-                                                                   (&[1, 2, 3], 1, 1),
-                                                                   (&[1, 2, 2, 3], 1, 1),
-                                                                   (&[1, 2, 2, 3], 2, 3)];
+    static TEST_CASES: &'static [(&'static [u64], u64, usize)] = &[
+        (&[], 123, 0),
+        (&[1, 2, 3], 0, 0),
+        (&[1, 2, 3], 1, 1),
+        (&[1, 2, 2, 3], 1, 1),
+        (&[1, 2, 2, 3], 2, 3),
+    ];
 
     for test_case in TEST_CASES {
-        assert_eq!(test_case.2,
-                   upper_bound(&Vec::from(test_case.0), &test_case.1));
+        assert_eq!(
+            test_case.2,
+            upper_bound(&Vec::from(test_case.0), &test_case.1)
+        );
     }
 }

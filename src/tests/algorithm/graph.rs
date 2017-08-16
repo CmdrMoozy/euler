@@ -115,8 +115,12 @@ impl Default for TestGraph {
             }
         }
 
-        let start_id = vertices[TEST_GRAPH_START_X][TEST_GRAPH_START_Y].clone().unwrap();
-        let end_id = vertices[TEST_GRAPH_END_X][TEST_GRAPH_END_Y].clone().unwrap();
+        let start_id = vertices[TEST_GRAPH_START_X][TEST_GRAPH_START_Y]
+            .clone()
+            .unwrap();
+        let end_id = vertices[TEST_GRAPH_END_X][TEST_GRAPH_END_Y]
+            .clone()
+            .unwrap();
         let result = TestGraph {
             graph: graph,
             start_id: start_id,

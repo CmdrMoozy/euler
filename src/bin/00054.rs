@@ -76,16 +76,18 @@ const EXPECTED_RESULT: usize = 376;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
-        let hands: Result<Vec<(Hand, Hand)>> =
-            HANDS.lines().map(|line| Hand::parse_two_hands(line)).collect();
+        let hands: Result<Vec<(Hand, Hand)>> = HANDS
+            .lines()
+            .map(|line| Hand::parse_two_hands(line))
+            .collect();
         Ok(ProblemAnswer {
             actual: hands?
-                    .iter()
-                    .map(|hand_pair| hand_pair.0 > hand_pair.1)
-                    .fold(0_usize, |acc, won| match won {
-                        false => acc,
-                        true => acc + 1,
-                    }),
+                .iter()
+                .map(|hand_pair| hand_pair.0 > hand_pair.1)
+                .fold(0_usize, |acc, won| match won {
+                    false => acc,
+                    true => acc + 1,
+                }),
             expected: EXPECTED_RESULT,
         })
     });

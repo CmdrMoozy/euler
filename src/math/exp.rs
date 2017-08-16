@@ -22,14 +22,12 @@ pub fn checked_ipow(x: u64, n: u64) -> Option<u64> {
         Some(x)
     } else {
         match x.checked_mul(x) {
-            Some(x_squared) => {
-                if n & 1 == 0 {
-                    checked_ipow(x_squared, n / 2)
-                } else {
-                    match checked_ipow(x_squared, (n - 1) / 2) {
-                        Some(exp) => x.checked_mul(exp),
-                        None => None,
-                    }
+            Some(x_squared) => if n & 1 == 0 {
+                checked_ipow(x_squared, n / 2)
+            } else {
+                match checked_ipow(x_squared, (n - 1) / 2) {
+                    Some(exp) => x.checked_mul(exp),
+                    None => None,
                 }
             },
             None => None,
