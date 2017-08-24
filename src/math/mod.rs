@@ -14,6 +14,7 @@
 
 pub mod combinatorics;
 pub mod division;
+pub mod exact_cover;
 pub mod exp;
 pub mod geometry;
 pub mod prime;

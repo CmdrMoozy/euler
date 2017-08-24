@@ -17,6 +17,8 @@ mod combinatorics;
 #[cfg(test)]
 mod division;
 #[cfg(test)]
+mod exact_cover;
+#[cfg(test)]
 mod exp;
 #[cfg(test)]
 mod geometry;
