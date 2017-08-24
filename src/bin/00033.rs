@@ -109,8 +109,7 @@ fn main() {
                     .iter()
                     .map(|f| f.denominator())
                     .fold(1, |acc, d| acc * d),
-            )?
-                .reduce()
+            )?.reduce()
                 .0
                 .denominator(),
             expected: EXPECTED_RESULT,

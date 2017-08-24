@@ -59,8 +59,7 @@ fn main() {
         let mut triangle: Triangle<u64> = Triangle::new(TRIANGLE_VALUES.split('\n').count());
         for row_pair in TRIANGLE_VALUES.split('\n').enumerate() {
             for value_pair in row_pair.1.split(' ').enumerate() {
-                triangle
-                    .set(row_pair.0, value_pair.0, value_pair.1.parse::<u64>()?)?;
+                triangle.set(row_pair.0, value_pair.0, value_pair.1.parse::<u64>()?)?;
             }
         }
 

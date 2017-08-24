@@ -58,8 +58,7 @@ fn main() {
         let mut max_score: u64 = 0;
         let mut scores: Vec<u64> = vec![];
         for quoted_word in WORDS_FILE.split(',') {
-            if !quoted_word.starts_with('"') || !quoted_word.ends_with('"') ||
-                quoted_word.len() < 3
+            if !quoted_word.starts_with('"') || !quoted_word.ends_with('"') || quoted_word.len() < 3
             {
                 bail!("Encountered invalid word in 00042.txt");
             }

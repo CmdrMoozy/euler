@@ -87,8 +87,7 @@ impl Fraction {
             Fraction::new(
                 self.numerator() + other.numerator(),
                 self.denominator() + other.denominator(),
-            )?
-                .reduce(),
+            )?.reduce(),
         )
     }
 }
