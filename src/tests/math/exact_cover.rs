@@ -23,7 +23,7 @@ fn test_construction_properties() {
     assert_eq!(TEST_ROWS, ec.row_len());
     assert_eq!(TEST_COLS, ec.col_len());
     for x in 0..TEST_COLS {
-        assert_eq!(Some(TEST_ROWS), ec.col_count(x));
+        assert_eq!(Some(0), ec.col_count(x));
 
         for y in 0..TEST_ROWS {
             assert_eq!(Some(false), ec.get(x, y));
@@ -43,8 +43,10 @@ fn test_set() {
     let mut ec = ExactCover::new(1, 1);
 
     assert_eq!(Some(false), ec.get(0, 0));
+    assert_eq!(Some(0), ec.col_count(0));
     assert!(ec.set(0, 0, true).is_some());
     assert_eq!(Some(true), ec.get(0, 0));
+    assert_eq!(Some(1), ec.col_count(0));
 
     assert!(ec.set(1, 1, true).is_none());
 }

@@ -48,11 +48,11 @@ struct Header {
     pub count: usize,
 }
 
-impl Header {
-    pub fn new(rows: usize) -> Self {
+impl Default for Header {
+    fn default() -> Self {
         Header {
             is_uncovered: true,
-            count: rows,
+            count: 0,
         }
     }
 }
@@ -99,7 +99,7 @@ impl ExactCover {
     /// columns.
     pub fn new(cols: usize, rows: usize) -> ExactCover {
         ExactCover {
-            cols: vec![Header::new(rows); cols],
+            cols: vec![Header::default(); cols],
             nodes: vec![vec![Node::default(); rows]; cols],
             solutions: vec![],
         }
@@ -128,8 +128,15 @@ impl ExactCover {
     /// given value. This function returns None only if the given coordinate is
     /// out-of-bounds.
     pub fn set(&mut self, col: usize, row: usize, data: bool) -> Option<()> {
-        if let Some(col) = self.nodes.get_mut(col) {
-            if let Some(node) = col.get_mut(row) {
+        if let Some(col_nodes) = self.nodes.get_mut(col) {
+            if let Some(node) = col_nodes.get_mut(row) {
+                if data != node.data {
+                    if data {
+                        self.cols[col].count += 1;
+                    } else {
+                        self.cols[col].count -= 1;
+                    }
+                }
                 node.data = data;
                 return Some(());
             }
