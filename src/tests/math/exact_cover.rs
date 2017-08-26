@@ -23,7 +23,6 @@ fn test_construction_properties() {
     assert_eq!(TEST_ROWS, ec.row_len());
     assert_eq!(TEST_COLS, ec.col_len());
     for x in 0..TEST_COLS {
-        assert_eq!(Some(0), ec.get_col_name(x));
         assert_eq!(Some(TEST_ROWS), ec.col_count(x));
 
         for y in 0..TEST_ROWS {
@@ -51,12 +50,66 @@ fn test_set() {
 }
 
 #[test]
-fn test_set_col_name() {
-    let mut ec = ExactCover::new(1, 1);
+fn test_solve() {
+    // Taking a test vector from the Wikipedia page, we have a problem represented
+    // like this:
+    //
+    //      1  2  3  4  5  6  7
+    //
+    // A    1  0  0  1  0  0  1
+    // B    1  0  0  1  0  0  0
+    // C    0  0  0  1  1  0  1
+    // D    0  0  1  0  1  1  0
+    // E    0  1  1  0  0  1  1
+    // F    0  1  0  0  0  0  1
+    //
+    // Which has exactly one solution:
+    //
+    //      1  2  3  4  5  6  7
+    //
+    // B    1  0  0  1  0  0  0
+    // D    0  0  1  0  1  1  0
+    // F    0  1  0  0  0  0  1
 
-    assert_eq!(Some(0), ec.get_col_name(0));
-    assert!(ec.set_col_name(0, 123).is_some());
-    assert_eq!(Some(123), ec.get_col_name(0));
+    let mut ec = ExactCover::new(7, 6);
 
-    assert!(ec.set_col_name(1, 123).is_none());
+    ec.set(0, 0, true).unwrap();
+    ec.set(3, 0, true).unwrap();
+    ec.set(6, 0, true).unwrap();
+
+    ec.set(0, 1, true).unwrap();
+    ec.set(3, 1, true).unwrap();
+
+    ec.set(3, 2, true).unwrap();
+    ec.set(4, 2, true).unwrap();
+    ec.set(6, 2, true).unwrap();
+
+    ec.set(2, 3, true).unwrap();
+    ec.set(4, 3, true).unwrap();
+    ec.set(5, 3, true).unwrap();
+
+    ec.set(1, 4, true).unwrap();
+    ec.set(2, 4, true).unwrap();
+    ec.set(5, 4, true).unwrap();
+    ec.set(6, 4, true).unwrap();
+
+    ec.set(1, 5, true).unwrap();
+    ec.set(6, 5, true).unwrap();
+
+    ec.solve(None);
+    let mut solutions = ec.get_solutions().clone();
+    assert_eq!(1, solutions.len());
+    let mut solution = solutions.pop().unwrap();
+    solution.sort();
+
+    let expected_solution = vec![
+        Coordinate { col: 0, row: 1 },
+        Coordinate { col: 1, row: 5 },
+        Coordinate { col: 2, row: 3 },
+        Coordinate { col: 3, row: 1 },
+        Coordinate { col: 4, row: 3 },
+        Coordinate { col: 5, row: 3 },
+        Coordinate { col: 6, row: 5 },
+    ];
+    assert_eq!(expected_solution, solution);
 }
