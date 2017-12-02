@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::collections::HashMap;
 use std::env;
 use std::fs::File;
 use std::io::Write;
@@ -21,13 +20,8 @@ use std::path::PathBuf;
 #[macro_use]
 extern crate error_chain;
 
-#[macro_use]
-extern crate log;
-
-extern crate bdrck_log;
-
-extern crate bdrck_params;
-use self::bdrck_params::*;
+extern crate bdrck;
+use bdrck::flags::*;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -59,21 +53,16 @@ fn get_source_root() -> Result<PathBuf> {
     Ok(path)
 }
 
-fn mkprob(
-    _: HashMap<String, String>,
-    _: HashMap<String, bool>,
-    arguments: HashMap<String, Vec<String>>,
-) -> Result<()> {
-    let vs = arguments.get("number").unwrap();
-    assert!(vs.len() == 1);
-    let mut problem_file = to_problem_name(vs.first().unwrap().as_str()).unwrap();
-    problem_file.push_str(".rs");
-
+fn mkprob(values: Values) -> Result<()> {
+    let problem_file = format!(
+        "{}.rs",
+        to_problem_name(values.get_positional_single("number"))?
+    );
     let mut problem_path = get_source_root().unwrap();
     problem_path.push("src");
     problem_path.push("bin");
     problem_path.push(problem_file);
-    info!("Writing problem: {}", problem_path.to_str().unwrap());
+    println!("Writing problem: {}", problem_path.to_str().unwrap());
     if problem_path.exists() {
         bail!("Problem already exists");
     }
@@ -85,19 +74,14 @@ fn mkprob(
 }
 
 fn main() {
-    bdrck_log::init_debug_logger().unwrap();
+    bdrck::logging::init(None);
 
-    main_impl_single_command(ExecutableCommand::new(
-        Command::new(
-            "mkprob",
-            "Create a new ProjectEuler \
-             problem",
-            vec![],
-            vec![
-                Argument::new("number", "The number of the problem to create", None),
-            ],
-            false,
-        ).unwrap(),
+    main_impl_single_command(Command::new(
+        "mkprob",
+        "Create a new ProjectEuler problem",
+        Specs::new(vec![
+            Spec::positional("number", "The number of the problem to create", None, false).unwrap(),
+        ]).unwrap(),
         Box::new(mkprob),
     ));
 }

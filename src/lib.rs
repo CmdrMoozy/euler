@@ -13,8 +13,7 @@
 // limitations under the License.
 
 extern crate atomic;
-extern crate bdrck_log;
-extern crate bdrck_params;
+extern crate bdrck;
 #[macro_use]
 extern crate error_chain;
 extern crate glob;
@@ -22,8 +21,6 @@ extern crate itoa;
 #[macro_use]
 extern crate lazy_static;
 extern crate libc;
-#[macro_use]
-extern crate log;
 extern crate num;
 extern crate num_cpus;
 extern crate pdqsort;

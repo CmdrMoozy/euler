@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-use bdrck_log;
+use bdrck;
 use std::fmt::{self, Debug, Display};
 use std::process;
 use util::error::*;
@@ -52,14 +51,14 @@ pub fn main_impl<R, F: FnOnce() -> Result<ProblemAnswer<R>>>(problem_impl: F) ->
 where
     R: Debug + Display + Eq + PartialEq,
 {
-    bdrck_log::init_debug_logger().unwrap();
+    bdrck::logging::init(None);
     process::exit(match problem_impl() {
         Err(e) => {
-            info!("{}", e);
+            println!("{}", e);
             EXIT_FAILURE
         },
         Ok(r) => {
-            info!("{}", r);
+            println!("{}", r);
             match r.is_correct() {
                 true => EXIT_SUCCESS,
                 false => EXIT_FAILURE,

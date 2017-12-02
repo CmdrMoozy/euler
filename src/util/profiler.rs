@@ -35,16 +35,16 @@ impl Profiler {
         duration::Duration::from(time::Instant::now().duration_since(self.start))
     }
 
-    pub fn log_elapsed(&self) {
+    pub fn print_elapsed(&self) {
         let elapsed = self.get_elapsed();
-        info!("{}Elapsed time: {}", self.log_prefix, elapsed);
+        println!("{}Elapsed time: {}", self.log_prefix, elapsed);
     }
 }
 
 impl Drop for Profiler {
     fn drop(&mut self) {
         if self.log_on_drop {
-            self.log_elapsed();
+            self.print_elapsed();
         }
     }
 }

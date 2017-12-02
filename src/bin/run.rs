@@ -17,19 +17,14 @@ use std::env;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::process;
-use std::string::String;
 use std::time;
-use std::vec::Vec;
 
 #[macro_use]
 extern crate error_chain;
 
 extern crate glob;
 
-#[macro_use]
-extern crate log;
-
-extern crate bdrck_log;
+extern crate bdrck;
 
 extern crate euler;
 use self::euler::math::stats;
@@ -124,7 +119,7 @@ fn execute_problems() -> Result<Vec<ExecutionResult>> {
         let profiler = Profiler::new(false, "");
         let output = process::Command::new(path.to_str().unwrap()).output()?;
         if !output.status.success() {
-            warn!(
+            println!(
                 "PROBLEM FAILED: {}",
                 path.file_name().unwrap().to_str().unwrap()
             );
@@ -139,23 +134,23 @@ fn execute_problems() -> Result<Vec<ExecutionResult>> {
 }
 
 fn main() {
-    bdrck_log::init_debug_logger().unwrap();
+    bdrck::logging::init(None);
 
     if cfg!(debug_assertions) {
-        warn!("Problems were built in debug mode. Timings may not be useful.");
+        println!("Problems were built in debug mode. Timings may not be useful.");
     }
 
     let mut results = execute_problems().unwrap();
     results.sort_by(|a, b| a.time.cmp(&b.time));
     let timings = Timings::new(&results);
 
-    info!(
+    println!(
         "Executed {} problems ({} successes, {} failures).",
         results.len(),
         timings.successes,
         results.len() - timings.successes
     );
-    info!(
+    println!(
         "Execution time: average {}, min {}, max {}, stddev {}, total {}",
         timings.average,
         timings.minimum,
@@ -164,16 +159,16 @@ fn main() {
         timings.total
     );
     for percentile in PERCENTILES {
-        info!(
+        println!(
             "{}th percentile execution time: {}",
             percentile,
             timings.percentiles.get(percentile).unwrap()
         );
     }
 
-    info!("Top {} slowest problems:", TOP_N_SLOWEST);
+    println!("Top {} slowest problems:", TOP_N_SLOWEST);
     for result in results.iter().rev().take(TOP_N_SLOWEST) {
-        info!("{} ({})", result.problem, result.time);
+        println!("{} ({})", result.problem, result.time);
     }
 
     process::exit(match timings.successes == results.len() {
