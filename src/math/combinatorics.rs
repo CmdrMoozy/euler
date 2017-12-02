@@ -47,8 +47,8 @@ pub fn combinations(n: u64, r: u64) -> Result<u64> {
     Ok(
         num.iter()
             .map(|pair| pair.0.pow(*pair.1 as u32))
-            .fold(1, |acc, v| acc * v) /
-            den.iter()
+            .fold(1, |acc, v| acc * v)
+            / den.iter()
                 .map(|pair| pair.0.pow(*pair.1 as u32))
                 .fold(1, |acc, v| acc * v),
     )

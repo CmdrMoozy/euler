@@ -42,8 +42,7 @@
 // NOTE: Wording was modified slightly on 24 April 2007 to emphasise the
 // theoretical nature of Lychrel numbers.
 
-extern crate gmp;
-use gmp::mpz::Mpz;
+extern crate rug;
 
 extern crate euler;
 use self::euler::algorithm::sequence;
@@ -56,13 +55,13 @@ fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
         let mut lychrel_count: usize = 0;
         for start in 1..10000 {
-            let mut current: Mpz = Mpz::from(start);
+            let mut current = rug::Integer::from(start);
             let mut iterations: usize = 0;
             let mut is_palindrome: bool = false;
             while !is_palindrome && iterations <= 50 {
-                let rev = Mpz::from_str_radix(
+                let rev = rug::Integer::from_str_radix(
                     current
-                        .to_str_radix(10)
+                        .to_string_radix(10)
                         .chars()
                         .rev()
                         .collect::<String>()

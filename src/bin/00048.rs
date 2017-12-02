@@ -16,30 +16,29 @@
 //
 // Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.
 
-extern crate gmp;
-use gmp::mpz::Mpz;
-
 extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+extern crate rug;
+use rug::ops::Pow;
 
 static EXPECTED_RESULT: &'static str = "9110846700";
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<String>> {
         let mut sum: Vec<u64> = vec![0; 10];
-        let modulus = Mpz::from(10);
 
         // Add the last ten digits of each number.
         for i in 1..1001 {
-            let mut x = Mpz::from(i).pow(i);
+            let mut x = rug::Integer::from(i).pow(i);
 
             let mut j = 1;
-            while x > Mpz::from(0) && j <= 10 {
-                let digit: Option<u64> = (&x.modulus(&modulus)).into();
+            while x > rug::Integer::from(0) && j <= 10 {
+                let digit = (x.clone() % rug::Integer::from(10)).to_u64();
                 sum[10 - j] += digit.unwrap();
                 j += 1;
-                x = x / 10;
+                x /= 10;
             }
         }
 

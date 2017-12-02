@@ -50,8 +50,8 @@ fn main() {
                     let third_prime = prime + addition * 2;
                     if sieve.contains(third_prime).unwrap_or(false) {
                         // If these primes are permutations of each other...
-                        if integer_is_permutation_of(prime, second_prime)? &&
-                            integer_is_permutation_of(prime, third_prime)?
+                        if integer_is_permutation_of(prime, second_prime)?
+                            && integer_is_permutation_of(prime, third_prime)?
                         {
                             // If this isn't the sequence given in the problem description...
                             if prime != 1487 && second_prime != 1487 && third_prime != 1487 {

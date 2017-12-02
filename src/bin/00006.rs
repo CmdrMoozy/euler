@@ -26,8 +26,8 @@
 // Find the difference between the sum of the squares of the first one hundred
 // natural numbers and the square of the sum.
 
-extern crate gmp;
-use self::gmp::mpz::*;
+extern crate rug;
+use rug::ops::Pow;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -39,23 +39,21 @@ const EXPECTED_RESULT: u64 = 25164150;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let mut result: Mpz = Mpz::from(0);
+        let mut result = rug::Integer::new();
 
         for n in START_NUMBER..(END_NUMBER + 1) {
-            result = result + n;
+            result += rug::Integer::from(n);
         }
         result = result.pow(2);
 
-        let mut sum_of_squares: Mpz = Mpz::from(0);
+        let mut sum_of_squares = rug::Integer::new();
         for n in START_NUMBER..(END_NUMBER + 1) {
-            sum_of_squares = sum_of_squares + (n * n);
+            sum_of_squares += rug::Integer::from(n * n);
         }
-        result = result - sum_of_squares;
-
-        let result_u64: Option<u64> = (&result).into();
+        result -= sum_of_squares;
 
         Ok(ProblemAnswer {
-            actual: result_u64.unwrap(),
+            actual: result.to_u64().unwrap(),
             expected: EXPECTED_RESULT,
         })
     });

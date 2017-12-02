@@ -115,8 +115,8 @@ impl CircularPrimeSieve {
             let it = DigitalRotationIterator::new(p);
             let has_divisible_digits = it.iter_digits()
                 .map(|digit| {
-                    *digit == '0' || *digit == '2' || *digit == '4' || *digit == '5' ||
-                        *digit == '6' || *digit == '8'
+                    *digit == '0' || *digit == '2' || *digit == '4' || *digit == '5'
+                        || *digit == '6' || *digit == '8'
                 })
                 .fold(false, |acc, dd| acc || dd);
             if has_divisible_digits {

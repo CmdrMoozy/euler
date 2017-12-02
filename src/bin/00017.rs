@@ -205,9 +205,8 @@ fn number_to_literal(n: u64) -> String {
                 if digit > 0 {
                     result.push_str(format!("{} ", LITERAL_DIGITS.get(&digit).unwrap()).as_str());
                 }
-                result.push_str(
-                    format!("{} ", LITERAL_POWERS_OF_TEN.get(&place).unwrap()).as_str(),
-                );
+                result
+                    .push_str(format!("{} ", LITERAL_POWERS_OF_TEN.get(&place).unwrap()).as_str());
             },
             3 => if digit > 0 {
                 result.push_str(
@@ -227,9 +226,8 @@ fn number_to_literal(n: u64) -> String {
                         format!("{} ", LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap()).as_str(),
                     );
                 } else {
-                    result.push_str(
-                        format!("{} ", LITERAL_TEN_MULTIPLES.get(&1).unwrap()).as_str(),
-                    );
+                    result
+                        .push_str(format!("{} ", LITERAL_TEN_MULTIPLES.get(&1).unwrap()).as_str());
                 }
                 idx_iter.next().unwrap();
             } else if digit > 1 {

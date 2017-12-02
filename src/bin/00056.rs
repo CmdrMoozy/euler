@@ -19,8 +19,8 @@
 // Considering natural numbers of the form, a^b, where a, b < 100, what is the
 // maximum digital sum?
 
-extern crate gmp;
-use gmp::mpz::Mpz;
+extern crate rug;
+use rug::ops::Pow;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -38,7 +38,7 @@ fn main() {
             }
 
             for b in (1..100).rev() {
-                let n = Mpz::from(a).pow(b);
+                let n = rug::Integer::from(a).pow(b);
                 let sum = n.to_string()
                     .chars()
                     .fold(0_u64, |acc, d| acc + (d.to_digit(10).unwrap() as u64));

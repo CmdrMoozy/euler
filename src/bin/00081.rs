@@ -46,8 +46,8 @@ const EXPECTED_RESULT: i64 = 427337;
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<i64>> {
         let weights = GridGraphWeights::new(INPUT_MATRIX)?;
-        if weights.get_width() != EXPECTED_GRID_WIDTH ||
-            weights.get_height() != EXPECTED_GRID_HEIGHT
+        if weights.get_width() != EXPECTED_GRID_WIDTH
+            || weights.get_height() != EXPECTED_GRID_HEIGHT
         {
             bail!("Loaded grid graph doesn't contain the expected number of rows or columns");
         }

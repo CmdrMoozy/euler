@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use gmp::mpz::Mpz;
 use math::sequence::*;
-use util::convert::*;
+use rug;
 
 #[test]
 fn test_get_nth_fibonacci_number() {
@@ -25,7 +24,9 @@ fn test_get_nth_fibonacci_number() {
           1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169];
     for test_case in SEQUENCE.iter().enumerate() {
         assert!(
-            mpz_to_u64(&get_nth_fibonacci_number(test_case.0 as u64)).unwrap() == *test_case.1,
+            get_nth_fibonacci_number(test_case.0 as u64)
+                .to_u64()
+                .unwrap() == *test_case.1,
             "fib({}) == {}",
             test_case.0,
             test_case.1
@@ -89,8 +90,9 @@ fn test_sequence_search() {
     static TEST_CASES: &'static [(u64, u64, u64)] =
         &[(6764, 20, 6765), (6765, 20, 6765), (6766, 21, 10946)];
     for test_case in TEST_CASES {
-        let (index, value) = sequence_search(0, Mpz::from(test_case.0), get_nth_fibonacci_number);
+        let (index, value) =
+            sequence_search(0, rug::Integer::from(test_case.0), get_nth_fibonacci_number);
         assert!(index == test_case.1);
-        assert!(mpz_to_u64(&value).unwrap() == test_case.2);
+        assert!(value.to_u64().unwrap() == test_case.2);
     }
 }

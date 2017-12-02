@@ -31,19 +31,18 @@
 // In the first one-thousand expansions, how many fractions contain a numerator
 // with more digits than denominator?
 
-extern crate gmp;
-use gmp::mpz::Mpz;
-
 extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+extern crate rug;
 
 const EXPECTED_RESULT: usize = 153;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
-        let mut num = Mpz::from(1);
-        let mut den = Mpz::from(1);
+        let mut num = rug::Integer::from(1);
+        let mut den = rug::Integer::from(1);
         let mut count: usize = 0;
         for _ in 0..1000 {
             // If this expansion's numerator has more digits than the denominator,
@@ -55,7 +54,7 @@ fn main() {
             // Compute the next expansion.
             num = num + &den + &den;
             den = &num - den;
-            let gcd = num.gcd(&den);
+            let gcd = (num.clone()).gcd(&den);
             num = num / &gcd;
             den = den / &gcd;
         }

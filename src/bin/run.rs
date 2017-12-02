@@ -114,9 +114,7 @@ fn get_target_root() -> Result<PathBuf> {
 
 fn execute_problems() -> Result<Vec<ExecutionResult>> {
     let mut results: Vec<ExecutionResult> = Vec::new();
-    for p in glob::glob(
-        format!("{}/?????", get_target_root()?.to_str().unwrap()).as_str(),
-    )? {
+    for p in glob::glob(format!("{}/?????", get_target_root()?.to_str().unwrap()).as_str())? {
         let path = p?;
         let metadata = path.metadata()?;
         if metadata.is_dir() || metadata.permissions().mode() & 0o111 == 0 {

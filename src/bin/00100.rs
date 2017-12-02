@@ -24,9 +24,8 @@
 // discs in total, determine the number of blue discs that the box would
 // contain.
 
-extern crate gmp;
-use gmp::mpf::Mpf;
-use gmp::mpz::Mpz;
+extern crate rug;
+use rug::ops::Pow;
 
 extern crate libc;
 
@@ -34,29 +33,12 @@ extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
-const MPF_PRECISION: usize = 256;
+const FLOAT_PRECISION: u32 = 256;
 
 const EXPECTED_RESULT: usize = 756872327473;
 
-fn mpf_from_int(v: i64) -> Mpf {
-    let mut mpfv = Mpf::new(MPF_PRECISION);
-    mpfv.set_from_si(v);
-    mpfv
-}
-
-fn mpf_to_string(v: &mut Mpf, base: i32) -> String {
-    let mut exponent: libc::c_long = 0;
-    let s = v.get_str(0, base, &mut exponent);
-    let exponent = exponent as usize;
-
-    let int_part: String = s.chars().take(exponent).collect();
-    let frac_part: String = s.chars().skip(exponent).collect();
-
-    if frac_part.is_empty() {
-        int_part
-    } else {
-        format!("{}.{}", int_part, frac_part)
-    }
+fn float_from_int(v: i64) -> rug::Float {
+    rug::Float::with_val_round(FLOAT_PRECISION, v, rug::float::Round::Nearest).0
 }
 
 fn main() {
@@ -119,18 +101,19 @@ fn main() {
         // This means that we're looking for the first solution with X` > 2 * 10^12 -
         // 1. Let us search for that value first:
 
-        let mut xprime = Mpz::from(1);
-        let mut yprime = Mpz::from(1);
+        let mut xprime = rug::Integer::from(1);
+        let mut yprime = rug::Integer::from(1);
 
-        let bound = (Mpz::ui_pow_ui(10, 12) * Mpz::from(2)) - Mpz::from(1);
+        let bound =
+            (rug::Integer::from(10).pow(12) * rug::Integer::from(2)) - rug::Integer::from(1);
 
         while xprime < bound {
-            let tmp_a = xprime.clone() * Mpz::from(3);
-            let tmp_b = yprime.clone() * Mpz::from(4);
+            let tmp_a = xprime.clone() * rug::Integer::from(3);
+            let tmp_b = yprime.clone() * rug::Integer::from(4);
             let tmp_a = tmp_a + tmp_b;
 
-            let tmp_b = xprime * Mpz::from(2);
-            let tmp_c = yprime * Mpz::from(3);
+            let tmp_b = xprime * rug::Integer::from(2);
+            let tmp_c = yprime * rug::Integer::from(3);
 
             xprime = tmp_a;
             yprime = tmp_b + tmp_c;
@@ -145,7 +128,7 @@ fn main() {
         // Note that this must be an integer, since by definition of the solutions of
         // the negative Pell's equation we know that X` is odd.
 
-        let xprime = (xprime - Mpz::from(1)) / Mpz::from(2);
+        let xprime = (xprime - rug::Integer::from(1)) / rug::Integer::from(2);
 
         // Finally, it was proven above that B, the number of blue discs, can be
         // written in terms of N, the total number of discs. Namely:
@@ -154,16 +137,15 @@ fn main() {
         //
         // So we simply need to evaluate this expression and we have our answer!
 
-        let mut big_n = Mpf::new(MPF_PRECISION);
-        big_n.set_z(&xprime);
-
-        let mut big_b = (((big_n.clone() - mpf_from_int(1)) * big_n) / mpf_from_int(2)) +
-            (mpf_from_int(1) / mpf_from_int(4));
-        big_b = big_b.sqrt() + (mpf_from_int(1) / mpf_from_int(2));
+        let big_n =
+            rug::Float::with_val_round(FLOAT_PRECISION, xprime, rug::float::Round::Nearest).0;
+        let mut big_b = (((big_n.clone() - float_from_int(1)) * big_n) / float_from_int(2))
+            + (float_from_int(1) / float_from_int(4));
+        big_b = big_b.sqrt() + (float_from_int(1) / float_from_int(2));
         big_b = big_b.ceil();
 
         Ok(ProblemAnswer {
-            actual: mpf_to_string(&mut big_b, 10).parse::<usize>()?,
+            actual: big_b.to_integer().unwrap().to_u64().unwrap() as usize,
             expected: EXPECTED_RESULT,
         })
     });

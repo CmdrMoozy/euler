@@ -51,8 +51,7 @@
 // Find the sum of the digits in the numerator of the 100th convergent of their
 // continued fraction for e.
 
-extern crate gmp;
-use gmp::mpz::Mpz;
+extern crate rug;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -107,15 +106,15 @@ fn main() {
         // valid n).
 
         // The first two convergent numerators are 2(/1) and 3(/2).
-        let mut previous_big_a = Mpz::from(2);
-        let mut big_a = Mpz::from(3);
+        let mut previous_big_a = rug::Integer::from(2);
+        let mut big_a = rug::Integer::from(3);
 
         // We want the numerator of the 100th convergent, so calculate the next A
         // (big_a) 99 times.
         for n in 1..99 {
             // A(n+1) = b(n+1)A(n) + a(n+1)A(n-1)
-            let denominator = Mpz::from(get_nth_b_n_denominator(n + 1));
-            let hold: Mpz = denominator * &big_a + previous_big_a;
+            let denominator = rug::Integer::from(get_nth_b_n_denominator(n + 1));
+            let hold: rug::Integer = denominator * big_a.clone() + previous_big_a;
             previous_big_a = big_a;
             big_a = hold;
         }

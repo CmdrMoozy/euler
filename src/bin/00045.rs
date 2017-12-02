@@ -37,8 +37,8 @@ fn main() {
         let mut result: u64;
         loop {
             result = get_nth_triangle_number(t_idx);
-            if sequence_search(t_idx, result, get_nth_pentagonal_number).1 == result &&
-                sequence_search(t_idx, result, get_nth_hexagonal_number).1 == result
+            if sequence_search(t_idx, result, get_nth_pentagonal_number).1 == result
+                && sequence_search(t_idx, result, get_nth_hexagonal_number).1 == result
             {
                 break;
             }

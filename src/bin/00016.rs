@@ -16,8 +16,8 @@
 //
 // What is the sum of the digits of the number 2^1000?
 
-extern crate gmp;
-use self::gmp::mpz::*;
+extern crate rug;
+use rug::ops::Pow;
 
 extern crate euler;
 use self::euler::util::error::*;
@@ -30,13 +30,10 @@ const EXPECTED_RESULT: u64 = 1366;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let mut value: Mpz = Mpz::from(BASE);
-        value = value.pow(EXPONENT);
-
-        let value_string: String = format!("{}", value);
-
         Ok(ProblemAnswer {
-            actual: value_string
+            actual: rug::Integer::from(BASE)
+                .pow(EXPONENT)
+                .to_string()
                 .chars()
                 .map(|c| c.to_digit(10).unwrap() as u64)
                 .fold(0, |acc, d| acc + d),

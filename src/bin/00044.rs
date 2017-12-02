@@ -206,7 +206,9 @@ fn main() {
         let mut handles: Vec<thread::JoinHandle<()>> = vec![];
         for _ in 0..num_cpus::get() {
             let context = context.clone();
-            handles.push(thread::spawn(move || { consumer(context); }));
+            handles.push(thread::spawn(move || {
+                consumer(context);
+            }));
         }
 
         // Wait for all of our threads to halt.

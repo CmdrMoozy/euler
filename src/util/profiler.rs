@@ -14,7 +14,6 @@
 
 use std::string::String;
 use std::time;
-
 use util::duration;
 
 pub struct Profiler {

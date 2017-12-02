@@ -106,12 +106,12 @@ pub fn integer_is_permutation_of<I: Integer>(a: I, b: I) -> Result<bool> {
     itoa::write(&mut bbuf[..], b)?;
 
     // Check using a parity bit first to avoid doing an expensive sort.
-    if (abuf[0] ^ abuf[1] ^ abuf[2] ^ abuf[3] ^ abuf[4] ^ abuf[5] ^ abuf[6] ^ abuf[7] ^ abuf[8] ^
-        abuf[9] ^ abuf[10] ^ abuf[11] ^ abuf[12] ^ abuf[13] ^ abuf[14] ^ abuf[15] ^
-        abuf[16] ^ abuf[17] ^ abuf[18] ^ abuf[19]) & 1 !=
-        (bbuf[0] ^ bbuf[1] ^ bbuf[2] ^ bbuf[3] ^ bbuf[4] ^ bbuf[5] ^ bbuf[6] ^ bbuf[7] ^ bbuf[8] ^
-            bbuf[9] ^ bbuf[10] ^ bbuf[11] ^ bbuf[12] ^ bbuf[13] ^ bbuf[14] ^ bbuf[15] ^
-            bbuf[16] ^ bbuf[17] ^ bbuf[18] ^ bbuf[19]) & 1
+    if (abuf[0] ^ abuf[1] ^ abuf[2] ^ abuf[3] ^ abuf[4] ^ abuf[5] ^ abuf[6] ^ abuf[7] ^ abuf[8]
+        ^ abuf[9] ^ abuf[10] ^ abuf[11] ^ abuf[12] ^ abuf[13] ^ abuf[14] ^ abuf[15]
+        ^ abuf[16] ^ abuf[17] ^ abuf[18] ^ abuf[19]) & 1
+        != (bbuf[0] ^ bbuf[1] ^ bbuf[2] ^ bbuf[3] ^ bbuf[4] ^ bbuf[5] ^ bbuf[6] ^ bbuf[7] ^ bbuf[8]
+            ^ bbuf[9] ^ bbuf[10] ^ bbuf[11] ^ bbuf[12] ^ bbuf[13] ^ bbuf[14] ^ bbuf[15]
+            ^ bbuf[16] ^ bbuf[17] ^ bbuf[18] ^ bbuf[19]) & 1
     {
         return Ok(false);
     }

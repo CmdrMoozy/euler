@@ -36,13 +36,12 @@
 // Find the value of D <= 1000 in minimal solutions of x for which the largest
 // value of x is obtained.
 
-extern crate gmp;
-use gmp::mpz::Mpz;
-
 extern crate euler;
 use self::euler::math::exp;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+extern crate rug;
 
 const EXPECTED_RESULT: u64 = 661;
 
@@ -130,12 +129,12 @@ fn main() {
         // for D <= 7.
 
         let mut result_big_d: u64 = 5;
-        let mut result_x = Mpz::from(9);
+        let mut result_x = rug::Integer::from(9);
 
-        let mut big_a_minus_1: Mpz;
-        let mut big_a_minus_2: Mpz;
-        let mut big_b_minus_1: Mpz;
-        let mut big_b_minus_2: Mpz;
+        let mut big_a_minus_1: rug::Integer;
+        let mut big_a_minus_2: rug::Integer;
+        let mut big_b_minus_1: rug::Integer;
+        let mut big_b_minus_2: rug::Integer;
 
         for big_d in 19..1001 {
             // We need to skip any D which is a perfect square, since Pell's equation has
@@ -147,17 +146,17 @@ fn main() {
             let cf = get_continued_fraction(big_d);
 
             // Add the first two convergents to our lists.
-            big_a_minus_2 = Mpz::from(cf[0]);
-            big_b_minus_2 = Mpz::from(1);
-            big_a_minus_1 = Mpz::from(cf[0] * cf[1] + 1);
-            big_b_minus_1 = Mpz::from(cf[1]);
+            big_a_minus_2 = rug::Integer::from(cf[0]);
+            big_b_minus_2 = rug::Integer::from(1);
+            big_a_minus_1 = rug::Integer::from(cf[0] * cf[1] + 1);
+            big_b_minus_1 = rug::Integer::from(cf[1]);
 
             // Test if this first convergent is our solution.
-            let tmp_a = &big_a_minus_2 * &big_a_minus_2;
-            let tmp_b = &big_b_minus_2 * &big_b_minus_2;
-            let tmp_b = &tmp_b * &Mpz::from(big_d);
-            let tmp_a = &tmp_a - &tmp_b;
-            if tmp_a == Mpz::from(1) {
+            let mut tmp_a = big_a_minus_2.clone() * big_a_minus_2.clone();
+            let mut tmp_b = big_b_minus_2.clone() * big_b_minus_2.clone();
+            tmp_b *= rug::Integer::from(big_d);
+            tmp_a -= tmp_b;
+            if tmp_a == rug::Integer::from(1) {
                 if big_a_minus_2 > result_x {
                     result_big_d = big_d;
                     result_x = big_a_minus_2;
@@ -169,11 +168,11 @@ fn main() {
             let mut cfn: u64 = 2;
             loop {
                 // Test the most recent convergent.
-                let tmp_a = &big_a_minus_1 * &big_a_minus_1;
-                let tmp_b = &big_b_minus_1 * &big_b_minus_1;
-                let tmp_b = &tmp_b * &Mpz::from(big_d);
-                let tmp_a = &tmp_a - &tmp_b;
-                if tmp_a == Mpz::from(1) {
+                let mut tmp_a = big_a_minus_1.clone() * big_a_minus_1.clone();
+                let mut tmp_b = big_b_minus_1.clone() * big_b_minus_1.clone();
+                tmp_b *= rug::Integer::from(big_d);
+                tmp_a -= tmp_b;
+                if tmp_a == rug::Integer::from(1) {
                     if big_a_minus_1 > result_x {
                         result_big_d = big_d;
                         result_x = big_a_minus_1;
@@ -183,8 +182,10 @@ fn main() {
 
                 // Since this isn't the solution, compute the next one.
                 let cfidx: u64 = (cfn - 1) % (cf.len() as u64 - 1) + 1;
-                let tmp_a = &big_a_minus_1 * &Mpz::from(cf[cfidx as usize]) + &big_a_minus_2;
-                let tmp_b = &big_b_minus_1 * &Mpz::from(cf[cfidx as usize]) + &big_b_minus_2;
+                let tmp_a =
+                    big_a_minus_1.clone() * rug::Integer::from(cf[cfidx as usize]) + big_a_minus_2;
+                let tmp_b =
+                    big_b_minus_1.clone() * rug::Integer::from(cf[cfidx as usize]) + big_b_minus_2;
                 big_a_minus_2 = big_a_minus_1;
                 big_a_minus_1 = tmp_a;
                 big_b_minus_2 = big_b_minus_1;

@@ -22,12 +22,11 @@
 //
 // Find the last ten digits of this prime number.
 
-extern crate gmp;
-use gmp::mpz::Mpz;
-
 extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+extern crate rug;
 
 const EXPECTED_RESULT: u64 = 8739992577;
 
@@ -35,14 +34,12 @@ fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
         // We need the last 10 digits of 28,433 * 2^7,830,457 + 1. We can just
         // calculate it directly, since GMP is fast enough.
-        let prime = Mpz::from(28433);
+        let prime = rug::Integer::from(28433);
         let prime = prime << 7830457;
         let prime = prime + 1;
-        let last_ten_digits = prime.modulus(&Mpz::from(10000000000_u64));
-        let last_ten_digits = last_ten_digits.to_str_radix(10).parse::<u64>()?;
-
+        let last_ten_digits: rug::Integer = prime % rug::Integer::from(10000000000_u64);
         Ok(ProblemAnswer {
-            actual: last_ten_digits,
+            actual: last_ten_digits.to_u64().unwrap(),
             expected: EXPECTED_RESULT,
         })
     });

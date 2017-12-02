@@ -18,7 +18,6 @@ extern crate bdrck_params;
 #[macro_use]
 extern crate error_chain;
 extern crate glob;
-extern crate gmp;
 extern crate itoa;
 #[macro_use]
 extern crate lazy_static;
@@ -30,7 +29,7 @@ extern crate num_cpus;
 extern crate pdqsort;
 extern crate rand;
 extern crate regex;
-extern crate rust_mpfr as mpfr;
+extern crate rug;
 
 pub mod algorithm;
 pub mod dsc;

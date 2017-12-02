@@ -16,20 +16,19 @@
 //
 // Find the sum of the digits in the number 100!
 
-extern crate gmp;
-use self::gmp::mpz::*;
-
 extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
+
+extern crate rug;
 
 const EXPECTED_RESULT: u64 = 648;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let mut factorial: Mpz = Mpz::from(2);
+        let mut factorial = rug::Integer::from(2);
         for n in 3..101 {
-            factorial = factorial * (n as u64);
+            factorial *= n;
         }
         let factorial_str = factorial.to_string();
 

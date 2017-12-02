@@ -151,16 +151,16 @@ fn is_straight(sorted_values: &[Value], value_counts: &HashMap<Value, usize>) ->
     let min = sorted_values[4];
     let max = sorted_values[0];
 
-    (min == Value::Two && max == Value::Six) || (min == Value::Three && max == Value::Seven) ||
-        (min == Value::Four && max == Value::Eight) ||
-        (min == Value::Five && max == Value::Nine) ||
-        (min == Value::Six && max == Value::Ten) ||
-        (min == Value::Seven && max == Value::Jack) ||
-        (min == Value::Eight && max == Value::Queen) ||
-        (min == Value::Nine && max == Value::King) ||
-        (min == Value::Ten && max == Value::Ace) ||
-        (sorted_values ==
-            &[
+    (min == Value::Two && max == Value::Six) || (min == Value::Three && max == Value::Seven)
+        || (min == Value::Four && max == Value::Eight)
+        || (min == Value::Five && max == Value::Nine)
+        || (min == Value::Six && max == Value::Ten)
+        || (min == Value::Seven && max == Value::Jack)
+        || (min == Value::Eight && max == Value::Queen)
+        || (min == Value::Nine && max == Value::King)
+        || (min == Value::Ten && max == Value::Ace)
+        || (sorted_values
+            == &[
                 Value::Ace,
                 Value::Five,
                 Value::Four,
@@ -353,8 +353,8 @@ impl Hand {
     pub fn get_rank(&self) -> Rank { self.rank }
 
     fn is_steel_wheel(&self) -> bool {
-        (self.rank == Rank::Straight || self.rank == Rank::StraightFlush) &&
-            self.sorted_values[4] == Value::Two && self.sorted_values[0] == Value::Ace
+        (self.rank == Rank::Straight || self.rank == Rank::StraightFlush)
+            && self.sorted_values[4] == Value::Two && self.sorted_values[0] == Value::Ace
     }
 }
 
@@ -387,8 +387,8 @@ impl Ord for Hand {
             } else {
                 self.sorted_values.cmp(&other.sorted_values)
             };
-        } else if self.rank == Rank::OnePair || self.rank == Rank::TwoPair ||
-            self.rank == Rank::ThreeOfAKind || self.rank == Rank::FourOfAKind
+        } else if self.rank == Rank::OnePair || self.rank == Rank::TwoPair
+            || self.rank == Rank::ThreeOfAKind || self.rank == Rank::FourOfAKind
         {
             let mut a_rank_values: Vec<Value> = self.rank_value_counts.keys().cloned().collect();
             a_rank_values.sort_by(|a, b| b.cmp(a));

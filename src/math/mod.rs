@@ -21,3 +21,5 @@ pub mod prime;
 pub mod sequence;
 pub mod sieve;
 pub mod stats;
+
+pub const FLOAT_DEFAULT_PRECISION: u32 = 53;

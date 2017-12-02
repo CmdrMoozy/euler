@@ -59,8 +59,8 @@ fn find_smallest_open(map: &VertexStateMap) -> Option<VertexId> {
 
         // If there is no smallest vertex yet, just use this one. Otherwise, use this
         // one if it is smaller than the current vertex.
-        if current.is_none() ||
-            entry.1.heuristic_score < map[current.as_ref().unwrap()].heuristic_score
+        if current.is_none()
+            || entry.1.heuristic_score < map[current.as_ref().unwrap()].heuristic_score
         {
             current = Some(*entry.0);
         }
@@ -90,8 +90,8 @@ pub fn dijkstra(graph: &Graph, start_id: VertexId, end_id: VertexId) -> Option<S
 
             // Calculate a tentative distance (current + edge) and update this neighbor's
             // distancei if the tentative distance is less than its current distance.
-            let tentative: i64 = vertices.get(&current_id).unwrap().actual_score +
-                graph.get(current_id).distance_to(neighbor_id).unwrap();
+            let tentative: i64 = vertices.get(&current_id).unwrap().actual_score
+                + graph.get(current_id).distance_to(neighbor_id).unwrap();
             if tentative < vertices.get(&neighbor_id).unwrap().actual_score {
                 let neighbor: &mut VertexState = vertices.get_mut(&neighbor_id).unwrap();
                 neighbor.set_absolute_score(tentative);

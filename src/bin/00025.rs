@@ -40,15 +40,15 @@ use self::euler::math::sequence::{get_nth_fibonacci_number, sequence_search};
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
-extern crate gmp;
-use gmp::mpz::Mpz;
+extern crate rug;
+use rug::ops::Pow;
 
 const EXPECTED_RESULT: u64 = 4782;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<u64>> {
-        let target: Mpz = Mpz::from(10).pow(999);
-        let (index, _) = sequence_search(1, target, get_nth_fibonacci_number);
+        let (index, _) =
+            sequence_search(1, rug::Integer::from(10).pow(999), get_nth_fibonacci_number);
         Ok(ProblemAnswer {
             actual: index,
             expected: EXPECTED_RESULT,

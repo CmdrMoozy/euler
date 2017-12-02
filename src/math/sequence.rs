@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use gmp::mpz::Mpz;
+use math::FLOAT_DEFAULT_PRECISION;
 use math::exp::{is_square, isqrt};
-use mpfr::mpfr::Mpfr;
 use num::{Num, One};
+use rug;
 use std::cmp::max;
 
 /// This function returns the nth Fibonacci number.
@@ -25,19 +25,21 @@ use std::cmp::max;
 /// to the Fibonacci sequence, so we can avoid unnecessary recursion.
 ///
 /// Note that precision is only guaranteed up to n = 5000.
-pub fn get_nth_fibonacci_number(n: u64) -> Mpz {
+pub fn get_nth_fibonacci_number(n: u64) -> rug::Integer {
+    use rug::ops::Pow;
+
     // We use the closed-form solution called "Binet's Formula," defined here:
     // http://en.wikipedia.org/wiki/Fibonacci_number#Relation_to_the_golden_ratio
     //
     // The formula is: F(n) = (p^n - (1 - p)^n) / sqrt(5) where p is phi, the
     // Golden Ratio: p = (1 + sqrt(5)) / 2
 
-    let sqrt_five = Mpfr::from(5 as i64).sqrt();
-    let phi = (1.0 + &sqrt_five) / 2.0;
-    let psi = (1.0 - &sqrt_five) / 2.0;
-    let fib = (phi.pow(&Mpfr::from(n)) - psi.pow(&Mpfr::from(n))) / &sqrt_five;
-
-    (&fib).into()
+    let n = rug::Float::with_val(FLOAT_DEFAULT_PRECISION, n);
+    let sqrt_five = rug::Float::with_val(FLOAT_DEFAULT_PRECISION, 5).sqrt();
+    let phi: rug::Float = (1.0 + sqrt_five.clone()) / 2.0;
+    let psi: rug::Float = (1.0 - sqrt_five.clone()) / 2.0;
+    let fib = (phi.pow(n.clone()) - psi.pow(n)) / sqrt_five;
+    fib.to_integer().unwrap()
 }
 
 /// This function returns the nth triangle number.

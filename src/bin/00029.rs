@@ -35,18 +35,17 @@ extern crate euler;
 use self::euler::util::error::*;
 use self::euler::util::problem::*;
 
-extern crate gmp;
-use gmp::mpz::Mpz;
+extern crate rug;
+use rug::ops::Pow;
 
 const EXPECTED_RESULT: usize = 9183;
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<usize>> {
-        let mut result: HashSet<Mpz> = HashSet::new();
+        let mut result: HashSet<rug::Integer> = HashSet::new();
         for i in 2..101 {
             for j in 2..101 {
-                let v = Mpz::from(i).pow(j);
-                result.insert(v);
+                result.insert(rug::Integer::from(i).pow(j));
             }
         }
 
