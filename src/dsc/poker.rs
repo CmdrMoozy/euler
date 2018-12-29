@@ -19,7 +19,9 @@ use std::hash::Hash;
 use util::error::*;
 
 #[inline]
-fn char_at(s: &str, i: usize) -> char { s.chars().nth(i).unwrap() }
+fn char_at(s: &str, i: usize) -> char {
+    s.chars().nth(i).unwrap()
+}
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Value {
@@ -151,7 +153,8 @@ fn is_straight(sorted_values: &[Value], value_counts: &HashMap<Value, usize>) ->
     let min = sorted_values[4];
     let max = sorted_values[0];
 
-    (min == Value::Two && max == Value::Six) || (min == Value::Three && max == Value::Seven)
+    (min == Value::Two && max == Value::Six)
+        || (min == Value::Three && max == Value::Seven)
         || (min == Value::Four && max == Value::Eight)
         || (min == Value::Five && max == Value::Nine)
         || (min == Value::Six && max == Value::Ten)
@@ -250,7 +253,7 @@ fn get_rank_value_counts(
             let value = value_counts.iter().map(|pair| *pair.0).max().unwrap();
             rvc.insert(value, 1);
             rvc
-        },
+        }
     }
 }
 
@@ -350,22 +353,29 @@ impl Hand {
         ))
     }
 
-    pub fn get_rank(&self) -> Rank { self.rank }
+    pub fn get_rank(&self) -> Rank {
+        self.rank
+    }
 
     fn is_steel_wheel(&self) -> bool {
         (self.rank == Rank::Straight || self.rank == Rank::StraightFlush)
-            && self.sorted_values[4] == Value::Two && self.sorted_values[0] == Value::Ace
+            && self.sorted_values[4] == Value::Two
+            && self.sorted_values[0] == Value::Ace
     }
 }
 
 impl PartialEq for Hand {
-    fn eq(&self, other: &Hand) -> bool { self.cmp(other) == Ordering::Equal }
+    fn eq(&self, other: &Hand) -> bool {
+        self.cmp(other) == Ordering::Equal
+    }
 }
 
 impl Eq for Hand {}
 
 impl PartialOrd for Hand {
-    fn partial_cmp(&self, other: &Hand) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Hand) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for Hand {
@@ -387,8 +397,10 @@ impl Ord for Hand {
             } else {
                 self.sorted_values.cmp(&other.sorted_values)
             };
-        } else if self.rank == Rank::OnePair || self.rank == Rank::TwoPair
-            || self.rank == Rank::ThreeOfAKind || self.rank == Rank::FourOfAKind
+        } else if self.rank == Rank::OnePair
+            || self.rank == Rank::TwoPair
+            || self.rank == Rank::ThreeOfAKind
+            || self.rank == Rank::FourOfAKind
         {
             let mut a_rank_values: Vec<Value> = self.rank_value_counts.keys().cloned().collect();
             a_rank_values.sort_by(|a, b| b.cmp(a));
@@ -405,7 +417,8 @@ impl Ord for Hand {
             b_other_values.sort_by(|a, b| b.cmp(a));
             return a_other_values.cmp(&b_other_values);
         } else if self.rank == Rank::FullHouse {
-            let a_three_value = self.rank_value_counts
+            let a_three_value = self
+                .rank_value_counts
                 .iter()
                 .filter(|pair| *pair.1 == 3)
                 .next()
@@ -423,7 +436,8 @@ impl Ord for Hand {
                 return ordering;
             }
 
-            let a_two_value = self.rank_value_counts
+            let a_two_value = self
+                .rank_value_counts
                 .iter()
                 .filter(|pair| *pair.1 == 2)
                 .next()
@@ -448,11 +462,7 @@ impl fmt::Display for Hand {
         write!(
             f,
             "{} {} {} {} {}",
-            self.cards[0],
-            self.cards[1],
-            self.cards[2],
-            self.cards[3],
-            self.cards[4]
+            self.cards[0], self.cards[1], self.cards[2], self.cards[3], self.cards[4]
         )
     }
 }

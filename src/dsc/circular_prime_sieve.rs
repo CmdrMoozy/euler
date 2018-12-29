@@ -34,7 +34,9 @@ impl DigitalRotationIterator {
         }
     }
 
-    pub fn iter_digits(&self) -> ::std::collections::vec_deque::Iter<char> { self.digits.iter() }
+    pub fn iter_digits(&self) -> ::std::collections::vec_deque::Iter<char> {
+        self.digits.iter()
+    }
 }
 
 impl Iterator for DigitalRotationIterator {
@@ -109,14 +111,18 @@ impl CircularPrimeSieve {
                 continue;
             }
 
-
             // If this prime contains any of these digits, or else at least one of its
             // rotations has a trivial factorization.
             let it = DigitalRotationIterator::new(p);
-            let has_divisible_digits = it.iter_digits()
+            let has_divisible_digits = it
+                .iter_digits()
                 .map(|digit| {
-                    *digit == '0' || *digit == '2' || *digit == '4' || *digit == '5'
-                        || *digit == '6' || *digit == '8'
+                    *digit == '0'
+                        || *digit == '2'
+                        || *digit == '4'
+                        || *digit == '5'
+                        || *digit == '6'
+                        || *digit == '8'
                 })
                 .fold(false, |acc, dd| acc || dd);
             if has_divisible_digits {
@@ -128,7 +134,8 @@ impl CircularPrimeSieve {
 
             // Test if all of this prime's rotations are also prime. If we find one that
             // isn't, mark all of its rotations as non-prime.
-            let cp = it.map(|rotation| is_prime.contains(rotation).unwrap())
+            let cp = it
+                .map(|rotation| is_prime.contains(rotation).unwrap())
                 .fold(true, |acc, cp| acc && cp);
             if !cp {
                 let it = DigitalRotationIterator::new(p);
@@ -160,11 +167,17 @@ impl CircularPrimeSieve {
 impl Sieve for CircularPrimeSieve {
     type Item = u64;
 
-    fn get_limit(&self) -> Self::Item { self.limit }
+    fn get_limit(&self) -> Self::Item {
+        self.limit
+    }
 
-    fn get_size(&self) -> usize { self.is_prime.iter().filter(|pair| pair.1).count() }
+    fn get_size(&self) -> usize {
+        self.is_prime.iter().filter(|pair| pair.1).count()
+    }
 
-    fn contains(&self, n: Self::Item) -> Option<bool> { self.is_prime.get(n as usize) }
+    fn contains(&self, n: Self::Item) -> Option<bool> {
+        self.is_prime.get(n as usize)
+    }
 
     fn get_nth(&self, n: usize) -> Option<Self::Item> {
         if n == 0 {

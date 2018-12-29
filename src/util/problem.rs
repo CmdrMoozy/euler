@@ -30,7 +30,9 @@ impl<R> ProblemAnswer<R>
 where
     R: Debug + Display + Eq + PartialEq,
 {
-    pub fn is_correct(&self) -> bool { self.actual == self.expected }
+    pub fn is_correct(&self) -> bool {
+        self.actual == self.expected
+    }
 }
 
 impl<R> fmt::Display for ProblemAnswer<R>
@@ -41,8 +43,7 @@ where
         write!(
             f,
             "Actual result: {} / Expected result: {}",
-            self.actual,
-            self.expected
+            self.actual, self.expected
         )
     }
 }
@@ -56,13 +57,13 @@ where
         Err(e) => {
             println!("{}", e);
             EXIT_FAILURE
-        },
+        }
         Ok(r) => {
             println!("{}", r);
             match r.is_correct() {
                 true => EXIT_SUCCESS,
                 false => EXIT_FAILURE,
             }
-        },
+        }
     });
 }

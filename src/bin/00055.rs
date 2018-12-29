@@ -67,7 +67,8 @@ fn main() {
                         .collect::<String>()
                         .as_str(),
                     10,
-                ).unwrap();
+                )
+                .unwrap();
                 current = current + rev;
 
                 iterations += 1;

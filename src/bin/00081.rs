@@ -65,8 +65,9 @@ fn main() {
                 graph.get_graph(),
                 graph.get_start_vertex(),
                 graph.get_end_vertex(),
-            ).unwrap()
-                .sum,
+            )
+            .unwrap()
+            .sum,
             expected: EXPECTED_RESULT,
         })
     });

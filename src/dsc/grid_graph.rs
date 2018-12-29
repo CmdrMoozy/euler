@@ -59,9 +59,15 @@ impl GridGraphWeights {
         })
     }
 
-    pub fn get_width(&self) -> usize { self.weights.len() }
-    pub fn get_height(&self) -> usize { self.weights.get(0).map_or(0, |col| col.len()) }
-    pub fn get_minimum_weight(&self) -> i64 { self.minimum_weight }
+    pub fn get_width(&self) -> usize {
+        self.weights.len()
+    }
+    pub fn get_height(&self) -> usize {
+        self.weights.get(0).map_or(0, |col| col.len())
+    }
+    pub fn get_minimum_weight(&self) -> i64 {
+        self.minimum_weight
+    }
 
     pub fn get(&self, x: usize, y: usize) -> Option<i64> {
         match self.weights.get(x) {
@@ -152,10 +158,16 @@ impl GridGraph {
         }
     }
 
-    pub fn get_graph(&self) -> &Graph { &self.graph }
+    pub fn get_graph(&self) -> &Graph {
+        &self.graph
+    }
 
-    pub fn get_start_vertex(&self) -> VertexId { self.faux_start_vertex }
-    pub fn get_end_vertex(&self) -> VertexId { self.faux_end_vertex }
+    pub fn get_start_vertex(&self) -> VertexId {
+        self.faux_start_vertex
+    }
+    pub fn get_end_vertex(&self) -> VertexId {
+        self.faux_end_vertex
+    }
 
     pub fn get(&self, x: usize, y: usize) -> Option<VertexId> {
         match self.vertices.get(x) {

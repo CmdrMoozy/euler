@@ -44,12 +44,11 @@ fn get_word_score(word: &str) -> Result<u64> {
     if !word.chars().fold(true, |acc, c| acc && c.is_alphabetic()) {
         bail!("Encountered non-alphabetic character in word");
     }
-    Ok(
-        word.to_uppercase()
-            .bytes()
-            .map(|c| c - b'A' + 1)
-            .fold(0, |acc, v| acc + (v as u64)),
-    )
+    Ok(word
+        .to_uppercase()
+        .bytes()
+        .map(|c| c - b'A' + 1)
+        .fold(0, |acc, v| acc + (v as u64)))
 }
 
 fn main() {

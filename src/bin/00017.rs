@@ -101,7 +101,8 @@ const EXPECTED_RESULT: usize = 21124;
 /// This function can only handle numbers up to the billions, so your input
 /// number must be <= 9,999,999,999 or the result is undefined.
 fn number_to_literal(n: u64) -> String {
-    let digits: Vec<u64> = n.to_string()
+    let digits: Vec<u64> = n
+        .to_string()
         .chars()
         .map(|c| c.to_string().parse::<u64>().unwrap())
         .rev()
@@ -121,44 +122,52 @@ fn number_to_literal(n: u64) -> String {
                         "{} {} ",
                         LITERAL_DIGITS.get(&digit).unwrap(),
                         LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()
-                    ).as_str(),
+                    )
+                    .as_str(),
                 );
-            },
-            9 => if digit > 0 {
-                result.push_str(
-                    format!(
-                        "{} {} ",
-                        LITERAL_DIGITS.get(&digit).unwrap(),
-                        LITERAL_POWERS_OF_TEN.get(&3).unwrap()
-                    ).as_str(),
-                );
-                if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
-                    result.push_str("and ");
-                }
-            },
-            8 => if digit == 1 {
-                if digits[idx - 1] > 0 {
+            }
+            9 => {
+                if digit > 0 {
                     result.push_str(
                         format!(
                             "{} {} ",
-                            LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap(),
-                            LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()
-                        ).as_str(),
+                            LITERAL_DIGITS.get(&digit).unwrap(),
+                            LITERAL_POWERS_OF_TEN.get(&3).unwrap()
+                        )
+                        .as_str(),
                     );
-                    idx_iter.next().unwrap();
+                    if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
+                        result.push_str("and ");
+                    }
                 }
-            } else if digit > 1 {
-                result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
+            }
+            8 => {
+                if digit == 1 {
+                    if digits[idx - 1] > 0 {
+                        result.push_str(
+                            format!(
+                                "{} {} ",
+                                LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap(),
+                                LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()
+                            )
+                            .as_str(),
+                        );
+                        idx_iter.next().unwrap();
+                    }
+                } else if digit > 1 {
+                    result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
 
-                if digits[idx - 1] > 0 {
-                    result.push_str("-");
-                } else {
-                    result.push_str(
-                        format!(" {} ", LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()).as_str(),
-                    );
-                    idx_iter.next().unwrap();
+                    if digits[idx - 1] > 0 {
+                        result.push_str("-");
+                    } else {
+                        result.push_str(
+                            format!(" {} ", LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap())
+                                .as_str(),
+                        );
+                        idx_iter.next().unwrap();
+                    }
                 }
-            },
+            }
             7 => {
                 if digit > 0 {
                     result.push_str(format!("{} ", LITERAL_DIGITS.get(&digit).unwrap()).as_str());
@@ -166,82 +175,97 @@ fn number_to_literal(n: u64) -> String {
                 result.push_str(
                     format!("{} ", LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()).as_str(),
                 );
-            },
-            6 => if digit > 0 {
-                result.push_str(
-                    format!(
-                        "{} {} ",
-                        LITERAL_DIGITS.get(&digit).unwrap(),
-                        LITERAL_POWERS_OF_TEN.get(&3).unwrap()
-                    ).as_str(),
-                );
-                if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
-                    result.push_str("and ");
-                }
-            },
-            5 => if digit == 1 {
-                if digits[idx - 1] > 0 {
+            }
+            6 => {
+                if digit > 0 {
                     result.push_str(
                         format!(
                             "{} {} ",
-                            LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap(),
-                            LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()
-                        ).as_str(),
+                            LITERAL_DIGITS.get(&digit).unwrap(),
+                            LITERAL_POWERS_OF_TEN.get(&3).unwrap()
+                        )
+                        .as_str(),
                     );
-                    idx_iter.next().unwrap();
+                    if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
+                        result.push_str("and ");
+                    }
                 }
-            } else if digit > 1 {
-                result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
-                if digits[idx - 1] > 0 {
-                    result.push_str("-");
-                } else {
-                    result.push_str(
-                        format!(" {} ", LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()).as_str(),
-                    );
-                    idx_iter.next().unwrap();
+            }
+            5 => {
+                if digit == 1 {
+                    if digits[idx - 1] > 0 {
+                        result.push_str(
+                            format!(
+                                "{} {} ",
+                                LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap(),
+                                LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap()
+                            )
+                            .as_str(),
+                        );
+                        idx_iter.next().unwrap();
+                    }
+                } else if digit > 1 {
+                    result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
+                    if digits[idx - 1] > 0 {
+                        result.push_str("-");
+                    } else {
+                        result.push_str(
+                            format!(" {} ", LITERAL_POWERS_OF_TEN.get(&(place - 1)).unwrap())
+                                .as_str(),
+                        );
+                        idx_iter.next().unwrap();
+                    }
                 }
-            },
+            }
             4 => {
                 if digit > 0 {
                     result.push_str(format!("{} ", LITERAL_DIGITS.get(&digit).unwrap()).as_str());
                 }
                 result
                     .push_str(format!("{} ", LITERAL_POWERS_OF_TEN.get(&place).unwrap()).as_str());
-            },
-            3 => if digit > 0 {
-                result.push_str(
-                    format!(
-                        "{} {} ",
-                        LITERAL_DIGITS.get(&digit).unwrap(),
-                        LITERAL_POWERS_OF_TEN.get(&3).unwrap()
-                    ).as_str(),
-                );
-                if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
-                    result.push_str("and ");
-                }
-            },
-            2 => if digit == 1 {
-                if digits[idx - 1] > 0 {
+            }
+            3 => {
+                if digit > 0 {
                     result.push_str(
-                        format!("{} ", LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap()).as_str(),
+                        format!(
+                            "{} {} ",
+                            LITERAL_DIGITS.get(&digit).unwrap(),
+                            LITERAL_POWERS_OF_TEN.get(&3).unwrap()
+                        )
+                        .as_str(),
                     );
-                } else {
-                    result
-                        .push_str(format!("{} ", LITERAL_TEN_MULTIPLES.get(&1).unwrap()).as_str());
+                    if digits[idx - 2] > 0 || digits[idx - 1] > 0 {
+                        result.push_str("and ");
+                    }
                 }
-                idx_iter.next().unwrap();
-            } else if digit > 1 {
-                result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
-                if digits[idx - 1] > 0 {
-                    result.push_str("-");
-                } else {
-                    result.push_str(" ");
+            }
+            2 => {
+                if digit == 1 {
+                    if digits[idx - 1] > 0 {
+                        result.push_str(
+                            format!("{} ", LITERAL_SPECIAL.get(&digits[idx - 1]).unwrap()).as_str(),
+                        );
+                    } else {
+                        result.push_str(
+                            format!("{} ", LITERAL_TEN_MULTIPLES.get(&1).unwrap()).as_str(),
+                        );
+                    }
                     idx_iter.next().unwrap();
+                } else if digit > 1 {
+                    result.push_str(LITERAL_TEN_MULTIPLES.get(&digit).unwrap());
+                    if digits[idx - 1] > 0 {
+                        result.push_str("-");
+                    } else {
+                        result.push_str(" ");
+                        idx_iter.next().unwrap();
+                    }
                 }
-            },
-            1 => if digit > 0 {
-                result.push_str(format!("{} ", LITERAL_DIGITS.get(&digit).unwrap()).as_str());
-            },
+            }
+            1 => {
+                if digit > 0 {
+                    result.push_str(format!("{} ", LITERAL_DIGITS.get(&digit).unwrap()).as_str());
+                }
+            }
             _ => panic!("Attempted to convert an unsupported number to a literal."),
         };
     }

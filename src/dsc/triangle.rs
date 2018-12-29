@@ -39,7 +39,9 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
         Triangle { values: values }
     }
 
-    pub fn get_height(&self) -> usize { self.values.len() }
+    pub fn get_height(&self) -> usize {
+        self.values.len()
+    }
 
     fn is_in_bounds(&self, row: usize, col: usize) -> bool {
         (row < self.get_height()) && (col <= row)
@@ -64,11 +66,13 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
             true => {
                 self.values[row][col] = value;
                 Ok(())
-            },
+            }
         }
     }
 
-    fn get_left_child_value(&self, row: usize, col: usize) -> Result<T> { self.get(row + 1, col) }
+    fn get_left_child_value(&self, row: usize, col: usize) -> Result<T> {
+        self.get(row + 1, col)
+    }
 
     fn get_right_child_value(&self, row: usize, col: usize) -> Result<T> {
         self.get(row + 1, col + 1)
@@ -94,10 +98,11 @@ impl<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> Triangle<T> {
                 triangle.set(
                     row,
                     col,
-                    current_value + match left_child < right_child {
-                        false => left_child,
-                        true => right_child,
-                    },
+                    current_value
+                        + match left_child < right_child {
+                            false => left_child,
+                            true => right_child,
+                        },
                 )?;
             }
         }

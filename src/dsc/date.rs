@@ -77,9 +77,13 @@ impl Date {
 
     /// Returns this Date's internal representation, as integer year, month,
     /// and day values (respectively).
-    pub fn get_raw_date(&self) -> (i64, i64, i64) { (self.year, self.month, self.day) }
+    pub fn get_raw_date(&self) -> (i64, i64, i64) {
+        (self.year, self.month, self.day)
+    }
 
-    pub fn get_day_of_week(&self) -> Option<DayOfWeek> { self.dow.clone() }
+    pub fn get_day_of_week(&self) -> Option<DayOfWeek> {
+        self.dow.clone()
+    }
 
     pub fn add_days(&mut self, days: u64) {
         for _ in 0..days {
@@ -109,7 +113,9 @@ impl Date {
         }
     }
 
-    pub fn add_weeks(&mut self, weeks: u64) { self.add_days(weeks * 7); }
+    pub fn add_weeks(&mut self, weeks: u64) {
+        self.add_days(weeks * 7);
+    }
 
     pub fn add_months(&mut self, months: u64) {
         for _ in 0..months {
@@ -119,7 +125,9 @@ impl Date {
         }
     }
 
-    pub fn add_years(&mut self, years: u64) { self.add_months(12 * years) }
+    pub fn add_years(&mut self, years: u64) {
+        self.add_months(12 * years)
+    }
 }
 
 impl PartialEq for Date {

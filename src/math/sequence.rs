@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::FLOAT_DEFAULT_PRECISION;
 use math::exp::{is_square, isqrt};
+use math::FLOAT_DEFAULT_PRECISION;
 use num::{Num, One};
 use rug;
 use std::cmp::max;
@@ -55,7 +55,9 @@ pub fn get_nth_triangle_number(n: u64) -> u64 {
 
 /// This function returns the nth pentagonal number. For details, see:
 /// https://en.wikipedia.org/wiki/Pentagonal_number
-pub fn get_nth_pentagonal_number(n: u64) -> u64 { (3 * n * n - n) / 2 }
+pub fn get_nth_pentagonal_number(n: u64) -> u64 {
+    (3 * n * n - n) / 2
+}
 
 /// A given number, n, can be shown to be pentagonal if and only if (sqrt(24 *
 /// n + 1) + 1) / 6 is a natural number. Thus, we test if (24 * n + 1) is a
@@ -76,7 +78,9 @@ pub fn is_pentagonal_number(n: u64) -> bool {
 
 /// This function returns the nth hexagonal number. For details, see:
 /// https://en.wikipedia.org/wiki/Hexagonal_number
-pub fn get_nth_hexagonal_number(n: u64) -> u64 { 2 * n * n - n }
+pub fn get_nth_hexagonal_number(n: u64) -> u64 {
+    2 * n * n - n
+}
 
 fn binary_sequence_search<Index, Value, SequenceFn>(
     lower: Index,

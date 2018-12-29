@@ -41,7 +41,9 @@ impl Ord for Fraction {
 }
 
 impl PartialOrd for Fraction {
-    fn partial_cmp(&self, other: &Fraction) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Fraction) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Fraction {
@@ -52,14 +54,20 @@ impl Fraction {
         Ok(Fraction(numerator, denominator))
     }
 
-    pub fn numerator(&self) -> u64 { self.0 }
+    pub fn numerator(&self) -> u64 {
+        self.0
+    }
 
-    pub fn denominator(&self) -> u64 { self.1 }
+    pub fn denominator(&self) -> u64 {
+        self.1
+    }
 
     /// Returns true if this fraction and the given other fraction are
     /// *identical* (i.e., they have exactly the same numerator and
     /// denominator).
-    pub fn is_identical(&self, other: &Fraction) -> bool { self.0 == other.0 && self.1 == other.1 }
+    pub fn is_identical(&self, other: &Fraction) -> bool {
+        self.0 == other.0 && self.1 == other.1
+    }
 
     /// Reduce this fraction to its lowest terms, returning the result as a
     /// copy. Also return a boolean where false indicates that this fraction
@@ -83,11 +91,10 @@ impl Fraction {
     /// return a boolean to indicate whether or not the reduction resulted in
     /// any change.
     pub fn mediant(&self, other: &Fraction) -> Result<(Fraction, bool)> {
-        Ok(
-            Fraction::new(
-                self.numerator() + other.numerator(),
-                self.denominator() + other.denominator(),
-            )?.reduce(),
-        )
+        Ok(Fraction::new(
+            self.numerator() + other.numerator(),
+            self.denominator() + other.denominator(),
+        )?
+        .reduce())
     }
 }

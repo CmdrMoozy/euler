@@ -103,11 +103,17 @@ impl PrimeSieve {
 impl Sieve for PrimeSieve {
     type Item = u64;
 
-    fn get_limit(&self) -> Self::Item { self.limit }
+    fn get_limit(&self) -> Self::Item {
+        self.limit
+    }
 
-    fn get_size(&self) -> usize { self.is_prime.iter().filter(|pair| pair.1).count() }
+    fn get_size(&self) -> usize {
+        self.is_prime.iter().filter(|pair| pair.1).count()
+    }
 
-    fn contains(&self, n: Self::Item) -> Option<bool> { self.is_prime.get(n as usize) }
+    fn contains(&self, n: Self::Item) -> Option<bool> {
+        self.is_prime.get(n as usize)
+    }
 
     fn get_nth(&self, n: usize) -> Option<Self::Item> {
         if n == 0 {
@@ -240,19 +246,27 @@ impl Factorization {
     }
 
     /// Return the number which was factored for this Factorization.
-    pub fn get_number(&self) -> u64 { self.number }
+    pub fn get_number(&self) -> u64 {
+        self.number
+    }
 
     /// Returns the number of distinct prime factors of this factorization's
     /// number.
-    pub fn factor_count(&self) -> usize { self.factors.len() }
+    pub fn factor_count(&self) -> usize {
+        self.factors.len()
+    }
 
     /// Return the exponent for the given factor. If the given factor is not
     /// present at all, 0 is returned instead.
-    pub fn get_factor(&self, f: u64) -> usize { *self.factors.get(&f).unwrap_or(&0) }
+    pub fn get_factor(&self, f: u64) -> usize {
+        *self.factors.get(&f).unwrap_or(&0)
+    }
 
     /// Iterate over the prime factors of this factorization's number. Each
     /// entry is a mapping from prime factor to exponent (which is always >= 1).
-    pub fn iter(&self) -> hash_map::Iter<u64, usize> { self.factors.iter() }
+    pub fn iter(&self) -> hash_map::Iter<u64, usize> {
+        self.factors.iter()
+    }
 
     /// Consumes this factorization, and returns a new factorization which
     /// contains all of the factors of this factorization multiplied by the

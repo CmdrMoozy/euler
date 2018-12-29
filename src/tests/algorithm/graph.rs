@@ -33,7 +33,9 @@ struct TestGraph {
 }
 
 impl TestGraph {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }
 
 impl Default for TestGraph {

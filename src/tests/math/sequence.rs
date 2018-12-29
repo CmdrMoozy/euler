@@ -26,7 +26,8 @@ fn test_get_nth_fibonacci_number() {
         assert!(
             get_nth_fibonacci_number(test_case.0 as u64)
                 .to_u64()
-                .unwrap() == *test_case.1,
+                .unwrap()
+                == *test_case.1,
             "fib({}) == {}",
             test_case.0,
             test_case.1

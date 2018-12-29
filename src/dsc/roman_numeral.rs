@@ -38,21 +38,29 @@ impl ValuePair {
 }
 
 impl PartialEq for ValuePair {
-    fn eq(&self, other: &ValuePair) -> bool { self.value == other.value }
+    fn eq(&self, other: &ValuePair) -> bool {
+        self.value == other.value
+    }
 }
 
 impl Eq for ValuePair {}
 
 impl PartialOrd for ValuePair {
-    fn partial_cmp(&self, other: &ValuePair) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &ValuePair) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for ValuePair {
-    fn cmp(&self, other: &ValuePair) -> Ordering { self.value.cmp(&other.value) }
+    fn cmp(&self, other: &ValuePair) -> Ordering {
+        self.value.cmp(&other.value)
+    }
 }
 
 impl Hash for ValuePair {
-    fn hash<H: Hasher>(&self, state: &mut H) { self.value.hash(state); }
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.value.hash(state);
+    }
 }
 
 lazy_static! {
@@ -105,7 +113,7 @@ fn get_additive_string_value(s: &str) -> Result<u64> {
         match ROMAN_NUMERAL_VALUES.get(&c) {
             Some(v) => {
                 total += *v;
-            },
+            }
             None => bail!("Invalid Roman numeral value '{}'", c),
         }
     }
@@ -147,17 +155,25 @@ pub struct RomanNumeral {
 }
 
 impl RomanNumeral {
-    pub fn new() -> RomanNumeral { RomanNumeral { value: 0 } }
+    pub fn new() -> RomanNumeral {
+        RomanNumeral { value: 0 }
+    }
 
-    pub fn get_value(&self) -> u64 { self.value }
+    pub fn get_value(&self) -> u64 {
+        self.value
+    }
 }
 
 impl Default for RomanNumeral {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl From<u64> for RomanNumeral {
-    fn from(v: u64) -> RomanNumeral { RomanNumeral { value: v } }
+    fn from(v: u64) -> RomanNumeral {
+        RomanNumeral { value: v }
+    }
 }
 
 impl FromStr for RomanNumeral {
@@ -167,7 +183,9 @@ impl FromStr for RomanNumeral {
         lazy_static! {
             static ref VALUE_REGEX: Regex = Regex::new(
                 "^(M*)([DCLXVI]M)?(D*)([CLXVI]D)?(C*)([LXVI]C)?\
-                (L*)([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$").unwrap();
+                 (L*)([XVI]L)?(X*)([VI]X)?(V*)(IV)?(I*)$"
+            )
+            .unwrap();
             static ref ADDITIVE_CAPTURE_GROUPS: HashSet<usize> = {
                 let mut s: HashSet<usize> = HashSet::new();
                 s.insert(1);
@@ -221,7 +239,7 @@ impl FromStr for RomanNumeral {
                 Ok(RomanNumeral {
                     value: total as u64,
                 })
-            },
+            }
             None => bail!("Failed to match input string against roman numeral regex"),
         }
     }

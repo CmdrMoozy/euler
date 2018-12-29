@@ -39,7 +39,8 @@ fn main() {
 
             for b in (1..100).rev() {
                 let n = rug::Integer::from(a).pow(b);
-                let sum = n.to_string()
+                let sum = n
+                    .to_string()
                     .chars()
                     .fold(0_u64, |acc, d| acc + (d.to_digit(10).unwrap() as u64));
                 if sum > result {

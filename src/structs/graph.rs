@@ -30,7 +30,9 @@ impl Vertex {
         }
     }
 
-    pub fn get_id(&self) -> VertexId { self.id }
+    pub fn get_id(&self) -> VertexId {
+        self.id
+    }
 
     pub fn distance_to(&self, o: VertexId) -> Option<i64> {
         for e in &self.edges {
@@ -45,9 +47,13 @@ impl Vertex {
         self.edges.iter().map(|e| e.to.borrow().id).collect()
     }
 
-    pub fn is_connected_to(&self, o: VertexId) -> bool { self.distance_to(o).is_some() }
+    pub fn is_connected_to(&self, o: VertexId) -> bool {
+        self.distance_to(o).is_some()
+    }
 
-    fn add_edge(&mut self, edge: Edge) { self.edges.push(edge) }
+    fn add_edge(&mut self, edge: Edge) {
+        self.edges.push(edge)
+    }
 }
 
 #[derive(Clone)]
@@ -69,7 +75,9 @@ pub struct Graph {
 }
 
 impl Graph {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn add_vertex(&mut self) -> VertexId {
         let id: VertexId = self.vertices.len();
@@ -78,9 +86,13 @@ impl Graph {
         id
     }
 
-    pub fn all_vertices(&self) -> Vec<VertexId> { (0..self.vertices.len()).collect() }
+    pub fn all_vertices(&self) -> Vec<VertexId> {
+        (0..self.vertices.len()).collect()
+    }
 
-    pub fn get(&self, id: VertexId) -> Ref<Vertex> { self.vertices.get(id).unwrap().borrow() }
+    pub fn get(&self, id: VertexId) -> Ref<Vertex> {
+        self.vertices.get(id).unwrap().borrow()
+    }
 
     pub fn connect(&self, from_id: VertexId, to_id: VertexId, distance: i64, direction: Direction) {
         let from = self.vertices.get(from_id).unwrap().clone();
@@ -103,7 +115,9 @@ impl Graph {
 }
 
 impl Default for Graph {
-    fn default() -> Self { Graph { vertices: vec![] } }
+    fn default() -> Self {
+        Graph { vertices: vec![] }
+    }
 }
 
 pub struct SearchResult {

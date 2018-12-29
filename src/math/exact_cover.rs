@@ -106,11 +106,15 @@ impl ExactCover {
     }
 
     /// This function returns the total number of rows this structure contains.
-    pub fn row_len(&self) -> usize { self.nodes.first().map_or(0, |c| c.len()) }
+    pub fn row_len(&self) -> usize {
+        self.nodes.first().map_or(0, |c| c.len())
+    }
 
     /// This function returns the total number of columns this structure
     /// contains.
-    pub fn col_len(&self) -> usize { self.cols.len() }
+    pub fn col_len(&self) -> usize {
+        self.cols.len()
+    }
 
     /// This function returns the data from the node in the given position. The
     /// return type is not None unless the given coordinate is out-of-bounds.
@@ -147,7 +151,9 @@ impl ExactCover {
     /// This function returns the given column's count. That is, the number of
     /// uncovered "1 nodes" in that column. This function returns None only if
     /// the given column index is out-of-bounds.
-    pub fn col_count(&self, col: usize) -> Option<usize> { self.cols.get(col).map(|c| c.count) }
+    pub fn col_count(&self, col: usize) -> Option<usize> {
+        self.cols.get(col).map(|c| c.count)
+    }
 
     /// This function clears any previously-computed solutions, and solves the
     /// problem again. This function will find *all* possible solutions if
@@ -166,7 +172,9 @@ impl ExactCover {
     /// is the full list of "1 nodes" which make up the exact cover problem.
     /// For any node in the returned list, *all other nodes in the same row*
     /// are also included, by definition.
-    pub fn get_solutions(&self) -> &Vec<Vec<Coordinate>> { &self.solutions }
+    pub fn get_solutions(&self) -> &Vec<Vec<Coordinate>> {
+        &self.solutions
+    }
 
     /// This function adds the given solution to this structure's list of
     /// solutions.
@@ -309,7 +317,7 @@ impl ExactCover {
                 // The current solution is described the first k elements of o.
                 self.push_solution(o.iter().cloned().take(k).collect());
                 return o;
-            },
+            }
             Some(c) => c,
         };
         self.cover(c);

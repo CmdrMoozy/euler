@@ -44,12 +44,12 @@ pub fn combinations(n: u64, r: u64) -> Result<u64> {
     let den = Factorization::new_from_iter(1..y + 1, &sieve, None)?;
 
     let (num, den) = Factorization::reduce(num, den);
-    Ok(
-        num.iter()
+    Ok(num
+        .iter()
+        .map(|pair| pair.0.pow(*pair.1 as u32))
+        .fold(1, |acc, v| acc * v)
+        / den
+            .iter()
             .map(|pair| pair.0.pow(*pair.1 as u32))
-            .fold(1, |acc, v| acc * v)
-            / den.iter()
-                .map(|pair| pair.0.pow(*pair.1 as u32))
-                .fold(1, |acc, v| acc * v),
-    )
+            .fold(1, |acc, v| acc * v))
 }

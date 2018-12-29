@@ -51,7 +51,8 @@ fn main() {
         sum[0] %= 10;
 
         Ok(ProblemAnswer {
-            actual: sum.iter()
+            actual: sum
+                .iter()
                 .map(|d| d.to_string())
                 .collect::<Vec<String>>()
                 .join(""),

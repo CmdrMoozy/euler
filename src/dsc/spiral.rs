@@ -31,7 +31,9 @@ pub struct Address {
 /// number of values, excluding the origin, on the way to each corner of the
 /// spiral). For example, if we call this function f, f(0) = 1, f(1) = 3, and
 /// so forth.
-pub fn diagonal_size_to_edge_size(diagonal_size: i64) -> i64 { 1 + (diagonal_size.abs() * 2) }
+pub fn diagonal_size_to_edge_size(diagonal_size: i64) -> i64 {
+    1 + (diagonal_size.abs() * 2)
+}
 
 /// Spiral denotes a grid of numbers, where the center value is 1, and each
 /// other address is filled in with consecutive integers in clockwise order,

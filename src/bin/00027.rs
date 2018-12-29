@@ -46,7 +46,9 @@ const EXPECTED_RESULT: i64 = -59231;
 
 // This function returns the result of our polynomial with the given value of
 // n, and the given coefficients.
-fn polynomial(n: i64, a: i64, b: i64) -> i64 { (n * n) + (a * n) + b }
+fn polynomial(n: i64, a: i64, b: i64) -> i64 {
+    (n * n) + (a * n) + b
+}
 
 fn main() {
     main_impl(|| -> Result<ProblemAnswer<i64>> {

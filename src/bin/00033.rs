@@ -38,11 +38,15 @@ const EXPECTED_RESULT: u64 = 100;
 /// Returns true if the given fraction is a "trivial fraction" with regards to
 /// this problem. That is, if both the numerator and denominator are evenly
 /// divisible by 10.
-fn is_trivial(f: &Fraction) -> bool { f.numerator() % 10 == 0 && f.denominator() % 10 == 0 }
+fn is_trivial(f: &Fraction) -> bool {
+    f.numerator() % 10 == 0 && f.denominator() % 10 == 0
+}
 
 /// Collects the digits (characters) of the given number into an arbitrary data
 /// structure.
-fn to_digits<F: FromIterator<char>>(v: u64) -> F { v.to_string().chars().collect() }
+fn to_digits<F: FromIterator<char>>(v: u64) -> F {
+    v.to_string().chars().collect()
+}
 
 /// Returns a set of all of the digit characters which a and b have in common.
 fn common_digits(a: u64, b: u64) -> HashSet<char> {
@@ -56,14 +60,16 @@ fn common_digits(a: u64, b: u64) -> HashSet<char> {
 /// digits (in the same order). If all digits were eliminated, 0 is returned
 /// instead.
 fn filter_digits(v: u64, exclude: &HashSet<char>) -> Result<u64> {
-    let filtered: String = v.to_string()
+    let filtered: String = v
+        .to_string()
         .chars()
         .filter(|d| !exclude.contains(d))
         .collect();
     Ok((match filtered.is_empty() {
         false => filtered.as_str(),
         true => "0",
-    }).parse()?)
+    })
+    .parse()?)
 }
 
 /// "Cancel" all of the digits in the given fraction's numerator and
@@ -109,9 +115,10 @@ fn main() {
                     .iter()
                     .map(|f| f.denominator())
                     .fold(1, |acc, d| acc * d),
-            )?.reduce()
-                .0
-                .denominator(),
+            )?
+            .reduce()
+            .0
+            .denominator(),
             expected: EXPECTED_RESULT,
         })
     });

@@ -79,9 +79,14 @@ fn main() {
     main_impl_single_command(Command::new(
         "mkprob",
         "Create a new ProjectEuler problem",
-        Specs::new(vec![
-            Spec::positional("number", "The number of the problem to create", None, false).unwrap(),
-        ]).unwrap(),
+        Specs::new(vec![Spec::positional(
+            "number",
+            "The number of the problem to create",
+            None,
+            false,
+        )
+        .unwrap()])
+        .unwrap(),
         Box::new(mkprob),
     ));
 }

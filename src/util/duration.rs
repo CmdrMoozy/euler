@@ -43,13 +43,17 @@ impl Duration {
 }
 
 impl From<time::Duration> for Duration {
-    fn from(duration: time::Duration) -> Duration { Duration { duration: duration } }
+    fn from(duration: time::Duration) -> Duration {
+        Duration { duration: duration }
+    }
 }
 
 impl Deref for Duration {
     type Target = time::Duration;
 
-    fn deref(&self) -> &time::Duration { &self.duration }
+    fn deref(&self) -> &time::Duration {
+        &self.duration
+    }
 }
 
 impl PartialOrd for Duration {
@@ -59,7 +63,9 @@ impl PartialOrd for Duration {
 }
 
 impl Ord for Duration {
-    fn cmp(&self, other: &Duration) -> Ordering { self.duration.cmp(&other.duration) }
+    fn cmp(&self, other: &Duration) -> Ordering {
+        self.duration.cmp(&other.duration)
+    }
 }
 
 impl<'a> Sum<&'a Duration> for Duration {

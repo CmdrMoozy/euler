@@ -152,11 +152,7 @@ fn main() {
     );
     println!(
         "Execution time: average {}, min {}, max {}, stddev {}, total {}",
-        timings.average,
-        timings.minimum,
-        timings.maximum,
-        timings.stddev,
-        timings.total
+        timings.average, timings.minimum, timings.maximum, timings.stddev, timings.total
     );
     for percentile in PERCENTILES {
         println!(

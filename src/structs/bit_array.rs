@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 use math::division;
 use std::iter::Iterator;
 use std::vec::Vec;
@@ -30,7 +29,9 @@ const CHUNK_BIT: usize = 64;
 const ALL_CHUNK: Chunk = !(0 as Chunk);
 
 /// Returns the index of the given bit as a (chunk index, bit offset) tuple.
-fn bit_to_chunk_index(index: usize) -> (usize, usize) { division::divide(index, CHUNK_BIT) }
+fn bit_to_chunk_index(index: usize) -> (usize, usize) {
+    division::divide(index, CHUNK_BIT)
+}
 
 fn get_minimum_chunk_size(size: usize) -> usize {
     if size == 0 {
@@ -55,11 +56,17 @@ impl BitArray {
         arr
     }
 
-    pub fn len(&self) -> usize { self.bits }
+    pub fn len(&self) -> usize {
+        self.bits
+    }
 
-    pub fn len_bytes(&self) -> usize { self.len() / 8 }
+    pub fn len_bytes(&self) -> usize {
+        self.len() / 8
+    }
 
-    pub fn len_chunks(&self) -> usize { self.data.len() }
+    pub fn len_chunks(&self) -> usize {
+        self.data.len()
+    }
 
     pub fn truncate(&mut self, size: usize) {
         let new_chunk_size = get_minimum_chunk_size(size);
@@ -90,7 +97,7 @@ impl BitArray {
                 _ => {
                     let chunk = self.get_chunk(i).unwrap_or((0, 0));
                     (chunk.0 & chunk.1) | (fill & !chunk.1)
-                },
+                }
             };
         }
 
@@ -98,9 +105,13 @@ impl BitArray {
         self.data = new_data;
     }
 
-    pub fn as_chunk_slice(&self) -> &[Chunk] { self.data.as_slice() }
+    pub fn as_chunk_slice(&self) -> &[Chunk] {
+        self.data.as_slice()
+    }
 
-    pub fn iter(&self) -> Iter { Iter::new(self) }
+    pub fn iter(&self) -> Iter {
+        Iter::new(self)
+    }
 
     /// Returns the chunk at the given position, along with a mask indicating
     /// which bits in the chunk are actually members of this bit array. If the
@@ -178,7 +189,9 @@ impl BitArray {
     }
 
     /// Returns true if all bits are 0.
-    pub fn none(&self) -> bool { !self.all() }
+    pub fn none(&self) -> bool {
+        !self.all()
+    }
 }
 
 pub struct Iter<'a> {

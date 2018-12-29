@@ -64,7 +64,8 @@ fn test_grid_graph_pathfinding() {
         graph.get_graph(),
         graph.get_start_vertex(),
         graph.get_end_vertex(),
-    ).unwrap();
+    )
+    .unwrap();
     assert_eq!(EXPECTED_MINIMAL_PATH_LENGTH, search_result.path.len());
     assert_eq!(EXPECTED_MINIMAL_PATH_SUM, search_result.sum);
 
@@ -78,9 +79,10 @@ fn test_grid_graph_pathfinding() {
         (3, 3),
         (3, 4),
         (4, 4),
-    ].into_iter()
-        .map(|point| graph.get(point.0, point.1).unwrap())
-        .collect();
+    ]
+    .into_iter()
+    .map(|point| graph.get(point.0, point.1).unwrap())
+    .collect();
     expected_path.insert(0, graph.get_start_vertex());
     expected_path.push(graph.get_end_vertex());
     assert_eq!(expected_path, search_result.path);

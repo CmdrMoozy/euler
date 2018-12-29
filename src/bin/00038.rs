@@ -35,7 +35,9 @@ use self::euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 932718654;
 
-fn concatenate(a: u64, b: u64) -> u64 { a * 10u64.pow(exp::log10(b) as u32 + 1) + b }
+fn concatenate(a: u64, b: u64) -> u64 {
+    a * 10u64.pow(exp::log10(b) as u32 + 1) + b
+}
 
 fn is_pandigital(n: u64) -> bool {
     // If the number isn't exactly 9 digits, it cannot be a 9-digit pandigital.

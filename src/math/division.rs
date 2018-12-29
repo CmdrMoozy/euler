@@ -88,7 +88,9 @@ pub fn lcm(a: u64, b: u64) -> u64 {
 /// This function tests if the two given integers, a and b, are coprime. Two
 /// integers are considered coprime if their greatest common divisor is equal
 /// to 1.
-pub fn are_coprime(a: u64, b: u64) -> bool { gcd(a, b) == 1 }
+pub fn are_coprime(a: u64, b: u64) -> bool {
+    gcd(a, b) == 1
+}
 
 /// The totient of anumber (also called phi(n)) is defined as the number of
 /// positive integers less than or equal to n that are coprime to n. Note that,
@@ -198,4 +200,6 @@ pub fn aliquot_sum_proper_divisors(n: u64) -> u64 {
 /// This function returns the sum of the divisors of the given number. The
 /// definition of this function is provided by:
 /// http://en.wikipedia.org/wiki/Aliquot_sum#Definition.
-pub fn aliquot_sum_divisors(n: u64) -> u64 { aliquot_sum_proper_divisors(n) + n }
+pub fn aliquot_sum_divisors(n: u64) -> u64 {
+    aliquot_sum_proper_divisors(n) + n
+}

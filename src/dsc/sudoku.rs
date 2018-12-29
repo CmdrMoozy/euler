@@ -28,7 +28,9 @@ type PuzzleValues = [PuzzleRow; PUZZLE_SIZE];
 struct DigitState(u16);
 
 impl DigitState {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn is_closed(&self, digit: u8) -> Result<bool> {
         if digit < 1 || digit > 9 {
@@ -68,7 +70,9 @@ impl DigitState {
 }
 
 impl Default for DigitState {
-    fn default() -> Self { DigitState(0xFFFF) }
+    fn default() -> Self {
+        DigitState(0xFFFF)
+    }
 }
 
 struct PuzzleDigitStates([[DigitState; PUZZLE_SIZE]; PUZZLE_SIZE]);
@@ -290,10 +294,14 @@ impl Puzzle {
     }
 
     /// Return the name associated with this puzzle.
-    pub fn get_name(&self) -> &str { self.name.as_str() }
+    pub fn get_name(&self) -> &str {
+        self.name.as_str()
+    }
 
     /// Return the size (both the width and height) of this puzzle.
-    pub fn get_size(&self) -> usize { PUZZLE_SIZE }
+    pub fn get_size(&self) -> usize {
+        PUZZLE_SIZE
+    }
 
     /// Return the value in the given cell, or None if the given cell is empty.
     /// Cells in a puzzle are numbered according to a semi-standard x/y
@@ -328,7 +336,9 @@ impl Puzzle {
     /// solutions: in this case, only the first solution that was found is
     /// returned. Note that this function will return None until solve() has
     /// been called.
-    pub fn get_solution(&self) -> Option<&PuzzleValues> { self.solution.as_ref() }
+    pub fn get_solution(&self) -> Option<&PuzzleValues> {
+        self.solution.as_ref()
+    }
 
     /// This function takes the input puzzle, and reduces the problem as much
     /// as is worthwhile using simple logic. This might result in a solution,
@@ -338,7 +348,9 @@ impl Puzzle {
     /// implemented, because this structure is already "fast enough" relying
     /// solely on ExactCover. But, this is an easy place to add more
     /// optimization if it is needed in the future.
-    fn reduce(&self) -> PuzzleValues { self.values.clone() }
+    fn reduce(&self) -> PuzzleValues {
+        self.values.clone()
+    }
 
     /// This function computes a full solution for the puzzle. This function
     /// must be called before get_solution() will return anything.

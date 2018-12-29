@@ -50,38 +50,16 @@ static CIPHERTEXT: &'static str = include_str!("00059.txt");
 
 static PUNCTUATION: &'static [char] = &['\'', '"', '.', ',', ':', ';', '(', ')', '!', '?'];
 static ENCRYPTION_KEYSPACE: &'static [char] = &[
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+    't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
 const EXPECTED_RESULT: u64 = 107359;
 
 #[inline]
-fn is_punctuation(c: char) -> bool { PUNCTUATION.contains(&c) }
+fn is_punctuation(c: char) -> bool {
+    PUNCTUATION.contains(&c)
+}
 
 fn is_valid_decrypted_char(c: char) -> bool {
     c.is_alphabetic() || c.is_numeric() || c.is_whitespace() || is_punctuation(c)
