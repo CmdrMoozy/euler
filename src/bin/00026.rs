@@ -31,11 +31,10 @@
 // Find the value of d < 1000 for which 1/d contains the longest recurring
 // cycle in its decimal fraction part.
 
-extern crate euler;
-use self::euler::math::division;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::division;
+use euler::math::prime::PrimeSieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 983;
 

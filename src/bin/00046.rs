@@ -27,12 +27,11 @@
 // What is the smallest odd composite that cannot be written as the sum of a
 // prime and twice a square?
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::math::sieve::Sieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp;
+use euler::math::prime::PrimeSieve;
+use euler::math::sieve::Sieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const INITIAL_SIEVE_LIMIT: u64 = 1000000;
 const SIEVE_LIMIT_MULTIPLIER: u64 = 2;

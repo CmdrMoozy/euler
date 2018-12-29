@@ -24,10 +24,9 @@
 
 use std::collections::HashSet;
 
-extern crate euler;
-use self::euler::math::division::aliquot_sum_proper_divisors;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::division::aliquot_sum_proper_divisors;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 31626;
 

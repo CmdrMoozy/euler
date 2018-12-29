@@ -31,11 +31,8 @@
 // In the first one-thousand expansions, how many fractions contain a numerator
 // with more digits than denominator?
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: usize = 153;
 

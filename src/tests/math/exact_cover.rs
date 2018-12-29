@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exact_cover::*;
+use crate::math::exact_cover::*;
 
 #[test]
 fn test_construction_properties() {

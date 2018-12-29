@@ -35,12 +35,9 @@
 //
 // What is the first term in the Fibonacci sequence to contain 1000 digits?
 
-extern crate euler;
-use self::euler::math::sequence::{get_nth_fibonacci_number, sequence_search};
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::math::sequence::{get_nth_fibonacci_number, sequence_search};
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
 
 const EXPECTED_RESULT: u64 = 4782;

@@ -32,11 +32,10 @@
 // is the side length of the square spiral for which the ratio of primes along
 // both diagonals first falls below 10%?
 
-extern crate euler;
-use self::euler::dsc::spiral::{diagonal_size_to_edge_size, SpiralIterator};
-use self::euler::math::prime::is_prime;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::spiral::{diagonal_size_to_edge_size, SpiralIterator};
+use euler::math::prime::is_prime;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // This value is sufficiently high enough for us to get the correct answer, and
 // sufficiently low enough to find the answer very quickly.

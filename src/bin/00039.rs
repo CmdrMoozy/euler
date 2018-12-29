@@ -22,10 +22,9 @@
 use std::cmp;
 use std::collections::{HashMap, HashSet};
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const PERIMETER_MAX: u64 = 1000;
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use algorithm::sequence::*;
+use crate::algorithm::sequence::*;
 
 #[test]
 fn test_is_permutation_of() {

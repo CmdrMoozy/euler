@@ -29,14 +29,10 @@
 // 100 and 2 <= b <=
 // 100?
 
-use std::collections::HashSet;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
+use std::collections::HashSet;
 
 const EXPECTED_RESULT: usize = 9183;
 

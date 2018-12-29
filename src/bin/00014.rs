@@ -30,10 +30,9 @@
 //
 // NOTE: Once the chain starts the terms are allowed to go above one million.
 
-extern crate euler;
-use self::euler::util::bitwise;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::bitwise;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const MIN_NUMBER: u64 = 2;
 const MAX_NUMBER: u64 = 1000000;

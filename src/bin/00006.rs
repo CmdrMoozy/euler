@@ -26,12 +26,9 @@
 // Find the difference between the sum of the squares of the first one hundred
 // natural numbers and the square of the sum.
 
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const START_NUMBER: u64 = 1;
 const END_NUMBER: u64 = 100;

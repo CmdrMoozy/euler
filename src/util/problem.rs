@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
 use bdrck;
 use std::fmt::{self, Debug, Display};
 use std::process;
-use util::error::*;
 
 pub const EXIT_SUCCESS: i32 = 0;
 pub const EXIT_FAILURE: i32 = 1;

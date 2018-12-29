@@ -31,11 +31,10 @@
 // What is the value of the first triangle number to have over five hundred
 // divisors?
 
-extern crate euler;
-use self::euler::math::division;
-use self::euler::math::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::division;
+use euler::math::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 76576500;
 

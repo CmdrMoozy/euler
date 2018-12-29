@@ -26,15 +26,11 @@
 // containing nearly two-thousand common English words, how many are triangle
 // words?
 
+use euler::math::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 use std::collections::HashSet;
-
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::math::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 static WORDS_FILE: &'static str = include_str!("00042.txt");
 

@@ -20,11 +20,10 @@
 //
 // How many circular primes are there below one million?
 
-extern crate euler;
-use self::euler::dsc::circular_prime_sieve::CircularPrimeSieve;
-use self::euler::math::sieve::Sieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::circular_prime_sieve::CircularPrimeSieve;
+use euler::math::sieve::Sieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const PRIME_LIMIT: u64 = 1000000;
 const EXPECTED_RESULT: usize = 55;

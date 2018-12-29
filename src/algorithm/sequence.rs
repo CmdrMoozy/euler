@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
 use itoa::{self, Integer};
 use pdqsort;
 use std::cmp::Ordering;
 use std::fmt::Display;
-use util::error::*;
 
 /// Returns whether or not the given value is a palindrome. This works as
 /// expected e.g. for integers, because we compare the string representations

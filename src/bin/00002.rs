@@ -20,10 +20,9 @@
 // Find the sum of all the even-valued terms in the sequence which do not
 // exceed four million.
 
-extern crate euler;
-use self::euler::math::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const UPPER_BOUND: u64 = 4000000;
 const EXPECTED_RESULT: u64 = 4613732;

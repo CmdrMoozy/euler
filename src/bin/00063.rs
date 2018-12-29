@@ -17,10 +17,9 @@
 //
 // How many n-digit positive integers exist which are also an nth power?
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // For this problem, we're searching for all b^e=n for positive integers n.
 // This means we are trying to find values which satisfy:

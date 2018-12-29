@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
+use failure::bail;
 use std::collections::HashMap;
-use util::error::*;
 
 /// Represents the address of a single value in a Spiral. The center value,
 /// which is always 1, is considered to be at address (0, 0). The x address

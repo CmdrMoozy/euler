@@ -18,14 +18,11 @@
 //
 // What is the largest n-digit pandigital prime that exists?
 
-#[macro_use]
-extern crate lazy_static;
-
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::math::prime;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::math::prime;
+use euler::util::error::*;
+use euler::util::problem::*;
+use lazy_static::lazy_static;
 
 lazy_static! {
     static ref PANDIGITALS: Vec<Vec<u64>> = vec![

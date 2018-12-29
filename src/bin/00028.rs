@@ -26,10 +26,9 @@
 // What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral
 // formed in the same way?
 
-extern crate euler;
-use self::euler::dsc::spiral;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::spiral;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 669171001;
 

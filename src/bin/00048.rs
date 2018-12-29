@@ -16,11 +16,8 @@
 //
 // Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
 
 static EXPECTED_RESULT: &'static str = "9110846700";

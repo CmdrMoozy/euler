@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::division;
+use crate::math::division;
+use crate::util::error::*;
+use failure::bail;
 use std::cmp::Ordering;
-use util::error::*;
 
 #[derive(Clone, Debug)]
 pub struct Fraction(u64, u64);

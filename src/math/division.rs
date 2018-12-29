@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exp;
-use math::prime;
+use crate::math::exp;
+use crate::math::prime;
+use crate::util::error::*;
 use std::ops::{Div, Rem};
-use util::error::*;
 
 /// This function divides the given dividend by the given divisor, and returns
 /// a tuple of the resulting quoteient and remainder.

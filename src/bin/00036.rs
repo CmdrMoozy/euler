@@ -20,11 +20,10 @@
 // (Please note that the palindromic number, in either base, may not include
 // leading zeros.)
 
-extern crate euler;
-use self::euler::algorithm::sequence::is_palindrome;
-use self::euler::util::bitwise::is_bitwise_palindromic;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence::is_palindrome;
+use euler::util::bitwise::is_bitwise_palindromic;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 872187;
 

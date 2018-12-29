@@ -22,11 +22,8 @@
 //
 // Find the last ten digits of this prime number.
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 8739992577;
 

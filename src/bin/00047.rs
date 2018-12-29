@@ -26,9 +26,8 @@
 // Find the first four consecutive integers to have four distinct prime
 // factors. What is the first of these numbers?
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const STARTING_UPPER_LIMIT: usize = 200000;
 const UPPER_LIMIT_MULTIPLIER: usize = 2;

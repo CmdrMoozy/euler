@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use structs::graph::*;
+use crate::structs::graph::*;
 
 #[test]
 fn test_add_vertex() {

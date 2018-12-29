@@ -65,10 +65,9 @@
 //
 // How many hands does Player 1 win?
 
-extern crate euler;
-use self::euler::dsc::poker::*;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::poker::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const HANDS: &'static str = include_str!("00054.txt");
 

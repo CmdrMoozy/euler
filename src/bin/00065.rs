@@ -51,11 +51,8 @@
 // Find the sum of the digits in the numerator of the 100th convergent of their
 // continued fraction for e.
 
-extern crate rug;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 272;
 

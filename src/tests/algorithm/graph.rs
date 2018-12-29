@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use algorithm::graph::*;
-use structs::graph::*;
+use crate::algorithm::graph::*;
+use crate::structs::graph::*;
 
 const TEST_GRAPH_WIDTH: usize = 22;
 const TEST_GRAPH_HEIGHT: usize = 22;

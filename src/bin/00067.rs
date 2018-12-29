@@ -32,10 +32,9 @@
 // would take over twenty billion years to check them all. There is an
 // efficient algorithm to solve it. ;o)
 
-extern crate euler;
-use self::euler::dsc::triangle::Triangle;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::triangle::Triangle;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const TRIANGLE_VALUES: &'static str = include_str!("00067.txt");
 

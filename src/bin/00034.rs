@@ -19,14 +19,10 @@
 //
 // Note: as 1! = 1 and 2! = 2 are not sums they are not included.
 
+use euler::util::error::*;
+use euler::util::problem::*;
+use lazy_static::lazy_static;
 use std::collections::HashMap;
-
-#[macro_use]
-extern crate lazy_static;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 // First, there is an official name for the numbers we're looking for: they are
 // called factorions (https://en.wikipedia.org/wiki/Factorion).

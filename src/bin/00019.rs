@@ -28,10 +28,9 @@
 // How many Sundays fell on the first of the month during the twentieth century
 // (1 Jan 1901 to 31 Dec 2000)?
 
-extern crate euler;
-use self::euler::dsc::date::*;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::date::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: usize = 171;
 

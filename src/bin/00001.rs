@@ -17,9 +17,8 @@
 //
 // Find the sum of all the multiples of 3 or 5 below 1000.
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: i64 = 233168;
 

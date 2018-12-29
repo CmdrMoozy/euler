@@ -18,11 +18,10 @@
 // Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x,
 // contain the same digits.
 
-extern crate euler;
-use self::euler::algorithm::sequence::integer_is_permutation_of;
-use self::euler::math::exp::log10;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence::integer_is_permutation_of;
+use euler::math::exp::log10;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 142857;
 

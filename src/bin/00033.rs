@@ -28,10 +28,9 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-extern crate euler;
-use self::euler::structs::fraction::Fraction;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::structs::fraction::Fraction;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 100;
 

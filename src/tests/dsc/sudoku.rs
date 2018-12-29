@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use dsc::sudoku::*;
+use crate::dsc::sudoku::*;
 
 const NO_NAME_INPUT: &'static str = include_str!("data/sudoku/no_name.txt");
 

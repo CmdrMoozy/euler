@@ -26,10 +26,9 @@
 // How many fractions lie between 1/3 and 1/2 in the sorted set of reduced
 // proper fractions for d <= 12,000?
 
-extern crate euler;
-use self::euler::structs::fraction::Fraction;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::structs::fraction::Fraction;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // We will be searching for all fractions inbetween LOWER_TARGET_N /
 // LOWER_TARGET_D and UPPER_TARGET_N / UPPER_TARGET_D, for every denominator

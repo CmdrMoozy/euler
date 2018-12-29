@@ -12,26 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use euler::math::stats;
+use euler::util::duration::Duration;
+use euler::util::error::*;
+use euler::util::problem;
+use euler::util::profiler::Profiler;
+use failure::bail;
 use std::collections::HashMap;
 use std::env;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::process;
 use std::time;
-
-#[macro_use]
-extern crate failure;
-
-extern crate glob;
-
-extern crate bdrck;
-
-extern crate euler;
-use self::euler::math::stats;
-use self::euler::util::duration::Duration;
-use self::euler::util::error::*;
-use self::euler::util::problem;
-use self::euler::util::profiler::Profiler;
 
 const TOP_N_SLOWEST: usize = 10;
 

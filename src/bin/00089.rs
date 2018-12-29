@@ -41,10 +41,9 @@
 // Note: You can assume that all the Roman numerals in the file contain no more
 // than four consecutive identical units.
 
-extern crate euler;
-use self::euler::dsc::roman_numeral::RomanNumeral;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::roman_numeral::RomanNumeral;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const INPUT_VALUES: &'static str = include_str!("00089.txt");
 

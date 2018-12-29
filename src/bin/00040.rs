@@ -24,10 +24,9 @@
 //
 //     d(1) x d(10) x d(100) x d(1000) x d(10000) x d(100000) x d(1000000)
 
-extern crate euler;
-use self::euler::math::exp::log10;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp::log10;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 210;
 

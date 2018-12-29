@@ -19,12 +19,9 @@
 // Considering natural numbers of the form, a^b, where a, b < 100, what is the
 // maximum digital sum?
 
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 972;
 

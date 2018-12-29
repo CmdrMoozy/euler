@@ -39,12 +39,9 @@
 // the plain text must contain common English words, decrypt the message and
 // find the sum of the ASCII values in the original text.
 
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 
 static CIPHERTEXT: &'static str = include_str!("00059.txt");
 

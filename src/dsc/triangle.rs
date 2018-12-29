@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
+use failure::bail;
 use std::fmt::Debug;
 use std::ops::Add;
-use util::error::*;
 
 #[derive(Clone, Debug)]
 pub struct Triangle<T: Add<T, Output = T> + Clone + Debug + Default + PartialOrd> {

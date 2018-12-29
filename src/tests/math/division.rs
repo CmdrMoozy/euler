@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::division::*;
-use math::prime::PrimeSieve;
+use crate::math::division::*;
+use crate::math::prime::PrimeSieve;
 
 #[test]
 fn test_signed_divide() {

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exp::{is_square, isqrt};
-use math::FLOAT_DEFAULT_PRECISION;
+use crate::math::exp::{is_square, isqrt};
+use crate::math::FLOAT_DEFAULT_PRECISION;
 use num::{Num, One};
 use rug;
 use std::cmp::max;

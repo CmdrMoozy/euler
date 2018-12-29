@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
+use failure::bail;
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::cmp::Ordering;
 use std::collections::BTreeSet;
@@ -20,7 +23,6 @@ use std::collections::HashSet;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use std::str::FromStr;
-use util::error::*;
 
 #[derive(Clone, Debug)]
 struct ValuePair {

@@ -12,22 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-extern crate atomic;
-extern crate bdrck;
-#[macro_use]
-extern crate failure;
-extern crate glob;
-extern crate itoa;
-#[macro_use]
-extern crate lazy_static;
-extern crate libc;
-extern crate num;
-extern crate num_cpus;
-extern crate pdqsort;
-extern crate rand;
-extern crate regex;
-extern crate rug;
-
 pub mod algorithm;
 pub mod dsc;
 pub mod math;

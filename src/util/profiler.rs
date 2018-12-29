@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::duration;
 use std::string::String;
 use std::time;
-use util::duration;
 
 pub struct Profiler {
     start: time::Instant,

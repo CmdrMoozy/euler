@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exact_cover::{Coordinate, ExactCover};
-use util::error::*;
+use crate::math::exact_cover::{Coordinate, ExactCover};
+use crate::util::error::*;
+use failure::bail;
 
 const PUZZLE_SIZE: usize = 9;
 const BOX_SIZE: usize = 3;

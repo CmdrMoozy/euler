@@ -27,9 +27,8 @@
 // Find the sum of all the numbers that can be written as the sum of fifth
 // powers of their digits.
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // Because this problem says to find "all numbers", we need to establish sane
 // bounds for our search. The lower bound of 10 is implied because single-digit

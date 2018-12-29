@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use bdrck::flags::*;
+use euler::util::error::*;
+use failure::bail;
 use std::env;
 use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
-
-#[macro_use]
-extern crate failure;
-
-extern crate bdrck;
-use bdrck::flags::*;
-
-extern crate euler;
-use self::euler::util::error::*;
 
 static TEMPLATE: &'static str = include_str!("problem_template.rs.txt");
 

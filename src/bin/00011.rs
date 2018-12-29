@@ -43,9 +43,8 @@
 
 use std::cmp;
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 70600674;
 #[cfg_attr(rustfmt, rustfmt_skip)]

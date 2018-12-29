@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::prime::*;
-use math::sieve::Sieve;
+use crate::math::prime::*;
+use crate::math::sieve::Sieve;
 
 #[test]
 fn test_prime_number_sieve_functionality() {

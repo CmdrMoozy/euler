@@ -49,10 +49,9 @@
 // the top left corner of each solution grid; for example, 483 is the 3-digit
 // number found in the top left corner of the solution grid above.
 
-extern crate euler;
-use self::euler::dsc::sudoku::Puzzle;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::sudoku::Puzzle;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const INPUT_PUZZLES: &'static str = include_str!("00096.txt");
 

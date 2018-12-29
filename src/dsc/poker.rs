@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::util::error::*;
+use failure::bail;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt;
 use std::hash::Hash;
-use util::error::*;
 
 #[inline]
 fn char_at(s: &str, i: usize) -> char {

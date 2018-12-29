@@ -16,11 +16,10 @@
 //
 // What is the largest prime factor of the number 600851475143?
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::math::prime;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp;
+use euler::math::prime;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const VALUE_TO_FACTOR: u64 = 600851475143;
 const EXPECTED_RESULT: u64 = 6857;

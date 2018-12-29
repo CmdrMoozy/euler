@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use algorithm::graph::dijkstra;
-use dsc::grid_graph::*;
-use structs::graph::{Direction, VertexId};
+use crate::algorithm::graph::dijkstra;
+use crate::dsc::grid_graph::*;
+use crate::structs::graph::{Direction, VertexId};
 
 const TEST_GRID_GRAPH: &'static str = include_str!("data/test_grid_graph.txt");
 

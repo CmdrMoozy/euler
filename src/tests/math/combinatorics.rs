@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::combinatorics::*;
+use crate::math::combinatorics::*;
 
 #[test]
 fn test_combinations() {

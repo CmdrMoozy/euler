@@ -18,9 +18,8 @@
 // What is the smallest positive number that is evenly divisible by all of the
 // numbers from 1 to 20?
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 232792560;
 // We don't need to check each potential in the range [1, 20], since some such

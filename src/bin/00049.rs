@@ -24,12 +24,11 @@
 // What 12-digit number do you form by concatenating the three terms in this
 // sequence?
 
-extern crate euler;
-use self::euler::algorithm::sequence::integer_is_permutation_of;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::math::sieve::Sieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence::integer_is_permutation_of;
+use euler::math::prime::PrimeSieve;
+use euler::math::sieve::Sieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 static EXPECTED_RESULT: &'static str = "296962999629";
 

@@ -24,9 +24,8 @@
 //
 // How many different ways can 2 pounds be made using any number of coins?
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: usize = 73682;
 

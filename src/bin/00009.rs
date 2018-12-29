@@ -22,13 +22,10 @@
 // There exists a Pythagorean triplet for which a + b + c = 1000. Find the
 // product abc.
 
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::math::geometry;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::geometry;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 
 const EXPECTED_RESULT: u64 = 31875000;
 

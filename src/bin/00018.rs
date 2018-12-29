@@ -45,10 +45,9 @@
 // triangle containing one-hundred rows; it cannot be solved by brute force,
 // and requires a clever method! ;o)
 
-extern crate euler;
-use self::euler::dsc::triangle::Triangle;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::dsc::triangle::Triangle;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const TRIANGLE_VALUES: &'static str = include_str!("00018.txt");
 

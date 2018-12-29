@@ -26,15 +26,12 @@
 // As...'), a 31K text file containing an 80 by 80 matrix, from the top left to
 // the bottom right by moving only right and down.
 
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::algorithm::graph::dijkstra;
-use self::euler::dsc::grid_graph::{GridGraph, GridGraphWeights};
-use self::euler::structs::graph::Direction;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::graph::dijkstra;
+use euler::dsc::grid_graph::{GridGraph, GridGraphWeights};
+use euler::structs::graph::Direction;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 
 const INPUT_MATRIX: &'static str = include_str!("00081.txt");
 

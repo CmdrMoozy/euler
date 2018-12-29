@@ -17,11 +17,10 @@
 //
 // What is the 10001st prime number?
 
-extern crate euler;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::math::sieve::Sieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::prime::PrimeSieve;
+use euler::math::sieve::Sieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const TARGET_PRIME: usize = 10001;
 const INITIAL_SIEVE_LIMIT: u64 = 1000000;

@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::prime::{Factorization, PrimeSieve};
+use crate::math::prime::{Factorization, PrimeSieve};
+use crate::util::error::*;
+use failure::bail;
 use std::cmp;
-use util::error::*;
 
 /// This function returns the number of ways r objects can be drawn from n
 /// objects, assuming that order doesn't make any difference.

@@ -28,10 +28,9 @@
 // How many, not necessarily distinct, values of nCr, for 1 <= n <= 100, are
 // greater than one-million?
 
-extern crate euler;
-use self::euler::math::combinatorics;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::combinatorics;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const N_MAX: u64 = 100;
 const OUTPUT_TARGET: u64 = 1000000;

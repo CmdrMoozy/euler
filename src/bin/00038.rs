@@ -28,10 +28,9 @@
 // What is the largest 1 to 9 pandigital 9-digit number that can be formed as
 // the concatenated product of an integer with (1, 2, ..., n) where n > 1?
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::exp;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 932718654;
 

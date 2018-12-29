@@ -19,10 +19,9 @@
 //
 // How many routes are there through a 20x20 grid?
 
-extern crate euler;
-use self::euler::math::combinatorics;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::combinatorics;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 137846528820;
 

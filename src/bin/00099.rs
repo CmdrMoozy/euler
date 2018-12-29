@@ -25,14 +25,10 @@
 // NOTE: The first two lines in the file represent the numbers in the example
 // given above.
 
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 use std::cmp::Ordering;
-
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const INPUT_VALUES: &'static str = include_str!("00099.txt");
 

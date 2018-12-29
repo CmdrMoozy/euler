@@ -26,9 +26,8 @@
 //
 // How many starting numbers below ten million will arrive at 89?
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: usize = 8581146;
 

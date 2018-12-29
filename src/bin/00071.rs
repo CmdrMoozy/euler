@@ -27,10 +27,9 @@
 // ascending order of size, find the numerator of the fraction immediately to
 // the left of 3/7.
 
-extern crate euler;
-use self::euler::structs::fraction::Fraction;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::structs::fraction::Fraction;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // We will be searching, in a sorted list of all fractions where the
 // denominator is <= DENOMINATOR_LIMIT, for a fraction immediately to the left

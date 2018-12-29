@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exp::{ipowmod, isqrt};
-use math::sieve::Sieve;
+use crate::math::exp::{ipowmod, isqrt};
+use crate::math::sieve::Sieve;
+use crate::structs::bit_array::*;
+use crate::util::error::*;
+use failure::bail;
 use rand::{self, Rng};
 use std::cmp;
 use std::collections::{hash_map, HashMap};
 use std::iter::FilterMap;
 use std::option::Option;
-use structs::bit_array::*;
-use util::error::*;
 
 pub const DEFAULT_PRIMALITY_TEST_PRECISION: u64 = 15;
 

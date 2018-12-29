@@ -23,12 +23,9 @@
 //
 // What is the total of all the name scores in the file?
 
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 
 const ASCII_UPPERCASE_A_BYTE: u8 = 65;
 const NAMES_FILE: &'static str = include_str!("00022.txt");

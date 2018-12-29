@@ -42,12 +42,9 @@
 // NOTE: Wording was modified slightly on 24 April 2007 to emphasise the
 // theoretical nature of Lychrel numbers.
 
-extern crate rug;
-
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: usize = 249;
 

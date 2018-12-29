@@ -39,14 +39,10 @@
 // How many chains, with a starting number below one million, contain exactly
 // sixty non-repeating terms?
 
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 use std::collections::HashMap;
-
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const MIN_START: u64 = 0;
 const MAX_START: u64 = 999999;

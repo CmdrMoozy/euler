@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::geometry::*;
+use crate::math::geometry::*;
 
 #[test]
 fn test_get_pythagorean_triple() {

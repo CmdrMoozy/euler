@@ -36,12 +36,9 @@
 // Find the value of D <= 1000 in minimal solutions of x for which the largest
 // value of x is obtained.
 
-extern crate euler;
-use self::euler::math::exp;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::math::exp;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 661;
 

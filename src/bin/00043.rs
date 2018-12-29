@@ -29,10 +29,9 @@
 //
 // Find the sum of all 0 to 9 pandigital numbers with this property.
 
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 static DIVISORS: &'static [u64] = &[2, 3, 5, 7, 11, 13, 17];
 

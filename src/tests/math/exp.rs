@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exp::*;
+use crate::math::exp::*;
 
 #[test]
 fn test_checked_ipow() {

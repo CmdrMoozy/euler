@@ -22,10 +22,9 @@
 // What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4,
 // 5, 6, 7, 8 and 9?
 
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: &'static str = "2783915460";
 

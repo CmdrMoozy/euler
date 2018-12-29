@@ -19,11 +19,10 @@
 // Find the smallest cube for which exactly five permutations of its digits are
 // cube.
 
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::math::exp;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::math::exp;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // "Find the smallest cube for which exactly CUBIC_PERMS_TARGET permutations of
 // its digits are cube."

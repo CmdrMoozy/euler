@@ -24,14 +24,9 @@
 // discs in total, determine the number of blue discs that the box would
 // contain.
 
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
-
-extern crate libc;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const FLOAT_PRECISION: u32 = 256;
 

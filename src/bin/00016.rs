@@ -16,12 +16,9 @@
 //
 // What is the sum of the digits of the number 2^1000?
 
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 use rug::ops::Pow;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
 
 const BASE: u64 = 2;
 const EXPONENT: u32 = 1000;

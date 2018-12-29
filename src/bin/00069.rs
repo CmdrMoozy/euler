@@ -34,11 +34,10 @@
 //
 // Find the value of n <= 1,000,000 for which n / phi(n) is a maximum.
 
-extern crate euler;
-use self::euler::algorithm::sequence;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::algorithm::sequence;
+use euler::math::prime::PrimeSieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const UPPER_BOUND: u64 = 1000000; // 1000000;
 

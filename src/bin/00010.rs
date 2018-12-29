@@ -16,10 +16,9 @@
 //
 // Find the sum of all the primes below two million.
 
-extern crate euler;
-use self::euler::math::prime::PrimeSieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::prime::PrimeSieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 // Although we want primes *less than* two million, two million itself is
 // clearly composite, so we can use it as an upper bound.

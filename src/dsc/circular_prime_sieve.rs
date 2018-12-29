@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::exp::log10;
-use math::prime::PrimeSieve;
-use math::sieve::Sieve;
+use crate::math::exp::log10;
+use crate::math::prime::PrimeSieve;
+use crate::math::sieve::Sieve;
+use crate::structs::bit_array::*;
 use std::collections::VecDeque;
 use std::iter::FilterMap;
 use std::option::Option;
-use structs::bit_array::*;
 
 #[derive(Debug)]
 struct DigitalRotationIterator {

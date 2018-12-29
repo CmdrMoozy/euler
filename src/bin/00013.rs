@@ -116,12 +116,9 @@
 //     20849603980134001723930671666823555245252804609722
 //     53503534226472524250874054075591789781264330331690
 
-#[macro_use]
-extern crate failure;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::util::error::*;
+use euler::util::problem::*;
+use failure::bail;
 
 const NUMBERS: &'static str = include_str!("00013.txt");
 const EXPECTED_NUMBERS_COUNT: usize = 100;

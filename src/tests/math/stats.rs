@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use math::stats::*;
+use crate::math::stats::*;
 
 #[test]
 fn test_iaverage() {

@@ -23,14 +23,10 @@
 // letters. The use of "and" when writing out numbers is in compliance with
 // British usage.
 
+use euler::util::error::*;
+use euler::util::problem::*;
+use lazy_static::lazy_static;
 use std::collections::HashMap;
-
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-#[macro_use]
-extern crate lazy_static;
 
 lazy_static! {
 /// A mapping from single digits to their spelled-out names.

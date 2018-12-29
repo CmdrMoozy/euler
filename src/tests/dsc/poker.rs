@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use dsc::poker::*;
+use crate::dsc::poker::*;
 use std::cmp::Ordering;
 
 #[test]

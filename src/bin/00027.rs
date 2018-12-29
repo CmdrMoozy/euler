@@ -33,11 +33,10 @@
 // that produces the longest maximum number of primes for consecutive values of
 // n, starting with n=0.
 
-extern crate euler;
-use self::euler::math::prime::{self, PrimeSieve};
-use self::euler::math::sieve::Sieve;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
+use euler::math::prime::{self, PrimeSieve};
+use euler::math::sieve::Sieve;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const SIEVE_LIMIT: u64 = 1000000;
 const PRIME_PRECISION: u64 = 200;

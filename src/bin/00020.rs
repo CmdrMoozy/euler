@@ -16,11 +16,8 @@
 //
 // Find the sum of the digits in the number 100!
 
-extern crate euler;
-use self::euler::util::error::*;
-use self::euler::util::problem::*;
-
-extern crate rug;
+use euler::util::error::*;
+use euler::util::problem::*;
 
 const EXPECTED_RESULT: u64 = 648;
 
