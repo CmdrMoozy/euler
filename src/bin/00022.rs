@@ -36,7 +36,6 @@ const NAMES_FILE: &'static str = include_str!("00022.txt");
 const EXPECTED_RESULT: u64 = 871198282;
 
 fn alphabetical_value(s: &str) -> Result<u64> {
-    use std::ascii::AsciiExt;
     if !s.is_ascii() {
         bail!("Can't compute alphabetical value of non-ASCII string");
     }
