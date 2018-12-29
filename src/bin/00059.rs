@@ -40,7 +40,7 @@
 // find the sum of the ASCII values in the original text.
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate euler;
 use self::euler::util::error::*;

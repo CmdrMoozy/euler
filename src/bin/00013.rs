@@ -117,7 +117,7 @@
 //     53503534226472524250874054075591789781264330331690
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate euler;
 use self::euler::util::error::*;

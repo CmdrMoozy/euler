@@ -52,7 +52,19 @@ pub fn main_impl<R, F: FnOnce() -> Result<ProblemAnswer<R>>>(problem_impl: F) ->
 where
     R: Debug + Display + Eq + PartialEq,
 {
-    bdrck::logging::init(None);
+    let debug: bool = cfg!(debug_assertions);
+    bdrck::logging::init(
+        bdrck::logging::OptionsBuilder::new()
+            .set_filters(match debug {
+                false => "warn".parse().unwrap(),
+                true => "debug".parse().unwrap(),
+            })
+            .set_panic_on_output_failure(debug)
+            .set_always_flush(true)
+            .build()
+            .unwrap(),
+    );
+
     process::exit(match problem_impl() {
         Err(e) => {
             println!("{}", e);

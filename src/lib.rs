@@ -15,7 +15,7 @@
 extern crate atomic;
 extern crate bdrck;
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 extern crate glob;
 extern crate itoa;
 #[macro_use]

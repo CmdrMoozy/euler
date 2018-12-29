@@ -5,8 +5,7 @@ authors = ["Axel Rasmussen <axel.rasmussen1@gmail.com>"]
 
 [dependencies]
 atomic = "0.4"
-bdrck = "0.4"
-error-chain = "0.11"
+failure = "0.1"
 glob = "0.2"
 itoa = "0.4"
 lazy_static = "1.2"
@@ -17,3 +16,8 @@ pdqsort = "1.0"
 rand = "0.6"
 regex = "1.1"
 rug = "1.2"
+
+[dependencies.bdrck]
+version = "0.13"
+default_features = false
+features = ["flags", "logging"]

@@ -12,12 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-error_chain! {
-    foreign_links {
-        Utf8(::std::string::FromUtf8Error);
-        Glob(::glob::GlobError);
-        GlobPattern(::glob::PatternError);
-        Io(::std::io::Error);
-        ParseInt(::std::num::ParseIntError);
-    }
-}
+pub type Error = failure::Error;
+pub type Result<T> = ::std::result::Result<T, Error>;

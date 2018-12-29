@@ -24,7 +24,7 @@
 // What is the total of all the name scores in the file?
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate euler;
 use self::euler::util::error::*;

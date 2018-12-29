@@ -18,7 +18,7 @@ use std::io::Write;
 use std::path::PathBuf;
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate bdrck;
 use bdrck::flags::*;
@@ -74,7 +74,18 @@ fn mkprob(values: Values) -> Result<()> {
 }
 
 fn main() {
-    bdrck::logging::init(None);
+    let debug: bool = cfg!(debug_assertions);
+    bdrck::logging::init(
+        bdrck::logging::OptionsBuilder::new()
+            .set_filters(match debug {
+                false => "warn".parse().unwrap(),
+                true => "debug".parse().unwrap(),
+            })
+            .set_panic_on_output_failure(debug)
+            .set_always_flush(true)
+            .build()
+            .unwrap(),
+    );
 
     main_impl_single_command(Command::new(
         "mkprob",

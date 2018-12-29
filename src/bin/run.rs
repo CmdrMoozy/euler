@@ -20,7 +20,7 @@ use std::process;
 use std::time;
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate glob;
 
@@ -134,9 +134,20 @@ fn execute_problems() -> Result<Vec<ExecutionResult>> {
 }
 
 fn main() {
-    bdrck::logging::init(None);
+    let debug: bool = cfg!(debug_assertions);
+    bdrck::logging::init(
+        bdrck::logging::OptionsBuilder::new()
+            .set_filters(match debug {
+                false => "warn".parse().unwrap(),
+                true => "debug".parse().unwrap(),
+            })
+            .set_panic_on_output_failure(debug)
+            .set_always_flush(true)
+            .build()
+            .unwrap(),
+    );
 
-    if cfg!(debug_assertions) {
+    if debug {
         println!("Problems were built in debug mode. Timings may not be useful.");
     }
 

@@ -27,7 +27,7 @@
 // the bottom right by moving only right and down.
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate euler;
 use self::euler::algorithm::graph::dijkstra;

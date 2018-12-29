@@ -23,7 +23,7 @@
 // product abc.
 
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 
 extern crate euler;
 use self::euler::math::geometry;
