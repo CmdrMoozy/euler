@@ -56,7 +56,7 @@ where
     bdrck::logging::init(
         bdrck::logging::OptionsBuilder::new()
             .set_filters(match debug {
-                false => "warn".parse().unwrap(),
+                false => "info".parse().unwrap(),
                 true => "debug".parse().unwrap(),
             })
             .set_panic_on_output_failure(debug)
